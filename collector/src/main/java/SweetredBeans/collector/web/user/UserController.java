@@ -79,8 +79,6 @@ public class UserController {
 
     }
 
-
-
     public void forTest() {
         userRepository.save(new User("bbb", "aaa@naver.com", "ccc"));
         userRepository.save(new User("bbb", "bbb@naver.com", "ccc"));
