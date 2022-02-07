@@ -59,6 +59,7 @@ public class MessageService {
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             Message msg = (Message) message;
+            msg.setMessage_id(++messageSequence);
             msg.setWritten_date(LocalDateTime.now());
             log.info("msg.msgType= {}", msg.getMessageType());
             log.info("msg.userId= {}", msg.getUser_id());
@@ -66,8 +67,13 @@ public class MessageService {
             log.info("msg.content= {}", msg.getContent());
             log.info("msg.writtenTime= {}", msg.getWritten_date());
             log.info("msg.url= {}", msg.getImage_url());
-            Message saveMessage = messageRepository.save(msg);
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString((T) saveMessage)));
+            if(messageRepository.isDup(msg.getUser_id(), msg.getWritten_date())) {
+                session.sendMessage(new TextMessage(objectMapper.writeValueAsString((T) msg)));
+            }
+            else {
+                messageRepository.save(msg);
+                session.sendMessage(new TextMessage(objectMapper.writeValueAsString((T) msg)));
+            }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

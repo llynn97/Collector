@@ -72,6 +72,7 @@ public class MessageController {
     public void getAllChatContext(@RequestParam Long room_id, HttpServletResponse response) throws IOException {
         List<Message> messages = messageRepository.findMessageByRoomId(room_id);
         ArrayList<HashMap<String, String>> messagesList = new ArrayList<>();
+        HashMap<String, ArrayList> chatMessages = new HashMap<>();
 
         Iterator<Message> iterator = messages.iterator();
         while(iterator.hasNext()) {
@@ -84,7 +85,7 @@ public class MessageController {
             String imageUrl = m.getImage_url();
             String nickname = userById.getNickname();
             String profileUrl = userById.getProfile_url();
-            String reliability = Integer.toString(userById.getReliability());
+            String reliability = Long.toString(userById.getReliability());
 
             log.info("========================================");
             log.info("content= {}", content);
@@ -106,8 +107,9 @@ public class MessageController {
 
             messagesList.add(messageMap);
         }
+        chatMessages.put("message", messagesList);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(messagesList));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(chatMessages));
     }
 }

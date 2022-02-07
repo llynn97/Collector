@@ -33,15 +33,17 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.8.0'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.3'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation("org.junit.vintage:junit-vintage-engine") {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
 	}
 }
 
-test {
+tasks.named('test') {
 	useJUnitPlatform()
 }
+

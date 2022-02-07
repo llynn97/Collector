@@ -16,10 +16,9 @@ import java.util.stream.Collectors;
 public class MessageRepository {
 
     private static Map<Long, Message> messageStore = new ConcurrentHashMap<>();
-    private static long sequence = 0L;
+    //private static long sequence = 0L;
 
     public Message save(Message message) {
-        message.setMessage_id(++sequence);
         messageStore.put(message.getMessage_id(), message);
         return message;
     }
@@ -34,15 +33,27 @@ public class MessageRepository {
                 .collect(Collectors.toList());
     }
 
-    public Boolean isDuplicate(Long userId, LocalDateTime written_date) {
-        for(int i=0; i<messageStore.size(); i++) {
-            if(messageStore.get(i).getUser_id().equals(userId)) {
-                if(messageStore.get(i).getWritten_date().equals(written_date)) {
+    /**
+     * @return 중복 메시지면 return true 아니면 false
+     */
+    public boolean isDup (Long userId, LocalDateTime writtenDateTime) {
+        List<Message> all = findAll();
+        for (Message message : all) {
+            if(message.getUser_id().equals(userId)) {
+                if(message.getWritten_date().isEqual(writtenDateTime)) {
                     return true;
+                }
+                else {
+                    return false;
                 }
             }
         }
         return false;
+    }
+
+    public Message delete(Message message) {
+        messageStore.remove(message.getMessage_id());
+        return message;
     }
 
 }
