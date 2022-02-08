@@ -25,27 +25,15 @@ public class LoginController {
     private final UserRepository userRepository;
 
     //로그인 실패시 false, 성공시 true
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public void login(
-            @RequestBody User user,
-            BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws IOException {
+            @RequestBody User user, HttpSession session, HttpServletResponse response) throws IOException {
         Boolean result = false;
-        if (bindingResult.hasErrors()) {
-            log.info("bindingResult= {}", bindingResult);
-            result = false;
-        }
-
-        forTest();
-        if(user.getEmail() == null || user.getPassword() == null) {
-            bindingResult.reject("noInput", "이메일 또는 비밀번호를 입력하지 않았습니다.");
-            result = false;
-        }
 
         User loginUser = loginService.login(user.getEmail(), user.getPassword());
 
         HashMap<String, String> userMap = new HashMap<>();
         if(loginUser == null) {
-            bindingResult.reject("loginFail", "이메일 또는 비밀번호가 맞지 않습니다.");
             result = false;
             userMap.put("result", Boolean.toString(result));
         }
@@ -81,10 +69,5 @@ public class LoginController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(new ObjectMapper().writeValueAsString(logoutUser));
-    }
-
-    public void forTest() {
-        userRepository.save(new User("aaabbb", "aaa@naver.com", SHA256.encrypt("aaaccc")));
-        userRepository.save(new User("bbbbbb", "bbb@naver.com", "bbbccc"));
     }
 }

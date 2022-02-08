@@ -3,6 +3,7 @@ package SweetredBeans.collector.web.user;
 import SweetredBeans.collector.domain.user.SHA256;
 import SweetredBeans.collector.domain.user.User;
 import SweetredBeans.collector.domain.user.UserRepository;
+import SweetredBeans.collector.domain.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,11 @@ import java.util.HashMap;
 @RequestMapping("/signup")
 public class UserController {
 
+    private final UserService userService;
     private final UserRepository userRepository;
 
     @PostMapping
-    public void save(@RequestBody User user, HttpServletResponse response) throws IOException {
+    public void signup(@RequestBody User user, HttpServletResponse response) throws IOException {
         Boolean result = false;
 
         log.info("user.email= {}", user.getEmail());
@@ -33,7 +35,7 @@ public class UserController {
         user.setPassword(encryptPasssword);
         log.info("encrypt password= {}", encryptPasssword);
 
-        userRepository.save(user);
+        userService.saveUser(user);
         result = true;
 
         HashMap<String, String> userMap = new HashMap<>();
@@ -51,10 +53,10 @@ public class UserController {
         String email = user.getEmail();
         String nickname = user.getNickname();
 
-        forTest();
+        //forTest();
 
         if(email == null) {
-            if(userRepository.isDuplicateNickname(nickname)) {
+            if(userRepository.existsByNickname(nickname)) {
                 result = true;
             }
             else {
@@ -62,7 +64,7 @@ public class UserController {
             }
         }
         if(nickname == null) {
-            if(userRepository.isDuplicateEmail(email)) {
+            if(userRepository.existsByEmail(email)) {
                 result = true;
             }
             else {
@@ -77,11 +79,6 @@ public class UserController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(new ObjectMapper().writeValueAsString(userMap));
 
-    }
-
-    public void forTest() {
-        userRepository.save(new User("bbb", "aaa@naver.com", "ccc"));
-        userRepository.save(new User("bbb", "bbb@naver.com", "ccc"));
     }
 
 }

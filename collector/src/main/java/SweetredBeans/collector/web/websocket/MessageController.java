@@ -9,12 +9,10 @@ import SweetredBeans.collector.domain.websocket.MessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -78,32 +76,33 @@ public class MessageController {
         while(iterator.hasNext()) {
             HashMap<String, String> messageMap = new HashMap<>();
             Message m = iterator.next();
-            User userById = userRepository.findById(m.getUser_id());
+            //=============현재 User부분 Jpa로 바꿔놔서 User관련 부분 다 오류남===================
+            //User userById = userRepository.findById(m.getUser_id());
             String content = m.getContent();
             String userId = Long.toString(m.getUser_id());
             String writtenDateFormat = m.getWritten_date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String imageUrl = m.getImage_url();
-            String nickname = userById.getNickname();
-            String profileUrl = userById.getProfile_url();
-            String reliability = Long.toString(userById.getReliability());
+            //String nickname = userById.getNickname();
+            //String profileUrl = userById.getProfile_url();
+            //String reliability = Long.toString(userById.getReliability());
 
             log.info("========================================");
             log.info("content= {}", content);
             log.info("user_id= {}", userId);
             log.info("written_date= {}", writtenDateFormat);
             log.info("image_url= {}", imageUrl);
-            log.info("nickname= {}", nickname);
-            log.info("profile_url= {}", profileUrl);
-            log.info("reliability= {}", reliability);
+            //log.info("nickname= {}", nickname);
+            //log.info("profile_url= {}", profileUrl);
+            //log.info("reliability= {}", reliability);
             log.info("========================================");
 
             messageMap.put("content", content);
             messageMap.put("user_id", userId);
             messageMap.put("written_date", writtenDateFormat);
             messageMap.put("image_url", imageUrl);
-            messageMap.put("nickname", nickname);
-            messageMap.put("profile_url", profileUrl);
-            messageMap.put("reliability", reliability);
+            //messageMap.put("nickname", nickname);
+            //messageMap.put("profile_url", profileUrl);
+            //messageMap.put("reliability", reliability);
 
             messagesList.add(messageMap);
         }

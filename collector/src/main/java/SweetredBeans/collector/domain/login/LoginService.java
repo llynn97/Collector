@@ -23,8 +23,13 @@ public class LoginService {
         String encryptPassword = SHA256.encrypt(password);
         log.info("encryptPassword= {}", encryptPassword);
 
-        return userRepository.findByLoginEmail(loginEmail)
-                .filter(user -> user.getPassword().equals(encryptPassword))
-                .orElse(null);
+        User findUser = userRepository.findByEmail(loginEmail);
+        String existPassword = findUser.getPassword();
+        if(existPassword.equals(encryptPassword)) {
+            return findUser;
+        }
+        else {
+            return null;
+        }
     }
 }
