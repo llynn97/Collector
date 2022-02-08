@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-
+    //h2연결
     private final UserRepository userRepository;
 
     /**

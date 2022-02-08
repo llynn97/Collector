@@ -24,6 +24,7 @@ public class LoginController {
     private final LoginService loginService;
     private final UserRepository userRepository;
 
+    //h2연결
     //로그인 실패시 false, 성공시 true
     @PostMapping("/signin")
     public void login(

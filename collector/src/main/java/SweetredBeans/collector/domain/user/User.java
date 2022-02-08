@@ -1,14 +1,10 @@
 package SweetredBeans.collector.domain.user;
 
-import SweetredBeans.collector.domain.websocket.Message;
-import SweetredBeans.collector.domain.websocket.MessageRoom;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -47,10 +43,4 @@ public class User {
 
     @NotNull
     private Byte status = 0;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Message> messages = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<MessageRoom> chat_room_joins = new ArrayList<>();
 }

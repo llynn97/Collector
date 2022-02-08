@@ -22,6 +22,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    //h2연결
     @PostMapping
     public void signup(@RequestBody User user, HttpServletResponse response) throws IOException {
         Boolean result = false;

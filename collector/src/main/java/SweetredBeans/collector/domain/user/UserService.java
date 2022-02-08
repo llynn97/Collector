@@ -15,6 +15,7 @@ public class UserService {
     private static Long basicReliability = 0L;
     private static Byte basicStatus = 0;
 
+    //Jpa연결
     public void saveUser(User user) {
         user.setProfile_url(basicUrl);
         user.setAuthority(Authority.BASIC);
