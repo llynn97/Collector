@@ -103,7 +103,7 @@ public class MessageController {
             //messageMap.put("nickname", nickname);
             //messageMap.put("profile_url", profileUrl);
             //messageMap.put("reliability", reliability);
-
+            //=============================================================================
             messagesList.add(messageMap);
         }
         chatMessages.put("message", messagesList);
