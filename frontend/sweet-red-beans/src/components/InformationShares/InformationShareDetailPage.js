@@ -1,0 +1,204 @@
+import React, {useEffect, useMemo, useState}from "react";
+import { Link, unstable_HistoryRouter } from "react-router-dom";
+import Comment from "../Comment/Comment";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router";
+
+const InformationShareDetailPage = () => {
+    console.log("정보공유 상세 페이지 렌더");
+    let navigation = useNavigate();
+    const {postid} = useParams();
+    //const userid = useSelector(state => state.user.user_id);
+    const [detailInfo, setDetailInfo] = useState({});
+    const [comments, setComments] = useState([]);
+    const [commentsIsHere, setCommentsIsHere] = useState(false);
+
+    const[commentContent, setCommentContent] = useState("");
+
+    const data = {
+        post_id : 1,
+        title : "제목",
+        written_date : "쓴 날짜",
+        content : "글 내용",
+        views : 10,
+        nickname : "닉네임",
+        image_url : "이미지 url",
+        cinema_name : "CGV",
+        cinema_area : "서울",
+        cinema_branch : "용산아이파크몰",
+        is_mine : true
+    }
+
+    const data2 = [
+        {
+        user_id: "아이디1",
+        comment_nickname: "닉네임1",
+        comment_content: "댓글 내용1",
+        comment_written_date: "쓴 날짜1",
+        is_mine: false
+        },
+        {
+        user_id: "아이디2",
+        comment_nickname: "닉네임2",
+        comment_content: "댓글 내용2",
+        comment_written_date: "쓴 날짜2",
+        is_mine: false
+        },
+        {
+        user_id: "아이디3",
+        comment_nickname: "닉네임3",
+        comment_content: "내가 쓴 거",
+        comment_written_date: "쓴 날짜3",
+        is_mine: true
+        },
+    ]
+
+    useEffect(()=>{
+        axios.get('http://localhost:8080/information-share/detail',{
+        params: {
+                    post_id : postid,
+                    //user_id : userid,
+                }
+        })
+        .then(response => {
+            const post = {
+                post_id: response.data.post_id,
+                title: response.data.title,
+                written_date: response.data.written_date,
+                content: response.data.content,
+                views: response.data.views,
+                nickname: response.data.nickname,
+                image_url: response.data.image_url,
+                cinema_name: response.data.cinema_name,
+                cinema_area: response.data.cinema_area,
+                cinema_branch: response.data.cinema_branch,
+                is_mine: response.data.is_mine,
+            }
+            setDetailInfo(post); 
+            setComments(response.data.comment)
+        })
+        .catch(error => console.log(error));
+        
+        //서버 연결되면 밑에 코드 삭제하기
+        setDetailInfo(data);
+        setComments(data2);
+        console.log("useEffect[]");
+    },[])
+
+    useEffect(()=>{
+        setCommentsIsHere(true);
+    }, [comments])
+
+    const useConfirm = (message = null, onConfirm, onCancel) => {
+        if (!onConfirm || typeof onConfirm !== "function") {
+            return;
+        }
+        if (onCancel && typeof onCancel !== "function") {
+            return;
+        }
+        
+        const confirmAction = () => {
+            if (window.confirm(message)) {
+            onConfirm();
+            } else {
+            onCancel();
+            }
+        };
+        
+        return confirmAction;
+    };
+
+    //삭제버튼 눌렀을 때
+    const deleteConfirm = () => {
+        axios.delete('http://localhost:8080/information-share/detail',{
+        params: {
+                    post_id : postid,
+                    //user_id : userid,
+                }
+        })
+        .then(response => {
+            if(response.data.result){
+                alert("삭제되었습니다.")
+                //이전 페이지로 이동
+                navigation(-1)
+            }
+            else {
+                alert("삭제에 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
+        
+    }
+
+    const cancelConfirm = () => console.log("삭제 취소")
+
+    const deleteClick = useConfirm(
+        "삭제하시겠습니까?",
+        deleteConfirm,
+        cancelConfirm
+    );
+
+    const commentContentChange = (e) => {
+        setCommentContent(e.target.value);
+    }
+
+    //댓글쓰기 버튼 눌렀을 때
+    const commentAddClick = () => {
+        setCommentContent("");
+        const body = {
+            //user_id: userid,
+            content: commentContent,
+            post_id: postid,
+        }
+
+        axios.post('http://localhost:8080/information-share/comment', body)
+        .then(response => {
+            if(response.data.result){
+                console.log("댓글 작성됨");
+                navigation(0)
+            }
+            else{
+                alert("댓글 작성에 실패했습니다.");
+            }
+        })
+        .catch(error => console.log(error));
+
+        navigation(0)
+
+    }
+
+    return(
+        <>
+        <h2>{detailInfo.title}</h2>
+        <div>{detailInfo.nickname}, {detailInfo.written_date}, {detailInfo.views}</div>
+        <div>{detailInfo.cinema_name}, {detailInfo.cinema_area}, {detailInfo.cinema_branch}</div>
+        <div>{detailInfo.image_url !== "" ? detailInfo.image_url : null}</div>
+        <div>{detailInfo.content}</div>
+        <div>
+            {detailInfo.is_mine ? <button onClick={deleteClick}>삭제</button> : null}
+        </div>
+
+        <hr/>
+
+        <div>
+            <div>닉네임</div>
+            <input type="textarea" placeholder="댓글 쓰기" value={commentContent} onChange={commentContentChange}/>
+            <button onClick={commentAddClick}>댓글 달기</button>
+        </div>
+
+        {commentsIsHere ? (
+            comments.map((item, index) => <div key={index}><Comment comment={item}/></div>)
+        ) : null}
+
+        <div>
+            <Link to={`/informationShare`}>
+            <button>목록으로 돌아가기</button>
+            </Link>
+        </div>
+        </>
+    );
+}
+
+export default InformationShareDetailPage;

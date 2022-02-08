@@ -1,0 +1,20 @@
+.topBar{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.topBarButton {
+    background-color:rgb(255, 252, 204);
+    color:cornflowerblue;
+    margin-right: 10px;
+    border-style: none;
+    
+}
+
+.topBarButton:hover {
+    background-color:rgb(255, 252, 204);
+    color:rgb(192, 52, 52);
+    margin-right: 10px;
+    border-style: none;
+    
+}
