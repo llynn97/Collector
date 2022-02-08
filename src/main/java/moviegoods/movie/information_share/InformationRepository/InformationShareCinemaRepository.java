@@ -1,7 +1,6 @@
 package moviegoods.movie.information_share.InformationRepository;
 
-import moviegoods.movie.information_share.domain.Cinema;
-import moviegoods.movie.information_share.domain.Post;
+import moviegoods.movie.domain.Cinema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

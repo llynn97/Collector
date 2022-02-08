@@ -6,7 +6,7 @@ import moviegoods.movie.information_share.InformationRepository.InformationShare
 import moviegoods.movie.information_share.InformationRepository.InformationShareContent_detailRepository;
 import moviegoods.movie.information_share.InformationRepository.InformationSharePostRepository;
 import moviegoods.movie.information_share.InformationRepository.InformationShareUserRepository;
-import moviegoods.movie.information_share.domain.User;
+import moviegoods.movie.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

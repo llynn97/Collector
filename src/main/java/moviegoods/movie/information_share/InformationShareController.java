@@ -3,13 +3,12 @@ package moviegoods.movie.information_share;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.information_share.domain.Comment;
-import moviegoods.movie.information_share.domain.Post;
+import moviegoods.movie.domain.Comment;
+import moviegoods.movie.domain.Post;
 import moviegoods.movie.information_share.repsonse.InformationShareResponseDetail;
 import moviegoods.movie.information_share.repsonse.InformationShareResponseSearch;
 import moviegoods.movie.information_share.repsonse.Result;
 import moviegoods.movie.information_share.request.*;
-import org.hibernate.annotations.OnDelete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

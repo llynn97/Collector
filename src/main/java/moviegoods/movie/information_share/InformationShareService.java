@@ -4,7 +4,7 @@ package moviegoods.movie.information_share;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.information_share.InformationRepository.*;
-import moviegoods.movie.information_share.domain.*;
+import moviegoods.movie.domain.*;
 import moviegoods.movie.information_share.repsonse.Comments;
 import moviegoods.movie.information_share.repsonse.InformationShareResponseDetail;
 import moviegoods.movie.information_share.repsonse.InformationShareResponseSearch;
@@ -63,17 +63,18 @@ public class InformationShareService {
             post.setTitle(title);
             post.setViews(0L);
             post.setCategory("정보공유");
-            post.setUser(user);
             user.setPost(post);
-            post.setContent_detail(content_detail);
+            post.setUser(user);
             content_detail.setPost(post);
-            post.setCinema(cinema);
+            post.setContent_detail(content_detail);
             cinema.setPost(post);
+            post.setCinema(cinema);
+
 
 
             informationSharePostRepository.save(post);
-            informationShareCinemaRepository.save(cinema);
-            informationShareContent_detailRepository.save(content_detail);
+            //informationShareCinemaRepository.save(cinema);
+            //informationShareContent_detailRepository.save(content_detail);
             List<Post> postList=informationSharePostRepository.findAll();
 
 
@@ -173,7 +174,7 @@ public class InformationShareService {
 
         }
         if(area.equals("")&& branch.equals("")&& name.equals("")){
-            String dateJpql="select p FROM post p join p.content_detail c order by c.datetime DESC";
+            String dateJpql="select p FROM post p join p.content_detail c order by c.written_date DESC";
             List<Post> postList=em.createQuery(dateJpql,Post.class).getResultList();
             for (Post post : postList) {
                 Long user_id=post.getUser().getUser_id();
@@ -306,7 +307,7 @@ public class InformationShareService {
        comment.setPost(post);
        post.getComments().add(comment);
        Comment comment1=informationShareCommentRepository.save(comment);
-       informationShareContent_detailRepository.save(content_detail);
+   //    informationShareContent_detailRepository.save(content_detail);
 
       Comment result= informationShareCommentRepository.findById(comment1.getComment_id()).get();
 

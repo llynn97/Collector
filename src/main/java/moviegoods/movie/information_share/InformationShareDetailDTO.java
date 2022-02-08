@@ -3,8 +3,6 @@ package moviegoods.movie.information_share;
 
 
 import lombok.Data;
-import moviegoods.movie.information_share.domain.Cinema;
-import moviegoods.movie.information_share.domain.Content_detail;
 
 import java.time.LocalDateTime;
 

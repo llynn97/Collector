@@ -1,4 +1,4 @@
-package moviegoods.movie.information_share.domain;
+package moviegoods.movie.domain;
 
 
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long post_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -28,7 +28,7 @@ public class Post {
     private Content_detail content_detail;
 
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> comments=new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

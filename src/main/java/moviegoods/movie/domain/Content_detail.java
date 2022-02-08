@@ -1,14 +1,12 @@
-package moviegoods.movie.information_share.domain;
+package moviegoods.movie.domain;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -28,6 +26,15 @@ public class Content_detail {
 
     @OneToOne(mappedBy = "content_detail")
     private Comment comment;
+
+    @OneToOne(mappedBy = "content_detail")
+    private Transaction transaction;
+
+    @OneToOne(mappedBy = "content_detail")
+    private  Report report;
+
+    @OneToOne(mappedBy = "content_detail")
+    private Message message;
 
     public Content_detail(){
 

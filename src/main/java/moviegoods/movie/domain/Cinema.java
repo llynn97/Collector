@@ -1,4 +1,4 @@
-package moviegoods.movie.information_share.domain;
+package moviegoods.movie.domain;
 
 
 import lombok.AllArgsConstructor;
