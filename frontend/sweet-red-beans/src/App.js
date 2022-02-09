@@ -11,6 +11,7 @@ import EventPage from './components/EventPage/EventPage';
 import InformationSharePage from './components/InformationShares/InformationSharePage';
 import InformationShareWritePage from './components/InformationShares/InformationShareWritePage';
 import InformationShareDetailPage from './components/InformationShares/InformationShareDetailPage';
+import TransactionPage from './components/TransactionPage/TransactionPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/informationShare/*" element={<InformationSharePage/>}/>
           <Route path="/informationShareWrite" element={<InformationShareWritePage/>}/>
           <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
+          <Route path="/transaction/*" element={<TransactionPage/>}/>
         </Routes>
       </Provider>
       

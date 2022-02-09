@@ -23,7 +23,7 @@ const EventDetailPage = () => {
         cinema_name: "CGV",
         title: "해적 사은품 증정",
         detail_image_url: "이미지url",
-        link_url: "사이트url",
+        link_url: "http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=33955&menu=001",
         start_date: "2022-02-02",
         end_date: "2022-02-03",
         like_count: 10,
@@ -62,7 +62,7 @@ const EventDetailPage = () => {
             {data.detail_image_url}
         </div>
         <div>
-            {data.link_url}
+            <button onClick={() => window.open(data.link_url, '_blank')}>자세히 보기</button>
         </div>
         </>
     );

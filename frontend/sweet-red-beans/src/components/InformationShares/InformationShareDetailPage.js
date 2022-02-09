@@ -55,6 +55,7 @@ const InformationShareDetailPage = () => {
         },
     ]
 
+    //처음 조회
     useEffect(()=>{
         axios.get('http://localhost:8080/information-share/detail',{
         params: {

@@ -34,6 +34,7 @@ const Comment = ({comment}) => {
         axios.delete('http://localhost:8080/information-share/comment',{
         params: {
                     //user_id : userid,
+                    //comment_id: comment.comment_id,
                 }
         })
         .then(response => {

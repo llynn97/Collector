@@ -6,9 +6,9 @@ const EventMovieThumbnail = ({event}) => {
     return(
         <>
         <Link to = {`/event/${event.event_id}`}>
-        <div>
+        <h3>
             {event.thumbnail_url}
-        </div>
+        </h3>
         <div>
             {event.title}, {event.start_date} ~ {event.end_date}, {event.cinema_name}
         </div>

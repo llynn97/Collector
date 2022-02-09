@@ -23,7 +23,9 @@ const NavigationBar = () => {
                 <Link to = {`/event`}>
                     <button className={styles.topBarButton}>이벤트</button>
                 </Link>
-                <button className={styles.topBarButton}>대리구매</button>
+                <Link to={`/transaction`}>
+                    <button className={styles.topBarButton}>대리구매</button>
+                </Link>
                 <Link to = {`/informationShare`}>
                     <button className={styles.topBarButton}>커뮤니티</button>
                 </Link>
