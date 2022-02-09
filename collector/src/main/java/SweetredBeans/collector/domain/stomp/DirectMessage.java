@@ -1,4 +1,4 @@
-package SweetredBeans.collector.domain.websocket;
+package SweetredBeans.collector.domain.stomp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class Message {
+public class DirectMessage {
     public enum MessageType {
         ENTER, COMM
     }
@@ -15,8 +15,11 @@ public class Message {
     private Long message_id;
 
     private MessageType messageType;
+
     private Long chat_room_id;
+
     private Long user_id;
+    private String nickname;
 
     private String content;
     private LocalDateTime written_date;

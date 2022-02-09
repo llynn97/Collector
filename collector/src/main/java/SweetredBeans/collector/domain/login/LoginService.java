@@ -1,7 +1,7 @@
 package SweetredBeans.collector.domain.login;
 
 import SweetredBeans.collector.domain.user.SHA256;
-import SweetredBeans.collector.domain.user.User;
+import SweetredBeans.collector.domain.entity.User;
 import SweetredBeans.collector.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

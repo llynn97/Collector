@@ -1,14 +1,12 @@
 package SweetredBeans.collector.web.login;
 
 import SweetredBeans.collector.domain.login.LoginService;
-import SweetredBeans.collector.domain.user.SHA256;
-import SweetredBeans.collector.domain.user.User;
+import SweetredBeans.collector.domain.entity.User;
 import SweetredBeans.collector.domain.user.UserRepository;
 import SweetredBeans.collector.web.SessionConst;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

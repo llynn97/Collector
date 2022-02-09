@@ -1,7 +1,7 @@
 package SweetredBeans.collector.web.user;
 
 import SweetredBeans.collector.domain.user.SHA256;
-import SweetredBeans.collector.domain.user.User;
+import SweetredBeans.collector.domain.entity.User;
 import SweetredBeans.collector.domain.user.UserRepository;
 import SweetredBeans.collector.domain.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
