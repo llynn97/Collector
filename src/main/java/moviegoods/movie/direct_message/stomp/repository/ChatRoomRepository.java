@@ -1,4 +1,4 @@
-package moviegoods.movie.direct_message.websocket.repository;
+package moviegoods.movie.direct_message.stomp.repository;
 
 import moviegoods.movie.domain.Chat_Room;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,11 +17,13 @@ public class Content_detail {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long content_detail_id;
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @OneToOne(mappedBy ="content_detail")
     private Post post;
 
+    @NotNull
     @DateTimeFormat
     private LocalDateTime written_date;
 

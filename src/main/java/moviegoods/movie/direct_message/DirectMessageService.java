@@ -45,7 +45,7 @@ public class DirectMessageService {
         Boolean check=false;
         Long user_id=dmrr.getUser_id();
         User user= informationShareUserRepository.findById(user_id).get();
-        int n= user.getReliability()+1;
+        Long n= user.getReliability()+1;
         user.setReliability(n);
         User u=informationShareUserRepository.save(user);
         if(u.getReliability()==n){

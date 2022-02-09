@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +35,22 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String password;
 
+    @NotBlank
+    @Column(columnDefinition = "TEXT")
+    private String profile_url;
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Transaction> transactions=new ArrayList<>();
 
-    private int reliability;
+    @NotNull
+    private Long reliability=0L;
+
+    @NotNull
+    private Byte status=0;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Report> reports=new ArrayList<>();

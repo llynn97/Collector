@@ -17,6 +17,7 @@ public class Message {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long message_id;
 
+    @Column(columnDefinition = "TEXT")
     private String image_url;
 
     @OneToOne(cascade = CascadeType.ALL)

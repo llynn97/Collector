@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +37,18 @@ public class Post {
     @JoinColumn(name="cinema_id")
     private Cinema cinema;
 
-    private String image_url=null;
+    @Column(columnDefinition = "TEXT")
+    private String image_url;
+
+    @NotNull
     private Long views=0L;
+
+    @NotBlank
+    @Column(length = 100)
     private String title;
+
+    @NotBlank
+    @Column(length = 50)
     private String category;
     public Post(){
 
