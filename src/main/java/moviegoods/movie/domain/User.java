@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
+    @NotBlank
+    @Column(length=30)
     private String nickname;
+
+
+    @NotBlank
+    @Column(length = 100)
+    private String email;
+
+
+    @NotBlank
+    @Column(columnDefinition = "TEXT")
+    private String password;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Transaction> transactions=new ArrayList<>();
@@ -29,8 +42,8 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Report> reports=new ArrayList<>();
 
-    @OneToOne(mappedBy ="user" )
-    private Post post;
+    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL)
+    private List<Post> posts=new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Comment> comments=new ArrayList<>();

@@ -1,15 +1,8 @@
-package moviegoods.movie.direct_message.websocket;
+package moviegoods.movie.direct_message.stomp;
 
 import lombok.Getter;
 import lombok.Setter;
-import moviegoods.movie.domain.Chat_Room;
-import moviegoods.movie.domain.Content_detail;
-import moviegoods.movie.domain.User;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 
@@ -23,7 +16,7 @@ public class DirectMessage {
         ENTER, COMM
     }
 
-    private MessageType messageType;
+   private MessageType messageType;
 
 
     private String image_url;

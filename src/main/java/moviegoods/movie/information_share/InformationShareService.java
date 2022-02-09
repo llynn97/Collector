@@ -63,7 +63,7 @@ public class InformationShareService {
             post.setTitle(title);
             post.setViews(0L);
             post.setCategory("정보공유");
-            user.setPost(post);
+            user.getPosts().add(post);
             post.setUser(user);
             content_detail.setPost(post);
             post.setContent_detail(content_detail);
