@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import moviegoods.movie.domain.entity.Comment;
 import moviegoods.movie.domain.entity.Message;
-import moviegoods.movie.domain.entity.Post;
+import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,19 +35,19 @@ public class Content_Detail {
     @DateTimeFormat
     private LocalDateTime written_date;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Post post;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Message message;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Comment comment;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail", cascade = CascadeType.REMOVE)
     private Transaction transaction;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Report report;
 
 }

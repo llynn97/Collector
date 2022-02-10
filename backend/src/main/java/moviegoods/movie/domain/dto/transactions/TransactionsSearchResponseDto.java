@@ -18,6 +18,7 @@ public class TransactionsSearchResponseDto {
     private LocalDateTime written_date;
     private Boolean is_mine;
     private Boolean is_like;
+    private String nickname;
 
 
 }

@@ -39,20 +39,31 @@ public class EventsService {
         Long user_id = requestDto.getUser_id();
         String linking_word = "where ";
 
+        String searchJpql = "select e from event e join e.cinema c where ";
+        Integer check = 0;
         if (search_word == null) {
             search_word = "";
         }
 
-        String searchJpql = "select e from event e join e.cinema c ";
-        Integer check = 0;
+        String searchWordJpql = "";
+        if (search_word != null) {
+            check++;
+            searchWordJpql = "e.title like '%" + search_word + "%' ";
+
+            searchJpql += searchWordJpql;
+        }
+
         // 영화사 이름
         if (cinema_name != null) {
+            if(check >= 1) {
+                linking_word = "and ";
+            }
             check++;
-            searchJpql += "where c.name = '"+cinema_name+"' ";
+            searchJpql += linking_word+"c.name = '"+cinema_name+"' ";
         }
 
         // 진행여부 true(마감), false(진행중)
-        LocalDate now =LocalDate.now();
+        LocalDate now = LocalDate.now();
         String isEndJpql = "";
         if (is_end != null) {
             if (Objects.equals(is_end, true)) {
@@ -60,7 +71,8 @@ public class EventsService {
             } else {
                 isEndJpql = "e.end_date > STR_TO_DATE(NOW(), '%Y-%m-%d') ";
             }
-            if (check == 1) {
+            check++;
+            if (check >= 1) {
                 linking_word = "and ";
             }
             searchJpql += linking_word + isEndJpql;
@@ -73,7 +85,7 @@ public class EventsService {
         if (Objects.equals(sort_criteria,"관심도순")) {
             searchJpql += "order by e.like_count desc";
         }
-
+        log.info("searchJpql={}",searchJpql);
         List<Event> eventList = em.createQuery(searchJpql, Event.class).getResultList();
         for (Event event : eventList) {
             Long event_id = event.getEvent_id();

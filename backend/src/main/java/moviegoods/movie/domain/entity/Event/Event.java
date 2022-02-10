@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import moviegoods.movie.domain.entity.Cinema;
+import moviegoods.movie.domain.entity.Cinema.Cinema;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 
 import javax.persistence.*;

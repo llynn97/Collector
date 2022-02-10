@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.entity;
+package moviegoods.movie.domain.entity.Cinema;
 
 
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Event.Event;
-import moviegoods.movie.domain.entity.Post;
+import moviegoods.movie.domain.entity.Post.Post;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -32,7 +32,7 @@ public class Cinema {
     @Column(length = 50)
     private String branch;
 
-    @OneToOne(mappedBy = "cinema")
+    @OneToOne(mappedBy = "cinema", cascade = CascadeType.REMOVE)
     private Post post;
 
     @OneToOne(mappedBy = "cinema")
