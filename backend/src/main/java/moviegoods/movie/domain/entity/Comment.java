@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
-import moviegoods.movie.domain.entity.Post;
+import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.User.User;
 
 import javax.persistence.*;
@@ -30,7 +30,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 

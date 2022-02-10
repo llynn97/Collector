@@ -39,8 +39,6 @@ public class EventsService {
         Long user_id = requestDto.getUser_id();
         String linking_word = "where ";
 
-        log.info("cinema_name = {}, search_word={}, sort_criteria={}, is_end={}, user_id={}", cinema_name, search_word, sort_criteria, is_end, user_id);
-
         String searchJpql = "select e from event e join e.cinema c where ";
         Integer check = 0;
         if (search_word == null) {
@@ -65,10 +63,9 @@ public class EventsService {
         }
 
         // 진행여부 true(마감), false(진행중)
-        LocalDate now =LocalDate.now();
+        LocalDate now = LocalDate.now();
         String isEndJpql = "";
         if (is_end != null) {
-
             if (Objects.equals(is_end, true)) {
                 isEndJpql = "e.end_date <= STR_TO_DATE(NOW(), '%Y-%m-%d') ";
             } else {
@@ -80,7 +77,6 @@ public class EventsService {
             }
             searchJpql += linking_word + isEndJpql;
         }
-
 
         // 정렬 기준(최신순) 기본 값 줘야
         if (Objects.equals(sort_criteria,"최신순")) {

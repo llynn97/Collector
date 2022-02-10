@@ -1,13 +1,14 @@
 package moviegoods.movie.domain.entity.User;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Chat_Room_Join;
 import moviegoods.movie.domain.entity.Comment;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 import moviegoods.movie.domain.entity.Message;
-import moviegoods.movie.domain.entity.Post;
+import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @Entity(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -47,10 +49,12 @@ public class User {
     private Authority authority;
 
     @NotNull
-    private Long reliability = 0L;
+    @Column(columnDefinition = "bigint default 0")
+    private Long reliability;
 
     @NotNull
-    private Byte status = 0;
+    @Column(columnDefinition = "tinyint default 1")
+    private Byte status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();

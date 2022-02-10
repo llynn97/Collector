@@ -1,15 +1,17 @@
-package moviegoods.movie.information_share.request;
+package moviegoods.movie.domain.dto.informationShare;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
+@Data
 @AllArgsConstructor
-public class InformationShareRequestWrite {
+@NoArgsConstructor
+public class InformationShareRequestWriteRequestDto {
 
 
 

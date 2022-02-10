@@ -3,6 +3,7 @@ package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.service.TransactionsService;
 import moviegoods.movie.domain.dto.transactions.*;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,9 @@ public class TransactionsController {
     private final TransactionsService transactionsService;
 
     @PostMapping("/write")
-    public Boolean write(@RequestBody TransactionsSaveRequestDto requestDto) {
-        return transactionsService.write(requestDto);
+    public ResultResponseDto write(@RequestBody TransactionsSaveRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = transactionsService.write(requestDto);
+        return resultResponseDto;
     }
     @GetMapping("/search")
     public ResponseEntity<List<TransactionsSearchResponseDto>>  search(@ModelAttribute TransactionsSearchRequestDto requestDto) {
@@ -30,17 +32,20 @@ public class TransactionsController {
         return result;
     }
     @PostMapping("/change-status")
-    public Boolean changeStatus(@RequestBody TransactionsChangeStatusRequestDto requestDto) {
-        return transactionsService.changeStatus(requestDto);
+    public ResultResponseDto changeStatus(@RequestBody TransactionsChangeStatusRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = transactionsService.changeStatus(requestDto);
+        return resultResponseDto;
     }
 
     @DeleteMapping
-    public Boolean delete(@RequestBody TransactionsDeleteRequestDto requestDto) {
-        return transactionsService.delete(requestDto);
+    public ResultResponseDto delete(@RequestBody TransactionsDeleteRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = transactionsService.delete(requestDto);
+        return resultResponseDto;
     }
 
     @PostMapping("/report")
-    public Boolean report(@RequestBody TransactionsReportRequestDto requestDto) {
-        return transactionsService.report(requestDto);
+    public ResultResponseDto report(@RequestBody TransactionsReportRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = transactionsService.report(requestDto);
+        return resultResponseDto;
     }
 }

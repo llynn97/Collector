@@ -7,7 +7,7 @@ const EventMovieThumbnail = ({event}) => {
         <>
         <Link to = {`/event/${event.event_id}`}>
         <h3>
-            {event.thumbnail_url}
+            <img src={event.thumbnail_url} width="300px" height="200px"/>
         </h3>
         <div>
             {event.title}, {event.start_date} ~ {event.end_date}, {event.cinema_name}

@@ -60,10 +60,11 @@ const InformationShareDetailPage = () => {
         axios.get('http://localhost:8080/information-share/detail',{
         params: {
                     post_id : postid,
-                    //user_id : userid,
+                    user_id : "1",
                 }
         })
         .then(response => {
+            console.log(response.data);
             const post = {
                 post_id: response.data.post_id,
                 title: response.data.title,
@@ -81,11 +82,7 @@ const InformationShareDetailPage = () => {
             setComments(response.data.comment)
         })
         .catch(error => console.log(error));
-        
-        //서버 연결되면 밑에 코드 삭제하기
-        setDetailInfo(data);
-        setComments(data2);
-        console.log("useEffect[]");
+
     },[])
 
     useEffect(()=>{

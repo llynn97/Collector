@@ -1,8 +1,11 @@
-package moviegoods.movie.domain.entity;
+package moviegoods.movie.domain.entity.Post;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import moviegoods.movie.domain.entity.Cinema.Cinema;
+import moviegoods.movie.domain.entity.Comment;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.User.User;
 
@@ -16,6 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Post {
 
     @Id
@@ -26,7 +30,8 @@ public class Post {
     private String image_url;
 
     @NotNull
-    private Long views = 0L;
+    @Column(columnDefinition = "bigint default 0")
+    private Long views;
 
     @NotBlank
     @Column(length = 100)
@@ -40,11 +45,11 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 

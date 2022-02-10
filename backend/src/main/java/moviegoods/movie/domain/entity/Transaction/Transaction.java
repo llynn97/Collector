@@ -12,6 +12,9 @@ import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.User.User;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "transaction")
 @Data
 @AllArgsConstructor
@@ -30,17 +33,15 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 
-    @OneToOne(mappedBy = "transaction")
-    private Report report;
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
 
-    @OneToOne(mappedBy = "transaction",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
     private Like_Basket like;
-
-
 
 
 }

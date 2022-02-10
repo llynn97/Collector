@@ -41,7 +41,7 @@ const InformationSharePage = () => {
     //search
     const [search, setSearch] = useState("");
 
-    const [sort, setSort] = useState("recent");
+    const [sort, setSort] = useState("최신순");
 
     //게시글들
     const [infos, setInfos] = useState([]);
@@ -64,6 +64,7 @@ const InformationSharePage = () => {
     //영화관을 선택했을 때
     const cinemaNameChange = (e) => {
         if(e.target.value === "전체"){
+            setCinemaName("전체");
             setCinemaNameSelected(false);
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
@@ -91,6 +92,7 @@ const InformationSharePage = () => {
     //지역을 선택했을 때
     const cinemaAreaChange = (e) => {
         if(e.target.value === "지역"){
+            setCinemaArea("지역")
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
         }
@@ -114,23 +116,11 @@ const InformationSharePage = () => {
 
     //검색 버튼 클릭했을 때
     const searchClick = () => {
-        if (search === "") {
+        if (search === "" && cinemaName === "전체") {
             alert("검색할 단어를 입력해주세요");
         }
         else {
             setSearchWords([...searchWords, search]);
-            serverReq();
-        }
-    }
-
-    //영화관 검색 버튼 클릭했을 때
-    const cinemaSearchClick = () => {
-        if(cinemaName === "전체"){
-            alert("영화관을 선택해주세요");
-        }
-        else {
-            setCinemaSearchList([...cinemaSearchList, {cinemaName: cinemaName, cinemaArea: cinemaArea, cinemaBranch: cinemaBranch}]);
-            serverReq();
         }
     }
 
@@ -139,20 +129,13 @@ const InformationSharePage = () => {
         axios.get('http://localhost:8080/information-share/search',{
         params: {
                     search_word : search,
-                    cinema_name : cinemaName,
-                    cinema_area : cinemaArea,
-                    cinema_branch : cinemaBranch,
                     sort_name: sort,
                 }
         })
         .then(response => setInfos(response.data))
         .catch(error => console.log(error));
 
-        setInfos([{post_id: 1, title: "제목1", nickname: "닉네임1", wirtten_date: "쓴 날짜", views: 10},
-            {post_id: 2, title: "제목2", nickname: "닉네임2", wirtten_date: "쓴 날짜", views: 20},
-            {post_id: 3, title: "제목3", nickname: "닉네임3", wirtten_date: "쓴 날짜", views: 30},
-            {post_id: 4, title: "제목4", nickname: "닉네임4", wirtten_date: "쓴 날짜", views: 40}]
-        );
+
         //여기서 infos는 아직 빈 배열
 
     }, [])
@@ -164,8 +147,54 @@ const InformationSharePage = () => {
         });
         
         setInfoIsHere(true);
-        console.log(infos);
     }, [infos])
+
+    useEffect(()=>{
+        if(cinemaName === "전체"){
+            axios.get('http://localhost:8080/information-share/search',{
+            params: {
+                        search_word : search,
+                        sort_name: sort,
+                    }
+            })
+            .then(response => setInfos(response.data))
+            .catch(error => console.log(error));
+        } else if(cinemaArea === "지역"){
+            axios.get('http://localhost:8080/information-share/search',{
+            params: {
+                        search_word : search,
+                        cinema_name : cinemaName,
+                        sort_name: sort,
+                    }
+            })
+            .then(response => setInfos(response.data))
+            .catch(error => console.log(error));
+        } else if(cinemaBranch === "지점"){
+            axios.get('http://localhost:8080/information-share/search',{
+            params: {
+                        search_word : search,
+                        cinema_name : cinemaName,
+                        cinema_area : cinemaArea,
+                        sort_name: sort,
+                    }
+            })
+            .then(response => setInfos(response.data))
+            .catch(error => console.log(error));
+        } else {
+            axios.get('http://localhost:8080/information-share/search',{
+            params: {
+                        search_word : search,
+                        cinema_name : cinemaName,
+                        cinema_area : cinemaArea,
+                        cinema_branch: cinemaBranch,
+                        sort_name: sort,
+                    }
+            })
+            .then(response => setInfos(response.data))
+            .catch(error => console.log(error));
+        }
+        
+    }, [searchWords])
 
 
     return(
@@ -190,7 +219,6 @@ const InformationSharePage = () => {
             ))}
         </select> : null
         }
-        <button id="cinemaSearchButton" onClick={cinemaSearchClick}>검색</button>
 
         <div>
             <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>

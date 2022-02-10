@@ -11,15 +11,15 @@ import axios from "axios";
 const MovieThumbnail = ({cinemaName}) => {
     const dispatch = useDispatch();
     const [thisEvents, setThisEvents] = useState([]);
-    //const [events, setEvents] = useState([]);
-    const events = useSelector(state => state.mainEvents);
+    const [events, setEvents] = useState([]);
+    //const events = useSelector(state => state.mainEvents);
     const filterMovieList = [];
 
     useEffect(()=>
     {
-        axios.get('http://localhost:8080/event-limit')
+        axios.get('http://localhost:8080/main/event-limit')
         .then(response => {
-            //setEvents(response.data);
+            setEvents(response.data);
         });
     } 
     , []);
@@ -46,6 +46,7 @@ const MovieThumbnail = ({cinemaName}) => {
                 return(
                     <Fragment key={index}>
                     <Link to = {`/event/${item.event_id}`}>
+                    <img src={item.thumbnail_url} width="300px" height="200px"/>
                     <div>{item.cinema_name}</div>
                     <div>{item.title}</div>
                     <div>{item.start_date} ~ {item.end_date}</div>

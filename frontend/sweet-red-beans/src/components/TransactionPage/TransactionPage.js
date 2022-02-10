@@ -2,8 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import Transactions from "./Transactions";
 import style from "../../css/TransactionPage.module.css";
 import axios from "axios";
+import TransactionWriteModal from "../Modals/TransactionWriteModal";
 
 const TransactionPage = () => {
+    const [modalOpen, setModalOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [transactionIsHere, setTransactionIsHere] = useState(false);
     const [search, setSearch] = useState("");
@@ -19,6 +21,7 @@ const TransactionPage = () => {
     const [content, setContent] = useState("");
 
     const serverReq = () => {
+      console.log(search, searchSort);
       axios.get('http://localhost:8080/transactions/search',{
       params: {
                 user_id: "1",
@@ -38,13 +41,13 @@ const TransactionPage = () => {
         setSearch(e.target.value);
     }
 
+    //검색버튼 눌렀을 때
     const searchClick = () => {
       if (search === "") {
         alert("검색할 단어를 입력해주세요");
       }
       else {
         setSearchWords([...searchWords, search]);
-        console.log(searchWords);
       }
     }
 
@@ -88,8 +91,8 @@ const TransactionPage = () => {
             axios.get('http://localhost:8080/transactions/search',{
             params: {
                       user_id: "1",
-                      is_proceed: isProceed,
-                      search_word: search,
+                      is_proceed: false,
+                      search_word: "",
                       sort_criteria : "최신순",
                       search_criteria : searchSort,
                   }
@@ -107,6 +110,7 @@ const TransactionPage = () => {
         .catch(error => console.log(error));
         
         setContent("");
+        setModalOpen(false)
       }
     }
 
@@ -130,6 +134,13 @@ const TransactionPage = () => {
     setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
     }
 
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+
     useEffect(() => {
       //console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
     }, [ScrollY])
@@ -144,6 +155,7 @@ const TransactionPage = () => {
       }
     })
 
+    //한 번만 실행
     useEffect(()=>{
       axios.get('http://localhost:8080/transactions/search',{
         params: {
@@ -170,6 +182,7 @@ const TransactionPage = () => {
 
     useEffect(() => {
       serverReq();
+      console.log(searchWords, searchSort);
     }, [searchWords])
 
     return (
@@ -198,6 +211,12 @@ const TransactionPage = () => {
 
 
         <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
+
+        <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}>글쓰기</button>
+        <TransactionWriteModal open={modalOpen} close={closeModal} header="글 작성하기">
+          <textarea value={content} onChange={contentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
+          <button onClick={writeClick}>글 쓰기</button>
+        </TransactionWriteModal>
 
         <div>
         

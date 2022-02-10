@@ -12,22 +12,13 @@ import InformationSharePage from './components/InformationShares/InformationShar
 import InformationShareWritePage from './components/InformationShares/InformationShareWritePage';
 import InformationShareDetailPage from './components/InformationShares/InformationShareDetailPage';
 import TransactionPage from './components/TransactionPage/TransactionPage';
+import DMPage from './components/DMPage/DMPage';
 
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <TopBar/>
-        <Routes>
-          <Route path="/" element={<MainContent/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/event/*" element={<EventPage/>}/>
-          <Route path="/event/:id" element={<EventDetailPage/>}/>
-          <Route path="/informationShare/*" element={<InformationSharePage/>}/>
-          <Route path="/informationShareWrite" element={<InformationShareWritePage/>}/>
-          <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
-          <Route path="/transaction/*" element={<TransactionPage/>}/>
-        </Routes>
+        <MainContent/>
       </Provider>
       
     </div>
