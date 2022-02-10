@@ -22,28 +22,25 @@ const EventPage = () => {
     const [searchWords, setSearchWords] = useState([]);
     //진행중이면 false
     const [isEnd, setIsEnd] = useState(false);
-    const selectList = ["영화관", "CGV", "롯데시네마", "메가박스", "씨네큐"];
+    const selectList = ["전체", "CGV", "롯데시네마", "메가박스", "씨네큐"];
     //선택된 시네마 이름, 처음엔 영화관
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("전체");
     //선택했던 시네마 이름들 저장
     const [selecteds, setSelecteds] = useState([]);
     //최신순(recent) or 관심도순(interest)
-    const [sort, setSort] = useState("recent");
+    const [sort, setSort] = useState("최신순");
 
     const serverReq = () => {
-        const body = {
-            cinema_name: selected,
-            sort_criteria: sort,
-            is_end: isEnd,
-            search_word: search,
-        }
-
         axios.get('http://localhost:8080/events/search',{
         params: {
-                    body
+                    //cinema_name: selected,
+                    sort_criteria: sort,
+                    is_end: isEnd,
+                    search_word: search,
                 }
         })
-        .then(response => setEvents(response.data))
+        .then(response => {setEvents(response.data)
+        console.log(response.data);})
         .catch(error => console.log(error));
     }
 
@@ -54,13 +51,7 @@ const EventPage = () => {
     
     //검색 버튼 눌렀을 때 다시 서버 요청
     const searchClick = () => {
-        if (search === "") {
-            alert("검색할 단어를 입력해주세요");
-        }
-        else {
-            serverReq();
-            setSearchWords([...searchWords, search]);
-        }
+        setSearchWords([...searchWords, search]);
     }
 
     //진행 중 클릭했을 때 다시 서버 요청
@@ -70,8 +61,6 @@ const EventPage = () => {
             type:EVENT_ISEND,
             payload: false,
         })
-
-        serverReq();
     }
 
     //진행 완료 클릭했을 때 다시 서버 요청
@@ -81,28 +70,24 @@ const EventPage = () => {
             type:EVENT_ISEND,
             payload: true,
         })
-
-        serverReq();
     }
 
     //최신순 클릭했을 때 다시 서버 요청
     const recentClick = () => {
-        setSort("recent");
+        setSort("최신순");
         dispatch({
             type:EVENT_SORT,
-            payload:"recent",
+            payload:"최신순",
         })
-        serverReq();
     }
 
     //관심도순 클릭했을 때 다시 서버 요청
     const interestClick = () =>{
-        setSort("interest");
+        setSort("관심도순");
         dispatch({
             type:EVENT_SORT,
-            payload:"interest",
+            payload:"관심도순",
         })
-        serverReq();
     }
 
     //영화관 필터 바뀌었을 때
@@ -116,24 +101,29 @@ const EventPage = () => {
             alert("영화관을 선택해주세요")
         }
         else {
+            console.log(selected);
             setSelecteds([...selecteds, selected]);
-            serverReq();
         }
     }
     
     useEffect(()=>{
         //진행 중/완료 바뀔 때마다 실행
         //console.log(isEnd);
+        serverReq();
     }, [isEnd])
 
     useEffect(()=>{
         //최신순, 관심도순 바뀔 때마다 실행
         //console.log(sort);
-    }, [sort])
+        serverReq();
+        console.log(sort);
+        console.log(eventIsHere);
+    }, [sort])  
 
     useEffect(()=>{
         //검색 버튼 눌렀을 때마다 실행
         console.log(searchWords);
+        serverReq();
     }, [searchWords])
 
     useEffect(()=>{
@@ -144,6 +134,7 @@ const EventPage = () => {
     useEffect(()=>{
         //영화관 필터 검색 버튼 눌렀을 때마다 실행
         //console.log(selecteds);
+        serverReq();
     }, [selecteds]);
 
     useEffect(()=>{
@@ -160,43 +151,16 @@ const EventPage = () => {
         })
         
         //처음에 진행 중, 최신순으로 요청
-        const body = {
-            cinema_name: selected,
-            sort_criteria: sort,
-            is_end: isEnd,
-            search_word: search,
-        }
-
-        
         axios.get('http://localhost:8080/events/search',{
         params: {
-                    body
+                    sort_criteria: sort,
+                    is_end: isEnd,
+                    search_word: search,
                 }
         })
         .then(response => setEvents(response.data))
         .catch(error => console.log(error));
 
-
-        setEvents([
-            {
-                cinema_name : "CGV",
-                event_id : 1,
-                thumbnail_url : "썸네일URL",
-                title : "제목",
-                start_date : "2022-02-03",
-                end_date : "2022-03-16",
-                is_like : true,
-            },
-            {
-                cinema_name : "메가박스",
-                event_id : 2,
-                thumbnail_url : "썸네일URL",
-                title : "제목2",
-                start_date : "2022-02-03",
-                end_date : "2022-03-16",
-                is_like : false,
-            }
-        ]);
     }, [])
 
     useEffect(()=> {

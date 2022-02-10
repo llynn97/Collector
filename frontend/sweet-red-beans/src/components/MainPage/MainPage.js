@@ -64,10 +64,6 @@ const MainPage = () => {
         events: data,
     })
 
-    // dispatch(mainEvents())
-    // .then(response=> {})
-    // .catch(error => console.log(error));
-
     return(
         <>
         <div>main page</div>

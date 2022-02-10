@@ -16,14 +16,14 @@ const a = () => {
 const InformationSharePage = () => {
     const dispatch = useDispatch();
 
-    const cinemaNames = ["영화관", "CGV", "롯데시네마", "메가박스", "씨네큐"];
+    const cinemaNames = ["전체", "CGV", "롯데시네마", "메가박스", "씨네큐"];
     const CGVarray = [CGV0, CGV1, CGV2, CGV3, CGV4, CGV5, CGV6, CGV7, CGV8];
     const LCarray = [LC0, LC1, LC2, LC3, LC4, LC5, LC6, LC7];
     const MBarray = [MB0, MB1, MB2, MB3, MB4, MB5, MB6];
     const CQarray = [CQ0, CQ1, CQ2, CQ3, CQ4];
 
     //필터에서 선택한 영화사, 지역, 지점 이름
-    const [cinemaName, setCinemaName] = useState("영화관");
+    const [cinemaName, setCinemaName] = useState("전체");
     const [cinemaArea, setCinemaArea] = useState("지역");
     const [cinemaBranch, setCinemaBranch] = useState("지점");
     //필터에서 선택하면 true로 바뀜
@@ -48,17 +48,13 @@ const InformationSharePage = () => {
     const [infoIsHere, setInfoIsHere] = useState(false);
 
     const serverReq = () => {
-        const body = {
-            search_word : search,
-            cinema_name : cinemaName,
-            cinema_area : cinemaArea,
-            cinema_branch : cinemaBranch,
-            sort_name: sort,
-        }
-
         axios.get('http://localhost:8080/information-share/search',{
         params: {
-                    body
+                    search_word : search,
+                    cinema_name : cinemaName,
+                    cinema_area : cinemaArea,
+                    cinema_branch : cinemaBranch,
+                    sort_name: sort,
                 }
         })
         .then(response => setInfos(response.data))
@@ -67,7 +63,7 @@ const InformationSharePage = () => {
 
     //영화관을 선택했을 때
     const cinemaNameChange = (e) => {
-        if(e.target.value === "영화관"){
+        if(e.target.value === "전체"){
             setCinemaNameSelected(false);
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
@@ -129,7 +125,7 @@ const InformationSharePage = () => {
 
     //영화관 검색 버튼 클릭했을 때
     const cinemaSearchClick = () => {
-        if(cinemaName === "영화관"){
+        if(cinemaName === "전체"){
             alert("영화관을 선택해주세요");
         }
         else {
@@ -140,17 +136,13 @@ const InformationSharePage = () => {
 
     useEffect(()=>{
         //처음에 최신순으로 요청
-        const body = {
-            search_word : search,
-            cinema_name : cinemaName,
-            cinema_area : cinemaArea,
-            cinema_branch : cinemaBranch,
-            sort_name: sort,
-        }
-
         axios.get('http://localhost:8080/information-share/search',{
         params: {
-                    body
+                    search_word : search,
+                    cinema_name : cinemaName,
+                    cinema_area : cinemaArea,
+                    cinema_branch : cinemaBranch,
+                    sort_name: sort,
                 }
         })
         .then(response => setInfos(response.data))

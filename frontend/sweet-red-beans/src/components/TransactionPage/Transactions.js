@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TransactionDetail from "./TransactionDetail";
 
-const Transactions = () => {
+const Transactions = ({transactions}) => {
+    useEffect(()=>{
+        console.log(transactions);
+    }, [transactions])
     return(
         <>
         <h3>거래 목록</h3>
-        <TransactionDetail/>
+        {transactions.map((item, index) => <div key={index}><TransactionDetail transaction={item}/></div>)
+        }
         </>
     );
 }

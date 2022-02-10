@@ -1,33 +1,113 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Transactions from "./Transactions";
 import style from "../../css/TransactionPage.module.css";
+import axios from "axios";
 
 const TransactionPage = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [transactionIsHere, setTransactionIsHere] = useState(false);
     const [search, setSearch] = useState("");
+    const [searchWords, setSearchWords] = useState([]);
     //처음엔 전체로 보여줌, true이면 진행 중만 보여줌
     const [isProceed, setIsProceed] = useState(false);
     //검색 필터
-    const [searchSort, setSearchSort] = useState("글 내용");
+    const [searchSort, setSearchSort] = useState("글내용");
     // 스크롤값을 저장하기 위한 상태
     const [ScrollY, setScrollY] = useState(0);
     const [BtnStatus, setBtnStatus] = useState(false);
+    //내용
+    const [content, setContent] = useState("");
+
+    const serverReq = () => {
+      axios.get('http://localhost:8080/transactions/search',{
+      params: {
+                user_id: "1",
+                is_proceed: isProceed,
+                search_word: search,
+                sort_criteria : "최신순",
+                search_criteria : searchSort,
+              }
+      })
+      .then(response => {
+        setTransactions(response.data)
+      })
+      .catch(error => console.log(error));
+  }
 
     const searchChange = (e) => {
         setSearch(e.target.value);
     }
 
+    const searchClick = () => {
+      if (search === "") {
+        alert("검색할 단어를 입력해주세요");
+      }
+      else {
+        setSearchWords([...searchWords, search]);
+        console.log(searchWords);
+      }
+    }
+
+    //전체보기 눌렀을 때
     const allClick = () => {
         setIsProceed(false);
         console.log("전체 보기");
     }
 
+    //진행중만 보기 눌렀을 때
     const proceedClick = () => {
         setIsProceed(true);
         console.log("진행 중만 보기");
     }
 
+    //글내용 or 작성자 변경했을 때
     const searchSortChange = (e) => {
         setSearchSort(e.target.value);
+    }
+
+    //내용 변경됐을 때
+    const contentChange = (e) => {
+        setContent(e.target.value);
+        console.log(e.target.value);
+    }
+
+    //글쓰기 버튼 클릭했을 때
+    const writeClick = () => {
+      if(content === "") {
+        return
+      }
+      else {
+        const body = {
+          content: content,
+          user_id: "1",
+        }
+  
+        axios.post('http://localhost:8080/transactions/write', body)
+        .then(response => {
+          if(response.data){
+            axios.get('http://localhost:8080/transactions/search',{
+            params: {
+                      user_id: "1",
+                      is_proceed: isProceed,
+                      search_word: search,
+                      sort_criteria : "최신순",
+                      search_criteria : searchSort,
+                  }
+          })
+          .then(response => {
+            setTransactions(response.data);
+          })
+          .catch(error => console.log(error));
+          }
+
+          else {
+            alert("글 작성에 실패했습니다.");
+          }
+        })
+        .catch(error => console.log(error));
+        
+        setContent("");
+      }
     }
 
     const handleFollow = () => {
@@ -51,7 +131,7 @@ const TransactionPage = () => {
     }
 
     useEffect(() => {
-      console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
+      //console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
     }, [ScrollY])
   
     useEffect(() => {
@@ -64,78 +144,63 @@ const TransactionPage = () => {
       }
     })
 
+    useEffect(()=>{
+      axios.get('http://localhost:8080/transactions/search',{
+        params: {
+                  user_id: "1",
+                  is_proceed: isProceed,
+                  search_word: search,
+                  sort_criteria : "최신순",
+                  search_criteria : searchSort,
+                }
+        })
+        .then(response => {
+          setTransactions(response.data);
+        })
+        .catch(error => console.log(error));
+    }, [])
+
+    useEffect(()=>{
+      setTransactionIsHere(true);
+    }, [transactions])
+
+    useEffect(() => {
+      serverReq();
+    }, [isProceed]);
+
+    useEffect(() => {
+      serverReq();
+    }, [searchWords])
+
     return (
         <>
         <div className={style.wrap}>
         <div>
             <button onClick={allClick}>전체</button>
-            <button onClick={proceedClick}>진행 중</button>
+            <button onClick={proceedClick}>진행중</button>
         </div>
         <div>
             <select onChange={searchSortChange}>
-                <option value="글 내용">글 내용</option>
+                <option value="글내용">글내용</option>
                 <option value="작성자">작성자</option>
             </select>
             <input type="text" placeholder="검색" value={search} onChange={searchChange}/>
-            <button>검색</button>
+            <button onClick={searchClick}>검색</button>
         </div>
         <div>
-            <button>글 쓰기</button>
+            <textarea value={content} onChange={contentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
+            <button onClick={writeClick}>글 쓰기</button>
         </div>
         
         <hr/>
 
-        <Transactions/>
+        {useMemo(() => transactionIsHere ? <Transactions transactions={transactions}/> :null, [searchWords, transactions, isProceed])}
+
 
         <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
 
         <div>
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
+        
         </div>
 
         </div>

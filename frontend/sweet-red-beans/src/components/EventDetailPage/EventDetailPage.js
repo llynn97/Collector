@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import events from "../../actions/event_action";
@@ -32,37 +32,41 @@ const EventDetailPage = () => {
     // const date = new Date()
     // console.log(date.getFullYear());
 
-    axios.get('http://localhost:8080/events/detail', {
-        params: {
-            event_id: id,
-        }
-    })
-    .then(response => {
-        setThisEvent(response.data)
-    })
-    .catch(error => console.log(error));
+    useEffect(()=>{
+        axios.get('http://localhost:8080/events/detail', {
+            params: {
+                event_id: id,
+            }
+        })
+        .then(response => {
+            setThisEvent(response.data)
+        })
+        .catch(error => console.log(error));
+    }, [])
+
+    
 
     //서버 연결하면 data들 thisEvent로 바꾸기
     return (
         <>
-        <h1>{id}, {data.title}</h1>
+        <h1>{id}, {thisEvent.title}</h1>
         <div>
-            {data.start_date} ~ {data.end_date}
+            {thisEvent.start_date} ~ {thisEvent.end_date}
         </div>
         <div>
-            {data.cinema_name}
+            {thisEvent.cinema_name}
         </div>
         <div>
-            좋아요 수 : {data.like_count}
+            좋아요 수 : {thisEvent.like_count}
         </div>
         <div>
-            {data.is_like ? <div>나의 좋아요 : O</div> : <div>나의 좋아요 : X</div>}
+            {thisEvent.is_like ? <div>나의 좋아요 : O</div> : <div>나의 좋아요 : X</div>}
         </div>
         <div>
-            {data.detail_image_url}
+            {thisEvent.detail_image_url}
         </div>
         <div>
-            <button onClick={() => window.open(data.link_url, '_blank')}>자세히 보기</button>
+            <button onClick={() => window.open(thisEvent.link_url, '_blank')}>자세히 보기</button>
         </div>
         </>
     );

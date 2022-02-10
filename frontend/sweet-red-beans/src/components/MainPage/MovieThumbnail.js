@@ -5,16 +5,26 @@ import { MAIN_CINEMA_EVENTS } from "../../actions/types";
 import { Route, Routes } from "react-router";
 import EventDetailPage from "../EventDetailPage/EventDetailPage";
 import MainPage from "./MainPage";
+import axios from "axios";
 
 //props랑 {cinemaName}이 똑같아야 함
 const MovieThumbnail = ({cinemaName}) => {
     const dispatch = useDispatch();
     const [thisEvents, setThisEvents] = useState([]);
+    //const [events, setEvents] = useState([]);
     const events = useSelector(state => state.mainEvents);
     const filterMovieList = [];
 
     useEffect(()=>
     {
+        axios.get('http://localhost:8080/event-limit')
+        .then(response => {
+            //setEvents(response.data);
+        });
+    } 
+    , []);
+
+    useEffect(()=>{
         events.map((item, index) => {
             if(item.cinema_name === cinemaName){
                 filterMovieList.push(item)
@@ -25,8 +35,7 @@ const MovieThumbnail = ({cinemaName}) => {
             type: MAIN_CINEMA_EVENTS,
             mainCinemaEvents: {cinemaName:cinemaName, mainCinemaEvents: filterMovieList},
         })
-    } 
-    , []);
+    }, [events])
 
 
     return(
