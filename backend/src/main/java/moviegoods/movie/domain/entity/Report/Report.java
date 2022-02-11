@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
+import moviegoods.movie.domain.entity.User.User;
 
 @Entity(name = "report")
 @Data
@@ -29,6 +30,10 @@ public class Report {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 
 }

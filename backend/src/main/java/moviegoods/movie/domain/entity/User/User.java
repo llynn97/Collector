@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import moviegoods.movie.domain.entity.Chat_Room_Join;
+import moviegoods.movie.domain.entity.ChatRoom.Chat_Room_Join;
 import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
-import moviegoods.movie.domain.entity.Message;
+import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Post.Post;
+import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 
 import javax.persistence.*;
@@ -74,5 +75,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Report> reports=new ArrayList<>();
 
 }

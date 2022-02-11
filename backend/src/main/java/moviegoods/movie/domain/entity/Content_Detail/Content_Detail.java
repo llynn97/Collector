@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Builder;
 import moviegoods.movie.domain.entity.Comment.Comment;
-import moviegoods.movie.domain.entity.Message;
+import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Transaction.Transaction;

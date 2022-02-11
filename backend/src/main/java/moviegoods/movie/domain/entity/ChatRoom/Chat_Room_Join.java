@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.entity;
+package moviegoods.movie.domain.entity.ChatRoom;
 
 import javax.persistence.*;
 
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import moviegoods.movie.domain.entity.Chat_Room;
+import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.User.User;
 
 @Entity(name = "chat_room_join")
@@ -15,16 +15,20 @@ import moviegoods.movie.domain.entity.User.User;
 @NoArgsConstructor
 @Builder
 public class Chat_Room_Join {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chat_room_join_id;
 
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name="user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "chat_room_id")
+
+    @ManyToOne
+    @JoinColumn(name="char_room_id")
     private Chat_Room chat_room;
+
+
 
 }
