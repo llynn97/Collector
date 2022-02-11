@@ -31,14 +31,26 @@ const EventPage = () => {
     const [sort, setSort] = useState("최신순");
 
     const serverReq = () => {
-        axios.get('http://localhost:8080/events/search',{
-        params: {
-                    //cinema_name: selected,
+        let body = {}
+        if(selected === "전체"){
+            body = {
+                params: {
                     sort_criteria: sort,
                     is_end: isEnd,
                     search_word: search,
                 }
-        })
+            }
+        } else {
+            body = {
+                params: {
+                    cinema_name: selected,
+                    sort_criteria: sort,
+                    is_end: isEnd,
+                    search_word: search,
+                }
+            }
+        }
+        axios.get('http://localhost:8080/events/search',body)
         .then(response => {setEvents(response.data)
         console.log(response.data);})
         .catch(error => console.log(error));
@@ -95,17 +107,6 @@ const EventPage = () => {
         setSelected(e.target.value);
     }
 
-    //영화관 필터 검색 버튼 눌렀을 때
-    const cinemaNameSearch = () => {
-        if (selected === selectList[0]){
-            alert("영화관을 선택해주세요")
-        }
-        else {
-            console.log(selected);
-            setSelecteds([...selecteds, selected]);
-        }
-    }
-    
     useEffect(()=>{
         //진행 중/완료 바뀔 때마다 실행
         //console.log(isEnd);
@@ -131,11 +132,6 @@ const EventPage = () => {
         //console.log(selected);
     }, [selected]);
 
-    useEffect(()=>{
-        //영화관 필터 검색 버튼 눌렀을 때마다 실행
-        //console.log(selecteds);
-        serverReq();
-    }, [selecteds]);
 
     useEffect(()=>{
         //처음에 기본으로 진행 중인 이벤트로 보여줌
@@ -149,15 +145,14 @@ const EventPage = () => {
             type:EVENT_SORT,
             payload:sort,
         })
+
+        const body = {params:{
+            sort_criteria: sort,
+            is_end: isEnd,
+        }}
         
         //처음에 진행 중, 최신순으로 요청
-        axios.get('http://localhost:8080/events/search',{
-        params: {
-                    sort_criteria: sort,
-                    is_end: isEnd,
-                    search_word: search,
-                }
-        })
+        axios.get('http://localhost:8080/events/search',body)
         .then(response => setEvents(response.data))
         .catch(error => console.log(error));
 
@@ -189,7 +184,6 @@ const EventPage = () => {
                     <option value={item} key={item}>{item}</option>
                 ))}
             </select>
-            <button id="searchButton" onClick={cinemaNameSearch}>검색</button>
 
             <div>
                 <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>

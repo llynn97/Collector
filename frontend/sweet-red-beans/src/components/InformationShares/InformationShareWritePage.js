@@ -81,16 +81,15 @@ const InformationShareWritePage = () => {
         setContent(e.target.value);
     }
 
-    const userId = useSelector(state => state.user.user_id);
+    //const userId = useSelector(state => state.user.user_id);
 
     const writeClick = () => {
-        console.log(userId);
         if (title === "" || content === ""){
             alert("내용을 입력해주세요.");
         }
         else {
             const body = {
-                user_id : userId,
+                user_id : "1",
                 title: title,
                 cinema_name : cinemaName,
                 cinema_area: cinemaArea,

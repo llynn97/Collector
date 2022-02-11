@@ -17,44 +17,6 @@ const InformationShareDetailPage = () => {
 
     const[commentContent, setCommentContent] = useState("");
 
-    const data = {
-        post_id : 1,
-        title : "제목",
-        written_date : "쓴 날짜",
-        content : "글 내용",
-        views : 10,
-        nickname : "닉네임",
-        image_url : "이미지 url",
-        cinema_name : "CGV",
-        cinema_area : "서울",
-        cinema_branch : "용산아이파크몰",
-        is_mine : true
-    }
-
-    const data2 = [
-        {
-        user_id: "아이디1",
-        comment_nickname: "닉네임1",
-        comment_content: "댓글 내용1",
-        comment_written_date: "쓴 날짜1",
-        is_mine: false
-        },
-        {
-        user_id: "아이디2",
-        comment_nickname: "닉네임2",
-        comment_content: "댓글 내용2",
-        comment_written_date: "쓴 날짜2",
-        is_mine: false
-        },
-        {
-        user_id: "아이디3",
-        comment_nickname: "닉네임3",
-        comment_content: "내가 쓴 거",
-        comment_written_date: "쓴 날짜3",
-        is_mine: true
-        },
-    ]
-
     //처음 조회
     useEffect(()=>{
         axios.get('http://localhost:8080/information-share/detail',{
@@ -113,7 +75,7 @@ const InformationShareDetailPage = () => {
         axios.delete('http://localhost:8080/information-share/detail',{
         params: {
                     post_id : postid,
-                    //user_id : userid,
+                    user_id : "1",
                 }
         })
         .then(response => {
@@ -146,7 +108,7 @@ const InformationShareDetailPage = () => {
     const commentAddClick = () => {
         setCommentContent("");
         const body = {
-            //user_id: userid,
+            user_id: "1",
             content: commentContent,
             post_id: postid,
         }

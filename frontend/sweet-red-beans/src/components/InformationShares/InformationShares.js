@@ -5,7 +5,6 @@ import style from "../../css/InformationShares.module.css"
 import { useSelector } from "react-redux";
 
 const InformationShares = ({infos}) => {
-    console.log("shares 렌더");
     const [posts, setPosts] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);

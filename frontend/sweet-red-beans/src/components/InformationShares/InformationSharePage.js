@@ -36,11 +36,11 @@ const InformationSharePage = () => {
     const [cinemaBranches, setCinemaBranches] = useState([]);
     //이제까지 검색한 것
     const [searchWords, setSearchWords] = useState([]);
-    const [cinemaSearchList, setCinemaSearchList] = useState([]);
     
     //search
     const [search, setSearch] = useState("");
 
+    const sorts = ["제목+내용", "제목", "내용", "작성자"];
     const [sort, setSort] = useState("최신순");
 
     //게시글들
@@ -108,6 +108,10 @@ const InformationSharePage = () => {
     const cinemaBranchChange = (e) => {
         setCinemaBranch(e.target.value);
         setCinemaBranchSelected(true);
+    }
+
+    const sortChange = (e) => {
+        setSort(e.target.value);
     }
 
     const searchChange = useCallback((e) => {
@@ -193,7 +197,7 @@ const InformationSharePage = () => {
             .then(response => setInfos(response.data))
             .catch(error => console.log(error));
         }
-        
+
     }, [searchWords])
 
 
@@ -220,12 +224,18 @@ const InformationSharePage = () => {
         </select> : null
         }
 
+        <select onChange={sortChange}>
+            {sorts.map((item) => (
+                <option value={item} key={item}>{item}</option>
+            ))}
+        </select>
+
         <div>
             <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
             <button id="searchButton" onClick={searchClick}>검색</button>
         </div>
 
-        {useMemo(() => (infoIsHere ? <InformationShares infos={infos}/> : null), [searchWords, cinemaSearchList, infos])}
+        {useMemo(() => (infoIsHere ? <InformationShares infos={infos}/> : null), [searchWords, infos])}
 
         <div>
             <Link to={`/informationShareWrite`}>

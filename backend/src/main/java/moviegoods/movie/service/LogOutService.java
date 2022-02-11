@@ -2,6 +2,7 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.logout.LogOutRequestDto;
 import moviegoods.movie.domain.dto.signin.SignInRequestDto;
@@ -13,9 +14,6 @@ import javax.servlet.http.HttpSession;
 @Service
 @RequiredArgsConstructor
 public class LogOutService {
-    public abstract class SessionConst {
-        public static final String LOGIN_MEMBER = "loginMember";
-    }
 
     public ResultResponseDto logout(LogOutRequestDto requestDto, HttpSession session) {
         Long user_id = requestDto.getUser_id();
@@ -24,7 +22,7 @@ public class LogOutService {
 
         boolean result = false;
         if (session != null) {
-            session.setAttribute(SessionConst.LOGIN_MEMBER, null);
+            session.setAttribute(SessionConfig.SessionConst.LOGIN_MEMBER, null);
             log.info("sessionId= {}", session.getId());
             session.invalidate();
             resultResponseDto.setResult(true);

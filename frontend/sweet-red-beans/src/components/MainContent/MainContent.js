@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {Route, Routes} from "react-router-dom";
 import EventDetailPage from "../EventDetailPage/EventDetailPage";
 import EventPage from "../EventPage/EventPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LOGIN_USER } from "../../actions/types";
 import TopBar from "../TopBar/TopBar";
 import InformationSharePage from "../InformationShares/InformationSharePage";
@@ -17,11 +17,6 @@ import DMPage from "../DMPage/DMPage";
 
 
 const MainContenet = () => {
-    const dispatch = useDispatch();
-    dispatch({
-      type: LOGIN_USER,
-      user: undefined,
-    })
 
     return (
         <>

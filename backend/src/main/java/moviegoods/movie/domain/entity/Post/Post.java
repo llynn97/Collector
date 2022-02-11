@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Cinema.Cinema;
-import moviegoods.movie.domain.entity.Comment;
+import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.User.User;
 
@@ -45,11 +45,11 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
