@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.entity;
+package moviegoods.movie.domain.entity.ChatRoomJoin;
 
 import javax.persistence.*;
 
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import moviegoods.movie.domain.entity.Chat_Room;
+import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.User.User;
 
 @Entity(name = "chat_room_join")

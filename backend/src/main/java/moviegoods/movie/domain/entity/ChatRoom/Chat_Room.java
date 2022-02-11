@@ -1,10 +1,13 @@
-package moviegoods.movie.domain.entity;
+package moviegoods.movie.domain.entity.ChatRoom;
 
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import moviegoods.movie.domain.entity.ChatRoomJoin.Chat_Room_Join;
+import moviegoods.movie.domain.entity.Message.Message;
+import moviegoods.movie.domain.entity.Transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,10 @@ public class Chat_Room {
 
     @OneToMany(mappedBy = "chat_room",cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
 
 }
 

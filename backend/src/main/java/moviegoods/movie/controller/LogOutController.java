@@ -19,7 +19,9 @@ import java.util.HashMap;
 @RestController
 @RequiredArgsConstructor
 public class LogOutController {
+
     private final LogOutService logOutService;
+
     @PostMapping("/logout")
     public ResultResponseDto logout(@RequestBody LogOutRequestDto requestDto, HttpSession session) throws IOException {
         ResultResponseDto resultResponseDto = logOutService.logout(requestDto, session);

@@ -33,7 +33,7 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 
