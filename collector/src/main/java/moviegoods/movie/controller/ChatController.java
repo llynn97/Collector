@@ -1,7 +1,7 @@
 package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
-import moviegoods.movie.domain.entity.Message.DirectMessage;
+import moviegoods.movie.domain.dto.directMessage.DirectMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ public class ChatController {
 
     private final SimpMessageSendingOperations messagingTemplate;
 
-     @MessageMapping("/chat/messgae")
+    @MessageMapping("/chat/message")
     public void message(DirectMessage message){
          if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)){
            message.setContent(message.getNickname()+"입장");

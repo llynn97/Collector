@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.entity.Message;
+package moviegoods.movie.domain.dto.directMessage;
 
 import lombok.Getter;
 import lombok.Setter;

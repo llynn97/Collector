@@ -11,9 +11,7 @@ import moviegoods.movie.domain.entity.User.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -22,13 +20,15 @@ public class MessageService {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    public List<DirectMessageDetailResponseDto> show(Long room_id) {
-        List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
-        Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
-        Chat_Room findedRoom = chatRoom.get();
+    public List<Map<String, DirectMessageDetailResponseDto>> show(Long room_id) {
+        List<Map<String, DirectMessageDetailResponseDto>> messagesList = new ArrayList<>();
+//        Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
+//        Chat_Room findedRoom = chatRoom.get();
+        Chat_Room findedRoom = chatRoomRepository.getById(room_id);
 
         List<Message> messages = findedRoom.getMessages();
         for (Message message : messages) {
+            Map<String, DirectMessageDetailResponseDto> returnMap = new HashMap<>();
             Content_Detail content_detail = message.getContent_detail();
             String content = content_detail.getContent();
             LocalDateTime written_date = content_detail.getWritten_date();
@@ -40,7 +40,9 @@ public class MessageService {
             String profile_url = user.getProfile_url();
             Long reliability = user.getReliability();
 
-            messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
+            returnMap.put("message", new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
+
+            messagesList.add(returnMap);
         }
         return messagesList;
     }

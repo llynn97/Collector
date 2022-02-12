@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import lombok.Builder;
-import moviegoods.movie.domain.entity.Comment;
+import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Report.Report;
@@ -35,19 +35,19 @@ public class Content_Detail {
     @DateTimeFormat
     private LocalDateTime written_date;
 
-    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "content_detail")
     private Post post;
 
-    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "content_detail")
     private Message message;
 
-    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "content_detail")
     private Comment comment;
 
-    @OneToOne(mappedBy = "content_detail", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "content_detail")
     private Transaction transaction;
 
-    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "content_detail")
     private Report report;
 
 }

@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.entity.ChatRoom;
+package moviegoods.movie.domain.entity.ChatRoomJoin;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

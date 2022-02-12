@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
-import moviegoods.movie.domain.entity.ChatRoom.ChatRoomJoinRepository;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
-import moviegoods.movie.domain.entity.ChatRoom.Chat_Room_Join;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;
+import moviegoods.movie.domain.entity.ChatRoomJoin.Chat_Room_Join;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
@@ -30,6 +30,7 @@ public class MessageRoomService {
 
     public DirectMessageCreateRoomResponseDto createRoom(DirectMessageCreateRoomRequestDto requestDto){
         Chat_Room chat_room = new Chat_Room();
+        log.info("transaction_id={}", requestDto.getTransaction_id());
 
         Transaction relatedTransaction = transactionRepository.getById(requestDto.getTransaction_id());
         Long writer_id = relatedTransaction.getUser().getUser_id();

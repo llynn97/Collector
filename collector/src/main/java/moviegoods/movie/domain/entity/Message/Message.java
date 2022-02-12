@@ -33,7 +33,7 @@ public class Message {
     @JoinColumn(name = "chat_room_id")
     private Chat_Room chat_room;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 
