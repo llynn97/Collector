@@ -6,3 +6,4 @@ export const EVENTS = "events";
 export const EVENT_ISEND = "event_is_end";
 export const EVENT_SORT = "event_sort";
 export const INFO = "information_share";
+export const DM_CREATE = "DM_create";

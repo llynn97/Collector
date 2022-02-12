@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { DM_CREATE } from "../../actions/types";
 
 const TransactionDetail = ({transaction}) => {
+    const dispatch = useDispatch();
     const navigation = useNavigate();
     const [status, setStatus] = useState(transaction.status);
 
@@ -20,10 +23,15 @@ const TransactionDetail = ({transaction}) => {
         .catch(error => console.log(error))
     }
 
+
     //삭제 버튼 클릭했을 때
     const deleteClick = () => {
-        axios.delete('https://cors-anywhere.herokuapp.com/http://localhost:8080/transactions',{
-        params: {
+        axios.delete('http://localhost:8080/transactions',{
+        //headers: {'Access-Control-Allow-Origin': "http://localhost:3000"},
+        // headers: {
+        //     Authorization: `${localStorage.getItem("token")}`
+        // },
+        data: {
                     user_id: "1",
                     transaction_id:transaction.transaction_id,
                 }
@@ -52,7 +60,20 @@ const TransactionDetail = ({transaction}) => {
     }
 
     const DMClick = () => {
-        navigation("/DM")
+        navigation("/DM");
+        const body = {
+            user_id : "1",
+            transaction_id : transaction.transaction_id,
+        }
+        axios.post('http://localhost:8080/direct-message', body)
+        .then(response => {
+            dispatch({
+                type:DM_CREATE,
+                DMCreate: response.data,
+            })
+            console.log(response.data);
+        })
+        .catch(error => console.log(error))
     }
 
     return(

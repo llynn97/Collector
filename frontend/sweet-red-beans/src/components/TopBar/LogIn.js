@@ -50,25 +50,20 @@ const LogIn = () =>{
       password: password,
     };
 
-    // axios.post('http://localhost:8080/signin', body)
-    // .then(response => {
-    //   if(response.data.result){
-    //     dispatch({
-    //       type: LOGIN_USER,
-    //       user: response.data,
-    //     })
-    //     setModalOpen(false);
-    //     navigation('/');
-    //   } else {
-    //     alert("로그인에 실패했습니다.");
-    //   }
-    // })
-    // .catch(error => console.log(error));
-
-    dispatch({
-      type: LOGIN_USER,
-      user: {user_id: "hj0827"},
+    axios.post('http://localhost:8080/signin', body)
+    .then(response => {
+      if(response.data.result){
+        dispatch({
+          type: LOGIN_USER,
+          user: response.data,
+        })
+        setModalOpen(false);
+        navigation('/');
+      } else {
+        alert("로그인에 실패했습니다.");
+      }
     })
+    .catch(error => console.log(error));
 
   }
 

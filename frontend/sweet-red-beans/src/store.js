@@ -1,5 +1,6 @@
 import { createStore } from "redux";
-import { LOGIN_USER, MAIN_EVENTS, CINEMA_NAMES, MAIN_CINEMA_EVENTS, EVENTS, EVENT_ISEND, EVENT_SORT, INFO } from "./actions/types";
+import { LOGIN_USER, MAIN_EVENTS, CINEMA_NAMES, MAIN_CINEMA_EVENTS, EVENTS, EVENT_ISEND, EVENT_SORT, INFO, 
+DM_CREATE } from "./actions/types";
 
 const reducer = (state={}, action) => {
     if(action.type === LOGIN_USER){
@@ -48,6 +49,9 @@ const reducer = (state={}, action) => {
     }
     else if (action.type === INFO){
         return {...state, info: action.info}
+    }
+    else if (action.type === DM_CREATE){
+        return {...state, DMCreate: action.DMCreate}
     }
 }
 

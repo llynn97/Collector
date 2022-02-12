@@ -32,7 +32,7 @@ const Comment = ({comment}) => {
     //삭제버튼 눌렀을 때
     const deleteConfirm = () => {
         axios.delete('http://localhost:8080/information-share/comment',{
-        params: {
+        data: {
                     user_id : "1",
                     comment_id: comment.comment_id,
                 }

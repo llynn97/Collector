@@ -6,9 +6,9 @@ module.exports = function (app) {
         createProxyMiddleware({
             target: "http://localhost:8080",
             changeOrigin: true,
-            // pathRewrite: {
-            //     '^/transactions': 'http://localhost:8080/transactions' // 하위 url 초기화
-            // }
+            pathRewrite: {
+                '^/transactions': '' // 하위 url 초기화
+            }
 
         })
 

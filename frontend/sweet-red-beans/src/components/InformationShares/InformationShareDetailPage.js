@@ -73,7 +73,7 @@ const InformationShareDetailPage = () => {
     //삭제버튼 눌렀을 때
     const deleteConfirm = () => {
         axios.delete('http://localhost:8080/information-share/detail',{
-        params: {
+        data: {
                     post_id : postid,
                     user_id : "1",
                 }

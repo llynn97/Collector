@@ -17,7 +17,6 @@ import DMPage from "../DMPage/DMPage";
 
 
 const MainContenet = () => {
-
     return (
         <>
         <TopBar/>

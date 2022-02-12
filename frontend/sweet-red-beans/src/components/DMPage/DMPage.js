@@ -5,8 +5,17 @@ import DMDetail from "./DMDetail";
 import * as StompJs from '@stomp/stompjs';
 import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
+import Stomp from "stompjs";
+import axios from "axios";
+
+let stompClient = null;
 
 const DMPage = () => {
+
+    // const client = new StompJs.Client();
+    // client.brokerURL = 'ws://localhost:8080/ws-stomp';
+    // console.log(client.brokerURL);
+
 
     // //연결됐을 때
     // client.onConnect = function (frame) {
@@ -31,55 +40,44 @@ const DMPage = () => {
 
     //1:유저아이디
 
-    useEffect(() => {
-        wsSubscribe();
-        return () => wsDisconnect();
-    }, [])
+    // useEffect(() => {
+    //     wsSubscribe();
+    //     return () => wsDisconnect();
+    // }, [])
 
 
-    const client = new StompJs.Client({
-        brokerURL: 'ws://localhost/8080/ws-stomp/websocket',
-        connectHeaders: {
-            login: 'user',
-            passcode: 'password',
-        },
-        debug: function (str) {
-            console.log(str);
-        },
-        reconnectDelay: 5000, //자동 재 연결
-        heartbeatIncoming: 4000,
-        heartbeatOutgoing: 4000,
-    });
+    // const client = new StompJs.Client({
+    //     brokerURL: 'ws://localhost/8080/ws-stomp/websocket',
+    //     connectHeaders: {
+    //         login: 'user',
+    //         passcode: 'password',
+    //     },
+    //     debug: function (str) {
+    //         console.log(str);
+    //     },
+    //     reconnectDelay: 5000, //자동 재 연결
+    //     heartbeatIncoming: 4000,
+    //     heartbeatOutgoing: 4000,
+    // });
 
-    client.onConnect = () => {
-        console.log("클라이언트 연결");
-    }
+    // client.onConnect = () => {
+    //     console.log("클라이언트 연결");
+    // }
 
-    client.onStompError = () => {
-        console.log("클라이언트 에러");
-    }
+    // client.onStompError = () => {
+    //     console.log("클라이언트 에러");
+    // }
 
-    client.activate();
+    //client.activate();
     // //에러났을 때
     // client.onStompError = function (frame) {
     //     console.log('Broker reported error: ' + frame.headers['message']);
     //     console.log('Additional details: ' + frame.body);
     // };
 
-    const onClick = (message) => {
-        console.log(message);
-        if(!client.connected)
-            return;
-        
-        //메시지 보내기
-        client.publish({
-            destination: 'http://localhost/8080/chat/message',
-            //destination: '/topic/general',
-            body: JSON.stringify({
-                content:message
-            })
-        })
-    }
+
+
+
 
     const wsSubscribe = () => {
         //메시지 받기
@@ -92,7 +90,7 @@ const DMPage = () => {
 
     const wsDisconnect = () => {
         //클라이언트 비활성화
-        client.deactivate();
+        //client.deactivate();
     }
 
     return(
@@ -100,8 +98,10 @@ const DMPage = () => {
         <div>
             {content}
         </div>
-        <DMList/>
-        <DMDetail sendMessage={onClick}/>
+        <div>
+            <DMList/>
+        </div>
+        <DMDetail/>
         </>
     );
 }
