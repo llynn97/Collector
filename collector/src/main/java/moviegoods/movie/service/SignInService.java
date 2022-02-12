@@ -35,10 +35,10 @@ public class SignInService {
         if(passwordEncoder.matches(password, existPassword)) {
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, user);
-            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(), true);
+            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(), user.getAuthority(), true);
         }
         else {
-            signInResponseDto = new SignInResponseDto(null,null,false);
+            signInResponseDto = new SignInResponseDto(null,null,null,false);
         }
 
         return signInResponseDto;
