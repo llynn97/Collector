@@ -4,19 +4,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
+import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
 import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;
 import moviegoods.movie.domain.entity.ChatRoomJoin.Chat_Room_Join;
+import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
+import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Slf4j
 @Service

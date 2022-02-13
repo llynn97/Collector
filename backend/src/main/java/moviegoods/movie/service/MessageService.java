@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
+import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.User.User;
@@ -20,15 +21,14 @@ public class MessageService {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    public List<Map<String, DirectMessageDetailResponseDto>> show(Long room_id) {
-        List<Map<String, DirectMessageDetailResponseDto>> messagesList = new ArrayList<>();
-//        Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
-//        Chat_Room findedRoom = chatRoom.get();
-        Chat_Room findedRoom = chatRoomRepository.getById(room_id);
+    public List<DirectMessageDetailResponseDto> show(Long room_id) {
+        List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
+
+        Optional<Chat_Room> room = chatRoomRepository.findById(room_id);
+        Chat_Room findedRoom = room.get();
 
         List<Message> messages = findedRoom.getMessages();
         for (Message message : messages) {
-            Map<String, DirectMessageDetailResponseDto> returnMap = new HashMap<>();
             Content_Detail content_detail = message.getContent_detail();
             String content = content_detail.getContent();
             LocalDateTime written_date = content_detail.getWritten_date();
@@ -40,10 +40,9 @@ public class MessageService {
             String profile_url = user.getProfile_url();
             Long reliability = user.getReliability();
 
-            returnMap.put("message", new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
-
-            messagesList.add(returnMap);
+            messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
         }
+
         return messagesList;
     }
 }

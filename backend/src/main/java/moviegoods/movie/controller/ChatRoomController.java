@@ -41,10 +41,13 @@ public class ChatRoomController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<List<Map<String, DirectMessageDetailResponseDto>>> detail (@RequestParam Long room_id) {
-        List<Map<String, DirectMessageDetailResponseDto>> messagesList = messageService.show(room_id);
+    public ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> detail (@RequestParam Long room_id) {
+        List<DirectMessageDetailResponseDto> messagesList = messageService.show(room_id);
+        Map<String, List<DirectMessageDetailResponseDto>> messagesListJson = new HashMap<>();
 
-        ResponseEntity<List<Map<String, DirectMessageDetailResponseDto>>> result = new ResponseEntity<>(messagesList, HttpStatus.OK);
+        messagesListJson.put("message", messagesList);
+
+        ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> result = new ResponseEntity<>(messagesListJson, HttpStatus.OK);
         return result;
     }
 

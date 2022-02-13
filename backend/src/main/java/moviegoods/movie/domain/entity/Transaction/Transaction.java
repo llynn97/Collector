@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 import moviegoods.movie.domain.entity.Report.Report;
@@ -43,5 +44,7 @@ public class Transaction {
     @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
     private Like_Basket like;
 
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+    private List<Chat_Room> chat_rooms = new ArrayList<>();
 
 }
