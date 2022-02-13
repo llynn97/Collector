@@ -34,9 +34,7 @@ public class Chat_Room {
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
-    public Chat_Room(){
 
-    }
     ;
 
 }

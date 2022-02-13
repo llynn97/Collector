@@ -21,7 +21,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long message_id;
 
-    @NotBlank
+
     @Column(columnDefinition = "TEXT")
     private String image_url;
 
@@ -33,7 +33,7 @@ public class Message {
     @JoinColumn(name = "chat_room_id")
     private Chat_Room chat_room;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
 

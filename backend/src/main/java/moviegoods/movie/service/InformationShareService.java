@@ -137,10 +137,10 @@ public class InformationShareService {
         String searchWord = "";
         String orderLatest ="order by c.written_date DESC";
         if ((area == null) && (branch == null) && (name == null)) { // 영화관 필터가 없을때
-            if (search_word == null) {   //검색어가 없으면
+            if (search_word.equals("")) {   //검색어가 없으면
 
             }
-            if (search_word != null) {  //검색어가 있으면
+            if (!search_word.equals("")) {  //검색어가 있으면
                 if (sort_name.equals("제목")) {
                     searchWord += "where p.title like '%" + search_word + "%'";
                 } else if (sort_name.equals("제목+내용")) {
@@ -191,7 +191,7 @@ public class InformationShareService {
 
 
             Boolean check=false;
-            if(search_word==null){  //검색어가 없으면
+            if(search_word.equals("")){  //검색어가 없으면
                 check=false;
                 String filterJpql="select p from post p join p.cinema c where ";
                 if(area!=null){
