@@ -30,9 +30,11 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
+
+
 
 
 

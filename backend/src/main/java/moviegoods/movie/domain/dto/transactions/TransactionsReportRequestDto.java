@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class TransactionsReportRequestDto {
     private Long user_id;
     private Long transaction_id;
-    private String content;
 }

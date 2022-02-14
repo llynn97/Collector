@@ -2,9 +2,9 @@ package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.domain.dto.Manager.ManagerRequestDto;
-import moviegoods.movie.domain.dto.Manager.ManagerResponseDto;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.manager.ManagerRequestDto;
+import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
 import moviegoods.movie.service.ManagerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

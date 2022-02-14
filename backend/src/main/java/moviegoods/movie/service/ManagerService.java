@@ -2,8 +2,8 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.domain.dto.Manager.ManagerResponseDto;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Report.ReportRepository;

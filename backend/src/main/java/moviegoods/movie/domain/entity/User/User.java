@@ -75,8 +75,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Report> reports = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Report> reports=new ArrayList<>();
 
 }

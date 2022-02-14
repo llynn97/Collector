@@ -3,7 +3,6 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +39,7 @@ public class TransactionsService {
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto write(User loginUser,TransactionsSaveRequestDto requestDto) {
-        ResultResponseDto resultResponseDto = new ResultResponseDto();
-        
-        if (loginUser == null) {
-            resultResponseDto.setResult(false);
-        }
+    public ResultResponseDto write(TransactionsSaveRequestDto requestDto) {
         Long user_id = requestDto.getUser_id();
         String content = requestDto.getContent();
         Status status = 진행중;
@@ -55,6 +48,7 @@ public class TransactionsService {
         Content_Detail content_detail = contentDetailService.saveContentDetail(content);
         Transaction saveEntity = Transaction.builder().user(user).content_detail(content_detail).status(status).build();
 
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
 
         transactionRepository.save(saveEntity);
         resultResponseDto.setResult(true);
@@ -63,19 +57,15 @@ public class TransactionsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public List<TransactionsSearchResponseDto> search(TransactionsSearchRequestDto requestDto, HttpSession session) {
-        //User user = (User) session.getAttribute(SessionConfig.SessionConst.LOGIN_MEMBER);
-
-        Long user_id = requestDto.getUser_id();
-
+    public List<TransactionsSearchResponseDto> search(TransactionsSearchRequestDto requestDto) {
         List<TransactionsSearchResponseDto> searchList = new ArrayList<>();
 
+        Long user_id = requestDto.getUser_id();
         Boolean is_proceed = requestDto.getIs_proceed(); // 모집중(1) , 전체(0)
         String search_word = requestDto.getSearch_word(); // 검색어
         String sort_criteria = requestDto.getSort_criteria(); // 최신순
         String search_criteria = requestDto.getSearch_criteria(); // 작성자/글내용
         String linking_word = "where ";
-        log.info("search_word={}", search_word);
 
         if (search_word == null) {
             search_word = "";
@@ -180,13 +170,11 @@ public class TransactionsService {
         // 신고자 아이디 저장할건가??, 신고글 작성안해???, 본인이 본인글 신고가능?, 중복 신고 가능?
         Long user_id = requestDto.getUser_id();
         Long transaction_id = requestDto.getTransaction_id();
-        String content = requestDto.getContent();
 
-        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ user_id));
         Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = "+ transaction_id));
-        Content_Detail content_detail = contentDetailService.saveContentDetail(content);
-
-        Report saveEntity = Report.builder().user(user).transaction(transaction).content_detail(content_detail).build();
+        Long content_detail_id = transaction.getContent_detail().getContent_detail_id();
+        Content_Detail content_detail = contentDetailRepository.findById(content_detail_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역 메세지가 없습니다. content_detail_id = "+ content_detail_id));
+        Report saveEntity = Report.builder().transaction(transaction).content_detail(content_detail).build();
 
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         reportRepository.save(saveEntity);

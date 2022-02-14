@@ -2,16 +2,13 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.configure.SessionConfig;
-import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.configure.SessionConfig.*;
 import moviegoods.movie.domain.dto.signin.SignInRequestDto;
 import moviegoods.movie.domain.dto.signin.SignInResponseDto;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import moviegoods.movie.configure.SessionConfig.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

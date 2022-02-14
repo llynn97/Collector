@@ -6,7 +6,6 @@ import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j

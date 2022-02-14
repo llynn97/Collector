@@ -2,16 +2,14 @@ package moviegoods.movie.domain.dto.informationShare;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
-public class InformationShareRequestWriteRequestDto {
+public class InformationShareRequestWrite {
 
 
 
@@ -29,7 +27,8 @@ public class InformationShareRequestWriteRequestDto {
     private String  cinema_branch;
     @NotBlank
     private String  content;
-    private String image_url;
+
+    private MultipartFile image_url;
 
 
 

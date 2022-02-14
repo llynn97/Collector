@@ -22,7 +22,8 @@ public class MovieApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedOrigins("http://localhost:3000")
-						.allowedMethods("GET", "POST", "DELETE", "PATCH");
+						.allowedMethods("GET", "POST", "DELETE", "PATCH")
+						.allowCredentials(true);
 			}
 		};
 	}

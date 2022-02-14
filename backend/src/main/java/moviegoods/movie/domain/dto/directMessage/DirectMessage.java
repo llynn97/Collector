@@ -2,27 +2,37 @@ package moviegoods.movie.domain.dto.directMessage;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
 public class DirectMessage {
-    public enum MessageType {
-        ENTER, COMM
+
+
+
+   public enum MessageType {
+    ENTER, COMM
     }
 
-    private Long message_id;
+   //private MessageType messageType;
 
-    private MessageType messageType;
 
-    private Long chat_room_id;
-
-    private Long user_id;
-    private String nickname;
-
+    private MultipartFile image_url;
     private String content;
+    private String nickname;
+    private Long user_id;
+    private Long chat_room_id;
     private LocalDateTime written_date;
+    //private LocalDateTime written_date;
 
-    private String image_url;
+
+    //private Content_detail content_detail;
+  // private User user;
+  //  private Chat_Room chat_room;
+
+
+
 }

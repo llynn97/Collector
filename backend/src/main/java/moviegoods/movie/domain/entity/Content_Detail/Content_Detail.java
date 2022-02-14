@@ -35,19 +35,19 @@ public class Content_Detail {
     @DateTimeFormat
     private LocalDateTime written_date;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Post post;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Message message;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Comment comment;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail", cascade = CascadeType.REMOVE)
     private Transaction transaction;
 
-    @OneToOne(mappedBy = "content_detail")
+    @OneToOne(mappedBy = "content_detail",cascade = CascadeType.REMOVE)
     private Report report;
 
 }

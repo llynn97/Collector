@@ -1,6 +1,8 @@
 package moviegoods.movie.domain.dto.directMessage;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
