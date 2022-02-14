@@ -58,7 +58,6 @@ public class InformationShareController {
 
     @GetMapping("/search")
     public ResponseEntity<List<InformationShareResponseSearch>> search(@ModelAttribute InformationShareRequestSearch isrs){
-        log.info("irsrs={}",isrs.getSearch_word());
         List<InformationShareResponseSearch> list=    informationShareService.Search(isrs);
         ResponseEntity<List<InformationShareResponseSearch>> entity=new ResponseEntity<>(list, HttpStatus.OK);
         return  entity;
