@@ -23,7 +23,7 @@ public class Chat_Room_Join {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "chat_room_id")
     private Chat_Room chat_room;
 

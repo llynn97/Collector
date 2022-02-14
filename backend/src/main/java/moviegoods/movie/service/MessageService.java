@@ -25,24 +25,24 @@ public class MessageService {
         List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
 
         Optional<Chat_Room> room = chatRoomRepository.findById(room_id);
-        Chat_Room findedRoom = room.get();
+        if(room.isPresent()) {
+            Chat_Room findedRoom = room.get();
+            List<Message> messages = findedRoom.getMessages();
+            for (Message message : messages) {
+                Content_Detail content_detail = message.getContent_detail();
+                String content = content_detail.getContent();
+                LocalDateTime written_date = content_detail.getWritten_date();
+                String image_url = message.getImage_url();
 
-        List<Message> messages = findedRoom.getMessages();
-        for (Message message : messages) {
-            Content_Detail content_detail = message.getContent_detail();
-            String content = content_detail.getContent();
-            LocalDateTime written_date = content_detail.getWritten_date();
-            String image_url = message.getImage_url();
+                User user = message.getUser();
+                Long user_id = user.getUser_id();
+                String nickname = user.getNickname();
+                String profile_url = user.getProfile_url();
+                Long reliability = user.getReliability();
 
-            User user = message.getUser();
-            Long user_id = user.getUser_id();
-            String nickname = user.getNickname();
-            String profile_url = user.getProfile_url();
-            Long reliability = user.getReliability();
-
-            messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
+                messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
+            }
         }
-
         return messagesList;
     }
 }
