@@ -13,6 +13,8 @@ import InformationShareWritePage from "../InformationShares/InformationShareWrit
 import InformationShareDetailPage from "../InformationShares/InformationShareDetailPage";
 import TransactionPage from "../TransactionPage/TransactionPage";
 import DMPage from "../DMPage/DMPage";
+import MyPageAdmin from "../MyPage/MyPageAdmin";
+import MyPageNomal from "../MyPage/MyPageNomal";
 
 
 
@@ -30,6 +32,8 @@ const MainContenet = () => {
           <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
           <Route path="/transaction/*" element={<TransactionPage/>}/>
           <Route path="/DM" element={<DMPage/>}/>
+          <Route path="/mypage" element={<MyPageNomal/>}/>
+          <Route path="/adminpage" element={<MyPageAdmin/>}/>
         </Routes>
         </>
     );

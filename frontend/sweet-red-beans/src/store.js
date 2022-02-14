@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import { LOGIN_USER, MAIN_EVENTS, CINEMA_NAMES, MAIN_CINEMA_EVENTS, EVENTS, EVENT_ISEND, EVENT_SORT, INFO, 
-DM_CREATE } from "./actions/types";
+DM_CREATE, MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "./actions/types";
 
 const reducer = (state={}, action) => {
     if(action.type === LOGIN_USER){
@@ -52,6 +52,24 @@ const reducer = (state={}, action) => {
     }
     else if (action.type === DM_CREATE){
         return {...state, DMCreate: action.DMCreate}
+    }
+    else if (action.type === MYPAGE_USER){
+        return {...state, mypageUser: action.payload}
+    }
+    else if (action.type === MYPAGE_TRANSACTIONS){
+        return {...state, mypageTransactions: action.payload}
+    }
+    else if (action.type === MYPAGE_COMMENTS){
+        return {...state, mypageComments: action.payload}
+    }
+    else if (action.type === MYPAGE_EVENTS){
+        return {...state, mypageEvents: action.payload}
+    }
+    else if (action.type === MYPAGE_POSTS){
+        return {...state, mypagePosts: action.payload}
+    }
+    else if (action.type === MYPAGE_LIKE_TRANSACTIONS){
+        return {...state, mypageLikeTransactions: action.payload}
     }
 }
 

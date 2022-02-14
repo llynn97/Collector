@@ -51,7 +51,9 @@ const MovieThumbnail = ({cinemaName}) => {
                     <div>{item.title}</div>
                     <div>{item.start_date} ~ {item.end_date}</div>
                     </Link>
-                    <Outlet/>
+                    <div>
+                        {item.is_like ? <div>좋아요O</div> : <div>좋아요X</div>}
+                    </div>
                     </Fragment>   
                 );  
             })}

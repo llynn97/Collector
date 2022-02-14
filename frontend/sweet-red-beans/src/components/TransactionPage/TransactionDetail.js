@@ -23,14 +23,28 @@ const TransactionDetail = ({transaction}) => {
         .catch(error => console.log(error))
     }
 
+    const useConfirm = (message = null, onConfirm, onCancel) => {
+        if (!onConfirm || typeof onConfirm !== "function") {
+            return;
+        }
+        if (onCancel && typeof onCancel !== "function") {
+            return;
+        }
+        
+        const confirmAction = () => {
+            if (window.confirm(message)) {
+            onConfirm();
+            } else {
+            onCancel();
+            }
+        };
+        
+        return confirmAction;
+    };
 
-    //삭제 버튼 클릭했을 때
-    const deleteClick = () => {
+    //삭제버튼 삭제 눌렀을 때
+    const deleteConfirm = () => {
         axios.delete('http://localhost:8080/transactions',{
-        //headers: {'Access-Control-Allow-Origin': "http://localhost:3000"},
-        // headers: {
-        //     Authorization: `${localStorage.getItem("token")}`
-        // },
         data: {
                     user_id: "1",
                     transaction_id:transaction.transaction_id,
@@ -38,6 +52,7 @@ const TransactionDetail = ({transaction}) => {
         })
         .then(response => {
             if(response.data.result){
+                navigation(0);
                 alert("삭제되었습니다.")
             }
             else {
@@ -46,6 +61,16 @@ const TransactionDetail = ({transaction}) => {
         })
         .catch(error => console.log(error));
     }
+
+    //삭제 취소 버튼 눌렀을 때
+    const cancelConfirm = () => console.log("삭제 취소")
+
+    //삭제 버튼 클릭했을 때
+    const deleteClick = useConfirm(
+        "삭제하시겠습니까?",
+        deleteConfirm,
+        cancelConfirm
+    );
 
     //마감으로 변경 눌렀을 때
     const statusClick = () => {
@@ -82,7 +107,7 @@ const TransactionDetail = ({transaction}) => {
         <div>
             {status === "진행중" ? <div>진행중</div> : <div>마감</div>}
             
-            {transaction.nickname}
+            {transaction.nickname} & 신뢰도 : {transaction.reliability}
             {transaction.is_mine ? null : <button onClick={DMClick}>DM</button>}
         </div>
         <div>

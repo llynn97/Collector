@@ -41,7 +41,7 @@ const InformationSharePage = () => {
     const [search, setSearch] = useState("");
 
     const sorts = ["제목+내용", "제목", "내용", "작성자"];
-    const [sort, setSort] = useState("최신순");
+    const [sort, setSort] = useState("제목+내용");
 
     //게시글들
     const [infos, setInfos] = useState([]);

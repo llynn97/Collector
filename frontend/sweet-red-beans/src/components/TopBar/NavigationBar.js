@@ -43,6 +43,10 @@ const NavigationBar = () => {
         //}
     }
 
+    const mypageClick = () => {
+        navigation('/mypage');
+    }
+
 
     return (
         <>
@@ -54,7 +58,7 @@ const NavigationBar = () => {
                 
                 <button className={styles.topBarButton} onClick={DMClick}>개인메시지</button>
                 
-                <button className={styles.topBarButton}>마이페이지</button>
+                <button className={styles.topBarButton} onClick={mypageClick}>마이페이지</button>
             </div>
             <div>
                 {!hide ? <BottomCategory/> : null}
