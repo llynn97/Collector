@@ -39,10 +39,10 @@ public class ChatController {
 
      @MessageMapping("/chat/message")
     public void message(DirectMessage message) throws IOException, FirebaseAuthException {
-         if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
-             message.setContent(message.getNickname() + "입장");
+        // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
+          //   message.setContent(message.getNickname() + "입장");
 
-         }
+         //}
          messageService.saveMessage(message);
 
 

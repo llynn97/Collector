@@ -14,10 +14,10 @@ public class DirectMessage {
 
 
    public enum MessageType {
-        ENTER, COMM
+    ENTER, COMM
     }
 
-   private MessageType messageType;
+   //private MessageType messageType;
 
 
     private MultipartFile image_url;
