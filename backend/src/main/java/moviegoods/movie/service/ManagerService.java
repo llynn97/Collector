@@ -34,8 +34,9 @@ public class ManagerService {
             Transaction transaction = report.getTransaction();
             User user = transaction.getUser();
             String nickname = user.getNickname();
+            Long user_id = user.getUser_id();
 
-            reportsList.add(new ManagerResponseDto(content, written_date, nickname));
+            reportsList.add(new ManagerResponseDto(content, written_date, nickname, user_id));
         }
 
         Comp comp = new Comp();

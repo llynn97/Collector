@@ -14,4 +14,5 @@ public class ManagerResponseDto {
     private String report_content;
     private LocalDateTime written_date;
     private String nickname;
+    private Long user_id;
 }

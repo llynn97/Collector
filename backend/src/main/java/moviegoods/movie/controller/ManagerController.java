@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -21,10 +23,12 @@ public class ManagerController {
     private final ManagerService managerService;
 
     @GetMapping
-    public ResponseEntity<List<ManagerResponseDto>> show() {
+    public ResponseEntity<Map<String, List<ManagerResponseDto>>> show() {
         List<ManagerResponseDto> reportsList = managerService.show();
+        Map<String, List<ManagerResponseDto>> reportJson = new HashMap<>();
+        reportJson.put("reports", reportsList);
 
-        ResponseEntity<List<ManagerResponseDto>> result = new ResponseEntity<>(reportsList, HttpStatus.OK);
+        ResponseEntity<Map<String, List<ManagerResponseDto>>> result = new ResponseEntity<>(reportJson, HttpStatus.OK);
         return result;
     }
 
