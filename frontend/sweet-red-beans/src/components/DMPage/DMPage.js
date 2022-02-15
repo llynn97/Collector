@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, {useRef, useState, useEffect, useMemo} from "react";
 import { useSelector } from "react-redux";
 import DMList from "./DMList";
 import DMDetail from "./DMDetail";
@@ -7,101 +7,28 @@ import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
-
-let stompClient = null;
+import store from "../../store";
 
 const DMPage = () => {
+    const selectedRoomId = useSelector(s => {
+        if(s !== undefined) {
+            return s.selectedRoomId
+        }
+        else {
+            return "none"
+        }
+    })
 
-    // const client = new StompJs.Client();
-    // client.brokerURL = 'ws://localhost:8080/ws-stomp';
-    // console.log(client.brokerURL);
-
-
-    // //연결됐을 때
-    // client.onConnect = function (frame) {
-
-    // };
-    
-
-
-    // client.publish({
-    //     destination: '/topic/general',
-    //     body: 'Hello world',
-    //     headers: { priority: '9' },
-    // });
-
-    //메시지 받기
-    //const subscription = client.subscribe('/queue/test', callback);
-
-    //------------------------------------------------------
-
-
-    const [content, setContent] = useState("");
-
-    //1:유저아이디
-
-    // useEffect(() => {
-    //     wsSubscribe();
-    //     return () => wsDisconnect();
-    // }, [])
-
-
-    // const client = new StompJs.Client({
-    //     brokerURL: 'ws://localhost/8080/ws-stomp/websocket',
-    //     connectHeaders: {
-    //         login: 'user',
-    //         passcode: 'password',
-    //     },
-    //     debug: function (str) {
-    //         console.log(str);
-    //     },
-    //     reconnectDelay: 5000, //자동 재 연결
-    //     heartbeatIncoming: 4000,
-    //     heartbeatOutgoing: 4000,
-    // });
-
-    // client.onConnect = () => {
-    //     console.log("클라이언트 연결");
-    // }
-
-    // client.onStompError = () => {
-    //     console.log("클라이언트 에러");
-    // }
-
-    //client.activate();
-    // //에러났을 때
-    // client.onStompError = function (frame) {
-    //     console.log('Broker reported error: ' + frame.headers['message']);
-    //     console.log('Additional details: ' + frame.body);
-    // };
-
-
-
-
-
-    const wsSubscribe = () => {
-        //메시지 받기
-        //1 : 룸 id
-        // client.subscribe('/sub/chat/room/'+"1", (msg) => {
-        //     const newMessage = JSON.parse(msg.body).message;
-        //     setContent(newMessage);
-        // }, {id: "user"})
-    }
-
-    const wsDisconnect = () => {
-        //클라이언트 비활성화
-        //client.deactivate();
-    }
+    useEffect(() => {
+        console.log(selectedRoomId);
+    }, [selectedRoomId])
 
     return(
         <>
         <div>
-            {content}
-        </div>
-        <div>
             <DMList/>
         </div>
-        <DMDetail/>
+        {useMemo(() => (selectedRoomId !== "none" ? <DMDetail roomId={selectedRoomId}/> : null), [selectedRoomId])}
         </>
     );
 }

@@ -13,3 +13,4 @@ export const MYPAGE_COMMENTS = "mypage_comments";
 export const MYPAGE_EVENTS = "mypage_events";
 export const MYPAGE_POSTS = "mypage_posts";
 export const MYPAGE_LIKE_TRANSACTIONS = "mypage_like_transactions"
+export const SELECTED_DM = "selected_dm";

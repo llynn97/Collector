@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import * as StompJs from '@stomp/stompjs';
 import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
@@ -7,30 +7,45 @@ import axios from "axios";
 
 let stompClient = null;
 
-const DMDetail = () => {
+const DMDetail = ({roomId}) => {
     const [ms, setMs] = useState("");
     const [mList, setMList] = useState([]);
-    const socket = new SockJS('http://localhost:8080/ws-stomp');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
-        //입장에 대한 구독
-        stompClient.subscribe('/sub/chat/room/' + "1", function(response) {
-            console.log(response);
-        });
-        //메시지 전달 구독
-        // stompClient.subscribe('/sub/chat/message', function(response) {
-        //     console.log(response);
-        // });
-        
-    })
 
+    let socket = new WebSocket('ws://localhost:8080/ws-stomp');
+    
+    //서버와 연결됐을 때
+    socket.onopen = (e) => {
+        stompClient = Stomp.over(socket);
+        console.log("open server!!!!");
+
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            //입장에 대한 구독
+            stompClient.subscribe('/sub/chat/room/' + "1", function(response) {
+                console.log(response);
+            });
+            //메시지 전달 구독
+            // stompClient.subscribe('/sub/chat/message', function(response) {
+            //     console.log(response);
+            // });
+            
+        })
+    }
+
+    //에러 발생했을 때
+    socket.onerror = () => {
+
+    }
+
+    socket.onmessage = (e) => {
+        console.log(e.data);
+    }
 
     const sendMessage = (message) => {
         stompClient.send("/pub/chat/message", {}, JSON.stringify({
             content : message,
             user_id : "1",
-            chat_room_id: "4",
+            chat_room_id: roomId,
             nickname: "민지",
         }))
 
@@ -55,7 +70,7 @@ const DMDetail = () => {
         }, []
     )
 
-    const onClick = () => {
+    const sendClick = () => {
         sendMessage(ms);
         setMList([...mList, ms]);
         setMs("");
@@ -66,15 +81,28 @@ const DMDetail = () => {
             stompClient.disconnect();
         }
     }
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/direct-message/detail", {
+            params:{
+                room_id: roomId
+            }
+        })
+        .then(response => {
+            setMList(response.data.message.map(item => item.message_content));
+        })
+        .catch(error => console.log(error))
+    }, [roomId])
+
     return (
         <>
         <h2>DM 메시지 창</h2>
         <div style={{width:"200px", height:"300px"}}>
-            메시지 내용 올라오는 곳
+            {roomId}, 메시지 내용 올라오는 곳
             {mList.map((item, index) => <div key={index}>{item}</div>)}
         </div>
         <input type="text" value={ms} onChange={onChange} name={ms}/>
-        <button onClick={onClick}>전송</button>
+        <button onClick={sendClick}>전송</button>
         </>
     );
 }

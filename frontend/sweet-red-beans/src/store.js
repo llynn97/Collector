@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import { LOGIN_USER, MAIN_EVENTS, CINEMA_NAMES, MAIN_CINEMA_EVENTS, EVENTS, EVENT_ISEND, EVENT_SORT, INFO, 
-DM_CREATE, MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "./actions/types";
+DM_CREATE, MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS, SELECTED_DM } from "./actions/types";
 
 const reducer = (state={}, action) => {
     if(action.type === LOGIN_USER){
@@ -70,6 +70,9 @@ const reducer = (state={}, action) => {
     }
     else if (action.type === MYPAGE_LIKE_TRANSACTIONS){
         return {...state, mypageLikeTransactions: action.payload}
+    }
+    else if (action.type === SELECTED_DM){
+        return {...state, selectedRoomId: action.payload}
     }
 }
 

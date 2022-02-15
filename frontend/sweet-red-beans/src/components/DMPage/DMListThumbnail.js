@@ -3,7 +3,7 @@ import React from "react";
 const DMListThumbnail = ({dm}) => {
     return (
         <>
-        {dm}
+        방 번호 : {dm}
         </>
     )
 }

@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from "react";
 import store from "../../../store";
 import Pagination from "./Pagination";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const MyPosts = () => {
-    const [storeData, setStoreData] = useState([]);
-    const [myPosts, setMyPosts] = useState([]);
+    const navigation = useNavigate();
+    
+    const myPosts = useSelector(s => {
+        if(s !== undefined) {
+            return s.mypagePosts
+        }
+    })
 
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
 
     useEffect(() => {
-        //맨처음 스토어에서 데려오면 무조건 undefined
-        setStoreData(store.getState());
-        console.log(storeData);
-    }, [])
-    useEffect(() => {
-        //그 후에 스토어에서 한 번 더 데려와서 set시켜주기
-        setStoreData(store.getState());
-        if(storeData !== undefined) {
-            //가져온 거에 해딩 key가 있는지 확인
-            setMyPosts(storeData.mypagePosts);
-        }
-    }, [storeData])
-
-    useEffect(() => {
         console.log("내가 쓴 글들 : ", myPosts);
     }, [myPosts])
+
+    const postClick = (postid, e) => {
+        navigation('/informationShare/'+postid);
+    }
 
     return (
         <>
         {myPosts !== undefined ? myPosts.slice(offset, offset + limit).map((item, index) => (
-            <article key={index}>
-            {item.title}
+            <article key={index} onClick={e => postClick(item.post_id, e)}>
+            {item.title}, {item.written_date}
             </article>
         )) : null}
 

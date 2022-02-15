@@ -1,39 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import store from "../../../store";
 import Pagination from "./Pagination";
+import { useNavigate } from "react-router";
 
 const MyEvents = () => {
-    const [storeData, setStoreData] = useState([]);
-    const [myEvents, setMyEvents] = useState([]);
+    const navigation = useNavigate();
+    
+    const myEvents = useSelector(s => {
+        if(s !== undefined) {
+            return s.mypageEvents
+        }
+    })
 
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
 
     useEffect(() => {
-        //맨처음 스토어에서 데려오면 무조건 undefined
-        setStoreData(store.getState());
-        console.log(storeData);
-    }, [])
-    useEffect(() => {
-        //그 후에 스토어에서 한 번 더 데려와서 set시켜주기
-        setStoreData(store.getState());
-        if(storeData !== undefined) {
-            //가져온 거에 해딩 key가 있는지 확인
-            setMyEvents(storeData.mypageEvents);
-        }
-    }, [storeData])
-
-    useEffect(() => {
         console.log("내 이벤트들 : ", myEvents);
     }, [myEvents])
+
+    const eventClick = (eventid, e) => {
+        navigation('/event/'+eventid);
+    }
 
     return (
         <>
         {myEvents !== undefined ? myEvents.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
-            {item.event_title}
+                <div onClick={e => eventClick(item.event_id, e)}>
+                    {item.thumbnail_url}
+                </div>
+                {item.event_title}
             </article>
         )) : null}
 
