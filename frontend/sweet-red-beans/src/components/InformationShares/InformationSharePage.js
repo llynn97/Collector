@@ -149,7 +149,7 @@ const InformationSharePage = () => {
             type:INFO,
             info:infos,
         });
-        
+        console.log(infos);
         setInfoIsHere(true);
     }, [infos])
 

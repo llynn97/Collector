@@ -130,7 +130,7 @@ const SignUp = () => {
             axios.post('http://localhost:8080/signup/duplicate-check', userEmail)
                 .then(response => {
                     const data = response.data
-                    if(data.result === true){
+                    if(data.result === false){
                         setEmailCheck(true);
                         setEmailError(false);
                         alert("이메일 인증에 성공했습니다.");
@@ -159,7 +159,7 @@ const SignUp = () => {
             axios.post('http://localhost:8080/signup/duplicate-check', userNickname)
             .then(response => {
                 const data = response.data
-                if(data.result === true){
+                if(data.result === false){
                     alert("사용할 수 있는 닉네임입니다.");
                     setNicknameCheck(true);
                     setNicknameError(false);

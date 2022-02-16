@@ -34,6 +34,9 @@ const InformationShareWritePage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
+    //사진 첨부
+    const [imgFile, setImgFile] = useState(null);
+
     const cinemaNameChange = (e) => {
         if(e.target.value === "영화관"){
             setCinemaNameSelected(false);
@@ -83,36 +86,96 @@ const InformationShareWritePage = () => {
 
     //const userId = useSelector(state => state.user.user_id);
 
+    //글쓰기 버튼 눌렀을 때
     const writeClick = () => {
         if (title === "" || content === ""){
             alert("내용을 입력해주세요.");
         }
-        else {
-            const body = {
-                user_id : "1",
-                title: title,
-                cinema_name : cinemaName,
-                cinema_area: cinemaArea,
-                cinema_branch: cinemaBranch,
-                content: content,
-                image_url: "이미지url",
-            }
-            axios.post('http://localhost:8080/information-share/write', body)
-            .then(response => {
-                if(response.data.result) {
-                    alert("게시글이 성공적으로 작성되었습니다.");
-                    navigation('/informationShare');
-                }
-                else {
-                    alert("게시글 작성을 실패했습니다.")
-                }
-            })
-            .catch(error => console.log(error));
+        else if (cinemaName === "영화관" || cinemaArea === "지역" || cinemaBranch === "지점"){
+            alert("지점까지 선택해주세요.")
         }
+        else {
+            const fd = new FormData();
+
+            //이미지 파일 없을 때
+            if(imgFile === null){
+                fd.append("user_id", "1");
+                fd.append("title", title);
+                fd.append("cinema_name", cinemaName);
+                fd.append("cinema_area", cinemaArea);
+                fd.append("cinema_branch", cinemaBranch);
+                fd.append("content", content);
+
+                axios.post('http://localhost:8080/information-share/write', fd, {
+                    headers: {
+                        "Content-Type": `multipart/form-data; `,
+                    }
+                })
+                .then(response => {
+                    if(response.data.result) {
+                        alert("게시글이 성공적으로 작성되었습니다.");
+                        navigation('/informationShare');
+                    }
+                    else {
+                        alert("게시글 작성을 실패했습니다.")
+                    }
+                })
+                .catch(error => console.log(error));
+            }
+            //이미지 파일 없을 때
+            else {
+                fd.append("image_url", imgFile[0])
+                fd.append("user_id", "1");
+                fd.append("title", title);
+                fd.append("cinema_name", cinemaName);
+                fd.append("cinema_area", cinemaArea);
+                fd.append("cinema_branch", cinemaBranch);
+                fd.append("content", content);
+
+                axios.post('http://localhost:8080/information-share/write', fd, {
+                    headers: {
+                        "Content-Type": `multipart/form-data; `,
+                    }
+                })
+                .then(response => {
+                    if(response.data.result) {
+                        alert("게시글이 성공적으로 작성되었습니다.");
+                        navigation('/informationShare');
+                    }
+                    else {
+                        alert("게시글 작성을 실패했습니다.")
+                    }
+                })
+                .catch(error => console.log(error));
+            }
+        }
+
+
     }
 
     const titleChange = (e) => {
         setTitle(e.target.value);
+    }
+
+    const handleChangeFile = (e) => {
+        console.log(e.target.files)
+        setImgFile(e.target.files);
+    }
+
+    useEffect(() => {
+        preview();
+        return () => preview();
+    })
+
+    const preview = () => {
+        if(!imgFile) return false;
+
+        const imgEl = document.querySelector('.preview');
+        const reader = new FileReader();
+        reader.onloadend = () => (
+            imgEl.style.backgroundImage = `url(${reader.result})`
+        )
+        reader.readAsDataURL(imgFile[0]);
     }
 
     return(
@@ -139,7 +202,8 @@ const InformationShareWritePage = () => {
         </select> : null
         }
 
-        <button>사진 첨부</button>
+        <div className="preview" style={{width:"100px", height:"100px"}}></div>
+        <input type="file" onChange={handleChangeFile} multiple="multiple"/>
         <div>
         <input type="textarea" style={{width: "400px", height:"200px"}} onChange={contentChange} value={content}/>
         </div>

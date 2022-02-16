@@ -134,7 +134,7 @@ const InformationShareDetailPage = () => {
         <h2>{detailInfo.title}</h2>
         <div>{detailInfo.nickname}, {detailInfo.written_date}, {detailInfo.views}</div>
         <div>{detailInfo.cinema_name}, {detailInfo.cinema_area}, {detailInfo.cinema_branch}</div>
-        <div>{detailInfo.image_url !== "" ? detailInfo.image_url : null}</div>
+        <div>{detailInfo.image_url !== "" ? <img src={detailInfo.image_url}/> : null}</div>
         <div>{detailInfo.content}</div>
         <div>
             {detailInfo.is_mine ? <button onClick={deleteClick}>삭제</button> : null}

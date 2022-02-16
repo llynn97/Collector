@@ -5,17 +5,14 @@ import style from "../../css/InformationShares.module.css"
 import { useSelector } from "react-redux";
 
 const InformationShares = ({infos}) => {
-    const [posts, setPosts] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
 
     useEffect(()=>{
-        setPosts(infos);
+
     },[])
 
-    useEffect(()=>{
-    },[posts])
 
     return (
     <div className={style.layout}>
@@ -34,7 +31,7 @@ const InformationShares = ({infos}) => {
             </select>
         </label>
         <main>
-            {posts.slice(offset, offset + limit).map((item, index) => (
+            {infos.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <Link to={`/informationShare/${item.post_id}`}>
             {item.title}
@@ -44,7 +41,7 @@ const InformationShares = ({infos}) => {
         </main>
 
         <footer>
-            <Pagination total={posts.length}
+            <Pagination total={infos.length}
             limit={limit}
             page={page}
             setPage={setPage}/>

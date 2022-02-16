@@ -29,11 +29,11 @@ const DMList = () => {
 
     }, [DMList])
 
-    const DMListClick = (roomid, e) => {
-        setSelectedDM(roomid);
+    const DMListClick = (selectedRoom, e) => {
+        setSelectedDM(selectedRoom);
         dispatch({
             type:SELECTED_DM,
-            payload:roomid,
+            payload:selectedRoom,
         })
     }
 
