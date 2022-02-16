@@ -18,6 +18,7 @@ import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class MessageService {
     private final FireBaseService fireBaseService;
 
 
-
+    @Transactional
    public void saveMessage(DirectMessage message) throws IOException, FirebaseAuthException {
        Message message1=new Message();
        Long user_id = message.getUser_id();
@@ -62,13 +63,13 @@ public class MessageService {
        }
 
 
-
-       content_detail.setMessage(message1);
+       //content_detail.setMessage(message1);
        message1.setContent_detail(content_detail);
-       user.getMessages().add(message1);
        message1.setUser(user);
-       chat_room.getMessages().add(message1);
+       //user.getMessages().add(message1);
        message1.setChat_room(chat_room);
+       //chat_room.getMessages().add(message1);
+
        messageRepository.save(message1);
    }
 

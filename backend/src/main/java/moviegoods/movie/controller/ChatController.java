@@ -22,6 +22,7 @@ import moviegoods.movie.service.MessageService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,8 +38,17 @@ public class ChatController {
     private final MessageService messageService;
     private final FireBaseService fireBaseService;
 
+    @GetMapping("/detail2")
+    public Result saveMessage2(@RequestBody DirectMessage message) throws IOException, FirebaseAuthException {
+
+        messageService.saveMessage(message);
+        Result result=new Result();
+        result.setResult(true);
+        return result;
+
+    }
      @MessageMapping("/chat/message")
-    public void message(DirectMessage message) throws IOException, FirebaseAuthException {
+    public void message(@RequestBody DirectMessage message) throws IOException, FirebaseAuthException {
         // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
           //   message.setContent(message.getNickname() + "입장");
 
@@ -46,10 +56,35 @@ public class ChatController {
          messageService.saveMessage(message);
 
 
-         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
 
+         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
+         //pub/direct-message/chat/message
 
      }
+
+   /* @MessageMapping("/chat/message")
+    public void message2(@RequestParam (value = "user_id")String id, @RequestParam(value ="content" )String content,
+                         @RequestParam(value = "nickname")String nickname, @RequestParam(value = "chat_room_id")String room_id,
+                         @RequestParam(value = "image_url",required = false)MultipartFile file) throws IOException, FirebaseAuthException {
+        // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
+        //   message.setContent(message.getNickname() + "입장");
+
+        //}
+        DirectMessage message=new DirectMessage();
+        Long chat_room_id=Long.valueOf(room_id);
+        Long user_id=Long.valueOf(id);
+        message.setChat_room_id(chat_room_id);
+        message.setContent(content);
+        message.setImage_url(file);
+        message.setNickname(nickname);
+        message.setUser_id(user_id);
+        messageService.saveMessage(message);
+
+
+
+        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
+
+    }*/
 
 
      @PostMapping("/detail")
