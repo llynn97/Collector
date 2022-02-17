@@ -18,19 +18,6 @@ const EventDetailPage = () => {
 
     const [thisEvent, setThisEvent] = useState({});
 
-    const data = {
-        event_id: IDBKeyRange,
-        cinema_name: "CGV",
-        title: "해적 사은품 증정",
-        detail_image_url: "이미지url",
-        link_url: "http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=33955&menu=001",
-        start_date: "2022-02-02",
-        end_date: "2022-02-03",
-        like_count: 10,
-        is_like: true,
-    }
-    // const date = new Date()
-    // console.log(date.getFullYear());
 
     useEffect(()=>{
         axios.get('http://localhost:8080/events/detail', {
@@ -60,10 +47,10 @@ const EventDetailPage = () => {
             좋아요 수 : {thisEvent.like_count}
         </div>
         <div>
-            {thisEvent.is_like ? <div>나의 좋아요 : O</div> : <div>나의 좋아요 : X</div>}
+            {thisEvent.is_like ? <button>나의 좋아요 : O</button> : <button>나의 좋아요 : X</button>}
         </div>
         <div>
-            {thisEvent.detail_image_url}
+            <img src={thisEvent.detail_image_url}/>
         </div>
         <div>
             <button onClick={() => window.open(thisEvent.link_url, '_blank')}>자세히 보기</button>

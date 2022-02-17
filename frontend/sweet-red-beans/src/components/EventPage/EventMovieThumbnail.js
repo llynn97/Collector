@@ -13,7 +13,7 @@ const EventMovieThumbnail = ({event}) => {
             {event.title}, {event.start_date} ~ {event.end_date}, {event.cinema_name}
         </div>
         <div>
-            {event.is_like ? <div>좋아요O</div> : <div>좋아요X</div>}
+            {event.is_like ? <button>좋아요O</button> : <button>좋아요X</button>}
         </div>
         </Link>
         

@@ -22,6 +22,9 @@ const DMDetail = ({selectedRoom}) => {
     //초기값 selectedRoom.is_complete로 설정하기
     const [complete, setComplete] = useState(false);
 
+    const messagesRef = useRef([]);
+    const [a, setA] = useState(false);
+
     const openModal = () => {
         setModalOpen(true);
     };
@@ -29,34 +32,40 @@ const DMDetail = ({selectedRoom}) => {
         setModalOpen(false);
     };
 
-    let socket = new WebSocket('ws://localhost:8080/ws-stomp');
+    let socket = new SockJS('http://localhost:8080/ws-stomp');
     
     //서버와 연결됐을 때
-    socket.onopen = (e) => {
-        stompClient = Stomp.over(socket);
-        console.log("open server!!!!");
+    useEffect(() => {
+        socket.onopen = (e) => {
+            stompClient = Stomp.over(socket);
+            console.log("open server!!!!");
+    
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                //입장에 대한 구독
+                stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, function(response) {
+                    console.log(response);
+                });
+                //메시지 전달 구독
+                stompClient.subscribe('/sub/chat/message', function(response) {
+                    console.log(response);
+                });
+                
+            })
+        }
+        return () => {
+            stompClient.disconnect();
+        }
+    },[])
 
-        stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            //입장에 대한 구독
-            stompClient.subscribe('/sub/chat/room/' + "1", function(response) {
-                console.log(response);
-            });
-            //메시지 전달 구독
-            // stompClient.subscribe('/sub/chat/message', function(response) {
-            //     console.log(response);
-            // });
-            
-        })
-    }
 
     //에러 발생했을 때
-    socket.onerror = () => {
-
+    socket.onerror = (e) => {
+        console.log(e);
     }
 
     socket.onmessage = (e) => {
-        console.log(e.data);
+        console.log(e);
     }
 
     const sendMessage = (message) => {
@@ -92,7 +101,7 @@ const DMDetail = ({selectedRoom}) => {
         sendMessage(ms);
         const content = {
             message_content:ms,
-            nickname:"aaa",
+            nickname:"민지",
             written_date:new Date(),
         }
         setMList([...mList, content]);
@@ -119,7 +128,7 @@ const DMDetail = ({selectedRoom}) => {
         })
         .catch(error => console.log(error))
         
-    }, [selectedRoom.chat_room_id])
+    }, [selectedRoom])
 
     //신뢰도 +1 주는 버튼
     const reliabilityPlusClick = () => {
@@ -203,20 +212,32 @@ const DMDetail = ({selectedRoom}) => {
         
     }
 
-    const scrollRef = useRef();
+    useEffect(() => {
+        setA(false);
+        //messagesRef.current[].scrollintoview();
+        
+        //
+        //messagesRef.current.scrollintoview();
+        //messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
 
-//     const scrollToBottom = useCallback(() => {
-//         if (ms) {
-//         // 스크롤 내리기
-//         scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-//         }
-//     }, [ms]);
+        return () => {
+            setA(true);
+        }
+    }, [mList]);
 
-//   useEffect(() => {
+    // if(setA){
+    //     console.log("true임");
+    //     console.log(messagesRef.current);
+    //     if(messagesRef.current !== null){
+    //         //messagesRef.current.scrollintoview();
+    //     }
+    // }
 
-//   }, [mList])
+    // const handleShow = (index) => {
+    //     console.log(messagesRef[index]);
+    //     messagesRef[index].current.scrollintoview();
+    // }
 
-       
 
     return (
         <>
@@ -231,14 +252,18 @@ const DMDetail = ({selectedRoom}) => {
 
         </Modal>
         <h2>DM 메시지 창</h2>
-        <div style={{width:"200px", height:"300px"}} ref={scrollRef}>
+        <div style={{width:"200px", height:"300px"}}>
             {selectedRoom.chat_room_id}, 메시지 내용 올라오는 곳
             <div>
                 닉네임, 신뢰도 : 0
                 <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
                 <button onClick={openModal}>신고하기</button>
             </div>
-            {mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)}
+            <div style={{width:"200px", height:"200px"}}>
+                {mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)}
+            </div>
+            
+            
             {
             //detailMessages.map((item, index) => <div key={index}>{item.nickname}</div>)
             }

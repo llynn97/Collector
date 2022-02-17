@@ -52,7 +52,7 @@ const MovieThumbnail = ({cinemaName}) => {
                     <div>{item.start_date} ~ {item.end_date}</div>
                     </Link>
                     <div>
-                        {item.is_like ? <div>좋아요O</div> : <div>좋아요X</div>}
+                        {item.is_like ? <button>좋아요O</button> : <button>좋아요X</button>}
                     </div>
                     </Fragment>   
                 );  
