@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
+import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
 import moviegoods.movie.service.MessageRoomService;
 import moviegoods.movie.service.MessageService;
 import org.springframework.http.HttpStatus;
@@ -32,11 +33,11 @@ public class ChatRoomController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, List<Long>>> directMessageList (@RequestParam Long user_id) {
-        List<Long> roomsList = messageRoomService.findMessageRooms(user_id);
-        Map<String, List<Long>> roomsListJson = new HashMap<>();
+    public ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> directMessageList (@RequestParam Long user_id) {
+        List<DirectMessageListResponseDto> roomsList = messageRoomService.findMessageRooms(user_id);
+        Map<String, List<DirectMessageListResponseDto>> roomsListJson = new HashMap<>();
         roomsListJson.put("room_id", roomsList);
-        ResponseEntity<Map<String, List<Long>>> result = new ResponseEntity<>(roomsListJson, HttpStatus.OK);
+        ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> result = new ResponseEntity<>(roomsListJson, HttpStatus.OK);
         return result;
     }
 
