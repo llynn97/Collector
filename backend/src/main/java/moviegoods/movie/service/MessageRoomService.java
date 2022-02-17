@@ -14,9 +14,7 @@ import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -32,34 +30,45 @@ public class MessageRoomService {
         Chat_Room chat_room = new Chat_Room();
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
-        Transaction relatedTransaction = transactionRepository.getById(requestDto.getTransaction_id());
-        Long writer_id = relatedTransaction.getUser().getUser_id();
-        User user = userRepository.getById(requestDto.getUser_id());
-        User writerUser = userRepository.getById(writer_id);
-        chat_room.setTransaction(relatedTransaction);
-        Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
 
-        Chat_Room_Join chat_room_join = new Chat_Room_Join();
-        chat_room_join.setChat_room(savedMessageRoom);
-        chat_room_join.setUser(user);
-        Chat_Room_Join chat_room_join_Writer = new Chat_Room_Join();
-        chat_room_join_Writer.setChat_room(savedMessageRoom);
-        chat_room_join_Writer.setUser(writerUser);
-        chatRoomJoinRepository.save(chat_room_join);
-        chatRoomJoinRepository.save(chat_room_join_Writer);
+        Optional<Transaction> relatedTransaction = transactionRepository.findById(requestDto.getTransaction_id());
+        if(relatedTransaction.isPresent()) {
+            Transaction transaction = relatedTransaction.get();
+            Long writer_id = transaction.getUser().getUser_id();
+            User user = userRepository.getById(requestDto.getUser_id());
+            User writerUser = userRepository.getById(writer_id);
+            chat_room.setTransaction(transaction);
+            Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
 
-        List<Chat_Room_Join> user_chat_room_join = user.getChat_room_joins();
-        user_chat_room_join.add(chat_room_join);
-        List<Chat_Room_Join> writer_chat_room_joins = writerUser.getChat_room_joins();
-        writer_chat_room_joins.add(chat_room_join_Writer);
+            Chat_Room_Join chat_room_join = new Chat_Room_Join();
+            chat_room_join.setChat_room(savedMessageRoom);
+            chat_room_join.setUser(user);
+            Chat_Room_Join chat_room_join_Writer = new Chat_Room_Join();
+            chat_room_join_Writer.setChat_room(savedMessageRoom);
+            chat_room_join_Writer.setUser(writerUser);
+            chatRoomJoinRepository.save(chat_room_join);
+            chatRoomJoinRepository.save(chat_room_join_Writer);
 
-        DirectMessageCreateRoomResponseDto responseDto =
-                new DirectMessageCreateRoomResponseDto(true,
-                        savedMessageRoom.getChat_room_id(),
-                        user.getUser_id(),
-                        writer_id);
+            List<Chat_Room_Join> user_chat_room_join = user.getChat_room_joins();
+            user_chat_room_join.add(chat_room_join);
+            List<Chat_Room_Join> writer_chat_room_joins = writerUser.getChat_room_joins();
+            writer_chat_room_joins.add(chat_room_join_Writer);
 
-        return responseDto;
+            DirectMessageCreateRoomResponseDto responseDto =
+                    new DirectMessageCreateRoomResponseDto(true,
+                            savedMessageRoom.getChat_room_id(),
+                            user.getUser_id(),
+                            writer_id);
+
+            return responseDto;
+
+        }
+        else {
+            DirectMessageCreateRoomResponseDto responseDto =
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+
+            return responseDto;
+        }
     }
 
     public List<Long> findMessageRooms(Long user_id) {

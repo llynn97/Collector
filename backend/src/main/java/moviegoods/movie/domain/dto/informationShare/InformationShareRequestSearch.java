@@ -1,13 +1,10 @@
 package moviegoods.movie.domain.dto.informationShare;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class InformationShareSearchRequestDto {
+public class InformationShareRequestSearch {
     private String search_word;
     private String cinema_name;
     private String cinema_area;

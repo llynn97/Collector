@@ -10,7 +10,10 @@ import moviegoods.movie.service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,17 +32,22 @@ public class ChatRoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Long>> directMessageList (@RequestParam Long user_id) {
+    public ResponseEntity<Map<String, List<Long>>> directMessageList (@RequestParam Long user_id) {
         List<Long> roomsList = messageRoomService.findMessageRooms(user_id);
-        ResponseEntity<List<Long>> result = new ResponseEntity<>(roomsList, HttpStatus.OK);
+        Map<String, List<Long>> roomsListJson = new HashMap<>();
+        roomsListJson.put("room_id", roomsList);
+        ResponseEntity<Map<String, List<Long>>> result = new ResponseEntity<>(roomsListJson, HttpStatus.OK);
         return result;
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<List<DirectMessageDetailResponseDto>> detail (@RequestParam Long room_id) {
+    public ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> detail (@RequestParam Long room_id) {
         List<DirectMessageDetailResponseDto> messagesList = messageService.show(room_id);
+        Map<String, List<DirectMessageDetailResponseDto>> messagesListJson = new HashMap<>();
 
-        ResponseEntity<List<DirectMessageDetailResponseDto>> result = new ResponseEntity<>(messagesList, HttpStatus.OK);
+        messagesListJson.put("message", messagesList);
+
+        ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> result = new ResponseEntity<>(messagesListJson, HttpStatus.OK);
         return result;
     }
 

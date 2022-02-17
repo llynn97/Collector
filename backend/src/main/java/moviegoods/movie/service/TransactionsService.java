@@ -102,6 +102,7 @@ public class TransactionsService {
             if (check == 1) {
                 linking_word = "and ";
             }
+            log.info("check={},searchJpql={}", check, searchJpql);
             searchJpql += linking_word+ "t.status = '진행중' ";
         }
 
@@ -177,7 +178,6 @@ public class TransactionsService {
 
     @Transactional(rollbackFor = Exception.class)
     public ResultResponseDto report(TransactionsReportRequestDto requestDto) {
-        // 신고자 아이디 저장할건가??, 신고글 작성안해???, 본인이 본인글 신고가능?, 중복 신고 가능?
         Long user_id = requestDto.getUser_id();
         Long transaction_id = requestDto.getTransaction_id();
         String content = requestDto.getContent();
@@ -193,6 +193,7 @@ public class TransactionsService {
         resultResponseDto.setResult(true);
 
         return resultResponseDto;
+
     }
 
 }
