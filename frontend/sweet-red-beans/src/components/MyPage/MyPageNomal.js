@@ -5,15 +5,21 @@ import { useDispatch } from "react-redux";
 import { MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "../../actions/types";
 
 const MyPageNomal = () => {
+    //서버에서 받아온 정보들 저장하기
     const [profileImage, setProfileImage] = useState("");
     const [nickname, setNickname] = useState("");
     const [reliability, setReliability] = useState("");
+
+    //하위 메뉴들
     const [myMenu, setMyMenu] = useState(0); 
     const myList = ["내가 관심있는 이벤트", "내가 쓴 거래", "내가 좋아요 한 거래", "내가 쓴 글", "내가 쓴 댓글"];
 
+    //프로필 수정
     const [hide, setHide] = useState(true);
-
+    //이미지 불러오기
     const [imgFile, setImgFile] = useState(null);
+    //닉네임 변경용
+    const [nicknameModify, setNicknameModify] = useState("");
 
     //닉네임 중복 확인이 성공적으로 됐을 때 true
     const [nicknameCheck, setNicknameCheck] = useState(false);
@@ -29,8 +35,8 @@ const MyPageNomal = () => {
                 }
         })
         .then(response => {
-            console.log(response.data.user.profile_url);
             setNickname(response.data.user.nickname);
+            setNicknameModify(response.data.user.nickname);
             setProfileImage(response.data.user.profile_url);
             setReliability(response.data.user.reliability);
             dispatch({
@@ -59,36 +65,6 @@ const MyPageNomal = () => {
             })
         })
         .catch(error => console.log(error));
-
-    // setNickname("현정");
-    // setProfileImage("https://w.namu.la/s/43a3472858577498e23c3701af9afad33de29d4a6235e3a9e8442af0c61ea63a6a688e30777396471edc221e21671196cd0f9d8d1ea0ca3c970d7cbc45dae1ba4e82c9f0b4199882ace03d432167f521");
-    // setReliability(3);
-    // dispatch({
-    //     type:MYPAGE_USER,
-    //     payload:["닉네임", "프로필url", "3(신뢰도)"]
-    // })
-    // dispatch({
-    //     type:MYPAGE_TRANSACTIONS,
-    //     payload:[{transaction_id:1, content:"나의 거래 내용", written_date:"22-02-15", nickname:"현정", reliability:3, is_mine: true, status:"진행중"}]
-    // })
-    // dispatch({
-    //     type:MYPAGE_COMMENTS,
-    //     payload:[{comment_id:1, comment_content:"댓글 내용", written_date:"22-02-01"}]
-    // })
-    // dispatch({
-    //     type:MYPAGE_EVENTS,
-    //     payload:[{event_id:1, event_title:"이벤트 제목", thumbnail_url:"썸네일url"}, {event_id:2, event_title:"이벤트 제목2", thumbnail_url:"썸네일url2"}, {event_id:3, event_title:"이벤트 제목3", thumbnail_url:"썸네일url3"}]
-    // })
-    // dispatch({
-    //     type:MYPAGE_POSTS,
-    //     payload:[{post_id:1, title:"제목", written_date:"22-02-14", category:"정보공유", content:"안녕하세요"}]
-    // })
-    // dispatch({
-    //     type:MYPAGE_LIKE_TRANSACTIONS,
-    //     payload:[{transaction_id:1, content:"거래 내용", written_date:"22-02-15", nickname:"민지", reliability:2, is_mine: false, status:"진행중"},
-    //     {transaction_id:2, content:"거래 내용2", written_date:"22-02-16", nickname:"다은", reliability:5, is_mine: false, status:"마감"}]
-    // })
-
     }, [])
 
     //메뉴 선택
@@ -99,6 +75,8 @@ const MyPageNomal = () => {
     //프로필 변경 버튼 눌렀을 때
     const profileChangeClick = () => {
         setHide(false);
+        setNicknameCheck(false);
+        setNicknameError(false);
     }
 
     //프로필 변경 취소 버튼 눌렀을 때
@@ -108,29 +86,69 @@ const MyPageNomal = () => {
 
     //프로필 변경 완료 버튼 눌렀을 때
     const profileCompleteClick = () => {
-        console.log(imgFile);
-        setHide(true);
-        const fd = new FormData();
-        fd.append("file", imgFile[0])
-        fd.append("user_id", "1")
 
-        axios.patch('http://localhost:8080/mypage/profile', fd, {
-            headers: {
-                "Content-Type": `multipart/form-data; `,
-            }
+        
+        const fd = new FormData();
+
+        //프로필 사진 바뀌었을 때
+        if(imgFile!==null){
+            fd.append("file", imgFile[0])
+            fd.append("user_id", "1")
+            axios.patch('http://localhost:8080/mypage/profile', fd, {
+                headers: {
+                    "Content-Type": `multipart/form-data; `,
+                }
             })
-        .then((response) => {
-        if(response.data){
-            console.log(response.data)
+            .then((response) => {
+                if(response.data){
+                    setImgFile(null);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            setHide(true);
         }
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+
+        //닉네임 바뀌었을 때
+        if (nickname !== nicknameModify){
+            
+            if(!nicknameCheck){
+                console.log("체크 안함");
+                alert("중복체크를 해주세요")
+                return setNicknameError(true);
+            }
+            else {
+                fd.append("nickname", nicknameModify)
+                fd.append("user_id", "1")
+                // axios.patch('http://localhost:8080/mypage/nickname', fd, {
+                //     headers: {
+                //         "Content-Type": `multipart/form-data; `,
+                //     }
+                // })
+                axios.patch('http://localhost:8080/mypage/nickname', {
+                    params: {
+                        nickname: nicknameModify,
+                        user_id: "1",
+                    }
+                })
+                .then((response) => {
+                if(response.data){
+                    console.log("닉네임 변경됨");
+                    //닉네임 변경되면 변경된 닉네임으로 바꿔줌
+                    setNickname(nicknameModify);
+                }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                setHide(true);
+            }
+        }
     }
+    
 
     const handleChangeFile = (e) => {
-        console.log(e.target.files)
         setImgFile(e.target.files);
     }
 
@@ -152,8 +170,40 @@ const MyPageNomal = () => {
         reader.readAsDataURL(imgFile[0]);
         
     }
-    const nicknameChange = (e) => {
-        setNickname(e.target.value);
+    const nicknameModifyChange = (e) => {
+        setNicknameModify(e.target.value);
+    }
+
+    useEffect(() => {
+    }, [profileImage])
+
+    useEffect(() => {
+        console.log(nicknameCheck);
+    }, [nicknameCheck])
+
+    //중복확인 버튼 누를 때
+    const nicknameModifyClick = () => {
+        //바뀌었을 때
+        if(nickname !== nicknameModify) {
+            const userNickname = {nickname: nicknameModify};
+            axios.post('http://localhost:8080/mypage/duplicate-check', userNickname)
+            .then(response => {
+                const data = response.data
+                if(data.result === false){
+                    alert("사용할 수 있는 닉네임입니다.");
+                    setNicknameCheck(true);
+                    setNicknameError(false);
+                }
+                else{
+                    alert("사용할 수 없는 닉네임입니다.");
+                }
+            })
+        }
+        else {
+            //바뀌지 않았으면 닉네임 중복 체크 안 해도 됨
+            setNicknameCheck(true);
+            setNicknameError(false);
+        }
     }
 
     return (
@@ -166,15 +216,14 @@ const MyPageNomal = () => {
         </div>
         : null}
 
-        
-
         {
             !hide?
             <div>
                 <div className="preview" style={{width:"100px", height:"100px", backgroundImage:{profileImage}}}></div>
                 <input type="file" onChange={handleChangeFile} multiple="multiple"/>
-                <input type="text" placeholder="닉네임" onChange={nicknameChange} value={nickname}/>
-                <button>중복 확인</button>
+                <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
+                <button onClick={nicknameModifyClick}>중복 확인</button>
+                {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
                 <button onClick={profileCompleteClick}>완료</button>
                 <button onClick={profileCancelClick}>취소</button>
             </div>

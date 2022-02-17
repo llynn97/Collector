@@ -28,7 +28,7 @@ const DMPage = () => {
         <div>
             <DMList/>
         </div>
-        {useMemo(() => (selectedRoomId !== "none" ? <DMDetail roomId={selectedRoomId}/> : null), [selectedRoomId])}
+        {useMemo(() => (selectedRoomId !== "none" ? <DMDetail selectedRoom={selectedRoomId}/> : null), [selectedRoomId])}
         </>
     );
 }

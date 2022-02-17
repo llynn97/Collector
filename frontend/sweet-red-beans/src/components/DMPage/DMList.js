@@ -19,6 +19,7 @@ const DMList = () => {
                 }
         })
         .then(response => {
+            console.log(response.data);
             setDMList(response.data.room_id)
         })
         .catch(error => console.log(error));

@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, useMemo} from "react";
+import React, {useState, useCallback, useEffect, useMemo, useRef} from "react";
 import * as StompJs from '@stomp/stompjs';
 import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
@@ -10,7 +10,7 @@ let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
-const DMDetail = ({roomId}) => {
+const DMDetail = ({selectedRoom}) => {
     const [ms, setMs] = useState("");
     const [mList, setMList] = useState([]);
     const [detailMessages, setDetailMessages] = useState([]);
@@ -63,7 +63,7 @@ const DMDetail = ({roomId}) => {
         stompClient.send("/pub/chat/message", {}, JSON.stringify({
             content : message,
             user_id : "1",
-            chat_room_id: roomId,
+            chat_room_id: selectedRoom.chat_room_id,
             nickname: "민지",
         }))
 
@@ -109,7 +109,7 @@ const DMDetail = ({roomId}) => {
     useEffect(() => {
         axios.get("http://localhost:8080/direct-message/detail", {
             params:{
-                room_id: roomId
+                room_id: selectedRoom.chat_room_id,
             }
         })
         .then(response => {
@@ -119,25 +119,25 @@ const DMDetail = ({roomId}) => {
         })
         .catch(error => console.log(error))
         
-    }, [roomId])
+    }, [selectedRoom.chat_room_id])
 
     //신뢰도 +1 주는 버튼
     const reliabilityPlusClick = () => {
         //신뢰도 1 주기
 
-        // const body = {
-        //     user_id: selectedRoom.not_mine_id
-        // }
-        // axios.post('http://localhost:8080/direct-message/reliability', body)
-        // .then(response => {
-        //     if(response.data.result){
-        //         alert("상대방의 신뢰도가 올랐습니다.")
-        //     }
-        //     else {
-        //         alert("신뢰도를 올리는 데 실패했습니다.")
-        //     }
-        // })
-        // .catch(error => console.log(error));
+        const body = {
+            user_id: selectedRoom.not_mine_id
+        }
+        axios.post('http://localhost:8080/direct-message/reliability', body)
+        .then(response => {
+            if(response.data.result){
+                alert("상대방의 신뢰도가 올랐습니다.")
+            }
+            else {
+                alert("신뢰도를 올리는 데 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
     }
 
     const reportContentChange = (e) => {
@@ -148,7 +148,7 @@ const DMDetail = ({roomId}) => {
     const reportConfirm = () => {
         const body = {
             user_id : "1",
-            transaction_id : "1",
+            transaction_id : selectedRoom.transaction_id,
             report_content : reportContent,
         }
         axios.post('http://localhost:8080/direct-message/report', body)
@@ -188,7 +188,7 @@ const DMDetail = ({roomId}) => {
     //거래완료 버튼 눌렀을 때
     const completeClick = () => {
         const body = {
-            transaction_id: "1",
+            transaction_id: selectedRoom.transaction_id,
         }
         axios.post('http://localhost:8080/direct-message/transaction-complete', body)
         .then(response => {
@@ -203,6 +203,21 @@ const DMDetail = ({roomId}) => {
         
     }
 
+    const scrollRef = useRef();
+
+//     const scrollToBottom = useCallback(() => {
+//         if (ms) {
+//         // 스크롤 내리기
+//         scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+//         }
+//     }, [ms]);
+
+//   useEffect(() => {
+
+//   }, [mList])
+
+       
+
     return (
         <>
         <Modal open={modalOpen} close={closeModal} header="로그인">
@@ -216,8 +231,8 @@ const DMDetail = ({roomId}) => {
 
         </Modal>
         <h2>DM 메시지 창</h2>
-        <div style={{width:"200px", height:"300px"}}>
-            {roomId}, 메시지 내용 올라오는 곳
+        <div style={{width:"200px", height:"300px"}} ref={scrollRef}>
+            {selectedRoom.chat_room_id}, 메시지 내용 올라오는 곳
             <div>
                 닉네임, 신뢰도 : 0
                 <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
