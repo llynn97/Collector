@@ -30,8 +30,10 @@ public class InformationShareController {
     private final InformationShareService informationShareService;
     private final FireBaseService fireBaseService;
 
+
+
     @PostMapping("/write")
-    public Result write2(@RequestParam(value="image_url",required = false) MultipartFile image_url,
+    public Result write2(@RequestParam(value="image_url",required = false)MultipartFile image_url,
                          @RequestParam(value="cinema_name")String cinema_name,
                          @RequestParam(value="cinema_area")String cinema_area,
                          @RequestParam(value="cinema_branch")String cinema_branch,

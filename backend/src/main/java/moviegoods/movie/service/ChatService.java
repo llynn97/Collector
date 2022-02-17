@@ -18,6 +18,7 @@ import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MessageService {
+public class ChatService {
 
     private final UserRepository informationShareUserRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -41,7 +42,7 @@ public class MessageService {
     private final FireBaseService fireBaseService;
 
 
-
+    @Transactional
     public void saveMessage(DirectMessage message) throws IOException, FirebaseAuthException {
         Message message1=new Message();
         Long user_id = message.getUser_id();
@@ -62,37 +63,35 @@ public class MessageService {
         }
 
 
-
-        content_detail.setMessage(message1);
+        //content_detail.setMessage(message1);
         message1.setContent_detail(content_detail);
-        user.getMessages().add(message1);
         message1.setUser(user);
-        chat_room.getMessages().add(message1);
+        //user.getMessages().add(message1);
         message1.setChat_room(chat_room);
+        //chat_room.getMessages().add(message1);
+
         messageRepository.save(message1);
     }
 
     public List<DirectMessageDetailResponseDto> show(Long room_id) {
         List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
+        Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
+        Chat_Room findedRoom = chatRoom.get();
 
-        Optional<Chat_Room> room = chatRoomRepository.findById(room_id);
-        if(room.isPresent()) {
-            Chat_Room findedRoom = room.get();
-            List<Message> messages = findedRoom.getMessages();
-            for (Message message : messages) {
-                Content_Detail content_detail = message.getContent_detail();
-                String content = content_detail.getContent();
-                LocalDateTime written_date = content_detail.getWritten_date();
-                String image_url = message.getImage_url();
+        List<Message> messages = findedRoom.getMessages();
+        for (Message message : messages) {
+            Content_Detail content_detail = message.getContent_detail();
+            String content = content_detail.getContent();
+            LocalDateTime written_date = content_detail.getWritten_date();
+            String image_url = message.getImage_url();
 
-                User user = message.getUser();
-                Long user_id = user.getUser_id();
-                String nickname = user.getNickname();
-                String profile_url = user.getProfile_url();
-                Long reliability = user.getReliability();
+            User user = message.getUser();
+            Long user_id = user.getUser_id();
+            String nickname = user.getNickname();
+            String profile_url = user.getProfile_url();
+            Long reliability = user.getReliability();
 
-                messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
-            }
+            messagesList.add(new DirectMessageDetailResponseDto(content, written_date, image_url, user_id, nickname, profile_url, reliability));
         }
         return messagesList;
     }

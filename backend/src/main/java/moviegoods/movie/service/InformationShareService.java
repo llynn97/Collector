@@ -50,11 +50,14 @@ public class InformationShareService {
         String content=isrw.getContent();
         MultipartFile image_url=isrw.getImage_url();
         String firebaseUrl="";
+        log.info("imageurl={}",image_url);
         if(image_url!=null){
             String nameFile= UUID.randomUUID().toString();
+            //log.info("imageurl={}",image_url);
+
             fireBaseService.uploadFiles(image_url,nameFile);
             firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
-
+            //log.info("firebaseurl={}",firebaseUrl);
         }
 
 
@@ -379,7 +382,6 @@ public class InformationShareService {
 
         Long user_id=isrdd.getUser_id();
         Long post_id=isrdd.getPost_id();
-        log.info("post_id={}",post_id);
 
 
         postRepository.deleteById(post_id);

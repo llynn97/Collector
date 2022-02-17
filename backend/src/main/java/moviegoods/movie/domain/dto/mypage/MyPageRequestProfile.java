@@ -8,4 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class MyPageRequestProfile {
     private MultipartFile profile_image;
     private Long user_id;
+
 }
