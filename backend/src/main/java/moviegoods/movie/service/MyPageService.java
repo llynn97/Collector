@@ -3,7 +3,6 @@ package moviegoods.movie.service;
 
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
-import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.User.User;
@@ -34,7 +33,7 @@ public class MyPageService {
         myPageUserDto.setNickname(user.getNickname());
         myPageUserDto.setProfile_url(user.getProfile_url());
         myPageUserDto.setReliability(user.getReliability());
-        myPageResponseSearch.getUser().add(myPageUserDto);
+        myPageResponseSearch.setUser(myPageUserDto);
 
 
         List<Object[]> row= em.createQuery("select c.comment_id , d.content, d.written_date,p.category,p.post_id from comment c join c.user u left join c.content_detail d left join c.post p where u.user_id =:user_id order by d.written_date DESC").setParameter("user_id",user_id).getResultList();

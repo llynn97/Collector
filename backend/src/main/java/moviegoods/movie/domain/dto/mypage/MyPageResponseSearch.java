@@ -14,7 +14,7 @@ public class MyPageResponseSearch {
     private List<MyPageComment> comment=new ArrayList<>();
     private List<MyPageContent> content=new ArrayList<>();
     private List<MyPageLikeEvent> likeEvent=new ArrayList<>();
-    private List<MyPageUser> user=new ArrayList<>();
+    private MyPageUser user;
     private List<MyPageTransaction> likeTransaction=new ArrayList<>();
     private List<MyPageTransaction> writeTransaction=new ArrayList<>();
 

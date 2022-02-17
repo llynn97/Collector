@@ -2,7 +2,6 @@ package moviegoods.movie.controller;
 
 
 import com.google.firebase.auth.FirebaseAuthException;
-import com.sun.net.httpserver.Authenticator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +12,6 @@ import moviegoods.movie.service.FireBaseService;
 import moviegoods.movie.service.InformationShareService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

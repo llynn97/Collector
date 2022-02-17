@@ -1,17 +1,12 @@
 package moviegoods.movie.controller;
 
 
-import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.service.MyPageService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController
 @Slf4j
@@ -23,7 +18,7 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     @GetMapping
-    public MyPageResponseSearch searchMyPage(@RequestBody MyPageRequestSearch mprs){
+    public MyPageResponseSearch searchMyPage(@ModelAttribute MyPageRequestSearch mprs){
 
         MyPageResponseSearch myPageResponseSearch=myPageService.search(mprs);
 
