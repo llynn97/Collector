@@ -4,6 +4,7 @@ package moviegoods.movie.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.events.EventsLikeRequestDto;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.service.TransactionsService;
 import moviegoods.movie.domain.dto.transactions.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import moviegoods.movie.configure.SessionConfig.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -53,6 +55,12 @@ public class TransactionsController {
     @PostMapping("/report")
     public ResultResponseDto report(@RequestBody TransactionsReportRequestDto requestDto) {
         ResultResponseDto resultResponseDto = transactionsService.report(requestDto);
+        return resultResponseDto;
+    }
+
+    @PostMapping("/like")
+    public ResultResponseDto like(@RequestBody TransactionsLikeRequestDto requestDto) throws ParseException {
+        ResultResponseDto resultResponseDto = transactionsService.like(requestDto);
         return resultResponseDto;
     }
 }

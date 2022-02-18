@@ -19,21 +19,16 @@ public class MyPageController {
 
     @GetMapping
     public MyPageResponseSearch searchMyPage(@ModelAttribute MyPageRequestSearch mprs){
-
         MyPageResponseSearch myPageResponseSearch=myPageService.search(mprs);
 
         return myPageResponseSearch;
     }
 
 
-
-
-
     @PatchMapping("/profile")
     public Result updateProfile(@RequestParam(value="file",required = false)MultipartFile file,
                                 @RequestParam(value="user_id",required = false)String id)throws Exception{
         Long user_id=Long.valueOf(id);
-
 
         MyPageRequestProfile mprp=new MyPageRequestProfile();
         mprp.setProfile_image(file);

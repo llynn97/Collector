@@ -2,12 +2,16 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.events.*;
 import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Event.EventRepository;
-import moviegoods.movie.domain.dto.events.EventsDetailRequestDto;
-import moviegoods.movie.domain.dto.events.EventsDetailResponseDto;
-import moviegoods.movie.domain.dto.events.EventsSearchRequestDto;
-import moviegoods.movie.domain.dto.events.EventsSearchResponseDto;
+import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
+import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
+import moviegoods.movie.domain.entity.Report.Report;
+import moviegoods.movie.domain.entity.Transaction.Transaction;
+import moviegoods.movie.domain.entity.User.User;
+import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +23,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static moviegoods.movie.domain.entity.Transaction.Status.마감;
+import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class EventsService {
 
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
     private final LikeBasketsService likeBasketsService;
+    private final LikeBasketRepository likeBasketRepository;
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
@@ -128,4 +137,34 @@ public class EventsService {
 
         return result;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public ResultResponseDto like(EventsLikeRequestDto requestDto) throws ParseException {
+
+        Long event_id = requestDto.getEvent_id();
+        Long user_id = requestDto.getUser_id();
+
+        Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
+        Event event = eventRepository.findById(event_id).orElseThrow(() -> new IllegalArgumentException("해당 이벤트가 없습니다. event_id = "+ event_id));
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ user_id));
+
+        Boolean result = false;
+        if (Objects.equals(is_like,false)) {
+            Like_Basket saveEntity=Like_Basket.builder().user(user).event(event).build();
+            likeBasketRepository.save(saveEntity);
+            result = true;
+        }
+        if (Objects.equals(is_like, true)) {
+            Long like_basket_id = likeBasketsService.selectLikeEvent(user_id,event_id);
+            result = likeBasketsService.deleteLike(like_basket_id,user_id);
+        }
+
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
+        resultResponseDto.setResult(result);
+
+        return resultResponseDto;
+
+    }
+
+
 }

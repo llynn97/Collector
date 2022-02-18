@@ -3,6 +3,7 @@ package moviegoods.movie.service;
 
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.User.User;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
@@ -120,24 +122,12 @@ public class MyPageService {
 
         return myPageResponseSearch;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public String updateNickname(MyPageRequestNickname mprn){
         Long user_id=mprn.getUser_id();
         String nickname=mprn.getNickname();
+        log.info("nickname={}", nickname);
         User user=userRepository.findById(user_id).get();
         user.setNickname(nickname);
         userRepository.save(user);
