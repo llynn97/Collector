@@ -5,12 +5,14 @@ import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
 import Modal from "../../components/Modals/ReportModal";
+import ChatPresenter from "./ChatPresenter";
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
+    console.log("dmdetail 렌더");
     const [ms, setMs] = useState("");
     const [mList, setMList] = useState([]);
     const [detailMessages, setDetailMessages] = useState([]);
@@ -32,31 +34,47 @@ const DMDetail = ({selectedRoom}) => {
         setModalOpen(false);
     };
 
+
+    //대화 내용, 상대방 것 포함
+    const [contents, setContents] = useState([]);
+    const [username, setUsername] = useState("");
+    //내가 보낸 메시지 내용
+    const [message, setMessage] = useState("");
+
     let socket = new SockJS('http://localhost:8080/ws-stomp');
+    let stompClient = Stomp.over(socket);
     
     //서버와 연결됐을 때
     useEffect(() => {
-        socket.onopen = (e) => {
-            stompClient = Stomp.over(socket);
-            console.log("open server!!!!");
-    
-            stompClient.connect({}, function(frame) {
-                console.log('Connected: ' + frame);
-                //입장에 대한 구독
-                stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, function(response) {
-                    console.log(response);
-                });
-                //메시지 전달 구독
-                stompClient.subscribe('/sub/chat/message', function(response) {
-                    console.log(response);
-                });
-                
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
+                console.log(JSON.parse(data.body));
+                console.log(contents);
+                const newMessage = JSON.parse(data.body);
+                addMessage(newMessage);
             })
-        }
-        return () => {
-            stompClient.disconnect();
-        }
-    },[])
+        })
+        // socket.onopen = (e) => {
+        //     stompClient = Stomp.over(socket);
+        //     console.log("open server!!!!");
+    
+        //     stompClient.connect({}, function(frame) {
+        //         console.log('Connected: ' + frame);
+        //         //입장에 대한 구독
+        //         stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, function(response) {
+        //             console.log(response);
+        //         });
+        //         //메시지 전달 구독
+        //         stompClient.subscribe('/sub/chat/message', function(response) {
+        //             console.log(response);
+        //         });
+                
+        //     })
+        // }
+        // return () => {
+        //     stompClient.disconnect();
+        // }
+    },[contents])
 
 
     //에러 발생했을 때
@@ -67,46 +85,53 @@ const DMDetail = ({selectedRoom}) => {
     socket.onmessage = (e) => {
         console.log(e);
     }
+    
+    //전송 버튼 눌렀을 때
+    const sendClick = () => {
+        sendMessage(message);
+        //서버에서 받아올 때처럼 비슷한 형식으로 넣어주기 위해
+        const content = {
+            message_content:message,
+            nickname:"다은",
+            written_date:new Date(),
+        }
+        setContents([...contents, content]);
+        setMessage("")
+    }
 
     const sendMessage = (message) => {
+        // stompClient.send("/pub/chat/message", {}, JSON.stringify({
+        //     content : message,
+        //     user_id : "1",
+        //     chat_room_id: selectedRoom.chat_room_id,
+        //     nickname: "민지",
+        // }))
+
+        //내가 메시지 전송할 때
         stompClient.send("/pub/chat/message", {}, JSON.stringify({
             content : message,
-            user_id : "1",
+            user_id : "2",
             chat_room_id: selectedRoom.chat_room_id,
-            nickname: "민지",
-        }))
-
-        // console.log(message);
-        // if(!client.connected)
-        //     return;
+            nickname: "다은",
+        }));
         
-        // //메시지 보내기
-        // client.publish({
-        //     destination: 'http://localhost/8080/chat/message',
-        //     //destination: '/topic/general',
-        //     body: JSON.stringify({
-        //         content:message
-        //     })
-        // })
+        console.log(contents);
+        
     }
+
+    const addMessage = (message) =>{
+        //상대에게 받아온 메시지를 추가함
+        setContents([...contents, message]);
+        console.log(contents);
+    };
 
     
     const onChange = useCallback(
         (e) => {
-            setMs(e.target.value);
+            setMessage(e.target.value);
         }, []
     )
 
-    const sendClick = () => {
-        sendMessage(ms);
-        const content = {
-            message_content:ms,
-            nickname:"민지",
-            written_date:new Date(),
-        }
-        setMList([...mList, content]);
-        setMs("");
-    }
 
     const disconnect = () => {
         if(stompClient != null) {
@@ -116,17 +141,20 @@ const DMDetail = ({selectedRoom}) => {
 
     //이제까지 메시지 내역 조회
     useEffect(() => {
-        axios.get("http://localhost:8080/direct-message/detail", {
-            params:{
-                room_id: selectedRoom.chat_room_id,
-            }
-        })
-        .then(response => {
-            console.log(response.data);
-            //setMList(response.data.message.map(item => item.message_content));
-            setMList(response.data.message);
-        })
-        .catch(error => console.log(error))
+        if(selectedRoom !== undefined){
+            axios.get("http://localhost:8080/direct-message/detail", {
+                params:{
+                    room_id: selectedRoom.chat_room_id,
+                }
+            })
+            .then(response => {
+                console.log(response.data.message);
+                //setMList(response.data.message.map(item => item.message_content));
+                setContents(response.data.message);
+            })
+            .catch(error => console.log(error))
+        }
+
         
     }, [selectedRoom])
 
@@ -149,6 +177,7 @@ const DMDetail = ({selectedRoom}) => {
         .catch(error => console.log(error));
     }
 
+    //신고 내용
     const reportContentChange = (e) => {
         setReportContent(e.target.value);
     }
@@ -213,31 +242,8 @@ const DMDetail = ({selectedRoom}) => {
     }
 
     useEffect(() => {
-        setA(false);
-        //messagesRef.current[].scrollintoview();
-        
-        //
-        //messagesRef.current.scrollintoview();
-        //messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-
-        return () => {
-            setA(true);
-        }
-    }, [mList]);
-
-    // if(setA){
-    //     console.log("true임");
-    //     console.log(messagesRef.current);
-    //     if(messagesRef.current !== null){
-    //         //messagesRef.current.scrollintoview();
-    //     }
-    // }
-
-    // const handleShow = (index) => {
-    //     console.log(messagesRef[index]);
-    //     messagesRef[index].current.scrollintoview();
-    // }
-
+        console.log(selectedRoom);
+    }, [])
 
     return (
         <>
@@ -253,14 +259,20 @@ const DMDetail = ({selectedRoom}) => {
         </Modal>
         <h2>DM 메시지 창</h2>
         <div style={{width:"200px", height:"300px"}}>
-            {selectedRoom.chat_room_id}, 메시지 내용 올라오는 곳
+            {selectedRoom !== undefined ? selectedRoom.chat_room_id : null}, 
+            메시지 내용 올라오는 곳
             <div>
                 닉네임, 신뢰도 : 0
                 <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
                 <button onClick={openModal}>신고하기</button>
             </div>
             <div style={{width:"200px", height:"200px"}}>
-                {mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)}
+                {
+                //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
+            }
+            {contents.map((message, index) => (
+                <div key={index}> {message.nickname} : {message.message_content} </div>
+            ))}
             </div>
             
             
@@ -269,7 +281,7 @@ const DMDetail = ({selectedRoom}) => {
             }
         </div>
         {complete ? <div>거래가 완료되었습니다.</div> : null}
-        <input type="text" value={ms} onChange={onChange} name={ms}/>
+        <input type="text" value={message} onChange={onChange} name={message}/>
         <button onClick={sendClick}>전송</button>
         <button onClick={completeClick}>거래완료</button>
         </>

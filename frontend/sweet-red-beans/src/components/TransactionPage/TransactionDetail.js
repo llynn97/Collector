@@ -8,6 +8,7 @@ const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
     const navigation = useNavigate();
     const [status, setStatus] = useState(transaction.status);
+    const [loading, setLoading] = useState(false);
 
     const serverReqStatus = () => {
         const body = {
@@ -85,7 +86,7 @@ const TransactionDetail = ({transaction}) => {
     }
 
     const DMClick = () => {
-        navigation("/DM");
+
         const body = {
             user_id : "1",
             transaction_id : transaction.transaction_id,
@@ -97,9 +98,18 @@ const TransactionDetail = ({transaction}) => {
                 DMCreate: response.data,
             })
             console.log(response.data);
+            setLoading(true);
         })
         .catch(error => console.log(error))
+
     }
+
+    useEffect(() => {
+        if(loading){
+            navigation('/DM')
+        }
+        console.log("loading: ", loading);
+    }, [loading]);
 
     return(
         <>

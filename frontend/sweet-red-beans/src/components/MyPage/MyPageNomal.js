@@ -119,18 +119,10 @@ const MyPageNomal = () => {
                 return setNicknameError(true);
             }
             else {
-                fd.append("nickname", nicknameModify)
-                fd.append("user_id", "1")
-                // axios.patch('http://localhost:8080/mypage/nickname', fd, {
-                //     headers: {
-                //         "Content-Type": `multipart/form-data; `,
-                //     }
-                // })
-                axios.patch('http://localhost:8080/mypage/nickname', {
-                    params: {
-                        nickname: nicknameModify,
-                        user_id: "1",
-                    }
+                axios.patch('http://localhost:8080/mypage/nickname', 
+                {
+                    nickname: nicknameModify,
+                    user_id: "1",
                 })
                 .then((response) => {
                 if(response.data){
