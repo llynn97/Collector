@@ -8,6 +8,7 @@ const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
     const navigation = useNavigate();
     const [status, setStatus] = useState(transaction.status);
+    const [likeStatus, setLikeStatus] = useState(transaction.is_like);
     const [loading, setLoading] = useState(false);
 
     const serverReqStatus = () => {
@@ -111,6 +112,28 @@ const TransactionDetail = ({transaction}) => {
         console.log("loading: ", loading);
     }, [loading]);
 
+    const likeClick = () => {
+        const body = {
+            user_id: "1",
+            transaction_id: transaction.transaction_id,
+        }
+        axios.post('http://localhost:8080/transactions/like', body)
+        .then(response => {
+            if(response.data.result){
+                if(status){
+                    setLikeStatus(false);
+                }
+                else {
+                    setLikeStatus(true);
+                }
+            }
+            else {
+                alert("좋아요 변경에 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
+    }
+
     return(
         <>
         <h3>거래글</h3>
@@ -119,6 +142,7 @@ const TransactionDetail = ({transaction}) => {
             
             {transaction.nickname} & 신뢰도 : {transaction.reliability}
             {transaction.is_mine ? null : <button onClick={DMClick}>DM</button>}
+            <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
         </div>
         <div>
             {transaction.content}

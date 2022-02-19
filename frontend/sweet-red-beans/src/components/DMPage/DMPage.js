@@ -10,14 +10,20 @@ import axios from "axios";
 import store from "../../store";
 
 const DMPage = () => {
-    const selectedRoomId = useSelector(s => {
-        if(s !== undefined) {
-            return s.selectedRoomId
-        }
-        else {
-            return "none"
-        }
-    })
+    // const selectedRoomId = useSelector(s => {
+    //     if(s !== undefined) {
+    //         return s.selectedRoomId
+    //     }
+    //     else {
+    //         return "none"
+    //     }
+    // })
+
+    const [selectedRoomId, setSelectedRoomId] = useState(null);
+
+    const DMListClick = (selectedRoom, e) => {
+        setSelectedRoomId(selectedRoom);
+    }
 
     useEffect(() => {
         console.log(selectedRoomId);
@@ -26,9 +32,9 @@ const DMPage = () => {
     return(
         <>
         <div>
-            <DMList/>
+            <DMList DMListClick={DMListClick}/>
         </div>
-        {selectedRoomId !== "none" ? <DMDetail selectedRoom={selectedRoomId}/> : null}
+        {selectedRoomId !== null ? <DMDetail selectedRoom={selectedRoomId}/> : null}
         </>
     );
 }

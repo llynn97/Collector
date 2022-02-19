@@ -8,56 +8,47 @@ import MainPage from "./MainPage";
 import axios from "axios";
 
 //props랑 {cinemaName}이 똑같아야 함
-const MovieThumbnail = ({cinemaName}) => {
-    const dispatch = useDispatch();
-    const [thisEvents, setThisEvents] = useState([]);
-    const [events, setEvents] = useState([]);
-    //const events = useSelector(state => state.mainEvents);
-    const filterMovieList = [];
+const MovieThumbnail = ({thisEvent}) => {
+    //좋아요 상태 변경용
+    const [status, setStatus] = useState(false);
 
-    useEffect(()=>
-    {
-        axios.get('http://localhost:8080/main/event-limit')
+    const likeClick = () => {
+        const body = {
+            user_id: "1",
+            event_id: thisEvent.event_id,
+        }
+        axios.post('http://localhost:8080/events/like', body)
         .then(response => {
-            setEvents(response.data);
-        });
-    } 
-    , []);
-
-    useEffect(()=>{
-        events.map((item, index) => {
-            if(item.cinema_name === cinemaName){
-                filterMovieList.push(item)
+            if(response.data.result){
+                if(status){
+                    setStatus(false);
+                }
+                else {
+                    setStatus(true);
+                }
+            }
+            else {
+                alert("삭제에 실패했습니다.")
             }
         })
-        setThisEvents(filterMovieList);
-        dispatch({
-            type: MAIN_CINEMA_EVENTS,
-            mainCinemaEvents: {cinemaName:cinemaName, mainCinemaEvents: filterMovieList},
-        })
-    }, [events])
-
+        .catch(error => console.log(error));
+    }
 
     return(
         <>
         <div>
 
-            {thisEvents.map((item, index) => {
-                return(
-                    <Fragment key={index}>
-                    <Link to = {`/event/${item.event_id}`}>
-                    <img src={item.thumbnail_url} width="300px" height="200px"/>
-                    <div>{item.cinema_name}</div>
-                    <div>{item.title}</div>
-                    <div>{item.start_date} ~ {item.end_date}</div>
-                    </Link>
-                    <div>
-                        {item.is_like ? <button>좋아요O</button> : <button>좋아요X</button>}
-                    </div>
-                    </Fragment>   
-                );  
-            })}
-
+            <Fragment>
+            <Link to = {`/event/${thisEvent.event_id}`}>
+            <img src={thisEvent.thumbnail_url} width="300px" height="200px"/>
+            <div>{thisEvent.cinema_name}</div>
+            <div>{thisEvent.title}</div>
+            <div>{thisEvent.start_date} ~ {thisEvent.end_date}</div>
+            </Link>
+            <div>
+                <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
+            </div>
+            </Fragment>   
             
         </div>
         

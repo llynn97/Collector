@@ -6,17 +6,10 @@ import axios from "axios";
 
 const EventDetailPage = () => {
     const {id} = useParams();
-    const dispatch = useDispatch();
-    const [events, setEvents] = useState([]);
-    const [cinemaName, setCinemaName] = useState([]);
-    const [eventId, setEventId] = useState([]);
-    const [thumbnailUrl, setThumbnailUrl] = useState([]);
-    const [title, setTitle] = useState([]);
-    const [startDate, setStartDate] = useState([]);
-    const [endDate, setEndDate] = useState([]);
-    const [isLike, setIsLike] = useState([]);
 
     const [thisEvent, setThisEvent] = useState({});
+    //좋아요 상태 변경용
+    const [status, setStatus] = useState(false);
 
 
     useEffect(()=>{
@@ -27,9 +20,33 @@ const EventDetailPage = () => {
         })
         .then(response => {
             setThisEvent(response.data)
+            setStatus(response.data.is_like);
         })
         .catch(error => console.log(error));
     }, [])
+
+
+    const likeClick = () => {
+        const body = {
+            user_id: "1",
+            event_id: thisEvent.event_id,
+        }
+        axios.post('http://localhost:8080/events/like', body)
+        .then(response => {
+            if(response.data.result){
+                if(status){
+                    setStatus(false);
+                }
+                else {
+                    setStatus(true);
+                }
+            }
+            else {
+                alert("삭제에 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
+    }
 
     
 
@@ -47,7 +64,7 @@ const EventDetailPage = () => {
             좋아요 수 : {thisEvent.like_count}
         </div>
         <div>
-            {thisEvent.is_like ? <button>나의 좋아요 : O</button> : <button>나의 좋아요 : X</button>}
+            <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
         </div>
         <div>
             <img src={thisEvent.detail_image_url}/>

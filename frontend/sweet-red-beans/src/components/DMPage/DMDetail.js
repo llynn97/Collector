@@ -24,9 +24,6 @@ const DMDetail = ({selectedRoom}) => {
     //초기값 selectedRoom.is_complete로 설정하기
     const [complete, setComplete] = useState(false);
 
-    const messagesRef = useRef([]);
-    const [a, setA] = useState(false);
-
     const openModal = () => {
         setModalOpen(true);
     };
@@ -242,8 +239,9 @@ const DMDetail = ({selectedRoom}) => {
     }
 
     useEffect(() => {
-        console.log(selectedRoom);
-    }, [])
+        let messagebox = document.querySelector("#messagebox");
+        messagebox.scrollTop = messagebox.scrollHeight;
+    }, [contents])
 
     return (
         <>
@@ -266,7 +264,7 @@ const DMDetail = ({selectedRoom}) => {
                 <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
                 <button onClick={openModal}>신고하기</button>
             </div>
-            <div style={{width:"200px", height:"200px"}}>
+            <div style={{width:"200px", height:"200px", overflow:"auto"}} id="messagebox">
                 {
                 //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
             }

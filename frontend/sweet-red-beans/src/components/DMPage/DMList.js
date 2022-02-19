@@ -5,7 +5,7 @@ import DMDetail from "./DMDetail";
 import { useDispatch } from "react-redux";
 import { SELECTED_DM } from "../../actions/types";
 
-const DMList = () => {
+const DMList = ({DMListClick}) => {
     const [DMList, setDMList] = useState([]);
     const [selectedDM, setSelectedDM] = useState("");
     
@@ -30,13 +30,13 @@ const DMList = () => {
 
     }, [DMList])
 
-    const DMListClick = (selectedRoom, e) => {
-        setSelectedDM(selectedRoom);
-        dispatch({
-            type:SELECTED_DM,
-            payload:selectedRoom,
-        })
-    }
+    // const DMListClick = (selectedRoom, e) => {
+    //     setSelectedDM(selectedRoom);
+    //     // dispatch({
+    //     //     type:SELECTED_DM,
+    //     //     payload:selectedRoom,
+    //     // })
+    // }
 
     return (
         <>
