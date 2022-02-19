@@ -141,8 +141,12 @@ const TransactionDetail = ({transaction}) => {
             {status === "진행중" ? <div>진행중</div> : <div>마감</div>}
             
             {transaction.nickname} & 신뢰도 : {transaction.reliability}
-            {transaction.is_mine ? null : <button onClick={DMClick}>DM</button>}
-            <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
+            {transaction.is_mine ? null : 
+            <div>
+                <button onClick={DMClick}>DM</button>
+                <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
+            </div>}
+            
         </div>
         <div>
             {transaction.content}
