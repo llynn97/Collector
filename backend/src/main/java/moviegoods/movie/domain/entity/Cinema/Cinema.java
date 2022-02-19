@@ -32,7 +32,7 @@ public class Cinema {
     @Column(length = 50)
     private String branch;
 
-    @OneToOne(mappedBy = "cinema", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "cinema")
     private Post post;
 
     @OneToOne(mappedBy = "cinema")

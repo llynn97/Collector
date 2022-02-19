@@ -21,7 +21,6 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long message_id;
 
-    @NotBlank
     @Column(columnDefinition = "TEXT")
     private String image_url;
 

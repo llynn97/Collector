@@ -1,3 +1,0 @@
-app:
-  firebase-configuration-file: ./serviceAccountKey.json
-  firebase-bucket: stroagetest-f0778.appspot.com

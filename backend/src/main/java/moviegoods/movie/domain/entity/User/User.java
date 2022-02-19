@@ -57,6 +57,12 @@ public class User {
     @Column(columnDefinition = "tinyint default 1")
     private Byte status;
 
+    public User update(String nickname, String profile_url) {
+        this.nickname = nickname;
+        this.profile_url = profile_url;
+        return this;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
@@ -75,7 +81,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Report> reports=new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
+
 
 }

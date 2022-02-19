@@ -27,7 +27,7 @@ import java.util.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MessageRoomService {
+public class ChatRoomService {
 
     private final EntityManager em;
     private final ChatRoomRepository chatRoomRepository;

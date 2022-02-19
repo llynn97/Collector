@@ -2,7 +2,6 @@ package moviegoods.movie.controller;
 
 
 import com.google.firebase.auth.FirebaseAuthException;
-import com.sun.net.httpserver.Authenticator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +12,8 @@ import moviegoods.movie.service.FireBaseService;
 import moviegoods.movie.service.InformationShareService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,18 +27,26 @@ public class InformationShareController {
     private final InformationShareService informationShareService;
     private final FireBaseService fireBaseService;
 
+
+
     @PostMapping("/write")
-    public Result write(@Validated @ModelAttribute InformationShareRequestWrite isrw, BindingResult bindingResult) throws IOException, FirebaseAuthException {
+    public Result write2(@RequestParam(value="image_url",required = false)MultipartFile image_url,
+                         @RequestParam(value="cinema_name")String cinema_name,
+                         @RequestParam(value="cinema_area")String cinema_area,
+                         @RequestParam(value="cinema_branch")String cinema_branch,
+                         @RequestParam(value="user_id")String id,
+                         @RequestParam(value="title")String title,
+                         @RequestParam(value="content")String content
+    ) throws IOException, FirebaseAuthException {
+        Result result=new Result();
+        if (cinema_area.equals("") || cinema_name.equals("") || cinema_branch.equals("") || id.equals("") || title.equals("") || content.equals("")) {
 
-        log.info("user_id={}",isrw.getUser_id());
-        log.info("post={}",isrw.getCinema_area());
-        log.info("mulrifile={}",isrw.getImage_url());
-
-        if(bindingResult.hasErrors()){
-            Result result=new Result();
             result.setResult(false);
             return result;
         }
+        Long user_id=Long.valueOf(id);
+        InformationShareRequestWrite isrw=new InformationShareRequestWrite(user_id,image_url,cinema_branch,cinema_area,cinema_name,title,content);
+
         //informationShareRepository.savePost(isrw);
         List<Post> postList=informationShareService.savePost(isrw);
         for (Post post : postList) {
@@ -50,7 +56,7 @@ public class InformationShareController {
         }
 
 
-        Result result=new Result();
+
         result.setResult(true);
         return result;
 
@@ -87,7 +93,7 @@ public class InformationShareController {
     }
 
     @DeleteMapping("/detail")
-    public Result deleteDetail(@ModelAttribute InformationShareRequestDeleteDetail isrdd){
+    public Result deleteDetail(@RequestBody InformationShareRequestDeleteDetail isrdd){
         Boolean check=informationShareService.deleteDetail(isrdd);
         Result result=new Result();
         if(check==false){
@@ -99,7 +105,7 @@ public class InformationShareController {
     }
 
     @DeleteMapping("/comment")
-    public Result deleteComment(@ModelAttribute InformationShareRequestDeleteComment isrdc){
+    public Result deleteComment(@RequestBody InformationShareRequestDeleteComment isrdc){
         Boolean check=informationShareService.deleteComment(isrdc);
         Result result=new Result();
         if(check==false){

@@ -1,4 +1,5 @@
-package moviegoods.movie.domain.dto.signin;
+package moviegoods.movie.domain.dto.mypage;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInResponseDto {
+public class MyPageRequestNicknameDuplicateDto {
+
     private String nickname;
-    private String image_url;
-    private Boolean result;
 }

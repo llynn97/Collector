@@ -1,4 +1,4 @@
-package moviegoods.movie.firebase;
+package moviegoods.movie.configure;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Service
 @Slf4j
-public class FireBaseInitializer {
+public class FireBaseConfig {
 
 
     @PostConstruct

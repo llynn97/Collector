@@ -14,7 +14,6 @@ import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
-import moviegoods.movie.domain.entity.User.Authority;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 
@@ -31,7 +30,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class InformationShareService {
 
-   // private final InformationShareRepository informationShareRepository;
+    // private final InformationShareRepository informationShareRepository;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
     private final ContentDetailRepository contentDetailRepository;
@@ -50,11 +49,14 @@ public class InformationShareService {
         String content=isrw.getContent();
         MultipartFile image_url=isrw.getImage_url();
         String firebaseUrl="";
+        log.info("imageurl={}",image_url);
         if(image_url!=null){
             String nameFile= UUID.randomUUID().toString();
+            //log.info("imageurl={}",image_url);
+
             fireBaseService.uploadFiles(image_url,nameFile);
             firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
-
+            //log.info("firebaseurl={}",firebaseUrl);
         }
 
 
@@ -300,8 +302,8 @@ public class InformationShareService {
         User user=userRepository.findById(user_id).get();
         Post post=postRepository.findById(post_id).get();
         List<Object[]> row=em.createQuery("select u.user_id, u.nickname, p.views,p.title,p.image_url,d.written_date," +
-               " d.content,c.name,c.area,c.branch from post p join p.content_detail d left join p.cinema c left join p.user u where p.post_id=:post_id ").setParameter("post_id",post_id).getResultList();
-         Object[] result=row.get(0);
+                " d.content,c.name,c.area,c.branch from post p join p.content_detail d left join p.cinema c left join p.user u where p.post_id=:post_id ").setParameter("post_id",post_id).getResultList();
+        Object[] result=row.get(0);
         InformationShareDetailDTO ifsd= new InformationShareDetailDTO((Long)result[0],(String)result[1],(Long)result[2],(String)result[3],(String)result[4],(LocalDateTime)result[5],(String)result[6],(String)result[7],(String)result[8],(String)result[9]);
 
         InformationShareResponseDetail informationShareResponseDetail=new InformationShareResponseDetail();
@@ -320,7 +322,7 @@ public class InformationShareService {
         Collections.reverse(result2);
 
         if(ifsd.getUser_id()==user_id){
-           informationShareResponseDetail.setIs_mine(true);
+            informationShareResponseDetail.setIs_mine(true);
         }else{
             informationShareResponseDetail.setIs_mine(false);
         }
@@ -348,28 +350,28 @@ public class InformationShareService {
     }
 
     public Comment saveComment(InformationShareRequestSaveComment isrsc){
-       Long user_id=isrsc.getUser_id();
-       Long post_id=isrsc.getPost_id();
-       String content=isrsc.getContent();
-       User user=userRepository.findById(user_id).get();
-       Content_Detail content_detail=new Content_Detail();
-       content_detail.setWritten_date(LocalDateTime.now());
-       content_detail.setContent(content);
-       Post post=postRepository.findById(post_id).get();
-       Comment comment=new Comment();
+        Long user_id=isrsc.getUser_id();
+        Long post_id=isrsc.getPost_id();
+        String content=isrsc.getContent();
+        User user=userRepository.findById(user_id).get();
+        Content_Detail content_detail=new Content_Detail();
+        content_detail.setWritten_date(LocalDateTime.now());
+        content_detail.setContent(content);
+        Post post=postRepository.findById(post_id).get();
+        Comment comment=new Comment();
 
-       comment.setUser(user);
-       user.getComments().add(comment);
-       comment.setContent_detail(content_detail);
-       content_detail.setComment(comment);
-       comment.setPost(post);
-       post.getComments().add(comment);
-       Comment comment1=commentRepository.save(comment);
-   //    informationShareContent_detailRepository.save(content_detail);
+        comment.setUser(user);
+        user.getComments().add(comment);
+        comment.setContent_detail(content_detail);
+        content_detail.setComment(comment);
+        comment.setPost(post);
+        post.getComments().add(comment);
+        Comment comment1=commentRepository.save(comment);
+        //    informationShareContent_detailRepository.save(content_detail);
 
-      Comment result= commentRepository.findById(comment1.getComment_id()).get();
+        Comment result= commentRepository.findById(comment1.getComment_id()).get();
 
-       return result;
+        return result;
 
 
 

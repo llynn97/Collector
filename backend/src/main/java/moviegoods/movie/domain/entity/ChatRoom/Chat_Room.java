@@ -21,8 +21,8 @@ public class Chat_Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chat_room_id;
 
-    @OneToMany(mappedBy = "chat_room",cascade = CascadeType.ALL)
-    private List<Chat_Room_Join> chat_room_join = new ArrayList<>();
+    @OneToMany(mappedBy = "chat_room", cascade = CascadeType.ALL)
+    private List<Chat_Room_Join> chat_room_joins = new ArrayList<>();
 
     @OneToMany(mappedBy = "chat_room",cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();

@@ -11,6 +11,6 @@ public class DirectMessageCreateRoomResponseDto {
 
     private boolean result;
     private Long chat_room_id;
-    private Long demand_user_id;
+    private Long user_id;
     private Long writer_id;
 }
