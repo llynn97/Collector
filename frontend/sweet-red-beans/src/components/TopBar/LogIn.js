@@ -5,6 +5,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import login from "../../actions/user_action";
 import { LOGIN_USER } from "../../actions/types";
+import style from "../../css/TopBar/LogIn.module.css";
+import { getCookie, setCookie } from "../../Cookie";
 
 const LogIn = () =>{
   let navigation = useNavigate();
@@ -34,7 +36,6 @@ const LogIn = () =>{
   const passwordChange = (e) => {
     setPassword(e.target.value)
   }
-  
 
   const LoginClick = (e) => {
     e.preventDefault();
@@ -53,12 +54,14 @@ const LogIn = () =>{
     axios.post('http://localhost:8080/signin', body)
     .then(response => {
       if(response.data.result){
+        const { accessToken } = response.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         dispatch({
           type: LOGIN_USER,
           user: response.data,
         })
         setModalOpen(false);
-        navigation('/');
+        //navigation(0);
       } else {
         alert("로그인에 실패했습니다.");
       }
@@ -69,7 +72,10 @@ const LogIn = () =>{
 
   return (
       <>
+      <div className={style.login}>
       <button onClick={openModal}>로그인</button>
+      </div>
+
       <Modal open={modalOpen} close={closeModal} header="로그인">
         <form>
         <div>

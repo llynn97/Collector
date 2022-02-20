@@ -1,0 +1,29 @@
+.topBar{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.topBarButton {
+    font-size: 15px;
+    color:cornflowerblue;
+    margin-right: 90px;
+    border-style: none;
+    width: 94px;
+    height: 66px;
+    font-family: '어그로';
+}
+
+.topBarButton:hover {
+    font-size: 15px;
+    color:#FFA0AC;
+    margin-right: 90px;
+    border-style: none;
+    font-family: '어그로';
+    width: 94px;
+    height: 66px;
+}
+
+@font-face {
+    font-family: '어그로';
+    src: url('../fonts/SB\ 어그로\ B.ttf');
+}

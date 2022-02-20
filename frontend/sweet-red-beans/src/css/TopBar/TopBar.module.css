@@ -1,0 +1,29 @@
+.container {
+    margin-bottom: 30px;
+}
+
+.title{
+    margin: 10px 80px 0px 10px;
+    float: left;
+    
+}
+
+.title > button {
+    border-style: none;
+    background-color:rgba(205, 92, 92, 0);
+    font-family: '어그로';
+    font-size: 30px;
+    vertical-align: bottoms;
+}
+
+.navigationBar{
+    display: inline-block;
+    height: 200px;
+    vertical-align: top;
+    text-align: right;
+}
+
+@font-face {
+    font-family: '어그로';
+    src: url('../fonts/SB\ 어그로\ B.ttf');
+}

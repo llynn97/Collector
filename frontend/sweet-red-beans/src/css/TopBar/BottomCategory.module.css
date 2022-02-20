@@ -1,0 +1,34 @@
+.bottomCategory {
+    font-size: 14px;
+    margin-right: 90px;
+    border-style: none;
+    width: 90px;
+    height: 66px;
+    background: none;
+    font-family: '어그로';
+}
+
+.noneBottomCategory {
+    margin-right: 90px;
+    border-style: none;
+    width: 90px;
+    height: 66px;
+    background: none;
+    color: rgba(0, 0, 0, 0);
+}
+
+.bottomCategory:hover {
+    font-size: 14px;
+    margin-right: 90px;
+    border-style: none;
+    width: 90px;
+    height: 66px;
+    background: none;
+    font-family: '어그로';
+    color: #FFA0AC;
+}
+
+@font-face {
+    font-family: '어그로';
+    src: url('../fonts/SB\ 어그로\ B.ttf');
+}

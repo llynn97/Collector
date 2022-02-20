@@ -13,14 +13,14 @@ import InformationShareWritePage from './components/InformationShares/Informatio
 import InformationShareDetailPage from './components/InformationShares/InformationShareDetailPage';
 import TransactionPage from './components/TransactionPage/TransactionPage';
 import DMPage from './components/DMPage/DMPage';
+import style from './css/App/App.module.css';
 
 function App() {
   return (
-    <div className="App">
-      <Provider store={store}>
-        <MainContent/>
-      </Provider>
-      
+    <div className={style.App}>
+        <Provider store={store}>
+          <MainContent/>
+        </Provider>
     </div>
   );
 }

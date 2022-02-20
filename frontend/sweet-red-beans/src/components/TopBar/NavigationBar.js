@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import styles from "../../css/NavigationBar.module.css";
+import styles from "../../css/TopBar/NavigationBar.module.css";
 import BottomCategory from "./BottomCategory";
 import { useNavigate } from "react-router";
 

@@ -20,8 +20,7 @@ const Modal = (props) => {
           <main>{props.children}</main>
           <footer>
             <button className="close" onClick={close}>
-              {' '}
-              close{' '}
+              close
             </button>
           </footer>
         </section>

@@ -107,7 +107,6 @@ const SignUp = () => {
         // }
 
         axios.post('http://localhost:8080/signup', body)
-        .then(response => response.data)
         .then(response => {
             if (response.data.result){
                 navigation('/')}

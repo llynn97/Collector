@@ -5,6 +5,8 @@ import { CINEMA_NAMES } from "../../actions/types";
 import axios from "axios";
 import mainEvents from "../../actions/main_action";
 import {MAIN_EVENTS} from "../../actions/types";
+import "../../css/MainPage/MainPage.module.css";
+
 
 const MainPage = () => {
     const [cinemaNames, setCinemaNames] = useState(["CGV", "롯데시네마", "메가박스", "씨네큐"]);
@@ -20,10 +22,13 @@ const MainPage = () => {
     //     events: data,
     // })
 
+
+
     return(
         <>
-        <div>main page</div>
         {cinemaNames.map((item, index) => <div key={index}><MainMovieEvents cinemaName={item}/></div>)}
+
+        
         </>
     )
 
