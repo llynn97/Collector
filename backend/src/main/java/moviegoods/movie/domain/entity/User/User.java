@@ -57,12 +57,15 @@ public class User {
     @Column(columnDefinition = "tinyint default 1")
     private Byte status;
 
+<<<<<<< HEAD
     public User update(String nickname, String profile_url) {
         this.nickname = nickname;
         this.profile_url = profile_url;
         return this;
     }
 
+=======
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
@@ -75,7 +78,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Chat_Room_Join> chat_room_joins = new ArrayList<>();
 
+<<<<<<< HEAD
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+=======
+    @OneToMany(mappedBy = "user",orphanRemoval = true)
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private List<Like_Basket> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

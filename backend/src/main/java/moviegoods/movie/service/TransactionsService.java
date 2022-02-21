@@ -5,8 +5,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+<<<<<<< HEAD
 import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
+=======
+import moviegoods.movie.domain.dto.events.EventsLikeRequestDto;
+import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
+import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
+import moviegoods.movie.domain.entity.Event.Event;
+import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
+import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Report.ReportRepository;
 import moviegoods.movie.domain.entity.Transaction.Status;
@@ -20,6 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
+<<<<<<< HEAD
+=======
+import java.text.ParseException;
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +48,10 @@ public class TransactionsService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final ContentDetailRepository contentDetailRepository;
+<<<<<<< HEAD
+=======
+    private final LikeBasketRepository likeBasketRepository;
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private final ReportRepository reportRepository;
     private final ContentDetailService contentDetailService;
     private final LikeBasketsService likeBasketsService;
@@ -196,4 +213,35 @@ public class TransactionsService {
 
     }
 
+<<<<<<< HEAD
+=======
+    @Transactional(rollbackFor = Exception.class)
+    public ResultResponseDto like(TransactionsLikeRequestDto requestDto) throws ParseException {
+
+        Long transaction_id = requestDto.getTransaction_id();
+        Long user_id = requestDto.getUser_id();
+
+        Boolean is_like = likeBasketsService.isLikeTransaction(user_id, transaction_id);
+        Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 대리구매가 없습니다. transaction_id = "+ transaction_id));
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ user_id));
+
+        Boolean result = false;
+        if (Objects.equals(is_like,false)) {
+            Like_Basket saveEntity=Like_Basket.builder().user(user).transaction(transaction).build();
+            likeBasketRepository.save(saveEntity);
+            result = true;
+        }
+        if (Objects.equals(is_like, true)) {
+            Long like_basket_id = likeBasketsService.selectLikeTransaction(user_id,transaction_id);
+            result = likeBasketsService.deleteLike(like_basket_id,user_id);
+        }
+
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
+        resultResponseDto.setResult(result);
+
+        return resultResponseDto;
+
+    }
+
+>>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 }
