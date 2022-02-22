@@ -25,7 +25,6 @@ const EventDetailPage = () => {
         .catch(error => console.log(error));
     }, [])
 
-
     const likeClick = () => {
         const body = {
             user_id: "1",

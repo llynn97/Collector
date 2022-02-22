@@ -129,10 +129,25 @@ const InformationShareDetailPage = () => {
 
     }
 
+    //날짜 형식 바꾸기
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        const date = d.getDate();
+        const hours = d.getHours();
+        const min = d.getMinutes();
+        return (
+            <div>{year}-{month}-{date}, {hours} : {min}</div>
+        )
+    }
+
     return(
         <>
         <h2>{detailInfo.title}</h2>
-        <div>{detailInfo.nickname}, {detailInfo.written_date}, {detailInfo.views}</div>
+        <div>{detailInfo.nickname}, 
+        {parseDate(detailInfo.written_date)}
+        조회수 : {detailInfo.views}</div>
         <div>{detailInfo.cinema_name}, {detailInfo.cinema_area}, {detailInfo.cinema_branch}</div>
         <div>{detailInfo.image_url !== "" ? <img src={detailInfo.image_url}/> : null}</div>
         <div>{detailInfo.content}</div>

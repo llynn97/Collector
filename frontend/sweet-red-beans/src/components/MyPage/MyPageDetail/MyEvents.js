@@ -31,7 +31,7 @@ const MyEvents = () => {
         {myEvents !== undefined ? myEvents.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
                 <div onClick={e => eventClick(item.event_id, e)}>
-                    {item.thumbnail_url}
+                    <img src={item.thumbnail_url} width="200px" height="200px"/>
                 </div>
                 {item.event_title}
             </article>

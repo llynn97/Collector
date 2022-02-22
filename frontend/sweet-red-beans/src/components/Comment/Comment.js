@@ -58,10 +58,24 @@ const Comment = ({comment}) => {
         cancelConfirm
     );
 
+    //날짜 형식 바꾸기
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        const date = d.getDate();
+        const hours = d.getHours();
+        const min = d.getMinutes();
+        return (
+            <div>{year}-{month}-{date}, {hours} : {min}</div>
+        )
+    }
+
     console.log(comment.comment_nickname);
     return (
         <>
-        <h3>{comment.comment_nickname}, {comment.comment_written_date}</h3>
+        <h3>{comment.comment_nickname}</h3>
+        {parseDate(comment.comment_written_date)}
         <div>{comment.comment_content}</div>
         <div>
             {comment.is_mine ? <button onClick={deleteClick}>댓글 삭제</button> : null}

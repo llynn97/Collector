@@ -25,11 +25,27 @@ const MyPosts = () => {
         navigation('/informationShare/'+postid);
     }
 
+    //날짜 형식 바꾸기
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        const date = d.getDate();
+        const hours = d.getHours();
+        const min = d.getMinutes();
+        return (
+            <div>{year}-{month}-{date}, {hours} : {min}</div>
+        )
+    }
+
     return (
         <>
         {myPosts !== undefined ? myPosts.slice(offset, offset + limit).map((item, index) => (
             <article key={index} onClick={e => postClick(item.post_id, e)}>
-            {item.title}, {item.written_date}
+            {item.title},
+            {
+                parseDate(item.written_date)
+            }
             </article>
         )) : null}
 

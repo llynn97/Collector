@@ -13,6 +13,19 @@ const InformationShares = ({infos}) => {
 
     },[])
 
+    //날짜 형식 바꾸기
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        const date = d.getDate();
+        const hours = d.getHours();
+        const min = d.getMinutes();
+        return (
+            <div>{year}-{month}-{date}, {hours} : {min}</div>
+        )
+    }
+
 
     return (
     <div className={style.layout}>
@@ -34,7 +47,10 @@ const InformationShares = ({infos}) => {
             {infos.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <Link to={`/informationShare/${item.post_id}`}>
-            {item.title}
+            {item.title},
+            {
+                parseDate(item.written_date)
+            }
             </Link>
             </article>
         ))}

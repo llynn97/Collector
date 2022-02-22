@@ -134,6 +134,19 @@ const TransactionDetail = ({transaction}) => {
         .catch(error => console.log(error));
     }
 
+    //날짜 형식 바꾸기
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        const date = d.getDate();
+        const hours = d.getHours();
+        const min = d.getMinutes();
+        return (
+            <div>{year}-{month}-{date}, {hours} : {min}</div>
+        )
+    }
+
     return(
         <>
         <h3>거래글</h3>
@@ -141,6 +154,9 @@ const TransactionDetail = ({transaction}) => {
             {status === "진행중" ? <div>진행중</div> : <div>마감</div>}
             
             {transaction.nickname} & 신뢰도 : {transaction.reliability}
+            {
+                parseDate(transaction.written_date)
+            }
             {transaction.is_mine ? null : 
             <div>
                 <button onClick={DMClick}>DM</button>

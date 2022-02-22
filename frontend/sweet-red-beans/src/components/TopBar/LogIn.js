@@ -38,6 +38,7 @@ const LogIn = () =>{
   }
 
   const LoginClick = (e) => {
+    
     e.preventDefault();
     if (email === "" || password === ""){
       return setLoginError(true);
@@ -61,7 +62,7 @@ const LogIn = () =>{
           user: response.data,
         })
         setModalOpen(false);
-        //navigation(0);
+        navigation(0);
       } else {
         alert("로그인에 실패했습니다.");
       }

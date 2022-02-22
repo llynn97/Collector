@@ -43,7 +43,9 @@ const DMDetail = ({selectedRoom}) => {
     
     //서버와 연결됐을 때
     useEffect(() => {
-        stompClient.connect({}, () => {
+        stompClient.connect({
+            //"token" : "발급받은토큰"
+        }, () => {
             stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
                 console.log(JSON.parse(data.body));
                 console.log(contents);
@@ -74,6 +76,7 @@ const DMDetail = ({selectedRoom}) => {
     },[contents])
 
 
+
     //에러 발생했을 때
     socket.onerror = (e) => {
         console.log(e);
@@ -89,10 +92,10 @@ const DMDetail = ({selectedRoom}) => {
         //서버에서 받아올 때처럼 비슷한 형식으로 넣어주기 위해
         const content = {
             message_content:message,
-            nickname:"다은",
+            nickname:"민지",
             written_date:new Date(),
         }
-        setContents([...contents, content]);
+        //setContents([...contents, content]);
         setMessage("")
     }
 
@@ -107,9 +110,9 @@ const DMDetail = ({selectedRoom}) => {
         //내가 메시지 전송할 때
         stompClient.send("/pub/chat/message", {}, JSON.stringify({
             content : message,
-            user_id : "2",
+            user_id : "1",
             chat_room_id: selectedRoom.chat_room_id,
-            nickname: "다은",
+            nickname: "민지",
         }));
         
         console.log(contents);
@@ -118,7 +121,7 @@ const DMDetail = ({selectedRoom}) => {
 
     const addMessage = (message) =>{
         //상대에게 받아온 메시지를 추가함
-        setContents([...contents, message]);
+        setContents(prev=>[...prev, message]);
         console.log(contents);
     };
 
@@ -256,6 +259,7 @@ const DMDetail = ({selectedRoom}) => {
 
         </Modal>
         <h2>DM 메시지 창</h2>
+        {useMemo(() => 
         <div style={{width:"200px", height:"300px"}}>
             {selectedRoom !== undefined ? selectedRoom.chat_room_id : null}, 
             메시지 내용 올라오는 곳
@@ -278,6 +282,9 @@ const DMDetail = ({selectedRoom}) => {
             //detailMessages.map((item, index) => <div key={index}>{item.nickname}</div>)
             }
         </div>
+        
+        , [contents])}
+        
         {complete ? <div>거래가 완료되었습니다.</div> : null}
         <input type="text" value={message} onChange={onChange} name={message}/>
         <button onClick={sendClick}>전송</button>
