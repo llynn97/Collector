@@ -44,11 +44,7 @@ public class Transaction {
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
 
-<<<<<<< HEAD
-    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL)
-=======
     @OneToOne(mappedBy = "transaction", orphanRemoval = true)
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private Like_Basket like;
 
 

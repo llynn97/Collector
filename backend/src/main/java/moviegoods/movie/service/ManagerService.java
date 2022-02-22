@@ -3,7 +3,7 @@ package moviegoods.movie.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
-import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
+import moviegoods.movie.domain.dto.Manager.ManagerResponseDto;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Report.ReportRepository;
@@ -31,12 +31,19 @@ public class ManagerService {
             String content = content_detail.getContent();
             LocalDateTime written_date = content_detail.getWritten_date();
 
-            Transaction transaction = report.getTransaction();
-            User user = transaction.getUser();
-            String nickname = user.getNickname();
-            Long user_id = user.getUser_id();
+            User reportUser = report.getUser();
+            Long user_id = reportUser.getUser_id();
+            String nickname = reportUser.getNickname();
 
-            reportsList.add(new ManagerResponseDto(content, written_date, nickname, user_id));
+            Transaction transaction = report.getTransaction();
+            User repotedUser = transaction.getUser();
+            String reported_nickname = repotedUser.getNickname();
+            Long reported_user_id = repotedUser.getUser_id();
+            Content_Detail reported_content_detail = transaction.getContent_detail();
+            String reported_content = reported_content_detail.getContent();
+
+            reportsList.add(new ManagerResponseDto(content, written_date, nickname, user_id,
+                    reported_user_id, reported_nickname, reported_content));
         }
 
         Comp comp = new Comp();

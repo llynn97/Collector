@@ -49,11 +49,7 @@ public class Event {
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
-<<<<<<< HEAD
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
-=======
     @OneToOne(mappedBy = "event", orphanRemoval = true)
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private Like_Basket like;
 
 }

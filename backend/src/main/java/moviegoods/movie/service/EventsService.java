@@ -2,14 +2,6 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD
-import moviegoods.movie.domain.entity.Event.Event;
-import moviegoods.movie.domain.entity.Event.EventRepository;
-import moviegoods.movie.domain.dto.events.EventsDetailRequestDto;
-import moviegoods.movie.domain.dto.events.EventsDetailResponseDto;
-import moviegoods.movie.domain.dto.events.EventsSearchRequestDto;
-import moviegoods.movie.domain.dto.events.EventsSearchResponseDto;
-=======
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.events.*;
 import moviegoods.movie.domain.entity.Event.Event;
@@ -20,7 +12,6 @@ import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,25 +23,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-<<<<<<< HEAD
-=======
 import static moviegoods.movie.domain.entity.Transaction.Status.마감;
 import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class EventsService {
 
     private final EventRepository eventRepository;
-<<<<<<< HEAD
-    private final LikeBasketsService likeBasketsService;
-=======
     private final UserRepository userRepository;
     private final LikeBasketsService likeBasketsService;
     private final LikeBasketRepository likeBasketRepository;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
@@ -153,8 +137,6 @@ public class EventsService {
 
         return result;
     }
-<<<<<<< HEAD
-=======
 
     @Transactional(rollbackFor = Exception.class)
     public ResultResponseDto like(EventsLikeRequestDto requestDto) throws ParseException {
@@ -185,5 +167,4 @@ public class EventsService {
     }
 
 
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 }

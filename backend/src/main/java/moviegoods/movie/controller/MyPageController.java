@@ -19,31 +19,17 @@ public class MyPageController {
 
     @GetMapping
     public MyPageResponseSearch searchMyPage(@ModelAttribute MyPageRequestSearch mprs){
-<<<<<<< HEAD
-
-=======
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
         MyPageResponseSearch myPageResponseSearch=myPageService.search(mprs);
 
         return myPageResponseSearch;
     }
 
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     @PatchMapping("/profile")
     public Result updateProfile(@RequestParam(value="file",required = false)MultipartFile file,
                                 @RequestParam(value="user_id",required = false)String id)throws Exception{
         Long user_id=Long.valueOf(id);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
         MyPageRequestProfile mprp=new MyPageRequestProfile();
         mprp.setProfile_image(file);
         mprp.setUser_id(user_id);

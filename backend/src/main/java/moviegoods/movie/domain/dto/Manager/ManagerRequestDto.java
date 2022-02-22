@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.dto.manager;
+package moviegoods.movie.domain.dto.Manager;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

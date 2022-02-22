@@ -5,17 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
-<<<<<<< HEAD
-import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
-import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
-=======
 import moviegoods.movie.domain.dto.events.EventsLikeRequestDto;
 import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Report.ReportRepository;
 import moviegoods.movie.domain.entity.Transaction.Status;
@@ -29,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
-<<<<<<< HEAD
-=======
 import java.text.ParseException;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +40,7 @@ public class TransactionsService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final ContentDetailRepository contentDetailRepository;
-<<<<<<< HEAD
-=======
     private final LikeBasketRepository likeBasketRepository;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     private final ReportRepository reportRepository;
     private final ContentDetailService contentDetailService;
     private final LikeBasketsService likeBasketsService;
@@ -213,8 +202,6 @@ public class TransactionsService {
 
     }
 
-<<<<<<< HEAD
-=======
     @Transactional(rollbackFor = Exception.class)
     public ResultResponseDto like(TransactionsLikeRequestDto requestDto) throws ParseException {
 
@@ -243,5 +230,4 @@ public class TransactionsService {
 
     }
 
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 }

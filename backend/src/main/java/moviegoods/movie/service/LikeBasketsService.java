@@ -2,11 +2,8 @@ package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD
-=======
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -16,10 +13,7 @@ import javax.persistence.EntityManager;
 @Slf4j
 public class LikeBasketsService {
     private final EntityManager em;
-<<<<<<< HEAD
-=======
     private final LikeBasketRepository likeBasketRepository;
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 
     public Boolean isLikeEvent(Long user_id, Long event_id) {
         Boolean is_like = Boolean.FALSE;
@@ -34,8 +28,6 @@ public class LikeBasketsService {
         return is_like;
     }
 
-<<<<<<< HEAD
-=======
     public Long selectLikeEvent(Long user_id, Long event_id) {
         String likeJpql = "select l from like_basket l where event_id = :event_id and user_id = :user_id";
         Like_Basket like_basket = em.createQuery(likeJpql, Like_Basket.class).setParameter("event_id", event_id)
@@ -59,7 +51,6 @@ public class LikeBasketsService {
 
     }
 
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
     public Boolean isLikeTransaction(Long user_id, Long transaction_id) {
         String likeJpql = "select count(l) from like_basket l where transaction_id = :transaction_id and user_id = :user_id";
         Object object = em.createQuery(likeJpql).setParameter("transaction_id", transaction_id)
@@ -71,8 +62,6 @@ public class LikeBasketsService {
         return is_like;
 
     }
-<<<<<<< HEAD
-=======
 
     public Long selectLikeTransaction(Long user_id, Long transaction_id) {
         String likeJpql = "select l from like_basket l where transaction_id = :transaction_id and user_id = :user_id";
@@ -83,5 +72,4 @@ public class LikeBasketsService {
         return like_basket_id;
     }
 
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
 }

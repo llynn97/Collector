@@ -35,11 +35,7 @@ public class MainService {
 
         for (String cinema_name : cinemaNameList) {
             String searchJpql = "select e from event e join e.cinema c where c.name = '" + cinema_name + "' and e.end_date > STR_TO_DATE(NOW(), '%Y-%m-%d') ";
-<<<<<<< HEAD
-            List<Event> eventList = em.createQuery(searchJpql, Event.class).getResultList();
-=======
             List<Event> eventList = em.createQuery(searchJpql, Event.class).setMaxResults(6).getResultList();
->>>>>>> 57d200fd9a1e6ea7553b2cee71f8b89f46055647
             for (Event event : eventList) {
                 Long event_id = event.getEvent_id();
                 String search_cinema_name = event.getCinema().getName();
