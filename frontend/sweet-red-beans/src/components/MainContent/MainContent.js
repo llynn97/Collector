@@ -15,6 +15,7 @@ import TransactionPage from "../TransactionPage/TransactionPage";
 import DMPage from "../DMPage/DMPage";
 import MyPageAdmin from "../MyPage/MyPageAdmin";
 import MyPageNomal from "../MyPage/MyPageNomal";
+import Test from "../Test/Test";
 
 
 
@@ -34,6 +35,7 @@ const MainContenet = () => {
           <Route path="/DM" element={<DMPage/>}/>
           <Route path="/mypage" element={<MyPageNomal/>}/>
           <Route path="/adminpage" element={<MyPageAdmin/>}/>
+          <Route path="/test" element={<Test/>}/>
         </Routes>
         </>
     );

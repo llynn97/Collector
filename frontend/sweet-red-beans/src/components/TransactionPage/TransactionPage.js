@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Transactions from "./Transactions";
 import style from "../../css/TransactionPage.module.css";
 import axios from "axios";
 import TransactionWriteModal from "../Modals/TransactionWriteModal";
+import InfiniteScroll from "./InfiniteScroll";
+import { getCookie } from "../../Cookie";
 
 const TransactionPage = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -19,6 +21,11 @@ const TransactionPage = () => {
     const [BtnStatus, setBtnStatus] = useState(false);
     //내용
     const [content, setContent] = useState("");
+
+    const [start, setStart] = useState(0);
+    const [end, setEnd] = useState(29);
+
+    const [fetching, setFetching] = useState(false);
 
     const serverReq = () => {
       console.log(search, searchSort);
@@ -114,26 +121,6 @@ const TransactionPage = () => {
       }
     }
 
-    const handleFollow = () => {
-        setScrollY(window.pageYOffset);
-        if(ScrollY > 100) {
-          // 100 이상이면 버튼이 보이게
-          setBtnStatus(true);
-        } else {
-          // 100 이하면 버튼이 사라지게
-          setBtnStatus(false);
-        }
-      }
-
-    const handleTop = () => {  // 클릭하면 스크롤이 위로 올라가는 함수
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-    setScrollY(0);  // ScrollY 의 값을 초기화
-    setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
-    }
-
     const openModal = () => {
       setModalOpen(true);
     };
@@ -141,8 +128,63 @@ const TransactionPage = () => {
       setModalOpen(false);
     };
 
+    const handleFollow = () => {
+      setScrollY(window.pageYOffset);
+      if(ScrollY > 100) {
+        // 100 이상이면 버튼이 보이게
+        setBtnStatus(true);
+      } else {
+        // 100 이하면 버튼이 사라지게
+        setBtnStatus(false);
+      }
+    }
+
+    const handleTop = () => {  // 클릭하면 스크롤이 위로 올라가는 함수
+      window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+      });
+      setScrollY(0);  // ScrollY 의 값을 초기화
+      setBtnStatus(false); // BtnStatus의 값을 false로 바꿈 => 버튼 숨김
+    }
+
+    const fetchMoreTransactions = () => {
+
+      axios.get('http://localhost:8080/transactions/search',{
+        params: {
+                  user_id: "1",
+                  is_proceed: isProceed,
+                  search_word: search,
+                  sort_criteria : "최신순",
+                  search_criteria : searchSort,
+                  start: start+30,
+                  end: end+30,
+                }
+        }, {
+          headers:{
+            "Content-Type" : "application.json",
+            Authorization: `Bearer ${getCookie('access-token')}`
+          }
+        })
+        .then(response => {
+          const more = response.data;
+          const mergeData = transactions.concat(...more);
+          setTransactions(mergeData);
+          setStart(start+30);
+          setEnd(end+30);
+        })
+        .catch(error => console.log(error));
+
+      console.log("더 붙이기");
+    }
+
     useEffect(() => {
       //console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
+
+      //ScrollY === document.documentElement.scrollTop
+      if (ScrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
+        fetchMoreTransactions();
+      }
     }, [ScrollY])
   
     useEffect(() => {
@@ -164,7 +206,14 @@ const TransactionPage = () => {
                   search_word: search,
                   sort_criteria : "최신순",
                   search_criteria : searchSort,
+                  start:start,
+                  end:end,
                 }
+        }, {
+          headers:{
+            "Content-Type" : "application.json",
+            Authorization: `Bearer ${getCookie('access-token')}`
+          }
         })
         .then(response => {
           setTransactions(response.data);

@@ -55,12 +55,12 @@ const LogIn = () =>{
     axios.post('http://localhost:8080/signin', body)
     .then(response => {
       if(response.data.result){
-        const { accessToken } = response.data;
-        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         dispatch({
           type: LOGIN_USER,
           user: response.data,
         })
+        localStorage.setItem('refresh-token', response.data['refresh-token']);
+        setCookie('access-token', response.data['access-token'], {path:'/', secure:true, sameSite:"none"})
         setModalOpen(false);
         navigation(0);
       } else {
