@@ -36,10 +36,14 @@ const TransactionPage = () => {
                 search_word: search,
                 sort_criteria : "최신순",
                 search_criteria : searchSort,
+                start: 0,
+                end: 29,
               }
       })
       .then(response => {
         setTransactions(response.data)
+        setStart(0);
+        setEnd(29);
       })
       .catch(error => console.log(error));
   }

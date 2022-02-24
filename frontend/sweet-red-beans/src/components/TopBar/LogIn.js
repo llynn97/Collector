@@ -59,8 +59,10 @@ const LogIn = () =>{
           type: LOGIN_USER,
           user: response.data,
         })
+        //쿠키에 저장
         localStorage.setItem('refresh-token', response.data['refresh-token']);
         setCookie('access-token', response.data['access-token'], {path:'/', secure:true, sameSite:"none"})
+        
         setModalOpen(false);
         navigation(0);
       } else {
