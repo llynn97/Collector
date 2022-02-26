@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Transactions from "./Transactions";
-import style from "../../css/TransactionPage.module.css";
+import style from "../../css/TransactionPage/TransactionPage.module.css";
 import axios from "axios";
 import TransactionWriteModal from "../Modals/TransactionWriteModal";
 import InfiniteScroll from "./InfiniteScroll";
 import { getCookie } from "../../Cookie";
+import { useNavigate } from "react-router";
 
 const TransactionPage = () => {
+    const navigation = useNavigate()
     const [modalOpen, setModalOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [transactionIsHere, setTransactionIsHere] = useState(false);
@@ -28,7 +30,6 @@ const TransactionPage = () => {
     const [fetching, setFetching] = useState(false);
 
     const serverReq = () => {
-      console.log(search, searchSort);
       axios.get('http://localhost:8080/transactions/search',{
       params: {
                 user_id: "1",
@@ -153,31 +154,33 @@ const TransactionPage = () => {
     }
 
     const fetchMoreTransactions = () => {
+      if(transactions.length !== 0) {
+        axios.get('http://localhost:8080/transactions/search',{
+          params: {
+                    user_id: "1",
+                    is_proceed: isProceed,
+                    search_word: search,
+                    sort_criteria : "최신순",
+                    search_criteria : searchSort,
+                    start: start+30,
+                    end: end+30,
+                  }
+          }, {
+            headers:{
+              "Content-Type" : "application.json",
+              Authorization: `Bearer ${getCookie('access-token')}`
+            }
+          })
+          .then(response => {
+            const more = response.data;
+            const mergeData = transactions.concat(...more);
+            setTransactions(mergeData);
+            setStart(start+30);
+            setEnd(end+30);
+          })
+          .catch(error => console.log(error));
+      }
 
-      axios.get('http://localhost:8080/transactions/search',{
-        params: {
-                  user_id: "1",
-                  is_proceed: isProceed,
-                  search_word: search,
-                  sort_criteria : "최신순",
-                  search_criteria : searchSort,
-                  start: start+30,
-                  end: end+30,
-                }
-        }, {
-          headers:{
-            "Content-Type" : "application.json",
-            Authorization: `Bearer ${getCookie('access-token')}`
-          }
-        })
-        .then(response => {
-          const more = response.data;
-          const mergeData = transactions.concat(...more);
-          setTransactions(mergeData);
-          setStart(start+30);
-          setEnd(end+30);
-        })
-        .catch(error => console.log(error));
 
       console.log("더 붙이기");
     }
@@ -231,6 +234,7 @@ const TransactionPage = () => {
 
     useEffect(() => {
       serverReq();
+      console.log(isProceed);
     }, [isProceed]);
 
     useEffect(() => {
@@ -241,26 +245,35 @@ const TransactionPage = () => {
     return (
         <>
         <div className={style.wrap}>
-        <div>
-            <button onClick={allClick}>전체</button>
-            <button onClick={proceedClick}>진행중</button>
+        <div className={style.writeBox}>
+          <div>
+          <div className={style.writeButtonArea}>
+            <button onClick={writeClick} className={style.writeButton}>작성하기</button>
+          </div>
+          <textarea value={content} onChange={contentChange} className={style.writeTextArea}></textarea>
+          </div>
         </div>
-        <div>
-            <select onChange={searchSortChange}>
-                <option value="글내용">글내용</option>
-                <option value="작성자">작성자</option>
-            </select>
-            <input type="text" placeholder="검색" value={search} onChange={searchChange}/>
-            <button onClick={searchClick}>검색</button>
-        </div>
-        <div>
-            <textarea value={content} onChange={contentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
-            <button onClick={writeClick}>글 쓰기</button>
-        </div>
-        
-        <hr/>
 
-        {useMemo(() => transactionIsHere ? <Transactions transactions={transactions}/> :null, [searchWords, transactions, isProceed])}
+        <div className={style.transactionsBox}>
+          <div className={style.topBox}>
+            <button onClick={allClick} className={style.all}>전체</button>
+            <button onClick={proceedClick} className={style.proceeding}>진행중</button>
+            <div className={style.filterBox}>
+              <select onChange={searchSortChange} className={style.filter}>
+                  <option value="글내용">글내용</option>
+                  <option value="작성자">작성자</option>
+              </select>
+              <span className={style.filterArrow}>▼</span>
+            </div>
+            <div className={style.searchBox}>
+              <input type="text" placeholder="검색" value={search} onChange={searchChange} className={style.searchArea}/>
+              <button onClick={searchClick} className={style.searchButton}></button>
+            </div>
+          </div>
+          
+          {useMemo(() => transactionIsHere ? <Transactions transactions={transactions}/> :null, [searchWords, transactions, isProceed])}
+        </div>
+
 
 
         <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>

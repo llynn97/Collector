@@ -1,0 +1,221 @@
+.wrap {
+  position: relative;
+  padding: 10px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.writeBox {
+  background-color: white;
+  width: 1000px;
+  margin : 0 auto;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 30px;
+  margin-bottom: 100px;
+}
+
+.writeButtonArea {
+  text-align: right;
+  margin-bottom: 20px;
+  margin-right: 120px;
+}
+
+.writeButton {
+  border: none;
+  width: 190px;
+  height: 50px;
+  background-color: #F23333;
+  border-radius: 10px;
+  color: white;
+}
+
+.writeTextArea {
+  width: 700px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid #656565;
+  box-sizing: border-box;
+  padding: 20px;
+  resize: none;
+}
+
+.writeTextArea:focus{
+  outline: none;
+}
+
+.writeTextArea::-webkit-scrollbar{
+  width: 15px;
+}
+.writeTextArea::-webkit-scrollbar-thumb{
+  width: 15px;
+  background-color: #C4C4C4;
+  border-radius: 20px;
+  background-clip: padding-box;
+  border: 4px solid transparent;
+
+}
+
+.transactionsBox {
+  background-color: white;
+  width: 1000px;
+  margin : 0 auto;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 30px;
+  min-height: 1000px;
+}
+
+.topBox{
+  text-align: right;
+  margin-right: 120px;
+  margin-bottom: 30px;
+}
+
+.all, .proceeding{
+  border: none;
+  width: 100px;
+  height: 45px;
+  margin-left: 20px;
+}
+
+.searchBox{
+  display: inline-block;
+  position: relative;
+  width: 220px;
+  height: 45px;
+  border-radius: 50px;
+  border: 3px solid #C4C4C4;
+  margin-left: 20px;
+}
+
+.searchArea {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  border-radius: 50px;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 0 none;
+  outline: 0 none;
+}
+
+.searchArea:focus{
+  outline: none;
+}
+
+.searchArea::placeholder {
+  color: #C4C4C4;
+}
+
+.searchButton {
+  position: absolute;
+  top: 0; 
+  right: 0; 
+  z-index: 3;
+  width: 25px; 
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('../../img/search.png');
+  background-size: cover;
+  border: 0 none;
+  outline: 0 none;
+  margin-top: 10px;
+  margin-right: 15px;
+}
+
+.filterBox{
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 45px;
+  border-radius: 4px;
+  border: 3px solid #C4C4C4;
+  margin-left: 20px;
+}
+
+.filter {
+  width: inherit;
+  height: inherit;
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  padding: 0 8px;
+  position: relative;
+  z-index: 3;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.filter option {
+  color: #656565;
+  padding: 3px 0;
+  font-size: 16px;
+}
+
+.filterArrow{
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  z-index: 1; 
+  width: 35px; 
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #C4C4C4;
+}
+
+/* .filter .filterArrow {
+  width: 50%;
+  transition: .3s;
+} */
+
+.filter:focus + .filterArrow{
+  transform: rotate(180deg);
+}
+
+.topBtn {
+  position: fixed; 
+  opacity: 0; 
+  bottom: 0px;
+  right: 0px;
+  z-index: -10; 
+  width: 50px; 
+  height: 50px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+}
+
+.topBtn.active {
+  z-index: 10; 
+  opacity: 1;
+}
+
+.topBtn:hover,
+.topBtn:focus,
+.topBtn:active { 
+  outline: 0 none; 
+}
+
+.writeBtn {
+  position: fixed; 
+  opacity: 0; 
+  bottom: 100px;
+  right: 0px;
+  z-index: -10; 
+  width: 50px; 
+  height: 50px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+}
+
+.writeBtn.active {
+  z-index: 10; 
+  opacity: 1;
+}

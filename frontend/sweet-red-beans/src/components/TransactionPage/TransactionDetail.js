@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DM_CREATE } from "../../actions/types";
+import style from "../../css/TransactionPage/TransactionDetail.module.css";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
@@ -149,30 +150,42 @@ const TransactionDetail = ({transaction}) => {
 
     return(
         <>
-        <h3>거래글</h3>
-        <div>
-            {status === "진행중" ? <div>진행중</div> : <div>마감</div>}
+        <div className={style.transactionBox}>
+            <div>
+                {status === "진행중" ? <div className={style.proceeding}>진행중</div> : <div className={style.done}>마감</div>}
+                
+                {transaction.nickname} & 신뢰도 : {transaction.reliability}
+                {transaction.is_mine ? null : 
+                <div>
+                    <button onClick={DMClick}>DM</button>
+                    <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
+                </div>}
+                
+            </div>
+            <div>
+                {transaction.is_mine ? (
+                    <div>
+                    {status === "진행중" ? <button onClick={statusClick}>마감으로 바꾸기</button> : <button onClick={statusClick}>진행중으로 바꾸기</button>}
+                    </div>
+                ) : null}
+                {transaction.is_mine ? (
+                    <div>
+                    <button onClick={deleteClick}>삭제</button>
+                    </div>
+                ) : null}
+            </div>
             
-            {transaction.nickname} & 신뢰도 : {transaction.reliability}
+            <div className={style.content}>
+                {transaction.content}
+            </div>
+
+            <div className={style.date}>
             {
                 parseDate(transaction.written_date)
             }
-            {transaction.is_mine ? null : 
-            <div>
-                <button onClick={DMClick}>DM</button>
-                <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
-            </div>}
-            
-        </div>
-        <div>
-            {transaction.content}
-        </div>
-        {transaction.is_mine ? (
-            <div>
-            <button onClick={deleteClick}>삭제</button>
-            {status === "진행중" ? <button onClick={statusClick}>마감으로 바꾸기</button> : <button onClick={statusClick}>진행중으로 바꾸기</button>}
             </div>
-         ) : null}
+        </div>
+
         
         </>
     );

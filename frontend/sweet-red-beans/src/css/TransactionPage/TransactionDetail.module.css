@@ -1,0 +1,40 @@
+.transactionBox {
+    position: relative;
+    border: 2px #C4C4C4 solid;
+    border-radius: 10px;
+    width: 700px;
+    height: 200px;
+    margin : 0 auto;
+    box-shadow: 0px 0px 7px #dddddd;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: left;
+}
+
+.content {
+    
+}
+
+.date {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.proceeding{
+    text-align: center;
+    color: white;
+    width: 80px;
+    border-radius: 50px;
+    background-color: #F23333;
+    opacity: 0.8;
+}
+
+.done{
+    text-align: center;
+    color: white;
+    width: 80px;
+    border-radius: 50px;
+    background-color: #C4C4C4;
+}

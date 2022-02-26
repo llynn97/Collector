@@ -1,10 +1,9 @@
 .App {
     text-align: center;
-    border-color: black;
-    border-style: solid;
     padding: 10px;
-    min-width: 1120px;
+    min-width: 1000px;
     min-height: 2000px;
+    background-color: #F9F2EC;
   }
 .App-header {
     background-color: #282c34;
