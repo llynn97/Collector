@@ -8,8 +8,8 @@ import style from "../../css/TransactionPage/TransactionDetail.module.css";
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
     const navigation = useNavigate();
-    const [status, setStatus] = useState(transaction.status);
-    const [likeStatus, setLikeStatus] = useState(transaction.is_like);
+    const [status, setStatus] = useState("");
+    const [likeStatus, setLikeStatus] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const serverReqStatus = () => {
@@ -148,29 +148,43 @@ const TransactionDetail = ({transaction}) => {
         )
     }
 
+    useEffect(() => {
+        setStatus(transaction.status)
+        setLikeStatus(transaction.is_like);
+    },[transaction])
+
     return(
         <>
         <div className={style.transactionBox}>
             <div>
-                {status === "진행중" ? <div className={style.proceeding}>진행중</div> : <div className={style.done}>마감</div>}
+                <div className={style.nickname}>
+                {transaction.nickname} 
+                <div className={style.reliability}>
+                <div className={style.reliabilityIcon}></div>
+                {transaction.reliability}
+                </div>
                 
-                {transaction.nickname} & 신뢰도 : {transaction.reliability}
-                {transaction.is_mine ? null : 
-                <div>
-                    <button onClick={DMClick}>DM</button>
-                    <button onClick={likeClick}>{likeStatus ? "좋아요o" : "좋아요x"}</button>
+                </div>
+                {status === '진행중' ? <div className={style.proceeding}>진행중</div> : null}
+                {status === '마감' ? <div className={style.done}>마감</div> : null}
+                
+                <div className={style.statusButton}>
+                {transaction.is_mine ? (<div>
+                    {status === "진행중" ? <button onClick={statusClick}>마감으로 바꾸기</button> : <button onClick={statusClick}>진행중으로 바꾸기</button>}
+                    </div>
+                ) : 
+                <div className={style.notMine}>
+                    <button onClick={DMClick} className={style.DMButton}></button>
+                    <button onClick={likeClick} className={style.likeButton}>{likeStatus ? "" : ""}</button>
                 </div>}
+                </div>
                 
             </div>
             <div>
+
                 {transaction.is_mine ? (
-                    <div>
-                    {status === "진행중" ? <button onClick={statusClick}>마감으로 바꾸기</button> : <button onClick={statusClick}>진행중으로 바꾸기</button>}
-                    </div>
-                ) : null}
-                {transaction.is_mine ? (
-                    <div>
-                    <button onClick={deleteClick}>삭제</button>
+                    <div className={style.deleteArea}>
+                    <button onClick={deleteClick} className={style.deleteButton}></button>
                     </div>
                 ) : null}
             </div>

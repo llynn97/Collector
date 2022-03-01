@@ -3,6 +3,7 @@ import MyPageDetail from "./MyPageDetail";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "../../actions/types";
+import style from "../../css/MyPage/MyPageNormal.module.css";
 
 const MyPageNomal = () => {
     //서버에서 받아온 정보들 저장하기
@@ -200,28 +201,42 @@ const MyPageNomal = () => {
 
     return (
         <>
-        {hide? 
-        <div>
-            <img src={profileImage} width="130px" height="100px"/>
-            {nickname}, {reliability}
-            <button onClick={profileChangeClick}>변경</button>
-        </div>
-        : null}
-
-        {
-            !hide?
+        <div className={style.profileBox}>
+            {hide? 
             <div>
-                <div className="preview" style={{width:"100px", height:"100px", backgroundImage:{profileImage}}}></div>
-                <input type="file" onChange={handleChangeFile} multiple="multiple"/>
-                <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
-                <button onClick={nicknameModifyClick}>중복 확인</button>
-                {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
-                <button onClick={profileCompleteClick}>완료</button>
-                <button onClick={profileCancelClick}>취소</button>
-            </div>
+                <div className={style.profileImageBorder}>
+                    <img src={profileImage} className={style.profileImage}/>
+                    </div>
+                    <div className={style.nickname}>
+                    {nickname}
+                </div>
 
-            : null
-        }
+                <div className={style.profileChangeButtonArea}>
+                <button onClick={profileChangeClick}>프로필 수정하기</button>
+                </div>
+
+                <div className={style.reliability}>
+                {reliability}
+                </div>
+            </div>
+            : null}
+
+            {
+                !hide?
+                <div>
+                    <div className="preview" style={{width:"100px", height:"100px", backgroundImage:{profileImage}}}></div>
+                    <input type="file" onChange={handleChangeFile} multiple="multiple"/>
+                    <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
+                    <button onClick={nicknameModifyClick}>중복 확인</button>
+                    {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
+                    <button onClick={profileCompleteClick}>완료</button>
+                    <button onClick={profileCancelClick}>취소</button>
+                </div>
+
+                : null
+            }
+        </div>
+
         
         <div>
             {myList.map((item, index) => (

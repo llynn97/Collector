@@ -30,7 +30,7 @@ const TransactionPage = () => {
     const [fetching, setFetching] = useState(false);
 
     const serverReq = () => {
-      axios.get('http://localhost:8080/transactions/search',{
+      axios.post('http://localhost:8080/transactions/search',{
       params: {
                 user_id: "1",
                 is_proceed: isProceed,
@@ -40,7 +40,7 @@ const TransactionPage = () => {
                 start: 0,
                 end: 29,
               }
-      })
+      },{ withCredentials: true })
       .then(response => {
         setTransactions(response.data)
         setStart(0);
@@ -97,10 +97,10 @@ const TransactionPage = () => {
           user_id: "1",
         }
   
-        axios.post('http://localhost:8080/transactions/write', body)
+        axios.post('http://localhost:8080/transactions/write', body, { withCredentials: true })
         .then(response => {
           if(response.data){
-            axios.get('http://localhost:8080/transactions/search',{
+            axios.post('http://localhost:8080/transactions/search',{
             params: {
                       user_id: "1",
                       is_proceed: false,
@@ -108,7 +108,7 @@ const TransactionPage = () => {
                       sort_criteria : "최신순",
                       search_criteria : searchSort,
                   }
-          })
+          },{ withCredentials: true })
           .then(response => {
             setTransactions(response.data);
           })
@@ -155,7 +155,7 @@ const TransactionPage = () => {
 
     const fetchMoreTransactions = () => {
       if(transactions.length !== 0) {
-        axios.get('http://localhost:8080/transactions/search',{
+        axios.post('http://localhost:8080/transactions/search',{
           params: {
                     user_id: "1",
                     is_proceed: isProceed,
@@ -165,12 +165,8 @@ const TransactionPage = () => {
                     start: start+30,
                     end: end+30,
                   }
-          }, {
-            headers:{
-              "Content-Type" : "application.json",
-              Authorization: `Bearer ${getCookie('access-token')}`
-            }
-          })
+                
+          },{ withCredentials: true })
           .then(response => {
             const more = response.data;
             const mergeData = transactions.concat(...more);
@@ -190,7 +186,9 @@ const TransactionPage = () => {
 
       //ScrollY === document.documentElement.scrollTop
       if (ScrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
-        fetchMoreTransactions();
+        if(transactions.length >= 30){
+          fetchMoreTransactions();
+        }
       }
     }, [ScrollY])
   
@@ -206,7 +204,7 @@ const TransactionPage = () => {
 
     //한 번만 실행
     useEffect(()=>{
-      axios.get('http://localhost:8080/transactions/search',{
+      axios.post('http://localhost:8080/transactions/search',{
         params: {
                   user_id: "1",
                   is_proceed: isProceed,
@@ -216,12 +214,8 @@ const TransactionPage = () => {
                   start:start,
                   end:end,
                 }
-        }, {
-          headers:{
-            "Content-Type" : "application.json",
-            Authorization: `Bearer ${getCookie('access-token')}`
-          }
-        })
+        }, { withCredentials: true }
+        )
         .then(response => {
           setTransactions(response.data);
         })

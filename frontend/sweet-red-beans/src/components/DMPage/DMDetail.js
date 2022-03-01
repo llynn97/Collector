@@ -75,6 +75,17 @@ const DMDetail = ({selectedRoom}) => {
         // }
     },[contents])
 
+    useEffect(() => {
+        // setInterval(() => {
+        //     stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
+        //         console.log(JSON.parse(data.body));
+        //         console.log(contents);
+        //         const newMessage = JSON.parse(data.body);
+        //         addMessage(newMessage);
+        //     })
+        // }, 1000);
+    }, [])
+
 
 
     //에러 발생했을 때

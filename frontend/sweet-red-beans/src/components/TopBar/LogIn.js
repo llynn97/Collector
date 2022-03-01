@@ -52,7 +52,7 @@ const LogIn = () =>{
       password: password,
     };
 
-    axios.post('http://localhost:8080/signin', body)
+    axios.post('http://localhost:8080/signin', body,{ withCredentials: true })
     .then(response => {
       if(response.data.result){
         dispatch({
@@ -60,8 +60,10 @@ const LogIn = () =>{
           user: response.data,
         })
         //쿠키에 저장
+        const cookie = response.headers.cookies
+        
         localStorage.setItem('refresh-token', response.data['refresh-token']);
-        setCookie('access-token', response.data['access-token'], {path:'/', secure:true, sameSite:"none"})
+        setCookie('JSESSIONID',  cookie.load('JSESSIONID') , {path:'/', secure:true, sameSite:"none"})
         
         setModalOpen(false);
         navigation(0);

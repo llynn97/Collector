@@ -20,7 +20,7 @@ const Test = () => {
     useEffect(()=>{
         console.log(contents);
         stompClient.connect({},()=>{
-        stompClient.subscribe('/sub/chat/room/2',(data)=>{
+        stompClient.subscribe(`/sub/chat/room/2`,(data)=>{
             console.log(JSON.parse(data.body));
             console.log("sub");
             const newMessage = JSON.parse(data.body);
@@ -31,10 +31,10 @@ const Test = () => {
     
     const handleEnter = (username, content) => {
         stompClient.send("/pub/chat/message",{},JSON.stringify({ 
-            content : "안녕",
-            user_id : 1,
+            content : "안녕2",
+            user_id : 2,
             chat_room_id: 2,
-            nickname: "닉네임", }));
+            nickname: "닉네임2", }));
         setMessage("");
     };
 
