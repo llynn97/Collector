@@ -59,14 +59,16 @@ const LogIn = () =>{
           type: LOGIN_USER,
           user: response.data,
         })
+
+        setModalOpen(false);
+        navigation(0);
         //쿠키에 저장
         const cookie = response.headers.cookies
-        
+
         localStorage.setItem('refresh-token', response.data['refresh-token']);
         setCookie('JSESSIONID',  cookie.load('JSESSIONID') , {path:'/', secure:true, sameSite:"none"})
         
-        setModalOpen(false);
-        navigation(0);
+        
       } else {
         alert("로그인에 실패했습니다.");
       }
@@ -77,8 +79,8 @@ const LogIn = () =>{
 
   return (
       <>
-      <div className={style.login}>
-      <button onClick={openModal}>로그인</button>
+      <div className={style.loginArea}>
+      <button onClick={openModal} className={style.loginButton}>로그인</button>
       </div>
 
       <Modal open={modalOpen} close={closeModal} header="로그인">

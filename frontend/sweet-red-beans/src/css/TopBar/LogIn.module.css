@@ -1,5 +1,11 @@
-.login{
+.loginArea{
     text-align: right;
+    margin-top: 100px;
     margin-right: 20px;
-    margin-bottom: 100px;
+    margin-bottom: -20px;
+}
+
+.loginButton{
+    border: none;
+    background-color: transparent;
 }

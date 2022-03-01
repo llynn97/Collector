@@ -3,9 +3,9 @@
 }
 
 .title{
-    margin: 10px 80px 0px 10px;
-    float: left;
-    
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .title > button {
@@ -17,10 +17,12 @@
 }
 
 .navigationBar{
-    display: inline-block;
-    height: 200px;
+    position: relative;
     vertical-align: top;
-    text-align: right;
+    text-align: center;
+    border-top: #F23333 solid 1px;
+    border-bottom: #F23333 solid 1px;
+    margin-bottom: 50px;
 }
 
 @font-face {

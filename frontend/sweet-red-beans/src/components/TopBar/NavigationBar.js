@@ -50,20 +50,28 @@ const NavigationBar = () => {
 
     return (
         <>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-            <div className={styles.topBar}>
-                <button className={styles.topBarButton} onClick={eventClick}>이벤트</button>
-                <button className={styles.topBarButton} onClick={transactionClick}>대리구매</button>
-                <button className={styles.topBarButton} onClick={imformationShareClick}>커뮤니티</button>
-                
-                <button className={styles.topBarButton} onClick={DMClick}>개인메시지</button>
-                
-                <button className={styles.topBarButton} onClick={mypageClick}>마이페이지</button>
-            </div>
-            <div>
-                {!hide ? <BottomCategory/> : null}
-            </div>
-        </div>
+        <nav>
+            <ul>
+                <li className={styles.dropdown}>
+                    <div className={styles.dropdownMenu} onClick={eventClick}>이벤트</div>
+                </li>
+                <li className={styles.dropdown}>
+                    <div className={styles.dropdownMenu} onClick={transactionClick}>대리구매</div>
+                </li>
+                <li className={styles.dropdown}>
+                    <div className={styles.dropdownMenu} onClick={imformationShareClick}>커뮤니티</div>
+                    <div className={styles.dropdownContent}>
+                        <div onClick={imformationShareClick}>정보공유</div>
+                    </div>
+                </li>
+                <li className={styles.dropdown}>
+                    <div className={styles.dropdownMenu} onClick={DMClick}>개인메시지</div>
+                </li>
+                <li className={styles.dropdown}>
+                    <div className={styles.dropdownMenu} onClick={mypageClick}>마이페이지</div>
+                </li>
+            </ul>
+        </nav>
         
         </>
     );
