@@ -85,6 +85,7 @@ public class MyPageService {
         }
 
         List<Object[]> row3=  em.createQuery("select t.transaction_id ,u.nickname,u.reliability,u.user_id from like_basket b join b.user u left join b.transaction t where u.user_id =:user_id ").setParameter("user_id",user_id).getResultList();
+
         for (Object[] objects : row3) {
             Boolean is_mine=false;
             Long transaction_id=(Long)objects[0];
@@ -95,12 +96,14 @@ public class MyPageService {
                 is_mine=true;
             }
             List<Object[]> row4=  em.createQuery("select c.content, c.written_date ,t.status from transaction t join t.content_detail c where t.transaction_id =:transaction_id").setParameter("transaction_id",transaction_id).getResultList();
-            Object[] result4=row4.get(0);
-            String content=(String)result4[0];
+            if(row4.size()!=0){
+                Object[] result4=row4.get(0);
+                String content=(String)result4[0];
 
-            LocalDateTime written_date=(LocalDateTime)result4[1];
-            Status status=(Status)result4[6];
-            myPageResponseSearch.getLikeTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status));
+                LocalDateTime written_date=(LocalDateTime)result4[1];
+                Status status=(Status)result4[2];
+                myPageResponseSearch.getLikeTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status));
+            }
         }
 
 

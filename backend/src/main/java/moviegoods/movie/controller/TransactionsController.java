@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -46,6 +47,12 @@ public class TransactionsController {
     @PostMapping("/report")
     public ResultResponseDto report(@RequestBody TransactionsReportRequestDto requestDto) {
         ResultResponseDto resultResponseDto = transactionsService.report(requestDto);
+        return resultResponseDto;
+    }
+
+    @PostMapping("/like")
+    public ResultResponseDto like(@RequestBody TransactionsLikeRequestDto requestDto) throws ParseException {
+        ResultResponseDto resultResponseDto = transactionsService.like(requestDto);
         return resultResponseDto;
     }
 }

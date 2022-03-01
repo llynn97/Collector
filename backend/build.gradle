@@ -28,7 +28,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation group: 'com.google.firebase',name: 'firebase-admin', version:'8.1.0'
 
-
+	implementation 'org.jsoup:jsoup:1.14.2'
+	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+	implementation 'com.google.guava:guava:30.1.1-jre'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.3'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

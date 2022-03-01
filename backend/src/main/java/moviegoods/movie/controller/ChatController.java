@@ -57,7 +57,7 @@ public class ChatController {
 
 
 
-         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
+         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id(),message);
          //pub/direct-message/chat/message
 
      }

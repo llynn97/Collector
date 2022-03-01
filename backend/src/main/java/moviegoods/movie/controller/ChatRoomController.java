@@ -7,13 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
+import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
 import moviegoods.movie.service.MessageRoomService;
 import moviegoods.movie.service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -33,17 +36,21 @@ public class ChatRoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Long>> directMessageList (@RequestParam Long user_id) {
-        List<Long> roomsList = messageRoomService.findMessageRooms(user_id);
-        ResponseEntity<List<Long>> result = new ResponseEntity<>(roomsList, HttpStatus.OK);
+    public ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> directMessageList (@RequestParam Long user_id) {
+        List<DirectMessageListResponseDto> roomsList = messageRoomService.findMessageRooms(user_id);
+        Map<String, List<DirectMessageListResponseDto>> roomsListJson = new HashMap<>();
+        roomsListJson.put("room_id", roomsList);
+        ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> result = new ResponseEntity<>(roomsListJson, HttpStatus.OK);
         return result;
     }
-
     @GetMapping("/detail")
-    public ResponseEntity<List<DirectMessageDetailResponseDto>> detail (@RequestBody Long room_id) {
+    public ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> detail (@RequestParam Long room_id) {
         List<DirectMessageDetailResponseDto> messagesList = messageService.show(room_id);
+        Map<String, List<DirectMessageDetailResponseDto>> messagesListJson = new HashMap<>();
 
-        ResponseEntity<List<DirectMessageDetailResponseDto>> result = new ResponseEntity<>(messagesList, HttpStatus.OK);
+        messagesListJson.put("message", messagesList);
+
+        ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> result = new ResponseEntity<>(messagesListJson, HttpStatus.OK);
         return result;
     }
 
