@@ -13,11 +13,11 @@ const EventDetailPage = () => {
 
 
     useEffect(()=>{
-        axios.get('http://localhost:8080/events/detail', {
+        axios.post('http://localhost:8080/events/detail', {
             params: {
                 event_id: id,
             }
-        })
+        }, { withCredentials: true })
         .then(response => {
             setThisEvent(response.data)
             setStatus(response.data.is_like);
@@ -30,7 +30,7 @@ const EventDetailPage = () => {
             user_id: "1",
             event_id: thisEvent.event_id,
         }
-        axios.post('http://localhost:8080/events/like', body)
+        axios.post('http://localhost:8080/events/like', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 if(status){

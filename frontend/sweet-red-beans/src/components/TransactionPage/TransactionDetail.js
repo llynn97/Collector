@@ -18,7 +18,7 @@ const TransactionDetail = ({transaction}) => {
             transaction_id: transaction.transaction_id,
             status: status,
         }
-        axios.post('http://localhost:8080/transactions/change-status', body)
+        axios.post('http://localhost:8080/transactions/change-status', body , { withCredentials: true })
         .then(response => {
             if(response.data.result){
             }
@@ -47,12 +47,12 @@ const TransactionDetail = ({transaction}) => {
 
     //삭제버튼 삭제 눌렀을 때
     const deleteConfirm = () => {
-        axios.delete('http://localhost:8080/transactions',{
+        axios.post('http://localhost:8080/transactions',{
         data: {
                     user_id: "1",
                     transaction_id:transaction.transaction_id,
                 }
-        })
+        }, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 navigation(0);
@@ -93,7 +93,7 @@ const TransactionDetail = ({transaction}) => {
             user_id : "1",
             transaction_id : transaction.transaction_id,
         }
-        axios.post('http://localhost:8080/direct-message', body)
+        axios.post('http://localhost:8080/direct-message', body, { withCredentials: true })
         .then(response => {
             dispatch({
                 type:DM_CREATE,
@@ -118,7 +118,7 @@ const TransactionDetail = ({transaction}) => {
             user_id: "1",
             transaction_id: transaction.transaction_id,
         }
-        axios.post('http://localhost:8080/transactions/like', body)
+        axios.post('http://localhost:8080/transactions/like', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 if(status){

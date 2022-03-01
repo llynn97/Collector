@@ -30,11 +30,11 @@ const MyPageNomal = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.get('http://localhost:8080/mypage',{
+        axios.post('http://localhost:8080/mypage',{
         params: {
                     user_id: "1",
                 }
-        })
+        }, { withCredentials: true })
         .then(response => {
             setNickname(response.data.user.nickname);
             setNicknameModify(response.data.user.nickname);
@@ -95,7 +95,8 @@ const MyPageNomal = () => {
         if(imgFile!==null){
             fd.append("file", imgFile[0])
             fd.append("user_id", "1")
-            axios.patch('http://localhost:8080/mypage/profile', fd, {
+            axios.post('http://localhost:8080/mypage/profile', fd, {
+                withCredentials: true,
                 headers: {
                     "Content-Type": `multipart/form-data; `,
                 }
@@ -120,11 +121,11 @@ const MyPageNomal = () => {
                 return setNicknameError(true);
             }
             else {
-                axios.patch('http://localhost:8080/mypage/nickname', 
+                axios.post('http://localhost:8080/mypage/nickname', 
                 {
                     nickname: nicknameModify,
                     user_id: "1",
-                })
+                }, { withCredentials: true })
                 .then((response) => {
                 if(response.data){
                     console.log("닉네임 변경됨");
@@ -179,7 +180,7 @@ const MyPageNomal = () => {
         //바뀌었을 때
         if(nickname !== nicknameModify) {
             const userNickname = {nickname: nicknameModify};
-            axios.post('http://localhost:8080/mypage/duplicate-check', userNickname)
+            axios.post('http://localhost:8080/mypage/duplicate-check', userNickname, { withCredentials: true })
             .then(response => {
                 const data = response.data
                 if(data.result === false){

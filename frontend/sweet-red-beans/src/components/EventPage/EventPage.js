@@ -50,7 +50,7 @@ const EventPage = () => {
                 }
             }
         }
-        axios.get('http://localhost:8080/events/search',body)
+        axios.post('http://localhost:8080/events/search',body, { withCredentials: true })
         .then(response => {setEvents(response.data)
         console.log(response.data);})
         .catch(error => console.log(error));
@@ -152,7 +152,7 @@ const EventPage = () => {
         }}
         
         //처음에 진행 중, 최신순으로 요청
-        axios.get('http://localhost:8080/events/search',body)
+        axios.post('http://localhost:8080/events/search',body, { withCredentials: true })
         .then(response => setEvents(response.data))
         .catch(error => console.log(error));
 

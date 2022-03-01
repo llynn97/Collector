@@ -14,9 +14,9 @@ const Report = ({report}) => {
     }, [])
 
     const reportAcceptClick = () => {
-        axios.patch('http://localhost:8080/manager/report', {
+        axios.post('http://localhost:8080/manager/report', {
             user_id:report.user_id,
-        })
+        }, { withCredentials: true })
         .then((response) => {
         if(response.data){
             setDisable(true);

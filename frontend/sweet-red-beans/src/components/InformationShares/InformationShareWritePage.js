@@ -107,6 +107,7 @@ const InformationShareWritePage = () => {
                 fd.append("content", content);
 
                 axios.post('http://localhost:8080/information-share/write', fd, {
+                    withCredentials: true,
                     headers: {
                         "Content-Type": `multipart/form-data; `,
                     }
@@ -133,6 +134,7 @@ const InformationShareWritePage = () => {
                 fd.append("content", content);
 
                 axios.post('http://localhost:8080/information-share/write', fd, {
+                    withCredentials: true,
                     headers: {
                         "Content-Type": `multipart/form-data; `,
                     }

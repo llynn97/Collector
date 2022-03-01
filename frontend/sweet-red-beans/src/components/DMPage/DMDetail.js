@@ -107,7 +107,7 @@ const DMDetail = ({selectedRoom}) => {
             written_date:new Date(),
         }
         //setContents([...contents, content]);
-        setMessage("")
+        setMessage("");
     }
 
     const sendMessage = (message) => {
@@ -153,11 +153,11 @@ const DMDetail = ({selectedRoom}) => {
     //이제까지 메시지 내역 조회
     useEffect(() => {
         if(selectedRoom !== undefined){
-            axios.get("http://localhost:8080/direct-message/detail", {
+            axios.post("http://localhost:8080/direct-message/detail", {
                 params:{
                     room_id: selectedRoom.chat_room_id,
                 }
-            })
+            }, { withCredentials: true })
             .then(response => {
                 console.log(response.data.message);
                 //setMList(response.data.message.map(item => item.message_content));

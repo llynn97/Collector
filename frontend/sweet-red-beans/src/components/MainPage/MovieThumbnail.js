@@ -17,7 +17,7 @@ const MovieThumbnail = ({thisEvent}) => {
             user_id: "1",
             event_id: thisEvent.event_id,
         }
-        axios.post('http://localhost:8080/events/like', body)
+        axios.post('http://localhost:8080/events/like', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 if(status){

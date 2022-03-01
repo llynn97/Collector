@@ -206,7 +206,6 @@ const TransactionPage = () => {
     useEffect(()=>{
       axios.post('http://localhost:8080/transactions/search',{
         params: {
-                  user_id: "1",
                   is_proceed: isProceed,
                   search_word: search,
                   sort_criteria : "최신순",
