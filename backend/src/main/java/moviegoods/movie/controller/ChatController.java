@@ -13,6 +13,7 @@ import moviegoods.movie.service.FireBaseService;
 import moviegoods.movie.service.ChatService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,7 +30,8 @@ public class ChatController {
     private final FireBaseService fireBaseService;
 
     @MessageMapping("/chat/message")
-    public void message(DirectMessage message) throws IOException, FirebaseAuthException {
+    @SendToUser("/sub/chat/room/2")
+    public DirectMessage message(DirectMessage message) throws IOException, FirebaseAuthException {
         // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
         //   message.setContent(message.getNickname() + "입장");
 
@@ -37,7 +39,8 @@ public class ChatController {
         messageService.saveMessage(message);
 
 
-        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
+//        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
+        return message;
 
 
     }

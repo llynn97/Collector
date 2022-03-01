@@ -6,6 +6,7 @@ import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestD
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
+import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
 import moviegoods.movie.service.ChatRoomService;
 import moviegoods.movie.service.ChatService;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final ChatService chatService;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostMapping
     public ResponseEntity<DirectMessageCreateRoomResponseDto> create(@RequestBody DirectMessageCreateRoomRequestDto requestDto){
@@ -50,6 +52,12 @@ public class ChatRoomController {
 
         ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> result = new ResponseEntity<>(messagesListJson, HttpStatus.OK);
         return result;
+    }
+
+    @DeleteMapping
+    public Boolean create(@RequestBody DirectMessageCreateRoomResponseDto responseDto){
+        chatRoomRepository.deleteById(responseDto.getChat_room_id());
+        return true;
     }
 
 }

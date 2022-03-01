@@ -20,11 +20,11 @@ public class Like_Basket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long like_basket_id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 

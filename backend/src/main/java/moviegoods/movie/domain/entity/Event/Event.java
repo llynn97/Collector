@@ -8,9 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Cinema.Cinema;
+import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "event")
 @Data
@@ -49,7 +52,7 @@ public class Event {
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
-    @OneToOne(mappedBy = "event", orphanRemoval = true)
-    private Like_Basket like;
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
+    private List<Like_Basket> likes = new ArrayList<>();
 
 }

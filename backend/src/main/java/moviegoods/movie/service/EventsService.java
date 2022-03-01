@@ -38,14 +38,19 @@ public class EventsService {
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
-    public List<EventsSearchResponseDto> search(EventsSearchRequestDto requestDto) throws ParseException {
+    public List<EventsSearchResponseDto> search(User loginUser, EventsSearchRequestDto requestDto) throws ParseException {
         List<EventsSearchResponseDto> searchList = new ArrayList<>();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+        log.info("user_id={}", user_id);
 
         String cinema_name = requestDto.getCinema_name();
         String search_word = requestDto.getSearch_word();
         String sort_criteria = requestDto.getSort_criteria(); // 최신순, 관심도순
         Boolean is_end = requestDto.getIs_end(); // 1(마감), 0(진행)
-        Long user_id = requestDto.getUser_id();
+
         String linking_word = "where ";
 
         String searchJpql = "select e from event e join e.cinema c where ";
@@ -103,6 +108,7 @@ public class EventsService {
             String thumbnail_url = event.getThumbnail_url();
             Date start_date = event.getStart_date();
             Date end_date = event.getEnd_date();
+            log.info("start_date={}", start_date);
 
             Boolean search_is_end = Boolean.FALSE;
             Date date_now = java.sql.Date.valueOf(now);
@@ -118,11 +124,13 @@ public class EventsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public EventsDetailResponseDto detail(EventsDetailRequestDto requestDto) throws ParseException {
+    public EventsDetailResponseDto detail(User loginUser, EventsDetailRequestDto requestDto) throws ParseException {
 
         Long event_id = requestDto.getEvent_id();
-        Long user_id = requestDto.getUser_id();
-
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Event event = eventRepository.findById(event_id).orElseThrow(() -> new IllegalArgumentException("해당 이벤트가 없습니다. event_id = "+ event_id));
         String cinema_name = event.getCinema().getName();
         String title = event.getTitle();
@@ -139,18 +147,22 @@ public class EventsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto like(EventsLikeRequestDto requestDto) throws ParseException {
+    public ResultResponseDto like(User loginUser, EventsLikeRequestDto requestDto) throws ParseException {
 
         Long event_id = requestDto.getEvent_id();
-        Long user_id = requestDto.getUser_id();
-
+        // 로그인
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
         Event event = eventRepository.findById(event_id).orElseThrow(() -> new IllegalArgumentException("해당 이벤트가 없습니다. event_id = "+ event_id));
-        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ user_id));
+        //Long finalUser_id = user_id;
+        //User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ finalUser_id));
 
         Boolean result = false;
         if (Objects.equals(is_like,false)) {
-            Like_Basket saveEntity=Like_Basket.builder().user(user).event(event).build();
+            Like_Basket saveEntity=Like_Basket.builder().user(loginUser).event(event).build();
             likeBasketRepository.save(saveEntity);
             result = true;
         }

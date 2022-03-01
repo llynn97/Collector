@@ -7,6 +7,7 @@ import moviegoods.movie.domain.dto.main.MainDailyCommunityResponseDto;
 import moviegoods.movie.domain.dto.main.MainEventLimitResponseDto;
 import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Post.Post;
+import moviegoods.movie.domain.entity.User.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,10 @@ import java.util.List;
 @Slf4j
 public class MainService {
     private final EntityManager em;
+    private final LikeBasketsService likeBasketsService;
 
     @Transactional(rollbackFor = Exception.class)
-    public List<MainEventLimitResponseDto> eventLimit() {
+    public List<MainEventLimitResponseDto> eventLimit(User loginUser) {
         List<String> cinemaNameList = new ArrayList<String>();
         cinemaNameList.add("CGV");
         cinemaNameList.add("메가박스");
@@ -43,8 +45,13 @@ public class MainService {
                 String thumbnail_url = event.getThumbnail_url();
                 Date start_date = event.getStart_date();
                 Date end_date = event.getEnd_date();
+                Long user_id = null;
+                if (loginUser != null) {
+                    user_id = loginUser.getUser_id();
+                }
+                Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
 
-                searchList.add(new MainEventLimitResponseDto(search_cinema_name, event_id, thumbnail_url, title, start_date, end_date));
+                searchList.add(new MainEventLimitResponseDto(search_cinema_name, event_id, thumbnail_url, title, start_date, end_date, is_like));
             }
 
         }
