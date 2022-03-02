@@ -69,12 +69,27 @@
     margin-right: 20px;
 }
 
-.statusButton {
+.statusButtonArea {
     display: inline-block;
 
 }
 
+.statusButton {
+    cursor: pointer;
+    text-align: center;
+    color: #F23333;
+    width: 180px;
+    height: 30px;
+    border-radius: 50px;
+    background-color: white;
+    border: #F23333 solid 2px;
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 13pt;
+}
+
 .likeButton {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     border: #C4C4C4 1px solid;
@@ -87,6 +102,7 @@
 }
 
 .DMButton {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     border: #C4C4C4 1px solid;
@@ -100,6 +116,7 @@
 }
 
 .reportButton {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     border: #C4C4C4 1px solid;
@@ -123,10 +140,14 @@
 }
 
 .deleteButton {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     border: #C4C4C4 1px solid;
     border-radius: 50px;
-    background-color: transparent;
+    background: url('../../img/trash.png');
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
 }
 

@@ -26,7 +26,7 @@ const DMPage = () => {
     }
 
     useEffect(() => {
-        console.log(selectedRoomId);
+        //console.log(selectedRoomId);
     }, [selectedRoomId])
 
     return(
@@ -34,7 +34,12 @@ const DMPage = () => {
         <div>
             <DMList DMListClick={DMListClick}/>
         </div>
-        {selectedRoomId !== null ? <DMDetail selectedRoom={selectedRoomId}/> : null}
+        {
+        //useMemo(()=>(<DMDetail selectedRoom={selectedRoomId}/>), [selectedRoomId])
+        }
+        {
+        selectedRoomId !== null ? <DMDetail selectedRoom={selectedRoomId}/> : null
+        }
         </>
     );
 }

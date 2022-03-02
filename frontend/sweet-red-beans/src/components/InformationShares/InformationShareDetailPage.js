@@ -19,12 +19,13 @@ const InformationShareDetailPage = () => {
 
     //처음 조회
     useEffect(()=>{
-        axios.post('http://localhost:8080/information-share/detail',{
+        axios.get('http://localhost:8080/information-share/detail',{
+        withCredentials: true,
         params: {
                     post_id : postid,
                     user_id : "1",
                 }
-        }, { withCredentials: true })
+        })
         .then(response => {
             console.log(response.data);
             const post = {
@@ -72,12 +73,13 @@ const InformationShareDetailPage = () => {
 
     //삭제버튼 눌렀을 때
     const deleteConfirm = () => {
-        axios.post('http://localhost:8080/information-share/detail',{
+        axios.delete('http://localhost:8080/information-share/detail',{
+        withCredentials: true,
         data: {
                     post_id : postid,
                     user_id : "1",
                 }
-        }, { withCredentials: true })
+        })
         .then(response => {
             if(response.data.result){
                 alert("삭제되었습니다.")

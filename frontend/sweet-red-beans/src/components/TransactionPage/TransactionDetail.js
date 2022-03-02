@@ -241,9 +241,9 @@ const TransactionDetail = ({transaction}) => {
                 {status === '진행중' ? <div className={style.proceeding}>진행중</div> : null}
                 {status === '마감' ? <div className={style.done}>마감</div> : null}
                 
-                <div className={style.statusButton}>
+                <div className={style.statusButtonArea}>
                 {transaction.is_mine ? (<div>
-                    {status === "진행중" ? <button onClick={statusClick}>마감으로 바꾸기</button> : <button onClick={statusClick}>진행중으로 바꾸기</button>}
+                    <button className={style.statusButton} onClick={statusClick}>{status==="진행중" ? "마감으로 바꾸기" : "진행중으로 바꾸기"}</button>
                     </div>
                 ) : 
                 <div className={style.notMine}>

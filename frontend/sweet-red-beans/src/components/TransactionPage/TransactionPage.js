@@ -6,6 +6,7 @@ import TransactionWriteModal from "../Modals/TransactionWriteModal";
 import InfiniteScroll from "./InfiniteScroll";
 import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const TransactionPage = () => {
     const navigation = useNavigate()
@@ -254,8 +255,8 @@ const TransactionPage = () => {
 
         <div className={style.transactionsBox}>
           <div className={style.topBox}>
-            <button onClick={allClick} className={style.all}>전체</button>
-            <button onClick={proceedClick} className={style.proceeding}>진행중</button>
+            <button onClick={allClick} className={isProceed ? style.notSelected : style.proceedSelected}>전체</button>
+            <button onClick={proceedClick} className={isProceed ? style.proceedSelected : style.notSelected}>진행중</button>
             <div className={style.filterBox}>
               <select onChange={searchSortChange} className={style.filter}>
                   <option value="글내용">글내용</option>
@@ -270,13 +271,15 @@ const TransactionPage = () => {
           </div>
           
           {useMemo(() => transactionIsHere ? <Transactions transactions={transactions}/> :null, [searchWords, transactions, isProceed])}
+        
+          <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
+
+          <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}>글쓰기</button>
         </div>
 
 
 
-        <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
-
-        <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}>글쓰기</button>
+        
         <TransactionWriteModal open={modalOpen} close={closeModal} header="글 작성하기">
           <textarea value={content} onChange={contentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
           <button onClick={writeClick}>글 쓰기</button>

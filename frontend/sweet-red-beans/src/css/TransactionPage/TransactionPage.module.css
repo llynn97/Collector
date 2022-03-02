@@ -74,11 +74,23 @@
   margin-bottom: 30px;
 }
 
-.all, .proceeding{
+.proceedSelected, .notSelected{
+  cursor: pointer;
   border: none;
-  width: 100px;
+  width: 90px;
+  padding: 10px;
   height: 45px;
-  margin-left: 20px;
+  margin-left: 0px;
+  background-color: transparent;
+}
+
+.proceedSelected {
+  font-size: 12pt;
+  color: #F23333;
+  background: url("../../img/check.png");
+  background-size: 20%;
+  background-repeat: no-repeat;
+  background-position: 0% 60%;
 }
 
 .searchBox{
@@ -181,13 +193,17 @@
 .topBtn {
   position: fixed; 
   opacity: 0; 
-  bottom: 0px;
-  right: 0px;
+  bottom: 30px;
+  right: 30px;
   z-index: -10; 
-  width: 50px; 
-  height: 50px;
+  width: 80px; 
+  height: 80px;
+  border-radius: 50px;
+  border: none;
   cursor: pointer;
   transition: opacity 0.3s ease-in;
+  background-color: #F23333;
+  color: white;
 }
 
 .topBtn.active {
@@ -204,13 +220,17 @@
 .writeBtn {
   position: fixed; 
   opacity: 0; 
-  bottom: 100px;
-  right: 0px;
+  bottom: 140px;
+  right: 30px;
   z-index: -10; 
-  width: 50px; 
-  height: 50px;
+  width: 80px; 
+  height: 80px;
+  border-radius: 50px;
+  border: none;
   cursor: pointer;
   transition: opacity 0.3s ease-in;
+  background-color: #F23333;
+  color: white;
 }
 
 .writeBtn.active {

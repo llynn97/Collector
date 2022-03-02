@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Modal from '../Modals/Modal';
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -7,6 +7,7 @@ import login from "../../actions/user_action";
 import { LOGIN_USER } from "../../actions/types";
 import style from "../../css/TopBar/LogIn.module.css";
 import { getCookie, setCookie } from "../../Cookie";
+import { Cookies } from "react-cookie";
 
 const LogIn = () =>{
   let navigation = useNavigate();
@@ -17,6 +18,8 @@ const LogIn = () =>{
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
 
+  const [successLogin, setSuccessLogin] = useState(false);
+  
   const openModal = () => {
     setModalOpen(true);
   };
@@ -60,6 +63,7 @@ const LogIn = () =>{
           user: response.data,
         })
 
+        setSuccessLogin(true);
         setModalOpen(false);
         navigation(0);
         
@@ -74,7 +78,8 @@ const LogIn = () =>{
   return (
       <>
       <div className={style.loginArea}>
-      <button onClick={openModal} className={style.loginButton}>로그인</button>
+      {successLogin ? <button>로그아웃</button>: <button onClick={openModal} className={style.loginButton}>로그인</button>}
+      
       </div>
 
       <Modal open={modalOpen} close={closeModal} header="로그인">
@@ -88,7 +93,6 @@ const LogIn = () =>{
         <input type="password" placeholder="********" onChange={passwordChange} value={password}/>
         </div>
         {password === "" ? <div style={{color : 'red'}}>비밀번호를 입력해주세요</div> : null}
-
         <button onClick={LoginClick}>로그인</button>
         {loginError && <div style={{color : 'red'}}>이메일과 비밀번호를 입력해주세요</div>}
         </form>

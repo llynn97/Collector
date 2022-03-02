@@ -3,8 +3,10 @@ import LogIn from "./LogIn";
 import NavigationBar from "./NavigationBar";
 import {useNavigate} from "react-router-dom";
 import style from "../../css/TopBar/TopBar.module.css"
+import { getCookie } from "../../Cookie";
 
 const TopBar = () => {
+
     let navigation = useNavigate();
 
     const titleClick = () => {

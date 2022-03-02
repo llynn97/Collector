@@ -16,7 +16,7 @@ const DMList = ({DMListClick}) => {
         axios.get('http://localhost:8080/direct-message',{
         withCredentials: true,
         params: {
-                    user_id:"1",
+                   user_id:"14"
                 }
         })
         .then(response => {

@@ -5,14 +5,12 @@ import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
 import Modal from "../../components/Modals/ReportModal";
-import ChatPresenter from "./ChatPresenter";
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
-    console.log("dmdetail 렌더");
     const [ms, setMs] = useState("");
     const [mList, setMList] = useState([]);
     const [detailMessages, setDetailMessages] = useState([]);
@@ -43,49 +41,24 @@ const DMDetail = ({selectedRoom}) => {
     
     //서버와 연결됐을 때
     useEffect(() => {
-        stompClient.connect({
-            //"token" : "발급받은토큰"
-        }, () => {
-            stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
-                console.log(JSON.parse(data.body));
-                console.log(contents);
-                const newMessage = JSON.parse(data.body);
-                addMessage(newMessage);
-            })
-        })
-        // socket.onopen = (e) => {
-        //     stompClient = Stomp.over(socket);
-        //     console.log("open server!!!!");
-    
-        //     stompClient.connect({}, function(frame) {
-        //         console.log('Connected: ' + frame);
-        //         //입장에 대한 구독
-        //         stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, function(response) {
-        //             console.log(response);
-        //         });
-        //         //메시지 전달 구독
-        //         stompClient.subscribe('/sub/chat/message', function(response) {
-        //             console.log(response);
-        //         });
-                
-        //     })
-        // }
-        // return () => {
-        //     stompClient.disconnect();
-        // }
-    },[contents])
+        console.log(socket);
 
-    useEffect(() => {
-        // setInterval(() => {
+        // stompClient.connect({
+        //     //"token" : "발급받은토큰"
+        // }, () => {
         //     stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
         //         console.log(JSON.parse(data.body));
         //         console.log(contents);
         //         const newMessage = JSON.parse(data.body);
         //         addMessage(newMessage);
         //     })
-        // }, 1000);
+        // })
+
     }, [])
 
+    useEffect(() => {
+        
+    }, [contents])
 
 
     //에러 발생했을 때
@@ -101,39 +74,23 @@ const DMDetail = ({selectedRoom}) => {
     const sendClick = () => {
         sendMessage(message);
         //서버에서 받아올 때처럼 비슷한 형식으로 넣어주기 위해
-        const content = {
-            message_content:message,
-            nickname:"민지",
-            written_date:new Date(),
-        }
-        //setContents([...contents, content]);
         setMessage("");
     }
 
     const sendMessage = (message) => {
-        // stompClient.send("/pub/chat/message", {}, JSON.stringify({
-        //     content : message,
-        //     user_id : "1",
-        //     chat_room_id: selectedRoom.chat_room_id,
-        //     nickname: "민지",
-        // }))
-
         //내가 메시지 전송할 때
-        stompClient.send("/pub/chat/message", {}, JSON.stringify({
+        stompClient.send("/pub/chat/message", {withCredentials:true}, JSON.stringify({
             content : message,
-            user_id : "1",
+            user_id:"14",
+            nickname:"현정쓰",
             chat_room_id: selectedRoom.chat_room_id,
-            nickname: "민지",
         }));
-        
-        console.log(contents);
         
     }
 
     const addMessage = (message) =>{
         //상대에게 받아온 메시지를 추가함
         setContents(prev=>[...prev, message]);
-        console.log(contents);
     };
 
     
@@ -160,14 +117,26 @@ const DMDetail = ({selectedRoom}) => {
                 }
             })
             .then(response => {
-                console.log(response.data.message);
                 //setMList(response.data.message.map(item => item.message_content));
                 setContents(response.data.message);
             })
             .catch(error => console.log(error))
         }
 
-        
+        let headers = {withCredentials:true}
+
+        stompClient.connect(headers, () => {
+            // let socketURL = stompClient.ws._transport.url;
+            // socketURL = socketURL.replace("ws://localhost:8080/ws-stomp/",  "");
+            // socketURL = socketURL.replace("/websocket", "");
+            // socketURL = socketURL.replace(/^[0-9]+\//, "");
+            // console.log(socketURL);
+            stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
+                console.log(JSON.parse(data.body));
+                const newMessage = JSON.parse(data.body);
+                addMessage(newMessage);
+            })
+        });
     }, [selectedRoom])
 
     //신뢰도 +1 주는 버튼
@@ -285,7 +254,7 @@ const DMDetail = ({selectedRoom}) => {
                 //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
             }
             {contents.map((message, index) => (
-                <div key={index}> {message.nickname} : {message.message_content} </div>
+                <div key={index}> {message.nickname} : {message.content} </div>
             ))}
             </div>
             
