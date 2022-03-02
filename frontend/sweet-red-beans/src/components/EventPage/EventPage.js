@@ -34,6 +34,7 @@ const EventPage = () => {
         let body = {}
         if(selected === "전체"){
             body = {
+                withCredentials: true,
                 params: {
                     sort_criteria: sort,
                     is_end: isEnd,
@@ -42,6 +43,7 @@ const EventPage = () => {
             }
         } else {
             body = {
+                withCredentials: true,
                 params: {
                     cinema_name: selected,
                     sort_criteria: sort,
@@ -50,7 +52,7 @@ const EventPage = () => {
                 }
             }
         }
-        axios.post('http://localhost:8080/events/search',body, { withCredentials: true })
+        axios.get('http://localhost:8080/events/search',body)
         .then(response => {setEvents(response.data)
         console.log(response.data);})
         .catch(error => console.log(error));
@@ -146,13 +148,17 @@ const EventPage = () => {
             payload:sort,
         })
 
-        const body = {params:{
-            sort_criteria: sort,
-            is_end: isEnd,
-        }}
+        const body = 
+        {
+            withCredentials: true,
+            params:{
+                sort_criteria: sort,
+                is_end: isEnd,
+            }
+        }
         
         //처음에 진행 중, 최신순으로 요청
-        axios.post('http://localhost:8080/events/search',body, { withCredentials: true })
+        axios.get('http://localhost:8080/events/search',body)
         .then(response => setEvents(response.data))
         .catch(error => console.log(error));
 

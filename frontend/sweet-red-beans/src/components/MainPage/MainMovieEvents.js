@@ -17,7 +17,7 @@ const MainMovieEvents = ({cinemaName}) => {
 
     useEffect(()=>
     {
-        axios.post('http://localhost:8080/main/event-limit', {} ,{ withCredentials: true })
+        axios.get('http://localhost:8080/main/event-limit', {withCredentials: true})
         .then(response => {
             setEvents(response.data);
         });

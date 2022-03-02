@@ -14,9 +14,12 @@ const Report = ({report}) => {
     }, [])
 
     const reportAcceptClick = () => {
-        axios.post('http://localhost:8080/manager/report', {
-            user_id:report.user_id,
-        }, { withCredentials: true })
+        axios.get('http://localhost:8080/manager/report', {
+            params: {
+                user_id:report.user_id,
+              },
+            withCredentials: true
+        })
         .then((response) => {
         if(response.data){
             setDisable(true);

@@ -13,11 +13,12 @@ const EventDetailPage = () => {
 
 
     useEffect(()=>{
-        axios.post('http://localhost:8080/events/detail', {
+        axios.get('http://localhost:8080/events/detail', {
+            withCredentials: true,
             params: {
                 event_id: id,
             }
-        }, { withCredentials: true })
+        })
         .then(response => {
             setThisEvent(response.data)
             setStatus(response.data.is_like);

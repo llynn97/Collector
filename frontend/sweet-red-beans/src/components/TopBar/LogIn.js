@@ -62,12 +62,6 @@ const LogIn = () =>{
 
         setModalOpen(false);
         navigation(0);
-        //쿠키에 저장
-        const cookie = response.headers.cookies
-
-        localStorage.setItem('refresh-token', response.data['refresh-token']);
-        setCookie('JSESSIONID',  cookie.load('JSESSIONID') , {path:'/', secure:true, sameSite:"none"})
-        
         
       } else {
         alert("로그인에 실패했습니다.");

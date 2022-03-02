@@ -13,11 +13,12 @@ const DMList = ({DMListClick}) => {
 
     useEffect(() => {
         //DM 목록 조회
-        axios.post('http://localhost:8080/direct-message',{
+        axios.get('http://localhost:8080/direct-message',{
+        withCredentials: true,
         params: {
                     user_id:"1",
                 }
-        }, { withCredentials: true })
+        })
         .then(response => {
             console.log(response.data);
             setDMList(response.data.room_id)

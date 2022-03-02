@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DM_CREATE } from "../../actions/types";
 import style from "../../css/TransactionPage/TransactionDetail.module.css";
+import Modal from "../../components/Modals/ReportModal";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const TransactionDetail = ({transaction}) => {
     const [status, setStatus] = useState("");
     const [likeStatus, setLikeStatus] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [reportContent, setReportContent] = useState("");
 
     const serverReqStatus = () => {
         const body = {
@@ -47,12 +50,13 @@ const TransactionDetail = ({transaction}) => {
 
     //삭제버튼 삭제 눌렀을 때
     const deleteConfirm = () => {
-        axios.post('http://localhost:8080/transactions',{
+        axios.delete('http://localhost:8080/transactions',{
         data: {
-                    user_id: "1",
-                    transaction_id:transaction.transaction_id,
-                }
-        }, { withCredentials: true })
+            user_id: "1",
+            transaction_id:transaction.transaction_id,
+        },
+        withCredentials: true
+        })
         .then(response => {
             if(response.data.result){
                 navigation(0);
@@ -66,7 +70,7 @@ const TransactionDetail = ({transaction}) => {
     }
 
     //삭제 취소 버튼 눌렀을 때
-    const cancelConfirm = () => console.log("삭제 취소")
+    const cancelConfirm = () => console.log("취소")
 
     //삭제 버튼 클릭했을 때
     const deleteClick = useConfirm(
@@ -139,12 +143,24 @@ const TransactionDetail = ({transaction}) => {
     const parseDate = (written_date) => {
         const d = new Date(written_date);
         const year = d.getFullYear();
-        const month = d.getMonth();
-        const date = d.getDate();
-        const hours = d.getHours();
-        const min = d.getMinutes();
+        let month = d.getMonth();
+        let date = d.getDate();
+        let hours = d.getHours();
+        let min = d.getMinutes();
+        if(month<10){
+            month = '0'+month;
+        }
+        if(date<10){
+            date = '0'+date;
+        }
+        if(hours<10){
+            hours = '0'+hours;
+        }
+        if(min<10){
+            min = '0'+min;
+        }
         return (
-            <div>{year}-{month}-{date}, {hours} : {min}</div>
+            <div>{year}-{month}-{date}  {hours} : {min}</div>
         )
     }
 
@@ -153,8 +169,65 @@ const TransactionDetail = ({transaction}) => {
         setLikeStatus(transaction.is_like);
     },[transaction])
 
+    const openModal = () => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    const reportContentChange = (e) => {
+        setReportContent(e.target.value);
+    }
+
+    //신고 확인 버튼 눌렀을 때
+    const reportConfirm = () => {
+        const body = {
+            user_id : "1",
+            transaction_id : transaction.transaction_id,
+            report_content : reportContent,
+        }
+        axios.post('http://localhost:8080/transactions/report', body)
+        .then(response => {
+            if(response.data.result){
+                alert("신고되었습니다.")
+                setReportContent("");
+                setModalOpen(false);
+            }
+            else {
+                alert("신고에 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
+    }
+
+    //모달창에서 신고하기 버튼 눌렀을 때
+    const reportClick = (e) => {
+        e.preventDefault();
+        if(reportContent === ""){
+            alert("신고 내용을 입력해주세요");
+        }
+        else {
+            if (window.confirm("정말 신고하시겠습니까?")) {
+                reportConfirm();
+            } else {
+                cancelConfirm();
+            }
+        }
+    }
+
     return(
         <>
+        <Modal open={modalOpen} close={closeModal} header="로그인">
+        <form>
+            신고사유를 적어주세요
+            <div>
+            <textarea value={reportContent} onChange={reportContentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
+            <button onClick={reportClick}>신고하기</button>
+            </div>
+        </form>
+        </Modal>
+
         <div className={style.transactionBox}>
             <div>
                 <div className={style.nickname}>
@@ -174,6 +247,7 @@ const TransactionDetail = ({transaction}) => {
                     </div>
                 ) : 
                 <div className={style.notMine}>
+                    <button onClick={openModal} className={style.reportButton}></button>
                     <button onClick={DMClick} className={style.DMButton}></button>
                     <button onClick={likeClick} className={style.likeButton}>{likeStatus ? "" : ""}</button>
                 </div>}

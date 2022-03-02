@@ -11,11 +11,11 @@ const MyPageAdmin = () => {
     const offset = (page - 1) * limit;
 
     useEffect(() => {
-        // axios.get('http://localhost:8080/manager/report')
-        // .then(response => {
-        //     setReports(response.data);
-        // })
-        // .catch(error => console.log(error))
+        axios.get('http://localhost:8080/manager/report', {withCredentials: true})
+        .then(response => {
+            setReports(response.data);
+        })
+        .catch(error => console.log(error))
 
         setReports([{
             user_id: "1",

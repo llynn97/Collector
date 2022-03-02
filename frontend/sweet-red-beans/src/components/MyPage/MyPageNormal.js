@@ -30,11 +30,12 @@ const MyPageNomal = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.post('http://localhost:8080/mypage',{
+        axios.get('http://localhost:8080/mypage',{
+        withCredentials: true ,
         params: {
                     user_id: "1",
                 }
-        }, { withCredentials: true })
+        })
         .then(response => {
             setNickname(response.data.user.nickname);
             setNicknameModify(response.data.user.nickname);
@@ -95,7 +96,7 @@ const MyPageNomal = () => {
         if(imgFile!==null){
             fd.append("file", imgFile[0])
             fd.append("user_id", "1")
-            axios.post('http://localhost:8080/mypage/profile', fd, {
+            axios.patch('http://localhost:8080/mypage/profile', fd, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": `multipart/form-data; `,
@@ -121,7 +122,7 @@ const MyPageNomal = () => {
                 return setNicknameError(true);
             }
             else {
-                axios.post('http://localhost:8080/mypage/nickname', 
+                axios.patch('http://localhost:8080/mypage/nickname', 
                 {
                     nickname: nicknameModify,
                     user_id: "1",

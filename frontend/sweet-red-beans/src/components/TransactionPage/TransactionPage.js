@@ -30,17 +30,19 @@ const TransactionPage = () => {
     const [fetching, setFetching] = useState(false);
 
     const serverReq = () => {
-      axios.post('http://localhost:8080/transactions/search',{
-      params: {
-                user_id: "1",
-                is_proceed: isProceed,
-                search_word: search,
-                sort_criteria : "최신순",
-                search_criteria : searchSort,
-                start: 0,
-                end: 29,
-              }
-      },{ withCredentials: true })
+      axios.get('http://localhost:8080/transactions/search',{ 
+          withCredentials: true,
+          params: {
+                    user_id: "1",
+                    is_proceed: isProceed,
+                    search_word: search,
+                    sort_criteria : "최신순",
+                    search_criteria : searchSort,
+                    start: start+30,
+                    end: end+30,
+                  }
+        }
+      )
       .then(response => {
         setTransactions(response.data)
         setStart(0);
@@ -100,15 +102,18 @@ const TransactionPage = () => {
         axios.post('http://localhost:8080/transactions/write', body, { withCredentials: true })
         .then(response => {
           if(response.data){
-            axios.post('http://localhost:8080/transactions/search',{
+            axios.get('http://localhost:8080/transactions/search',{ 
+            withCredentials: true,
             params: {
                       user_id: "1",
-                      is_proceed: false,
-                      search_word: "",
+                      is_proceed: isProceed,
+                      search_word: search,
                       sort_criteria : "최신순",
                       search_criteria : searchSort,
-                  }
-          },{ withCredentials: true })
+                      start: start+30,
+                      end: end+30,
+                    }
+          })
           .then(response => {
             setTransactions(response.data);
           })
@@ -155,7 +160,8 @@ const TransactionPage = () => {
 
     const fetchMoreTransactions = () => {
       if(transactions.length !== 0) {
-        axios.post('http://localhost:8080/transactions/search',{
+        axios.get('http://localhost:8080/transactions/search',{ 
+          withCredentials: true,
           params: {
                     user_id: "1",
                     is_proceed: isProceed,
@@ -165,8 +171,7 @@ const TransactionPage = () => {
                     start: start+30,
                     end: end+30,
                   }
-                
-          },{ withCredentials: true })
+        })
           .then(response => {
             const more = response.data;
             const mergeData = transactions.concat(...more);
@@ -204,8 +209,9 @@ const TransactionPage = () => {
 
     //한 번만 실행
     useEffect(()=>{
-      axios.post('http://localhost:8080/transactions/search',{
-        params: {
+      axios.get('http://localhost:8080/transactions/search',{ 
+          withCredentials: true,
+          params: {
                   is_proceed: isProceed,
                   search_word: search,
                   sort_criteria : "최신순",
@@ -213,8 +219,7 @@ const TransactionPage = () => {
                   start:start,
                   end:end,
                 }
-        }, { withCredentials: true }
-        )
+        })
         .then(response => {
           setTransactions(response.data);
         })

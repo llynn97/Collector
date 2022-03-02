@@ -48,7 +48,8 @@ const InformationSharePage = () => {
     const [infoIsHere, setInfoIsHere] = useState(false);
 
     const serverReq = () => {
-        axios.post('http://localhost:8080/information-share/search',{
+        axios.get('http://localhost:8080/information-share/search',{
+        withCredentials: true,
         params: {
                     search_word : search,
                     cinema_name : cinemaName,
@@ -56,7 +57,7 @@ const InformationSharePage = () => {
                     cinema_branch : cinemaBranch,
                     sort_name: sort,
                 }
-        }, { withCredentials: true })
+        })
         .then(response => setInfos(response.data))
         .catch(error => console.log(error));
     }
@@ -130,12 +131,13 @@ const InformationSharePage = () => {
 
     useEffect(()=>{
         //처음에 최신순으로 요청
-        axios.post('http://localhost:8080/information-share/search',{
+        axios.get('http://localhost:8080/information-share/search',{
+        withCredentials: true,
         params: {
                     search_word : search,
                     sort_name: sort,
                 }
-        }, { withCredentials: true })
+        })
         .then(response => setInfos(response.data))
         .catch(error => console.log(error));
 
@@ -155,37 +157,41 @@ const InformationSharePage = () => {
 
     useEffect(()=>{
         if(cinemaName === "전체"){
-            axios.post('http://localhost:8080/information-share/search',{
+            axios.get('http://localhost:8080/information-share/search',{
+            withCredentials: true,
             params: {
                         search_word : search,
                         sort_name: sort,
                     }
-            }, { withCredentials: true })
+            })
             .then(response => setInfos(response.data))
             .catch(error => console.log(error));
         } else if(cinemaArea === "지역"){
-            axios.post('http://localhost:8080/information-share/search',{
+            axios.get('http://localhost:8080/information-share/search',{
+            withCredentials: true,
             params: {
                         search_word : search,
                         cinema_name : cinemaName,
                         sort_name: sort,
                     }
-            }, { withCredentials: true })
+            })
             .then(response => setInfos(response.data))
             .catch(error => console.log(error));
         } else if(cinemaBranch === "지점"){
-            axios.post('http://localhost:8080/information-share/search',{
+            axios.get('http://localhost:8080/information-share/search',{
+            withCredentials: true,
             params: {
                         search_word : search,
                         cinema_name : cinemaName,
                         cinema_area : cinemaArea,
                         sort_name: sort,
                     }
-            }, { withCredentials: true })
+            })
             .then(response => setInfos(response.data))
             .catch(error => console.log(error));
         } else {
-            axios.post('http://localhost:8080/information-share/search',{
+            axios.get('http://localhost:8080/information-share/search',{
+            withCredentials: true,
             params: {
                         search_word : search,
                         cinema_name : cinemaName,
@@ -193,7 +199,7 @@ const InformationSharePage = () => {
                         cinema_branch: cinemaBranch,
                         sort_name: sort,
                     }
-            }, { withCredentials: true })
+            })
             .then(response => setInfos(response.data))
             .catch(error => console.log(error));
         }

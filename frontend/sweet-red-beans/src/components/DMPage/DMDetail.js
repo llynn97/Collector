@@ -153,11 +153,12 @@ const DMDetail = ({selectedRoom}) => {
     //이제까지 메시지 내역 조회
     useEffect(() => {
         if(selectedRoom !== undefined){
-            axios.post("http://localhost:8080/direct-message/detail", {
+            axios.get("http://localhost:8080/direct-message/detail", {
+                withCredentials: true,
                 params:{
                     room_id: selectedRoom.chat_room_id,
                 }
-            }, { withCredentials: true })
+            })
             .then(response => {
                 console.log(response.data.message);
                 //setMList(response.data.message.map(item => item.message_content));
@@ -176,7 +177,7 @@ const DMDetail = ({selectedRoom}) => {
         const body = {
             user_id: selectedRoom.not_mine_id
         }
-        axios.post('http://localhost:8080/direct-message/reliability', body)
+        axios.post('http://localhost:8080/direct-message/reliability', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 alert("상대방의 신뢰도가 올랐습니다.")
@@ -200,7 +201,7 @@ const DMDetail = ({selectedRoom}) => {
             transaction_id : selectedRoom.transaction_id,
             report_content : reportContent,
         }
-        axios.post('http://localhost:8080/direct-message/report', body)
+        axios.post('http://localhost:8080/direct-message/report', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 alert("신고되었습니다.")
@@ -239,7 +240,7 @@ const DMDetail = ({selectedRoom}) => {
         const body = {
             transaction_id: selectedRoom.transaction_id,
         }
-        axios.post('http://localhost:8080/direct-message/transaction-complete', body)
+        axios.post('http://localhost:8080/direct-message/transaction-complete', body, { withCredentials: true })
         .then(response => {
             if(response.data.result){
                 setComplete(true);
