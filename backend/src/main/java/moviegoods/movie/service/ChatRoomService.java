@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
-import moviegoods.movie.domain.dto.Manager.ManagerResponseDto;
+import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
 import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;

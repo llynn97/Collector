@@ -13,6 +13,7 @@ import moviegoods.movie.service.FireBaseService;
 import moviegoods.movie.service.ChatService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -36,9 +37,7 @@ public class ChatController {
         //}
         messageService.saveMessage(message);
 
-
-        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
-
+        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id(), message);
 
     }
 

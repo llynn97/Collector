@@ -40,6 +40,7 @@ public class SignUpService {
     public ResultResponseDto duplicateCheck(SignUpDuplicateCheckRequestDto requestDto) {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
+
         User user = new User();
         if (email != null) {
             user = userRepository.findByEmail(email).orElse(null);
@@ -47,13 +48,14 @@ public class SignUpService {
         if (nickname != null) {
             user = userRepository.findByNickname(nickname).orElse(null);
         }
+
         ResultResponseDto resultResponseDto = new ResultResponseDto();
+        resultResponseDto.setResult(true);
+
         if (user == null) {
             resultResponseDto.setResult(false);
         }
-        else {
-            resultResponseDto.setResult(true);
-        }
+
 
         return resultResponseDto;
     }

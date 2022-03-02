@@ -1,4 +1,4 @@
-package moviegoods.movie.domain.dto.Manager;
+package moviegoods.movie.domain.dto.manager;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,4 @@ public class ManagerResponseDto {
     private LocalDateTime written_date;
     private String nickname;
     private Long user_id;
-    private Long reported_user_id;
-    private String reported_nickname;
-    private String reported_content;
 }

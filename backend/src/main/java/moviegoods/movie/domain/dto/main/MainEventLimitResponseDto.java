@@ -16,7 +16,6 @@ public class MainEventLimitResponseDto {
     private String title;
     private Date start_date;
     private Date end_date;
-//
-//    private Boolean is_like;
+    private Boolean is_like;
 //    private Boolean is_end;
 }
