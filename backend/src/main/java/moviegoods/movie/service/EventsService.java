@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.events.*;
+import moviegoods.movie.domain.dto.mypage.MyPageComment;
+import moviegoods.movie.domain.dto.mypage.MyPageResponseSearch;
 import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Event.EventRepository;
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -125,7 +128,7 @@ public class EventsService {
 
     @Transactional(rollbackFor = Exception.class)
     public EventsDetailResponseDto detail(User loginUser, EventsDetailRequestDto requestDto) throws ParseException {
-
+        EventsDetailResponseDto eventsDetailResponseDto = new EventsDetailResponseDto();
         Long event_id = requestDto.getEvent_id();
         Long user_id = null;
         if (loginUser != null) {
@@ -135,13 +138,21 @@ public class EventsService {
         String cinema_name = event.getCinema().getName();
         String title = event.getTitle();
         String detail_image_url = event.getDetail_image_url();
+        log.info("detail_image={}", detail_image_url);
+        String[] array = detail_image_url.split(", ");
+        List<String> image_url = new ArrayList<>();
+        for (String objects : array) {
+            String detail_url=objects;
+            log.info("detail_url={}", detail_url);
+            image_url.add(detail_url);
+        }
         String link_url = event.getLink_url();
         Date start_date = event.getStart_date();
         Date end_date = event.getEnd_date();
         Long like_count = event.getLike_count();
         Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
 
-        EventsDetailResponseDto result =new EventsDetailResponseDto(event_id, cinema_name, title, detail_image_url, link_url, start_date, end_date, like_count, is_like);
+        EventsDetailResponseDto result =new EventsDetailResponseDto(event_id, cinema_name, title, image_url, link_url, start_date, end_date, like_count, is_like);
 
         return result;
     }
