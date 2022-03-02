@@ -34,7 +34,7 @@ public class TransactionsController {
         return resultResponseDto;
     }
     //HttpServletRequest request,@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<List<TransactionsSearchResponseDto>>  search(@Login User loginUser, @ModelAttribute TransactionsSearchRequestDto requestDto) {
 
         List<TransactionsSearchResponseDto> list = transactionsService.search(loginUser, requestDto);

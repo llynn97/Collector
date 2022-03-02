@@ -3,6 +3,7 @@ package moviegoods.movie.domain.interceptor;
 
 import moviegoods.movie.configure.SessionConfig.SessionConst;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info(request.getMethod());
+        if (StringUtils.equals(request.getMethod(), "GET")) {
+            log.info("들어왔니/");
+            return true;
+        }
 
         String requestURI = request.getRequestURI();
 

@@ -78,11 +78,8 @@ public class TransactionsService {
 
     @Transactional(rollbackFor = Exception.class)
     public List<TransactionsSearchResponseDto> search(User loginUser, TransactionsSearchRequestDto requestDto) {
-
-
         Long user_id = null;
         if (loginUser != null) {
-
             user_id = loginUser.getUser_id();
         }
 
@@ -139,6 +136,7 @@ public class TransactionsService {
             Long transaction_id = transaction.getTransaction_id();
             LocalDateTime written_date = transaction.getContent_detail().getWritten_date();
             String nickname = transaction.getUser().getNickname();
+            String profile_url = transaction.getUser().getProfile_url();
 
             Boolean is_mine = Boolean.FALSE;
             if (search_user_id == user_id) {
@@ -147,14 +145,17 @@ public class TransactionsService {
 
             Boolean is_like = likeBasketsService.isLikeTransaction(user_id, transaction_id);
 
-            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, transaction_id, reliability, written_date, is_mine, is_like,nickname));
+            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, transaction_id, reliability, written_date, is_mine, is_like,nickname,profile_url));
         }
         return searchList;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResultResponseDto changeStatus(User loginUser, TransactionsChangeStatusRequestDto requestDto) {
-        Long user_id = loginUser.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         //Long user_id = requestDto.getUser_id();
         String status = requestDto.getStatus();
         Long transaction_id = requestDto.getTransaction_id();
@@ -178,7 +179,10 @@ public class TransactionsService {
 
     @Transactional(rollbackFor = Exception.class)
     public ResultResponseDto delete(User loginUser, TransactionsDeleteRequestDto requestDto) {
-        Long user_id = loginUser.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         //Long user_id = requestDto.getUser_id();
         Long transaction_id = requestDto.getTransaction_id();
 

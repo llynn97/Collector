@@ -26,15 +26,17 @@ public class MyPageService {
     private final UserRepository userRepository;
     private final FireBaseService fireBaseService;
 
-    public MyPageResponseSearch search(MyPageRequestSearch mprs){
+    public MyPageResponseSearch search(User loginUser,MyPageRequestSearch mprs){
         MyPageResponseSearch myPageResponseSearch=new MyPageResponseSearch();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
 
-        Long user_id= mprs.getUser_id();
-        User user=userRepository.findById(user_id).get();
         MyPageUser myPageUserDto=new MyPageUser();
-        myPageUserDto.setNickname(user.getNickname());
-        myPageUserDto.setProfile_url(user.getProfile_url());
-        myPageUserDto.setReliability(user.getReliability());
+        myPageUserDto.setNickname(loginUser.getNickname());
+        myPageUserDto.setProfile_url(loginUser.getProfile_url());
+        myPageUserDto.setReliability(loginUser.getReliability());
         myPageResponseSearch.setUser(myPageUserDto);
 
 
@@ -106,12 +108,6 @@ public class MyPageService {
             }
         }
 
-
-
-
-
-
-
         List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url from like_basket b join b.event e left join b.user u where u.user_id=:user_id").setParameter("user_id",user_id).getResultList();
         for (Object[] objects : row5) {
             Long event_id=(Long)objects[0];
@@ -126,8 +122,11 @@ public class MyPageService {
 
     }
 
-    public String updateNickname(MyPageRequestNickname mprn){
-        Long user_id=mprn.getUser_id();
+    public String updateNickname(User loginUser,MyPageRequestNickname mprn){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         String nickname=mprn.getNickname();
         log.info("nickname={}", nickname);
         User user=userRepository.findById(user_id).get();
@@ -136,9 +135,13 @@ public class MyPageService {
         return userRepository.findById(user_id).get().getNickname();
     }
 
-    public void updateProfile(MyPageRequestProfile mprp) throws IOException, FirebaseAuthException {
+    public void updateProfile(User loginUser,MyPageRequestProfile mprp) throws IOException, FirebaseAuthException {
         MultipartFile profile_image=mprp.getProfile_image();
-        Long user_id=mprp.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+
+            user_id = loginUser.getUser_id();
+        }
         String firebaseUrl="";
         if(profile_image!=null){
             String nameFile= UUID.randomUUID().toString();
@@ -152,9 +155,13 @@ public class MyPageService {
 
     }
 
-    public Boolean withdrawal(MyPageRequestWithdrawal mrwd){
+    public Boolean withdrawal(User loginUser,MyPageRequestWithdrawal mrwd){
         Boolean check=false;
-        Long user_id=mrwd.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+
+            user_id = loginUser.getUser_id();
+        }
         userRepository.deleteById(user_id);
         if(!userRepository.existsById(user_id)){
             check=true;

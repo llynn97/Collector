@@ -38,8 +38,7 @@ public class EventsController {
     }
 
     @PostMapping("/like")
-    public ResultResponseDto like(@SessionAttribute(name = SessionConfig.SessionConst.LOGIN_MEMBER, required = false)
-                                              User loginUser, @RequestBody EventsLikeRequestDto requestDto) throws ParseException {
+    public ResultResponseDto like(@Login User loginUser, @RequestBody EventsLikeRequestDto requestDto) throws ParseException {
         ResultResponseDto resultResponseDto = eventsService.like(loginUser, requestDto);
         return resultResponseDto;
     }

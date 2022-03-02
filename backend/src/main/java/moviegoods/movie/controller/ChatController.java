@@ -30,18 +30,14 @@ public class ChatController {
     private final FireBaseService fireBaseService;
 
     @MessageMapping("/chat/message")
-    @SendToUser("/sub/chat/room/2")
-    public DirectMessage message(DirectMessage message) throws IOException, FirebaseAuthException {
+    public void message(DirectMessage message) throws IOException, FirebaseAuthException {
         // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
         //   message.setContent(message.getNickname() + "입장");
 
         //}
         messageService.saveMessage(message);
 
-
-//        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id());
-        return message;
-
+        messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id(), message);
 
     }
 
