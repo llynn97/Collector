@@ -67,7 +67,9 @@ const EventDetailPage = () => {
             <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
         </div>
         <div>
-            <img src={thisEvent.detail_image_url}/>
+            {
+                thisEvent.detail_image_url.map((item, index) => <img key={index} src={item}/>)
+            }
         </div>
         <div>
             <button onClick={() => window.open(thisEvent.link_url, '_blank')}>자세히 보기</button>

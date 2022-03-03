@@ -6,6 +6,9 @@
     display: block;
     box-sizing: border-box;
 
+    width: 1000px;
+    height: 300px;
+
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
@@ -27,6 +30,7 @@
 
     margin: 0;
     padding: 0;
+    
 }
 .slick-list:focus
 {

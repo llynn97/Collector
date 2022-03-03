@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router";
 import EventDetailPage from "../EventDetailPage/EventDetailPage";
 import MainPage from "./MainPage";
 import axios from "axios";
+import style from "../../css/MainPage/MovieThumbnail.module.css";
 
 //props랑 {cinemaName}이 똑같아야 함
 const MovieThumbnail = ({thisEvent}) => {
@@ -36,9 +37,8 @@ const MovieThumbnail = ({thisEvent}) => {
 
     return(
         <>
-        <div>
+        <div className={style.container}>
 
-            <Fragment>
             <Link to = {`/event/${thisEvent.event_id}`}>
             <img src={thisEvent.thumbnail_url} width="300px" height="200px"/>
             <div>{thisEvent.cinema_name}</div>
@@ -48,8 +48,6 @@ const MovieThumbnail = ({thisEvent}) => {
             <div>
                 <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
             </div>
-            </Fragment>   
-            
         </div>
         
         </>

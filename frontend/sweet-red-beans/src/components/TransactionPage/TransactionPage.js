@@ -39,8 +39,8 @@ const TransactionPage = () => {
                     search_word: search,
                     sort_criteria : "최신순",
                     search_criteria : searchSort,
-                    start: start+30,
-                    end: end+30,
+                    start: 0,
+                    end: 29,
                   }
         }
       )

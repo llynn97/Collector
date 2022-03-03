@@ -22,6 +22,8 @@ const DMDetail = ({selectedRoom}) => {
     //초기값 selectedRoom.is_complete로 설정하기
     const [complete, setComplete] = useState(false);
 
+    const [imgFile, setImgFile] = useState(null);
+
     const openModal = () => {
         setModalOpen(true);
     };
@@ -42,17 +44,6 @@ const DMDetail = ({selectedRoom}) => {
     //서버와 연결됐을 때
     useEffect(() => {
         console.log(socket);
-
-        // stompClient.connect({
-        //     //"token" : "발급받은토큰"
-        // }, () => {
-        //     stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
-        //         console.log(JSON.parse(data.body));
-        //         console.log(contents);
-        //         const newMessage = JSON.parse(data.body);
-        //         addMessage(newMessage);
-        //     })
-        // })
 
     }, [])
 
@@ -78,13 +69,26 @@ const DMDetail = ({selectedRoom}) => {
     }
 
     const sendMessage = (message) => {
-        //내가 메시지 전송할 때
-        stompClient.send("/pub/chat/message", {withCredentials:true}, JSON.stringify({
-            content : message,
-            user_id:"14",
-            nickname:"현정쓰",
-            chat_room_id: selectedRoom.chat_room_id,
-        }));
+        const fd = new FormData();
+        
+        if(imgFile === null){
+            if(message !== ""){
+                fd.append("content", message);
+                fd.append("chat_room_id", selectedRoom.chat_room_id);
+                stompClient.send("/pub/chat/message", {
+                    headers:{"Content-Type": `multipart/form-data; `}
+                }, fd);
+            }
+
+        } else {
+            fd.append("image_url", imgFile[0]);
+            fd.append("content", message);
+            fd.append("chat_room_id", selectedRoom.chat_room_id);
+            stompClient.send("/pub/chat/message", {
+                headers:{"Content-Type": `multipart/form-data; `}
+            }, fd);
+            setImgFile(null);
+        }
         
     }
 
@@ -123,14 +127,7 @@ const DMDetail = ({selectedRoom}) => {
             .catch(error => console.log(error))
         }
 
-        let headers = {withCredentials:true}
-
-        stompClient.connect(headers, () => {
-            // let socketURL = stompClient.ws._transport.url;
-            // socketURL = socketURL.replace("ws://localhost:8080/ws-stomp/",  "");
-            // socketURL = socketURL.replace("/websocket", "");
-            // socketURL = socketURL.replace(/^[0-9]+\//, "");
-            // console.log(socketURL);
+        stompClient.connect({}, () => {
             stompClient.subscribe('/sub/chat/room/' + selectedRoom.chat_room_id, (data) => {
                 console.log(JSON.parse(data.body));
                 const newMessage = JSON.parse(data.body);
@@ -227,6 +224,34 @@ const DMDetail = ({selectedRoom}) => {
         messagebox.scrollTop = messagebox.scrollHeight;
     }, [contents])
 
+    const handleChangeFile = (e) => {
+        console.log(e.target.files)
+        setImgFile(e.target.files);
+    }
+
+    useEffect(() => {
+        preview();
+        return () => preview();
+    })
+
+    const preview = () => {
+        if(!imgFile) return false;
+
+        const imgEl = document.querySelector('.preview');
+        const reader = new FileReader();
+        reader.onloadend = () => (
+            imgEl.style.backgroundImage = `url(${reader.result})`
+        )
+        reader.readAsDataURL(imgFile[0]);
+    }
+
+    useEffect(() => {
+        if(imgFile !== null){
+            console.log(imgFile[0]);
+        }
+
+    }, [imgFile])
+
     return (
         <>
         <Modal open={modalOpen} close={closeModal} header="로그인">
@@ -265,10 +290,13 @@ const DMDetail = ({selectedRoom}) => {
         </div>
         
         , [contents])}
-        
+
+        <div className="preview" style={{width:"100px", height:"100px"}}></div>
         {complete ? <div>거래가 완료되었습니다.</div> : null}
         <input type="text" value={message} onChange={onChange} name={message}/>
         <button onClick={sendClick}>전송</button>
+        <label for="upload_file">업로드</label>
+        <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
         <button onClick={completeClick}>거래완료</button>
         </>
     );

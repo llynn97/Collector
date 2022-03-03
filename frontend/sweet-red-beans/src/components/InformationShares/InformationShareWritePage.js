@@ -123,7 +123,7 @@ const InformationShareWritePage = () => {
                 })
                 .catch(error => console.log(error));
             }
-            //이미지 파일 없을 때
+            //이미지 파일 있을 때
             else {
                 fd.append("image_url", imgFile[0])
                 fd.append("user_id", "1");
