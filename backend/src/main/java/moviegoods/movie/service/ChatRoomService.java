@@ -20,6 +20,7 @@ import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,17 +36,64 @@ public class ChatRoomService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
-    public DirectMessageCreateRoomResponseDto createRoom(DirectMessageCreateRoomRequestDto requestDto){
-        Chat_Room chat_room = new Chat_Room();
-        log.info("transaction_id={}", requestDto.getTransaction_id());
+    public DirectMessageCreateRoomResponseDto createRoom(User loginUser, DirectMessageCreateRoomRequestDto requestDto){
 
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
+        log.info("transaction_id={}", requestDto.getTransaction_id());
 
         Optional<Transaction> relatedTransaction = transactionRepository.findById(requestDto.getTransaction_id());
         if(relatedTransaction.isPresent()) {
             Transaction transaction = relatedTransaction.get();
+            Long transaction_id = transaction.getTransaction_id();
             Long writer_id = transaction.getUser().getUser_id();
-            User user = userRepository.getById(requestDto.getUser_id());
+
+            //중복 확인
+            boolean ifExistUserId = false;
+            boolean ifExixtWriterId = false;
+            Long exist_chat_room_id = null;
+            String searchChatRoomJpql = "select c from chat_room c where c.transaction = '" + transaction_id + "'";
+            List<Chat_Room> list = em.createQuery(searchChatRoomJpql, Chat_Room.class).getResultList();
+            for (Chat_Room chat_room : list) {
+                Long chat_room_id = chat_room.getChat_room_id();
+                String searchChatRoomJoinJpql = "select j from chat_room_join j where j.chat_room = '" + chat_room_id + "'";
+                List<Chat_Room_Join> resultList = em.createQuery(searchChatRoomJoinJpql, Chat_Room_Join.class).getResultList();
+                for (Chat_Room_Join chat_room_join : resultList) {
+                    if(!ifExistUserId || !ifExixtWriterId) {
+                        Long exist_user_id = chat_room_join.getUser().getUser_id();
+                        if(exist_user_id == user_id) {
+                            ifExistUserId = true;
+                        }
+                        if(exist_user_id == writer_id) {
+                            ifExixtWriterId = true;
+                        }
+                    }
+                    else if(ifExistUserId && ifExixtWriterId) {
+                        exist_chat_room_id = chat_room_id;
+                        break;
+                    }
+                }
+            }
+
+            //중복일때
+            if(ifExistUserId && ifExixtWriterId) {
+                DirectMessageCreateRoomResponseDto responseDto =
+                        new DirectMessageCreateRoomResponseDto(true,
+                                exist_chat_room_id,
+                                user_id,
+                                writer_id);
+
+                return responseDto;
+            }
+
+            //중복이 아닐때
+            User user = userRepository.getById(user_id);
             User writerUser = userRepository.getById(writer_id);
+
+            Chat_Room chat_room = new Chat_Room();
             chat_room.setTransaction(transaction);
             Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
 
@@ -80,7 +128,7 @@ public class ChatRoomService {
         }
     }
 
-    public List<DirectMessageListResponseDto> findMessageRooms(Long user_id) {
+    public List<DirectMessageListResponseDto> findMessageRooms(User loginUser, Long user_id) {
         List<DirectMessageListResponseDto> roomsList = new ArrayList<>();
         Optional<User> user = userRepository.findById(user_id);
         User findedUser = user.get();

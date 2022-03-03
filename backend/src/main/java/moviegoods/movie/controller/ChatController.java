@@ -1,23 +1,34 @@
 package moviegoods.movie.controller;
 
 
+import com.google.api.Http;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.configure.SessionConfig;
+import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.directMessage.*;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Message.MessageRepository;
 import moviegoods.movie.domain.entity.Report.Report;
+import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import moviegoods.movie.service.FireBaseService;
 import moviegoods.movie.service.ChatService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/direct-message")
@@ -30,12 +41,17 @@ public class ChatController {
     private final FireBaseService fireBaseService;
 
     @MessageMapping("/chat/message")
-    public void message(DirectMessage message) throws IOException, FirebaseAuthException {
+    public void message(@Login User loginUser, DirectMessage message, SimpMessageHeaderAccessor headerAccessor) throws IOException, FirebaseAuthException {
+        User user1 = (User) headerAccessor.getSessionAttributes().get(SessionConfig.SessionConst.LOGIN_MEMBER);
+
         // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
         //   message.setContent(message.getNickname() + "입장");
 
         //}
-        messageService.saveMessage(message);
+        messageService.saveMessage(user1,message);
+        message.setNickname(user1.getNickname());
+        message.setUser_id(user1.getUser_id());
+        log.info("message={}", message);
 
         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id(), message);
 
@@ -43,9 +59,9 @@ public class ChatController {
 
 
     @PostMapping("/detail")
-    public Result saveMessage(@ModelAttribute DirectMessage message) throws IOException, FirebaseAuthException {
+    public Result saveMessage(@Login User loginUser,@ModelAttribute DirectMessage message) throws IOException, FirebaseAuthException {
 
-        messageService.saveMessage(message);
+        messageService.saveMessage(loginUser,message);
         Result result=new Result();
         result.setResult(true);
         return result;
@@ -53,8 +69,8 @@ public class ChatController {
     }
 
     @PostMapping("/transaction-complete")
-    public Result complete(@RequestBody DirectMessageRequestComplete dmrc){
-        Boolean check= messageService.updateTransactionComplete(dmrc);
+    public Result complete(@Login User loginUser,@RequestBody DirectMessageRequestComplete dmrc){
+        Boolean check= messageService.updateTransactionComplete(loginUser,dmrc);
         Result result=new Result();
         if(check==true){
             result.setResult(true);
@@ -65,8 +81,8 @@ public class ChatController {
     }
 
     @PostMapping("/reliability")
-    public Result updateReliability(@RequestBody DirectMessageRequestReliability dmrr){
-        Boolean check=messageService.updateReliability(dmrr);
+    public Result updateReliability(@Login User loginUser, @RequestBody DirectMessageRequestReliability dmrr){
+        Boolean check=messageService.updateReliability(loginUser, dmrr);
         Result result=new Result();
         if(check==true){
             result.setResult(true);
@@ -77,8 +93,8 @@ public class ChatController {
     }
 
     @PostMapping("/report")
-    public Result Report(@RequestBody DirectMessageRequestReport dmrr){
-        Report report=messageService.report(dmrr);
+    public Result Report(@Login User loginUser, @RequestBody DirectMessageRequestReport dmrr){
+        Report report=messageService.report(loginUser, dmrr);
         Result result=new Result();
         if(report!=null){
             result.setResult(true);

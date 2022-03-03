@@ -13,4 +13,7 @@ public class TransactionsSearchRequestDto {
     private String search_word;
     private String sort_criteria;
     private String search_criteria;
+    private Long start;
+    private Long end;
+
 }

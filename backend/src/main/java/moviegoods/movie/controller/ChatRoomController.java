@@ -2,11 +2,13 @@ package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.service.ChatRoomService;
 import moviegoods.movie.service.ChatService;
 import org.springframework.http.HttpStatus;
@@ -28,15 +30,19 @@ public class ChatRoomController {
     private final ChatRoomRepository chatRoomRepository;
 
     @PostMapping
-    public ResponseEntity<DirectMessageCreateRoomResponseDto> create(@RequestBody DirectMessageCreateRoomRequestDto requestDto){
-        DirectMessageCreateRoomResponseDto responseDto = chatRoomService.createRoom(requestDto);
+    public ResponseEntity<DirectMessageCreateRoomResponseDto> create(@Login User loginUser, @RequestBody DirectMessageCreateRoomRequestDto requestDto){
+        DirectMessageCreateRoomResponseDto responseDto = chatRoomService.createRoom(loginUser, requestDto);
         ResponseEntity<DirectMessageCreateRoomResponseDto> result = new ResponseEntity<>(responseDto, HttpStatus.OK);
         return result;
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> directMessageList (@RequestParam Long user_id) {
-        List<DirectMessageListResponseDto> roomsList = chatRoomService.findMessageRooms(user_id);
+    public ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> directMessageList (@Login User loginUser) {
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+        List<DirectMessageListResponseDto> roomsList = chatRoomService.findMessageRooms(loginUser, user_id);
         Map<String, List<DirectMessageListResponseDto>> roomsListJson = new HashMap<>();
         roomsListJson.put("room_id", roomsList);
         ResponseEntity<Map<String, List<DirectMessageListResponseDto>>> result = new ResponseEntity<>(roomsListJson, HttpStatus.OK);
@@ -44,8 +50,8 @@ public class ChatRoomController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> detail (@RequestParam Long room_id) {
-        List<DirectMessageDetailResponseDto> messagesList = chatService.show(room_id);
+    public ResponseEntity<Map<String, List<DirectMessageDetailResponseDto>>> detail (@Login User loginUser, @RequestParam Long room_id) {
+        List<DirectMessageDetailResponseDto> messagesList = chatService.show(loginUser, room_id);
         Map<String, List<DirectMessageDetailResponseDto>> messagesListJson = new HashMap<>();
 
         messagesListJson.put("message", messagesList);
@@ -55,7 +61,7 @@ public class ChatRoomController {
     }
 
     @DeleteMapping
-    public Boolean create(@RequestBody DirectMessageCreateRoomResponseDto responseDto){
+    public Boolean create(@Login User loginUser, @RequestBody DirectMessageCreateRoomResponseDto responseDto){
         chatRoomRepository.deleteById(responseDto.getChat_room_id());
         return true;
     }
