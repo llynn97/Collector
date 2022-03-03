@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "../../actions/types";
 import style from "../../css/MyPage/MyPageNormal.module.css";
+import { useNavigate } from "react-router";
 
 const MyPageNomal = () => {
     //서버에서 받아온 정보들 저장하기
@@ -27,7 +28,10 @@ const MyPageNomal = () => {
     //닉네임 중복 확인 안 됐을 때 false
     const [nicknameError, setNicknameError] = useState(false);
 
+    const [renderError, setRenderError] = useState(false);
+
     const dispatch = useDispatch();
+    const navigation = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:8080/mypage',{
@@ -66,7 +70,11 @@ const MyPageNomal = () => {
                 payload:response.data.likeTransaction
             })
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            setRenderError(true);
+            alert("로그인을 먼저 해주세요");
+            navigation('/');
+        });
     }, [])
 
     //메뉴 선택
@@ -203,7 +211,9 @@ const MyPageNomal = () => {
 
     return (
         <>
-        <div className={style.profileBox}>
+        {!setRenderError ? 
+        <>
+            <div className={style.profileBox}>
             {hide? 
             <div>
                 <div className={style.profileImageBorder}>
@@ -251,6 +261,9 @@ const MyPageNomal = () => {
         <div>
             <button>탈퇴하기</button>
         </div>
+
+        </> : null}
+        
         </>
     )
 }

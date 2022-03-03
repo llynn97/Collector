@@ -73,20 +73,18 @@ const DMDetail = ({selectedRoom}) => {
         
         if(imgFile === null){
             if(message !== ""){
-                fd.append("content", message);
-                fd.append("chat_room_id", selectedRoom.chat_room_id);
-                stompClient.send("/pub/chat/message", {
-                    headers:{"Content-Type": `multipart/form-data; `}
-                }, fd);
+                stompClient.send("/pub/chat/message", {}, JSON.stringify({
+                    content : message,
+                    chat_room_id: selectedRoom.chat_room_id,
+                }));
             }
 
         } else {
-            fd.append("image_url", imgFile[0]);
-            fd.append("content", message);
-            fd.append("chat_room_id", selectedRoom.chat_room_id);
-            stompClient.send("/pub/chat/message", {
-                headers:{"Content-Type": `multipart/form-data; `}
-            }, fd);
+            stompClient.send("/pub/chat/message", {}, JSON.stringify({
+                image_url: imgFile,
+                content : message,
+                chat_room_id: selectedRoom.chat_room_id,
+            }));
             setImgFile(null);
         }
         
