@@ -89,10 +89,12 @@ public class TransactionsService {
         String search_word = requestDto.getSearch_word(); // 검색어
         String sort_criteria = requestDto.getSort_criteria(); // 최신순
         String search_criteria = requestDto.getSearch_criteria(); // 작성자/글내용
+        Long start = requestDto.getStart();
+        Long end = requestDto.getEnd();
         String linking_word = "where ";
-        is_proceed = false;
-        search_criteria = "글내용";
         log.info("search_word={}", search_word);
+        log.info("is_proceed={}", is_proceed);
+        log.info("search_criteria={}", search_criteria);
 
         if (search_word == null) {
             search_word = "";
@@ -127,7 +129,7 @@ public class TransactionsService {
         searchJpql += "order by c.written_date desc";
         log.info("searchJpql={}", searchJpql);
 
-        List<Transaction> transactionList = em.createQuery(searchJpql, Transaction.class).getResultList();
+        List<Transaction> transactionList = em.createQuery(searchJpql, Transaction.class).setFirstResult(start.intValue()).setMaxResults(end.intValue()).getResultList();
         for (Transaction transaction : transactionList) {
             Long search_user_id = transaction.getUser().getUser_id();
             Long reliability = transaction.getUser().getReliability();

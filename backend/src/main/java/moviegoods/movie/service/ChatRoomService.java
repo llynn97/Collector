@@ -35,8 +35,14 @@ public class ChatRoomService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
-    public DirectMessageCreateRoomResponseDto createRoom(DirectMessageCreateRoomRequestDto requestDto){
+    public DirectMessageCreateRoomResponseDto createRoom(User loginUser, DirectMessageCreateRoomRequestDto requestDto){
         Chat_Room chat_room = new Chat_Room();
+
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
 
@@ -44,7 +50,7 @@ public class ChatRoomService {
         if(relatedTransaction.isPresent()) {
             Transaction transaction = relatedTransaction.get();
             Long writer_id = transaction.getUser().getUser_id();
-            User user = userRepository.getById(requestDto.getUser_id());
+            User user = userRepository.getById(user_id);
             User writerUser = userRepository.getById(writer_id);
             chat_room.setTransaction(transaction);
             Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
@@ -80,7 +86,7 @@ public class ChatRoomService {
         }
     }
 
-    public List<DirectMessageListResponseDto> findMessageRooms(Long user_id) {
+    public List<DirectMessageListResponseDto> findMessageRooms(User loginUser, Long user_id) {
         List<DirectMessageListResponseDto> roomsList = new ArrayList<>();
         Optional<User> user = userRepository.findById(user_id);
         User findedUser = user.get();

@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
+
 
 @Slf4j
 @Service
@@ -40,40 +42,49 @@ public class ChatService {
     private final TransactionRepository directMessageTransactionRepository;
     private final ReportRepository directMessageReportRepository;
     private final FireBaseService fireBaseService;
+    private final ContentDetailService contentDetailService;
 
+    @Transactional(rollbackFor = Exception.class)
+    public void saveMessage(User loginUser, DirectMessage message) throws IOException, FirebaseAuthException {
 
-    @Transactional
-    public void saveMessage(DirectMessage message) throws IOException, FirebaseAuthException {
-        Message message1=new Message();
-        Long user_id = message.getUser_id();
-        User user=informationShareUserRepository.findById(user_id).get();
-        Chat_Room chat_room=chatRoomRepository.findById(message.getChat_room_id()).get();
-        Content_Detail content_detail=new Content_Detail();
-        content_detail.setWritten_date(LocalDateTime.now());
-        String firebaseUrl="";
-        if(message.getImage_url()==null){
-            content_detail.setContent(message.getContent());
-        }else {
-            MultipartFile image_url=message.getImage_url();
-            String nameFile= UUID.randomUUID().toString();
-            fireBaseService.uploadFiles(image_url,nameFile);
-            firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
-
-            message1.setImage_url(firebaseUrl);
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
         }
+        User user=loginUser;
+
+        Chat_Room chat_room=chatRoomRepository.findById(message.getChat_room_id()).get();
+        String content = message.getContent();
+
+        Content_Detail content_detail = contentDetailService.saveContentDetail(content);
+        Message saveEntity = Message.builder().user(user).content_detail(content_detail).chat_room(chat_room).build();
 
 
-        //content_detail.setMessage(message1);
-        message1.setContent_detail(content_detail);
-        message1.setUser(user);
-        //user.getMessages().add(message1);
-        message1.setChat_room(chat_room);
-        //chat_room.getMessages().add(message1);
+//        String firebaseUrl="";
+//        if(message.getImage_url()==null){
+//            content_detail.setContent(message.getContent());
+//        }else {
+//            MultipartFile image_url=message.getImage_url();
+//            String nameFile= UUID.randomUUID().toString();
+//            fireBaseService.uploadFiles(image_url,nameFile);
+//            firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
+//
+//            message1.setImage_url(firebaseUrl);
+//        }
 
-        messageRepository.save(message1);
+
+//        //content_detail.setMessage(message1);
+//        message1.setContent_detail(content_detail);
+//        message1.setUser(user);
+//        //user.getMessages().add(message1);
+//        message1.setChat_room(chat_room);
+//        //chat_room.getMessages().add(message1);
+
+        messageRepository.save(saveEntity);
+
     }
 
-    public List<DirectMessageDetailResponseDto> show(Long room_id) {
+    public List<DirectMessageDetailResponseDto> show(User loginUser, Long room_id) {
         List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
         Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
         Chat_Room findedRoom = chatRoom.get();
@@ -96,7 +107,7 @@ public class ChatService {
         return messagesList;
     }
 
-    public Boolean updateTransactionComplete(DirectMessageRequestComplete dmrc){
+    public Boolean updateTransactionComplete(User loginUser, DirectMessageRequestComplete dmrc){
         Boolean check;
         Long transaction_id=dmrc.getTransaction_id();
         Transaction transaction=directMessageTransactionRepository.findById(transaction_id).get();
@@ -111,10 +122,13 @@ public class ChatService {
 
     }
 
-    public Boolean updateReliability(DirectMessageRequestReliability dmrr){ //메세지생성창에서 user_id 받아와야함
+    public Boolean updateReliability(User loginUser, DirectMessageRequestReliability dmrr){ //메세지생성창에서 user_id 받아와야함
         Boolean check=false;
-        Long user_id=dmrr.getUser_id();
-        User user= informationShareUserRepository.findById(user_id).get();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+        User user= loginUser;
         Long n= user.getReliability()+1;
         user.setReliability(n);
         User u=informationShareUserRepository.save(user);
@@ -125,12 +139,15 @@ public class ChatService {
 
     }
 
-    public Report report(DirectMessageRequestReport dmrr){
-        Long user_id=dmrr.getUser_id();
+    public Report report(User loginUser, DirectMessageRequestReport dmrr){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Long transaction_id=dmrr.getTransaction_id();
         String report_content=dmrr.getReport_content();
         Report report=new Report();
-        User user=informationShareUserRepository.findById(user_id).get();
+        User user=loginUser;
         Transaction transaction=directMessageTransactionRepository.findById(transaction_id).get();
         Content_Detail content_detail=new Content_Detail();
         content_detail.setContent(report_content);
