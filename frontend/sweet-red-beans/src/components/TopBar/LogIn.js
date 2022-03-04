@@ -58,7 +58,7 @@ const LogIn = () =>{
       method: "일반",
     };
 
-    axios.post('http://localhost:8080/signin', body,{ withCredentials: true })
+    axios.post('http://localhost:8080/signin', body, { withCredentials: true })
     .then(response => {
       if(response.data.result){
         dispatch({
@@ -85,7 +85,7 @@ const LogIn = () =>{
   }
 
   const logoutClick = () => {
-    axios.get('http://localhost:8080/logout', { withCredentials: true })
+    axios.post('http://localhost:8080/logout', {}, { withCredentials: true })
     .then(response => {
       if(response.data.result){
         localStorage.removeItem("login")
