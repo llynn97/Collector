@@ -12,8 +12,7 @@ import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static moviegoods.movie.domain.entity.User.Method.일반;
-import static moviegoods.movie.domain.entity.User.Method.카카오;
+import static moviegoods.movie.domain.entity.User.Method.*;
 
 
 @Slf4j
@@ -39,6 +38,9 @@ public class SignUpService {
         }
         if (method==카카오) {
             saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(카카오).build();
+        }
+        if (method==구글) {
+            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(구글).build();
         }
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         userRepository.save(saveEntity);

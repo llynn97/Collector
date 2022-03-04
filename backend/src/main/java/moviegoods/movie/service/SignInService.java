@@ -3,15 +3,11 @@ package moviegoods.movie.service;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.configure.ApiKeyConfig;
-import moviegoods.movie.configure.GoogleConfigUtils;
 import moviegoods.movie.domain.dto.signin.SignInRequestDto;
 import moviegoods.movie.domain.dto.signin.SignInResponseDto;
 import moviegoods.movie.domain.dto.signup.SignUpRequestDto;
 import moviegoods.movie.domain.entity.User.Method;
 import moviegoods.movie.domain.entity.User.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import moviegoods.movie.configure.SessionConfig.*;
@@ -23,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -43,7 +38,6 @@ public class SignInService {
     private final SignUpService signUpService;
     private final EntityManager em;
     private final HttpServletResponse response;
-    private final GoogleConfigUtils googleConfigUtils;
 
     public SignInResponseDto login(SignInRequestDto requestDto, HttpServletRequest request) {
         SignInResponseDto signInResponseDto;
@@ -111,6 +105,8 @@ public class SignInService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
+
+            System.out.println("accessToken = " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -183,7 +179,7 @@ public class SignInService {
         String baseUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
         Map<String, Object> params = new HashMap<>();
-        params.put("scope", "profile");
+        params.put("scope", "email profile");
         params.put("response_type", "code");
         params.put("client_id", "435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
         params.put("redirect_uri", "http://localhost:8080/signin/auth/google/callback");
@@ -202,46 +198,59 @@ public class SignInService {
     }
 
     public String googleRequestAccessToken(String code) {
-        String access_Token = "";
-        String refresh_Token ="";
+        try {
+            URL url = new URL("https://www.googleapis.com/oauth2/v4/token");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setDoOutput(true);
 
-        String reqURL = "https://oauth2.googleapis.com/token";
+            Map<String, Object> params = new HashMap<>();
+            params.put("code", code);
+            params.put("client_id", "435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
+            params.put("client_secret", "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");
+            params.put("redirect_uri", "http://localhost:8080/signin/auth/google/callback");
+            params.put("grant_type", "authorization_code");
+            params.put("state", "url_parameter");
+
+            String parameterString = params.entrySet().stream()
+                    .map(x -> x.getKey() + "=" + x.getValue())
+                    .collect(Collectors.joining("&"));
+
+            BufferedOutputStream bous = new BufferedOutputStream(conn.getOutputStream());
+            bous.write(parameterString.getBytes());
+            bous.flush();
+            bous.close();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            if(conn.getResponseCode() == 200) {
+                return sb.toString();
+            }
+            return "구글 로그인 요청 처리 실패";
+        }catch (IOException e) {
+            throw new IllegalArgumentException("알 수 없는 구글 로그인 Access Token 요청 URL 입니다 :: " + "https://oauth2.googleapis.com/token");
+        }
+    }
+
+    public SignInRequestDto googleGetUserInfo(String access_Token) {
+        JsonParser accessTokenParser = new JsonParser();
+        JsonElement getAccescTokenElement = accessTokenParser.parse(access_Token);
+        String accessToken = getAccescTokenElement.getAsJsonObject().get("access_token").getAsString();
+
+        String reqURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken;
+        SignInRequestDto signInRequestDto = new SignInRequestDto();
+
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod("POST");
-            //conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setDoOutput(true);
-
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            StringBuilder sb = new StringBuilder();
-            sb.append("code=" + code);
-            sb.append("&client_id=435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
-            sb.append("&client_secret=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");
-            sb.append("&redirect_uri=http://localhost:8080/signin/auth/google/callback");
-            sb.append("grant_type=authorization_code");
-            bw.write(sb.toString());
-            bw.flush();
-
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
-
-//            Map<String, Object> params = new HashMap<>();
-//            params.put("code", code);
-//            params.put("client_id", "435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
-//            params.put("client_secret", "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");
-//            params.put("redirect_uri", "http://localhost:8080/signin/auth/google/callback");
-//            params.put("grant_type", "authorization_code");
-//
-//            String parameterString = params.entrySet().stream()
-//                    .map(x -> x.getKey() + "=" + x.getValue())
-//                    .collect(Collectors.joining("&"));
-
-//            BufferedOutputStream bous = new BufferedOutputStream(conn.getOutputStream());
-//            bous.write(parameterString.getBytes());
-//            bous.flush();
-//            bous.close();
+            conn.setRequestMethod("GET");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -255,22 +264,31 @@ public class SignInService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            System.out.println("element : " + element.toString());
 
-//            if(conn.getResponseCode() == 200) {
-//                return sb.toString();
-//            }
-//            return "구글 로그인 요청 처리 실패";
-            log.info("access_token = {}", access_Token);
-            br.close();
-            bw.close();
-        }catch (IOException e) {
-            throw new IllegalArgumentException("알 수 없는 구글 로그인 Access Token 요청 URL 입니다 :: " + "https://oauth2.googleapis.com/token");
+            String nickname = element.getAsJsonObject().get("name").getAsString();
+            String email = element.getAsJsonObject().get("email").getAsString();
+            String password = email + "google";
+
+            SignUpRequestDto signUpRequestDto = new SignUpRequestDto();
+            signUpRequestDto.setNickname(nickname);
+            signUpRequestDto.setEmail(email);
+            signUpRequestDto.setPassword(password);
+            String searchJpql = "select u from user u where u.email = '" + email + "' and u.method = '구글'";
+            List<User> user = em.createQuery(searchJpql, User.class).getResultList();
+
+            if (user.size() == 0) {
+                signUpService.saveUser(signUpRequestDto, Method.구글);
+            }
+
+            signInRequestDto.setEmail(email);
+            signInRequestDto.setPassword(password);
+            signInRequestDto.setMethod("구글");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        //return googleConfigUtils.requestAccessTokenUsingURL(code);
-        return access_Token;
-
+        return signInRequestDto;
     }
 
 }
