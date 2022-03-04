@@ -55,22 +55,26 @@ public class ChatService {
 
         Chat_Room chat_room=chatRoomRepository.findById(message.getChat_room_id()).get();
         String content = message.getContent();
-
-        Content_Detail content_detail = contentDetailService.saveContentDetail(content);
-        Message saveEntity = Message.builder().user(user).content_detail(content_detail).chat_room(chat_room).build();
+        Message saveEntity;
 
 
-//        String firebaseUrl="";
-//        if(message.getImage_url()==null){
-//            content_detail.setContent(message.getContent());
-//        }else {
-//            MultipartFile image_url=message.getImage_url();
-//            String nameFile= UUID.randomUUID().toString();
-//            fireBaseService.uploadFiles(image_url,nameFile);
-//            firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
+        String firebaseUrl="";
+        if(message.getImage_url()==null){
+            Content_Detail content_detail = contentDetailService.saveContentDetail(content);
+            saveEntity = Message.builder().user(user).content_detail(content_detail).chat_room(chat_room).build();
+
+        }else {
+
+            MultipartFile image_url=message.getImage_url();
+            String nameFile= UUID.randomUUID().toString();
+            log.info("nameFile={}", nameFile);
+            fireBaseService.uploadFiles(image_url,nameFile);
+            firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
+
+            saveEntity = Message.builder().user(user).image_url(firebaseUrl).chat_room(chat_room).build();
 //
 //            message1.setImage_url(firebaseUrl);
-//        }
+        }
 
 
 //        //content_detail.setMessage(message1);

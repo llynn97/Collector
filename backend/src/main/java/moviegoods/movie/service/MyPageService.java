@@ -32,6 +32,7 @@ public class MyPageService {
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
         }
+        log.info("user_id3={}", user_id);
 
         MyPageUser myPageUserDto=new MyPageUser();
         myPageUserDto.setNickname(loginUser.getNickname());

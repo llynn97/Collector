@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.signup.SignUpDuplicateCheckRequestDto;
 import moviegoods.movie.domain.dto.signup.SignUpRequestDto;
+import moviegoods.movie.domain.entity.User.Method;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import moviegoods.movie.service.SignUpService;
@@ -25,13 +26,13 @@ public class SignUpController {
 
     @PostMapping
     public ResultResponseDto signup(@RequestBody SignUpRequestDto requestDto){
-        ResultResponseDto resultResponseDto = signUpService.saveUser(requestDto);
+        ResultResponseDto resultResponseDto = signUpService.saveUser(requestDto, Method.일반);
         return resultResponseDto;
     }
 
     @PostMapping("/duplicate-check")
     public ResultResponseDto duplicateCheck(@RequestBody SignUpDuplicateCheckRequestDto requestDto){
-        ResultResponseDto resultResponseDto = signUpService.duplicateCheck(requestDto);
+        ResultResponseDto resultResponseDto = signUpService.duplicateCheck(requestDto,Method.일반);
         return resultResponseDto;
     }
 
