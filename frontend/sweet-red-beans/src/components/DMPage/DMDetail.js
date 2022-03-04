@@ -73,6 +73,11 @@ const DMDetail = ({selectedRoom}) => {
         
         if(imgFile === null){
             if(message !== ""){
+                fd.append("content", message);
+                fd.append("chat_room_id", selectedRoom.chat_room_id);
+                let obj = {}
+                fd.forEach((v, k) => obj[k]=v);
+                console.log(obj);
                 stompClient.send("/pub/chat/message", {}, JSON.stringify({
                     content : message,
                     chat_room_id: selectedRoom.chat_room_id,
@@ -80,6 +85,12 @@ const DMDetail = ({selectedRoom}) => {
             }
 
         } else {
+            fd.append("image_url", imgFile[0]);
+            fd.append("content", message);
+            fd.append("chat_room_id", selectedRoom.chat_room_id);
+            let obj = {}
+            fd.forEach((v, k) => obj[k]=v);
+            console.log(obj);
             stompClient.send("/pub/chat/message", {}, JSON.stringify({
                 image_url: imgFile,
                 content : message,

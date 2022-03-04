@@ -16,7 +16,7 @@ import DMPage from "../DMPage/DMPage";
 import MyPageAdmin from "../MyPage/MyPageAdmin";
 import MyPageNormal from "../MyPage/MyPageNormal";
 import Test from "../Test/Test";
-
+import KakaoLogin from "../TopBar/KakaoLogin";
 
 
 const MainContenet = () => {
@@ -36,6 +36,7 @@ const MainContenet = () => {
           <Route path="/mypage" element={<MyPageNormal/>}/>
           <Route path="/adminpage" element={<MyPageAdmin/>}/>
           <Route path="/test" element={<Test/>}/>
+          <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin/>}/>
         </Routes>
         </>
     );

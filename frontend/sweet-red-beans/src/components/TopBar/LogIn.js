@@ -19,7 +19,8 @@ const LogIn = () =>{
   const [loginError, setLoginError] = useState(false);
 
   const [successLogin, setSuccessLogin] = useState(false);
-  
+  const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=e64599af67aac20483ad02a14a8c5058&redirect_uri=http://localhost:3000/signin/oauth2/code/kakao&response_type=code"
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -75,6 +76,24 @@ const LogIn = () =>{
 
   }
 
+  const KakaoLoginClick = (e) => {
+    let code = new URL(window.location.href).searchParams.get("code");
+    window.open(KAKAO_AUTH_URL);
+
+    
+    console.log("으으아아ㅏㅏ")
+    console.log(code)
+    // axios.get('http://localhost:8080/signin/oauth2/code/kakao',{ 
+    //       withCredentials: true,
+    //       params: {
+    //                 code: code,
+    //               }
+    //     }).then(response=> {
+    //       console.log(response.data)
+    //     })
+
+  }
+
   return (
       <>
       <div className={style.loginArea}>
@@ -98,7 +117,7 @@ const LogIn = () =>{
         </form>
         <button id="signup" onClick={SigninClick}>회원가입</button>
         <div>
-        <button>카카오로 로그인</button>
+        <button href={KAKAO_AUTH_URL} onClick={KakaoLoginClick}>카카오로 로그인</button>
         </div>
         <div>
         <button>구글로 로그인</button>
