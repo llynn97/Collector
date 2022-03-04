@@ -85,8 +85,17 @@ const LogIn = () =>{
   }
 
   const logoutClick = () => {
-    localStorage.removeItem("login")
-    navigation(0)
+    axios.get('http://localhost:8080/logout', { withCredentials: true })
+    .then(response => {
+      if(response.data.result){
+        localStorage.removeItem("login")
+        navigation(0)
+      } else {
+        alert("로그아웃에 실패했습니다.");
+      }
+    })
+    .catch(error => console.log(error));
+    
   }
 
   return (
