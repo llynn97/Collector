@@ -2,10 +2,12 @@ import { createStore } from "redux";
 import { LOGIN_USER, MAIN_EVENTS, CINEMA_NAMES, MAIN_CINEMA_EVENTS, EVENTS, EVENT_ISEND, EVENT_SORT, INFO, 
 DM_CREATE, MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS, SELECTED_DM } from "./actions/types";
 
+
 const reducer = (state={}, action) => {
+
     if(action.type === LOGIN_USER){
         //user : nickname, profileURL이 있음
-        return {...state, user: action.user}
+        return{...state, user: action.user}
     }
     else if(action.type === MAIN_EVENTS){
         //전체 이벤트(배열)
@@ -17,18 +19,18 @@ const reducer = (state={}, action) => {
     }
     else if(action.type === MAIN_CINEMA_EVENTS){
         //각 영화사 별 이벤트(배열)
-        if (action.mainCinemaEvents.cinemaName === "CGV") {
-            return {...state, mainCGVEvents: action.mainCinemaEvents.mainCinemaEvents}
-        }
-        else if(action.mainCinemaEvents.cinemaName === "롯데시네마"){
-            return {...state, mainLCEvents: action.mainCinemaEvents.mainCinemaEvents}
-        }
-        else if(action.mainCinemaEvents.cinemaName === "메가박스"){
-            return {...state, mainLMBvents: action.mainCinemaEvents.mainCinemaEvents}
-        }
-        else if(action.mainCinemaEvents.cinemaName === "씨네큐"){
-            return {...state, mainLCQvents: action.mainCinemaEvents.mainCinemaEvents}
-        }
+        // if (action.mainCinemaEvents.cinemaName === "CGV") {
+        //     return {...state, mainCGVEvents: action.mainCinemaEvents.mainCinemaEvents}
+        // }
+        // else if(action.mainCinemaEvents.cinemaName === "롯데시네마"){
+        //     return {...state, mainLCEvents: action.mainCinemaEvents.mainCinemaEvents}
+        // }
+        // else if(action.mainCinemaEvents.cinemaName === "메가박스"){
+        //     return {...state, mainLMBvents: action.mainCinemaEvents.mainCinemaEvents}
+        // }
+        // else if(action.mainCinemaEvents.cinemaName === "씨네큐"){
+        //     return {...state, mainLCQvents: action.mainCinemaEvents.mainCinemaEvents}
+        // }
     }
     else if (action.type === EVENTS){
         //이벤트 페이지에서 전체 이벤트 조회
@@ -74,6 +76,7 @@ const reducer = (state={}, action) => {
     else if (action.type === SELECTED_DM){
         return {...state, selectedRoomId: action.payload}
     }
+    
 }
 
 const store = createStore(reducer);

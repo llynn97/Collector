@@ -8,6 +8,7 @@ import { LOGIN_USER } from "../../actions/types";
 import style from "../../css/TopBar/LogIn.module.css";
 import { getCookie, setCookie } from "../../Cookie";
 import { Cookies } from "react-cookie";
+import { Link } from "react-router-dom";
 
 const LogIn = () =>{
   let navigation = useNavigate();
@@ -65,6 +66,8 @@ const LogIn = () =>{
           user: response.data,
         })
 
+        localStorage.setItem('login', true)
+
         setSuccessLogin(true);
         setModalOpen(false);
         navigation(0);
@@ -81,10 +84,16 @@ const LogIn = () =>{
     window.open(KAKAO_AUTH_URL, "_self");
   }
 
+  const logoutClick = () => {
+    localStorage.removeItem("login")
+    navigation(0)
+  }
+
   return (
       <>
       <div className={style.loginArea}>
-      {successLogin ? <button>로그아웃</button>: <button onClick={openModal} className={style.loginButton}>로그인</button>}
+      {localStorage.getItem('login') ? <button onClick={logoutClick}>로그아웃</button> 
+      : <button onClick={openModal} className={style.loginButton}>로그인</button>}
       
       </div>
 

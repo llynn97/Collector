@@ -84,7 +84,6 @@ const EventPage = () => {
 
 
     useEffect(()=>{
-        // console.log("이벤트 페이지 렌더");
         // //처음에 기본으로 진행 중인 이벤트로 보여줌
         // dispatch({
         //     type:EVENT_ISEND,
@@ -129,8 +128,9 @@ const EventPage = () => {
                 <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
                 <button id="searchButton" onClick={searchClick}>검색</button>
             </div>
-            {//검색버튼 눌렀을 때, 진행중/완료 선택했을 때, 최신순/관심도 순 선택했을 때, 영화관 선택 버튼 눌렀을 때만 Events re-render
-            <Events sort={sort} isEnd={isEnd} search_word={searchWords} cinema_name={selecteds}/>}
+            {
+            <Events sort={sort} isEnd={isEnd} search_word={searchWords} cinema_name={selecteds}/>
+            }
         
         </div>
         

@@ -4,6 +4,7 @@ import NavigationBar from "./NavigationBar";
 import {useNavigate} from "react-router-dom";
 import style from "../../css/TopBar/TopBar.module.css"
 import { getCookie } from "../../Cookie";
+import { useSelector } from "react-redux";
 
 const TopBar = () => {
 

@@ -91,11 +91,7 @@ const DMDetail = ({selectedRoom}) => {
             let obj = {}
             fd.forEach((v, k) => obj[k]=v);
             console.log(obj);
-            stompClient.send("/pub/chat/message", {}, JSON.stringify({
-                image_url: imgFile,
-                content : message,
-                chat_room_id: selectedRoom.chat_room_id,
-            }));
+            stompClient.send("/pub/chat/message", {}, JSON.stringify(obj));
             setImgFile(null);
         }
         

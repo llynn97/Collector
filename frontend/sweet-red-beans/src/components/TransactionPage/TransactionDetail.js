@@ -230,6 +230,9 @@ const TransactionDetail = ({transaction}) => {
 
         <div className={style.transactionBox}>
             <div>
+                <div>
+                    <img src={transaction.profile_url} width="50px"/>
+                </div>
                 <div className={style.nickname}>
                 {transaction.nickname} 
                 <div className={style.reliability}>

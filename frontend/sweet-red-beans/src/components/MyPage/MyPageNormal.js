@@ -23,6 +23,8 @@ const MyPageNomal = () => {
     //닉네임 변경용
     const [nicknameModify, setNicknameModify] = useState("");
 
+    const [preImage, setPreImage] = useState(null);
+
     //닉네임 중복 확인이 성공적으로 됐을 때 true
     const [nicknameCheck, setNicknameCheck] = useState(false);
     //닉네임 중복 확인 안 됐을 때 false
@@ -36,14 +38,12 @@ const MyPageNomal = () => {
     useEffect(() => {
         axios.get('http://localhost:8080/mypage',{
         withCredentials: true ,
-        params: {
-                    user_id: "1",
-                }
         })
         .then(response => {
             setNickname(response.data.user.nickname);
             setNicknameModify(response.data.user.nickname);
             setProfileImage(response.data.user.profile_url);
+            console.log(response.data.user.profile_url);
             setReliability(response.data.user.reliability);
             dispatch({
                 type:MYPAGE_USER,
@@ -133,7 +133,6 @@ const MyPageNomal = () => {
                 axios.patch('http://localhost:8080/mypage/nickname', 
                 {
                     nickname: nicknameModify,
-                    user_id: "1",
                 }, { withCredentials: true })
                 .then((response) => {
                 if(response.data){
@@ -148,6 +147,8 @@ const MyPageNomal = () => {
                 setHide(true);
             }
         }
+
+        navigation(0)
     }
     
 
@@ -166,9 +167,11 @@ const MyPageNomal = () => {
         const imgEl = document.querySelector('.preview');
         const reader = new FileReader();
         reader.onloadend = () => {(
-            imgEl.style.backgroundImage = `url(${reader.result})`
+            //imgEl.style.backgroundImage = `url(${reader.result})`
+            setPreImage(reader.result)
         )
-        setProfileImage(reader.result);
+        //setProfileImage(reader.result);
+        
     }
         reader.readAsDataURL(imgFile[0]);
         
@@ -236,8 +239,12 @@ const MyPageNomal = () => {
             {
                 !hide?
                 <div>
-                    <div className="preview" style={{width:"100px", height:"100px", backgroundImage:{profileImage}}}></div>
-                    <input type="file" onChange={handleChangeFile} multiple="multiple"/>
+                    {preImage !== null ?
+                    <img src={preImage} width="100px" height="100px"/>
+                    : <img src={profileImage} width="100px" height="100px"/>}
+                    <div className="preview" style={{width:"100px", height:"100px", background:{profileImage}}}></div>
+                    <label for="upload_file">업로드</label>
+                    <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
                     <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
                     <button onClick={nicknameModifyClick}>중복 확인</button>
                     {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
