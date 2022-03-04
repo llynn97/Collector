@@ -28,15 +28,24 @@ public class ManagerService {
         List<Report> reports = reportRepository.findAll();
         for (Report report : reports) {
             Content_Detail content_detail = report.getContent_detail();
-            String content = content_detail.getContent();
-            LocalDateTime written_date = content_detail.getWritten_date();
+            String content = content_detail.getContent(); //신고내용
+            LocalDateTime written_date = content_detail.getWritten_date(); //신고시간
+            User user = report.getUser(); //신고한 사용자
+            Long user_id = user.getUser_id(); //신고자 아이디
+            String nickname = user.getNickname(); //신고자 닉네임
 
             Transaction transaction = report.getTransaction();
-            User user = transaction.getUser();
-            String nickname = user.getNickname();
-            Long user_id = user.getUser_id();
+            User reportedUser = transaction.getUser(); //신고당한 사용자
+            String reported_nickname = reportedUser.getNickname(); //신고당한 사용자 닉네임
+            Long reported_user_id = reportedUser.getUser_id(); //신고당한 사용자 아이디
+            String reported_content = transaction.getContent_detail().getContent(); //신고당한 내용
 
-            reportsList.add(new ManagerResponseDto(content, written_date, nickname, user_id));
+            Boolean is_complete = false;
+            if(reportedUser.getStatus() == 0) {
+                is_complete = true;
+            }
+
+            reportsList.add(new ManagerResponseDto(content, written_date, nickname, user_id, reported_user_id, reported_nickname, reported_content, is_complete));
         }
 
         Comp comp = new Comp();
