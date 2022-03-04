@@ -5,6 +5,7 @@ import Pagination from "./MyPageDetail/Pagination";
 
 const MyPageAdmin = () => {
     const [reports, setReports] = useState([]);
+    const [reportIsHere, setReportIsHere] = useState(false);
 
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -13,20 +14,20 @@ const MyPageAdmin = () => {
     useEffect(() => {
         axios.get('http://localhost:8080/manager/report', {withCredentials: true})
         .then(response => {
-            setReports(response.data);
+            
+            setReports(response.data.reports);
         })
         .catch(error => console.log(error))
 
-        setReports([{
-            user_id: "1",
-            report_content : "신고 내용",
-            written_date : "22-02-15",
-            nickname : "지영"}])
     }, [])
+
+    useEffect(() => {
+        setReportIsHere(true);
+    }, [reports])
     
     return (
         <>
-        {reports !== undefined ? reports.slice(offset, offset + limit).map((item, index) => (
+        {reportIsHere ? reports.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <Report report={item}/>
             </article>

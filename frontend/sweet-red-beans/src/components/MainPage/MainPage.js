@@ -28,7 +28,6 @@ const MainPage = () => {
             withCredentials: true,
         })
         .then(response => {
-            console.log(response.data.src);
             setMainVideo(response.data.src)
         })
         .catch(error => console.log(error))

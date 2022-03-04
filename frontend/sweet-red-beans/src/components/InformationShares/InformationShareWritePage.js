@@ -121,7 +121,7 @@ const InformationShareWritePage = () => {
                         alert("게시글 작성을 실패했습니다.")
                     }
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.dir(error.response.status));
             }
             //이미지 파일 있을 때
             else {
@@ -205,7 +205,8 @@ const InformationShareWritePage = () => {
         }
 
         <div className="preview" style={{width:"100px", height:"100px"}}></div>
-        <input type="file" onChange={handleChangeFile} multiple="multiple"/>
+        <label for="upload_file">업로드</label>
+        <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
         <div>
         <input type="textarea" style={{width: "400px", height:"200px"}} onChange={contentChange} value={content}/>
         </div>

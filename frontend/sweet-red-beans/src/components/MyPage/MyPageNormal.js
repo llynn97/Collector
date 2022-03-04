@@ -211,7 +211,7 @@ const MyPageNomal = () => {
 
     return (
         <>
-        {!setRenderError ? 
+        {!renderError ? 
         <>
             <div className={style.profileBox}>
             {hide? 

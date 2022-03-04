@@ -7,7 +7,8 @@ import axios from "axios";
 const EventDetailPage = () => {
     const {id} = useParams();
 
-    const [thisEvent, setThisEvent] = useState({});
+    const [thisEvent, setThisEvent] = useState(null);
+    const [thisEventIsHere, setThisEventIsHere] = useState(false);
     //좋아요 상태 변경용
     const [status, setStatus] = useState(false);
 
@@ -24,6 +25,7 @@ const EventDetailPage = () => {
             setStatus(response.data.is_like);
         })
         .catch(error => console.log(error));
+
     }, [])
 
     const likeClick = () => {
@@ -48,32 +50,18 @@ const EventDetailPage = () => {
         .catch(error => console.log(error));
     }
 
+    useEffect(()=>{
+        setThisEventIsHere(true);
+    }, [thisEvent])
     
 
     //서버 연결하면 data들 thisEvent로 바꾸기
     return (
         <>
-        <h1>{id}, {thisEvent.title}</h1>
-        <div>
-            {thisEvent.start_date} ~ {thisEvent.end_date}
-        </div>
-        <div>
-            {thisEvent.cinema_name}
-        </div>
-        <div>
-            좋아요 수 : {thisEvent.like_count}
-        </div>
-        <div>
-            <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
-        </div>
-        <div>
-            {
-                thisEvent.detail_image_url.map((item, index) => <img key={index} src={item}/>)
-            }
-        </div>
-        <div>
-            <button onClick={() => window.open(thisEvent.link_url, '_blank')}>자세히 보기</button>
-        </div>
+        {thisEventIsHere ? 
+            console.log(thisEvent.title)
+        : null}
+        
         </>
     );
 }

@@ -10,7 +10,7 @@ import { EVENT_ISEND, EVENT_SORT, EVENTS } from "../../actions/types";
 import axios from "axios";
 
 const EventPage = () => {
-    console.log("이벤트 페이지 렌더");
+    
     let navigation = useNavigate();
     const dispatch = useDispatch();
 
@@ -30,34 +30,6 @@ const EventPage = () => {
     //최신순(recent) or 관심도순(interest)
     const [sort, setSort] = useState("최신순");
 
-    const serverReq = () => {
-        let body = {}
-        if(selected === "전체"){
-            body = {
-                withCredentials: true,
-                params: {
-                    sort_criteria: sort,
-                    is_end: isEnd,
-                    search_word: search,
-                }
-            }
-        } else {
-            body = {
-                withCredentials: true,
-                params: {
-                    cinema_name: selected,
-                    sort_criteria: sort,
-                    is_end: isEnd,
-                    search_word: search,
-                }
-            }
-        }
-        axios.get('http://localhost:8080/events/search',body)
-        .then(response => {setEvents(response.data)
-        console.log(response.data);})
-        .catch(error => console.log(error));
-    }
-
     //검색
     const searchChange = (e) => {
         setSearch(e.target.value);
@@ -66,6 +38,7 @@ const EventPage = () => {
     //검색 버튼 눌렀을 때 다시 서버 요청
     const searchClick = () => {
         setSearchWords([...searchWords, search]);
+        setSelecteds([...selecteds, selected]);
     }
 
     //진행 중 클릭했을 때 다시 서버 요청
@@ -109,75 +82,36 @@ const EventPage = () => {
         setSelected(e.target.value);
     }
 
-    useEffect(()=>{
-        //진행 중/완료 바뀔 때마다 실행
-        //console.log(isEnd);
-        serverReq();
-    }, [isEnd])
 
     useEffect(()=>{
-        //최신순, 관심도순 바뀔 때마다 실행
-        //console.log(sort);
-        serverReq();
-        console.log(sort);
-        console.log(eventIsHere);
-    }, [sort])  
-
-    useEffect(()=>{
-        //검색 버튼 눌렀을 때마다 실행
-        console.log(searchWords);
-        serverReq();
-    }, [searchWords])
-
-    useEffect(()=>{
-        //영화관 필터 바뀌었을 때마다 실행
-        //console.log(selected);
-    }, [selected]);
-
-
-    useEffect(()=>{
-        //처음에 기본으로 진행 중인 이벤트로 보여줌
-        dispatch({
-            type:EVENT_ISEND,
-            payload:false,
-        })
+        // console.log("이벤트 페이지 렌더");
+        // //처음에 기본으로 진행 중인 이벤트로 보여줌
+        // dispatch({
+        //     type:EVENT_ISEND,
+        //     payload:false,
+        // })
         
-        //처음에 기본으로 최신순으로 보여줌
-        dispatch({
-            type:EVENT_SORT,
-            payload:sort,
-        })
+        // //처음에 기본으로 최신순으로 보여줌
+        // dispatch({
+        //     type:EVENT_SORT,
+        //     payload:sort,
+        // })
 
-        const body = 
-        {
-            withCredentials: true,
-            params:{
-                sort_criteria: sort,
-                is_end: isEnd,
-            }
-        }
-        
-        //처음에 진행 중, 최신순으로 요청
-        axios.get('http://localhost:8080/events/search',body)
-        .then(response => setEvents(response.data))
-        .catch(error => console.log(error));
 
     }, [])
 
     useEffect(()=> {
-        dispatch({
-            type:EVENTS,
-            events:events,
-        });
+        // dispatch({
+        //     type:EVENTS,
+        //     events:events,
+        // });
         setEventIsHere(true)
-        console.log(eventIsHere);
     },[events])
 
     return(
         <>
         <div>
             <div>
-                {}
                 <button onClick={ongoingClick}>진행 중 이벤트</button>
                 <button onClick={doneClick}>완료된 이벤트</button>
             </div>
@@ -196,7 +130,7 @@ const EventPage = () => {
                 <button id="searchButton" onClick={searchClick}>검색</button>
             </div>
             {//검색버튼 눌렀을 때, 진행중/완료 선택했을 때, 최신순/관심도 순 선택했을 때, 영화관 선택 버튼 눌렀을 때만 Events re-render
-            useMemo(() => eventIsHere ? <Events events={events}/>:null, [searchWords, isEnd, sort, selecteds, events])}
+            <Events sort={sort} isEnd={isEnd} search_word={searchWords} cinema_name={selecteds}/>}
         
         </div>
         

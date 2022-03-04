@@ -54,6 +54,7 @@ const LogIn = () =>{
     const body = {
       email: email,
       password: password,
+      method: "일반",
     };
 
     axios.post('http://localhost:8080/signin', body,{ withCredentials: true })
@@ -77,21 +78,7 @@ const LogIn = () =>{
   }
 
   const KakaoLoginClick = (e) => {
-    let code = new URL(window.location.href).searchParams.get("code");
-    window.open(KAKAO_AUTH_URL);
-
-    
-    console.log("으으아아ㅏㅏ")
-    console.log(code)
-    // axios.get('http://localhost:8080/signin/oauth2/code/kakao',{ 
-    //       withCredentials: true,
-    //       params: {
-    //                 code: code,
-    //               }
-    //     }).then(response=> {
-    //       console.log(response.data)
-    //     })
-
+    window.open(KAKAO_AUTH_URL, "_self");
   }
 
   return (
