@@ -6,6 +6,7 @@
 }
 
 .writeBox {
+  position: relative;
   background-color: white;
   width: 1000px;
   margin : 0 auto;
@@ -16,19 +17,55 @@
   margin-bottom: 100px;
 }
 
+.profileArea {
+  position: absolute;
+  display: inline-block;
+  text-align: left;
+  top:30px;
+}
+
+.profileImage {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.nickname {
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+
+}
+
 .writeButtonArea {
-  text-align: right;
-  margin-bottom: 20px;
-  margin-right: 120px;
+  position: absolute;
+  display: inline-block;
+  top: 30px;
+  right: 150px;
 }
 
 .writeButton {
+  cursor: pointer;
   border: none;
   width: 190px;
   height: 50px;
   background-color: #F23333;
   border-radius: 10px;
   color: white;
+}
+
+.writeButton:hover{
+  animation: swing linear 0.15s 2;
+}
+
+@keyframes swing {
+  0% {  }
+  33% {transform: rotate(3deg);}
+  66% {transform: rotate(-3deg);}
+  100% {  }
 }
 
 .writeTextArea {
@@ -39,6 +76,7 @@
   box-sizing: border-box;
   padding: 20px;
   resize: none;
+  margin-top: 70px;
 }
 
 .writeTextArea:focus{
@@ -48,6 +86,7 @@
 .writeTextArea::-webkit-scrollbar{
   width: 15px;
 }
+
 .writeTextArea::-webkit-scrollbar-thumb{
   width: 15px;
   background-color: #C4C4C4;
@@ -111,10 +150,6 @@
   padding: 10px;
   border: 0 none;
   outline: 0 none;
-}
-
-.searchArea:focus{
-  outline: none;
 }
 
 .searchArea::placeholder {
@@ -201,7 +236,7 @@
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.5s ease-in-out;
   background-color: #F23333;
   color: white;
 }
@@ -228,7 +263,7 @@
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.5s ease-in-out;
   background-color: #F23333;
   color: white;
 }

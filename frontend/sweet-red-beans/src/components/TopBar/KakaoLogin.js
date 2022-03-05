@@ -19,6 +19,7 @@ const KakaoLogin = () => {
             axios.post('http://localhost:8080/signin', data, { withCredentials: true })
             .then(response => {
                 if(response.data.result){
+                    localStorage.setItem('login', true)
                     navigation('/')
           
                 } else {

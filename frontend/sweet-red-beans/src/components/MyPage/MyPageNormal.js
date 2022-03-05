@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MyPageDetail from "./MyPageDetail";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -212,6 +212,12 @@ const MyPageNomal = () => {
         }
     }
 
+    const nicknameArea = useRef();
+    const nicknameFocus = (e) => {
+        // const a = document.querySelector("#nicknameChangeArea");
+        // a.classList.toggle("active");
+    }
+
     return (
         <>
         {!renderError ? 
@@ -223,15 +229,19 @@ const MyPageNomal = () => {
                     <img src={profileImage} className={style.profileImage}/>
                     </div>
                     <div className={style.nickname}>
-                    {nickname}
-                </div>
+                        {nickname}
+                    </div>
+                    <div className={style.profileChangeButtonArea}>
+                        <button onClick={profileChangeClick} className={style.profileChangeButton}>프로필 수정하기</button>
+                    </div>
 
-                <div className={style.profileChangeButtonArea}>
-                <button onClick={profileChangeClick}>프로필 수정하기</button>
-                </div>
+                
 
                 <div className={style.reliability}>
-                {reliability}
+                <div className={style.reliabilityIcon}></div>
+                <div className={style.reliabilityCount}>
+                    {reliability}
+                </div>
                 </div>
             </div>
             : null}
@@ -240,16 +250,18 @@ const MyPageNomal = () => {
                 !hide?
                 <div>
                     {preImage !== null ?
-                    <img src={preImage} width="100px" height="100px"/>
-                    : <img src={profileImage} width="100px" height="100px"/>}
-                    <div className="preview" style={{width:"100px", height:"100px", background:{profileImage}}}></div>
-                    <label for="upload_file">업로드</label>
+                    <img src={preImage} className={style.preview}/>
+                    : <img src={profileImage} className={style.preview}/>}
+                    <label for="upload_file" className={style.fileButton}></label>
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-                    <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
-                    <button onClick={nicknameModifyClick}>중복 확인</button>
+                    <div className={style.nicknameChangeArea} ref={nicknameArea} id="nicknameChangeArea">
+                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} className={style.nicknameChange} onFocus={nicknameFocus}/>
+                    </div>
+
+                    <button onClick={nicknameModifyClick} className={style.nicknameDupButton}>중복 확인</button>
                     {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
-                    <button onClick={profileCompleteClick}>완료</button>
-                    <button onClick={profileCancelClick}>취소</button>
+                    <button onClick={profileCompleteClick} className={style.completeButton}>완료</button>
+                    <button onClick={profileCancelClick} className={style.cancelButton}>취소</button>
                 </div>
 
                 : null

@@ -85,7 +85,7 @@ const LogIn = () =>{
   }
 
   const logoutClick = () => {
-    axios.post('http://localhost:8080/logout', {}, { withCredentials: true })
+    axios.post('http://localhost:8080/users/logout', {}, { withCredentials: true })
     .then(response => {
       if(response.data.result){
         localStorage.removeItem("login")
@@ -95,7 +95,15 @@ const LogIn = () =>{
       }
     })
     .catch(error => console.log(error));
-    
+  }
+
+  const googleLoginClick = () => {
+    axios.get('http://localhost:8080/signin/auth/google', { withCredentials: true })
+    .then(response => {
+      localStorage.setItem('login', true)
+      navigation('/');
+    })
+    .catch(error => console.log(error));
   }
 
   return (
@@ -103,7 +111,6 @@ const LogIn = () =>{
       <div className={style.loginArea}>
       {localStorage.getItem('login') ? <button onClick={logoutClick}>로그아웃</button> 
       : <button onClick={openModal} className={style.loginButton}>로그인</button>}
-      
       </div>
 
       <Modal open={modalOpen} close={closeModal} header="로그인">
@@ -125,7 +132,7 @@ const LogIn = () =>{
         <button href={KAKAO_AUTH_URL} onClick={KakaoLoginClick}>카카오로 로그인</button>
         </div>
         <div>
-        <button>구글로 로그인</button>
+        <button onClick={googleLoginClick}>구글로 로그인</button>
         </div>
       </Modal>
       </>

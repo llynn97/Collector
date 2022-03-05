@@ -26,7 +26,12 @@ const TransactionPage = () => {
     const [content, setContent] = useState("");
 
     const [start, setStart] = useState(0);
-    const [end, setEnd] = useState(29);
+    const [end, setEnd] = useState(30);
+
+    //내 프로필
+    const [nickname, setNickname] = useState("");
+    const [profileImage, setProfileImage] = useState("");
+    const [reliability, setReliability] = useState(0);
 
     const [fetching, setFetching] = useState(false);
 
@@ -111,8 +116,8 @@ const TransactionPage = () => {
                       search_word: search,
                       sort_criteria : "최신순",
                       search_criteria : searchSort,
-                      start: start+30,
-                      end: end+30,
+                      start: 0,
+                      end: 30,
                     }
           })
           .then(response => {
@@ -192,7 +197,7 @@ const TransactionPage = () => {
 
       //ScrollY === document.documentElement.scrollTop
       if (ScrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
-        if(transactions.length >= 30){
+        if(transactions.length >= 29){
           fetchMoreTransactions();
         }
       }
@@ -225,6 +230,18 @@ const TransactionPage = () => {
           setTransactions(response.data);
         })
         .catch(error => console.log(error));
+      
+        axios.get('http://localhost:8080/mypage',{
+        withCredentials: true ,
+        })
+        .then(response => {
+            setNickname(response.data.user.nickname);
+            setProfileImage(response.data.user.profile_url);
+            setReliability(response.data.user.reliability);
+        })
+        .catch(error => {
+            
+        });
     }, [])
 
     useEffect(()=>{
@@ -245,7 +262,14 @@ const TransactionPage = () => {
         <>
         <div className={style.wrap}>
         <div className={style.writeBox}>
+          
           <div>
+          <div className={style.profileArea}>
+            <img src={profileImage} className={style.profileImage}/>
+            <div className={style.nickname}>
+            {nickname}
+            </div>
+          </div>
           <div className={style.writeButtonArea}>
             <button onClick={writeClick} className={style.writeButton}>작성하기</button>
           </div>
@@ -270,7 +294,7 @@ const TransactionPage = () => {
             </div>
           </div>
           
-          {useMemo(() => transactionIsHere ? <Transactions transactions={transactions}/> :null, [searchWords, transactions, isProceed])}
+          <Transactions transactions={transactions}/>
         
           <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
 

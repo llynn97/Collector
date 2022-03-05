@@ -230,17 +230,17 @@ const TransactionDetail = ({transaction}) => {
 
         <div className={style.transactionBox}>
             <div>
-                <div>
-                    <img src={transaction.profile_url} width="50px"/>
-                </div>
+                <img src={transaction.profile_url} className={style.profileImage}/>
                 <div className={style.nickname}>
-                {transaction.nickname} 
+                    {transaction.nickname} 
+                </div>
                 <div className={style.reliability}>
                 <div className={style.reliabilityIcon}></div>
+                <div className={style.reliabilityCount}>
                 {transaction.reliability}
                 </div>
-                
                 </div>
+
                 {status === '진행중' ? <div className={style.proceeding}>진행중</div> : null}
                 {status === '마감' ? <div className={style.done}>마감</div> : null}
                 
@@ -251,7 +251,9 @@ const TransactionDetail = ({transaction}) => {
                 ) : 
                 <div className={style.notMine}>
                     <button onClick={openModal} className={style.reportButton}></button>
-                    <button onClick={DMClick} className={style.DMButton}></button>
+                    {status === '진행중' ? <button onClick={DMClick} className={style.DMButton}></button> :
+                    <button disabled={true} className={style.DMButton}></button>}
+                    
                     <button onClick={likeClick} className={style.likeButton}>{likeStatus ? "" : ""}</button>
                 </div>}
                 </div>

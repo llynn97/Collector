@@ -23,6 +23,7 @@ const DMDetail = ({selectedRoom}) => {
     const [complete, setComplete] = useState(false);
 
     const [imgFile, setImgFile] = useState(null);
+    const [imgBase64, setImgBase64] = useState("");
 
     const openModal = () => {
         setModalOpen(true);
@@ -70,14 +71,9 @@ const DMDetail = ({selectedRoom}) => {
 
     const sendMessage = (message) => {
         const fd = new FormData();
-        
+
         if(imgFile === null){
             if(message !== ""){
-                fd.append("content", message);
-                fd.append("chat_room_id", selectedRoom.chat_room_id);
-                let obj = {}
-                fd.forEach((v, k) => obj[k]=v);
-                console.log(obj);
                 stompClient.send("/pub/chat/message", {}, JSON.stringify({
                     content : message,
                     chat_room_id: selectedRoom.chat_room_id,
@@ -85,17 +81,20 @@ const DMDetail = ({selectedRoom}) => {
             }
 
         } else {
-            fd.append("image_url", imgFile[0]);
-            fd.append("content", message);
-            fd.append("chat_room_id", selectedRoom.chat_room_id);
-            let obj = {}
-            fd.forEach((v, k) => obj[k]=v);
-            console.log(obj);
-            stompClient.send("/pub/chat/message", {}, JSON.stringify(obj));
+            stompClient.send("/pub/chat/message", {}, JSON.stringify({
+                content : message,
+                chat_room_id: selectedRoom.chat_room_id,
+                image_url:imgBase64,
+            }));
+            setImgBase64(null);
             setImgFile(null);
         }
         
     }
+
+    useEffect(() => {
+        console.log(imgBase64);
+    }, [imgBase64])
 
     const addMessage = (message) =>{
         //상대에게 받아온 메시지를 추가함
@@ -242,12 +241,12 @@ const DMDetail = ({selectedRoom}) => {
     const preview = () => {
         if(!imgFile) return false;
 
-        const imgEl = document.querySelector('.preview');
         const reader = new FileReader();
-        reader.onloadend = () => (
-            imgEl.style.backgroundImage = `url(${reader.result})`
-        )
+        reader.onloadend = () => {
+            setImgBase64(reader.result);
+        }
         reader.readAsDataURL(imgFile[0]);
+        
     }
 
     useEffect(() => {
@@ -296,7 +295,10 @@ const DMDetail = ({selectedRoom}) => {
         
         , [contents])}
 
-        <div className="preview" style={{width:"100px", height:"100px"}}></div>
+        {imgBase64 !== null ?
+            <img src={imgBase64}/>
+            : null}
+        
         {complete ? <div>거래가 완료되었습니다.</div> : null}
         <input type="text" value={message} onChange={onChange} name={message}/>
         <button onClick={sendClick}>전송</button>

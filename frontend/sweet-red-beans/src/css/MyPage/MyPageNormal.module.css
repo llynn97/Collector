@@ -30,6 +30,7 @@
     width: 90px;
     height: 90px;
     border-radius: 50px;
+    object-fit: cover;
 }
 
 .nickname {
@@ -49,9 +50,115 @@
     transform: translate(0, -50%);
 }
 
+.reliabilityCount {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 15px;
+}
+
+.reliabilityIcon {
+    float: left;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border: #C4C4C4 1px solid;
+    border-radius: 50px;
+    margin-right: 10px;
+    background: url('../../img/reliability.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
 .profileChangeButtonArea {
     position: absolute;
     display: inline-block;
     top: 50%;
+    right: 150px;
     transform: translate(0, -50%);
+}
+
+.profileChangeButton {
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
+}
+
+.preview, .nicknameChangeArea, .nicknameDupButton, .completeButton, .cancelButton {
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.preview {
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+    left:47px;
+    object-fit: cover;
+}
+
+.fileButton{
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top: 33%;
+    transform: translate(0, -50%);
+    left:105px;
+    background-color: white;
+    opacity: 0.8;
+    border: #C4C4C4 1px solid;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    
+}
+
+.nicknameChangeArea {
+    left:150px;
+}
+
+.nicknameChangeArea::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1rem;
+    height: 5px;
+    border-radius: 50px;
+    margin-left: 50%;
+    width: calc(100%);
+    background: #F23333;
+}
+
+.nicknameChangeArea::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms ease, margin-left .5s ease;
+}
+
+.nicknameChangeArea:hover::after {
+    transform: scaleX(1);
+    margin-left: 0;
+}
+
+.nicknameChangeArea.active{
+    background-color: #F23333;
+}
+
+.nicknameChange {
+    border: none;
+}
+
+
+.nicknameDupButton {
+    left:300px;
+}
+
+.completeButton {
+    left:400px;
 }
