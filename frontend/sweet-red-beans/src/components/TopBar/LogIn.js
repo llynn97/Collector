@@ -19,8 +19,10 @@ const LogIn = () =>{
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
 
-  const [successLogin, setSuccessLogin] = useState(false);
   const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=e64599af67aac20483ad02a14a8c5058&redirect_uri=http://localhost:3000/signin/oauth2/code/kakao&response_type=code"
+  const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope=email profile&response_type=code&client_id=435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com&redirect_uri=http://localhost:3000/signin/auth/google/callback"
+
+  const cookies = new Cookies();
 
   const openModal = () => {
     setModalOpen(true);
@@ -43,7 +45,7 @@ const LogIn = () =>{
   }
 
   const LoginClick = (e) => {
-    
+    console.log(cookies.get("login"));
     e.preventDefault();
     if (email === "" || password === ""){
       return setLoginError(true);
@@ -60,17 +62,22 @@ const LogIn = () =>{
 
     axios.post('http://localhost:8080/signin', body, { withCredentials: true })
     .then(response => {
-      if(response.data.result){
-        dispatch({
-          type: LOGIN_USER,
-          user: response.data,
-        })
-
-        localStorage.setItem('login', true)
-
-        setSuccessLogin(true);
+      if(!response.data.status) {
+        alert("정지된 상태입니다.");
         setModalOpen(false);
-        navigation(0);
+      }
+      else if(response.data.result){
+        // dispatch({
+        //   type: LOGIN_USER,
+        //   user: response.data,
+        // })
+
+        const date = new Date();
+        date.setMinutes(date.getMinutes() + 30);
+        cookies.set("login", true, {expires: date});
+
+        setModalOpen(false);
+        //navigation(0);
         
       } else {
         alert("로그인에 실패했습니다.");
@@ -88,7 +95,7 @@ const LogIn = () =>{
     axios.post('http://localhost:8080/users/logout', {}, { withCredentials: true })
     .then(response => {
       if(response.data.result){
-        localStorage.removeItem("login")
+        cookies.remove("login")
         navigation(0)
       } else {
         alert("로그아웃에 실패했습니다.");
@@ -98,9 +105,12 @@ const LogIn = () =>{
   }
 
   const googleLoginClick = () => {
+    window.open(GOOGLE_AUTH_URL, "_self");
     axios.get('http://localhost:8080/signin/auth/google', { withCredentials: true })
     .then(response => {
-      localStorage.setItem('login', true)
+      const date = new Date();
+      date.setMinutes(date.getMinutes() + 30);
+      cookies.set("login", true, {expires: date});
       navigation('/');
     })
     .catch(error => console.log(error));
@@ -109,19 +119,19 @@ const LogIn = () =>{
   return (
       <>
       <div className={style.loginArea}>
-      {localStorage.getItem('login') ? <button onClick={logoutClick}>로그아웃</button> 
+      {cookies.get('login') ? <button onClick={logoutClick}>로그아웃</button> 
       : <button onClick={openModal} className={style.loginButton}>로그인</button>}
       </div>
 
       <Modal open={modalOpen} close={closeModal} header="로그인">
         <form>
         <div>
-        <input type="text" placeholder="example@naver.com" onChange={emailChange} value={email}/>
+        <input type="text" placeholder="example@naver.com" onChange={emailChange} value={email} className={style.inputText}/>
         </div>
         {email === "" ? <div style={{color : 'red'}}>이메일을 입력해주세요</div> : null}
 
         <div>
-        <input type="password" placeholder="********" onChange={passwordChange} value={password}/>
+        <input type="password" placeholder="********" onChange={passwordChange} value={password} className={style.inputText}/>
         </div>
         {password === "" ? <div style={{color : 'red'}}>비밀번호를 입력해주세요</div> : null}
         <button onClick={LoginClick}>로그인</button>

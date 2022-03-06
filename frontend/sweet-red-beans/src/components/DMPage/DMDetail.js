@@ -42,25 +42,13 @@ const DMDetail = ({selectedRoom}) => {
     let socket = new SockJS('http://localhost:8080/ws-stomp');
     let stompClient = Stomp.over(socket);
     
-    //서버와 연결됐을 때
     useEffect(() => {
-        console.log(socket);
 
     }, [])
 
     useEffect(() => {
         
     }, [contents])
-
-
-    //에러 발생했을 때
-    socket.onerror = (e) => {
-        console.log(e);
-    }
-
-    socket.onmessage = (e) => {
-        console.log(e);
-    }
     
     //전송 버튼 눌렀을 때
     const sendClick = () => {
@@ -229,16 +217,10 @@ const DMDetail = ({selectedRoom}) => {
     }, [contents])
 
     const handleChangeFile = (e) => {
-        console.log(e.target.files)
         setImgFile(e.target.files);
     }
 
     useEffect(() => {
-        preview();
-        return () => preview();
-    })
-
-    const preview = () => {
         if(!imgFile) return false;
 
         const reader = new FileReader();
@@ -246,13 +228,6 @@ const DMDetail = ({selectedRoom}) => {
             setImgBase64(reader.result);
         }
         reader.readAsDataURL(imgFile[0]);
-        
-    }
-
-    useEffect(() => {
-        if(imgFile !== null){
-            console.log(imgFile[0]);
-        }
 
     }, [imgFile])
 

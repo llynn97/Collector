@@ -3,14 +3,14 @@ import { useNavigate } from "react-router";
 import axios from "axios"
 import { Cookies } from "react-cookie";
 
-const KakaoLogin = () => {
+const GoogleLogin = () => {
     let navigation = useNavigate();
     let code = new URL(window.location.href).searchParams.get("code");
     const cookies = new Cookies();
 
     useEffect(() => {
         console.log(code);
-        axios.get('http://localhost:8080/signin/oauth2/code/kakao',{ 
+        axios.get('http://localhost:8080/signin/auth/google/callback',{ 
           withCredentials: true,
           params: {
                     code: code,
@@ -42,4 +42,4 @@ const KakaoLogin = () => {
     )
 }
 
-export default KakaoLogin;
+export default GoogleLogin;

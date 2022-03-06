@@ -9,3 +9,8 @@
     border: none;
     background-color: transparent;
 }
+
+.inputText{
+    width: 200px;
+    height: 30px;
+}

@@ -17,7 +17,7 @@ import MyPageAdmin from "../MyPage/MyPageAdmin";
 import MyPageNormal from "../MyPage/MyPageNormal";
 import Test from "../Test/Test";
 import KakaoLogin from "../TopBar/KakaoLogin";
-
+import GoogleLogin from "../TopBar/GoogleLogin";
 
 const MainContenet = () => {
     return (
@@ -37,6 +37,7 @@ const MainContenet = () => {
           <Route path="/adminpage" element={<MyPageAdmin/>}/>
           <Route path="/test" element={<Test/>}/>
           <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin/>}/>
+          <Route path="/signin/auth/google/callback" element={<GoogleLogin/>}/>
         </Routes>
         </>
     );

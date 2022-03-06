@@ -3,7 +3,7 @@ import MyPageDetail from "./MyPageDetail";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "../../actions/types";
-import style from "../../css/MyPage/MyPageNormal.module.css";
+import "../../css/MyPage/MyPageNormal.css";
 import { useNavigate } from "react-router";
 
 const MyPageNomal = () => {
@@ -214,32 +214,34 @@ const MyPageNomal = () => {
 
     const nicknameArea = useRef();
     const nicknameFocus = (e) => {
-        // const a = document.querySelector("#nicknameChangeArea");
-        // a.classList.toggle("active");
+        const a = document.querySelector("#nicknameChangeArea");
+        a.classList.toggle("active");
+        console.log(a.classList);
+    
     }
 
     return (
         <>
         {!renderError ? 
         <>
-            <div className={style.profileBox}>
+            <div className="profileBox">
             {hide? 
             <div>
-                <div className={style.profileImageBorder}>
-                    <img src={profileImage} className={style.profileImage}/>
+                <div className="profileImageBorder">
+                    <img src={profileImage} className="profileImage"/>
                     </div>
-                    <div className={style.nickname}>
+                    <div className="nickname">
                         {nickname}
                     </div>
-                    <div className={style.profileChangeButtonArea}>
-                        <button onClick={profileChangeClick} className={style.profileChangeButton}>프로필 수정하기</button>
+                    <div className="profileChangeButtonArea">
+                        <button onClick={profileChangeClick} className="profileChangeButton">프로필 수정하기</button>
                     </div>
 
                 
 
-                <div className={style.reliability}>
-                <div className={style.reliabilityIcon}></div>
-                <div className={style.reliabilityCount}>
+                <div className="reliability">
+                <div className="reliabilityIcon"></div>
+                <div className="reliabilityCount">
                     {reliability}
                 </div>
                 </div>
@@ -250,18 +252,18 @@ const MyPageNomal = () => {
                 !hide?
                 <div>
                     {preImage !== null ?
-                    <img src={preImage} className={style.preview}/>
-                    : <img src={profileImage} className={style.preview}/>}
-                    <label for="upload_file" className={style.fileButton}></label>
+                    <img src={preImage} className="preview"/>
+                    : <img src={profileImage} className="preview"/>}
+                    <label for="upload_file" className="fileButton"></label>
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-                    <div className={style.nicknameChangeArea} ref={nicknameArea} id="nicknameChangeArea">
-                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} className={style.nicknameChange} onFocus={nicknameFocus}/>
+                    <div className="nicknameChangeArea" ref={nicknameArea} id="nicknameChangeArea">
+                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} className="nicknameChange" onFocus={nicknameFocus}/>
                     </div>
 
-                    <button onClick={nicknameModifyClick} className={style.nicknameDupButton}>중복 확인</button>
+                    <button onClick={nicknameModifyClick} className="nicknameDupButton">중복 확인</button>
                     {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
-                    <button onClick={profileCompleteClick} className={style.completeButton}>완료</button>
-                    <button onClick={profileCancelClick} className={style.cancelButton}>취소</button>
+                    <button onClick={profileCompleteClick} className="completeButton">완료</button>
+                    <button onClick={profileCancelClick} className="cancelButton">취소</button>
                 </div>
 
                 : null
