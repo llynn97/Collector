@@ -4,30 +4,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.events.*;
-import moviegoods.movie.domain.dto.mypage.MyPageComment;
-import moviegoods.movie.domain.dto.mypage.MyPageResponseSearch;
 import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Event.EventRepository;
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
-import moviegoods.movie.domain.entity.Report.Report;
-import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
-import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import static moviegoods.movie.domain.entity.Transaction.Status.마감;
-import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
 @RequiredArgsConstructor
 @Service
@@ -35,19 +25,17 @@ import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 public class EventsService {
 
     private final EventRepository eventRepository;
-    private final UserRepository userRepository;
     private final LikeBasketsService likeBasketsService;
     private final LikeBasketRepository likeBasketRepository;
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
-    public List<EventsSearchResponseDto> search(User loginUser, EventsSearchRequestDto requestDto) throws ParseException {
+    public List<EventsSearchResponseDto> search(User loginUser, EventsSearchRequestDto requestDto) {
         List<EventsSearchResponseDto> searchList = new ArrayList<>();
         Long user_id = null;
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
         }
-        log.info("user_id={}", user_id);
 
         String cinema_name = requestDto.getCinema_name();
         String search_word = requestDto.getSearch_word();
@@ -102,6 +90,7 @@ public class EventsService {
         if (Objects.equals(sort_criteria,"관심도순")) {
             searchJpql += "order by e.like_count desc";
         }
+
         log.info("searchJpql={}",searchJpql);
         List<Event> eventList = em.createQuery(searchJpql, Event.class).getResultList();
         for (Event event : eventList) {
@@ -111,8 +100,6 @@ public class EventsService {
             String thumbnail_url = event.getThumbnail_url();
             Date start_date = event.getStart_date();
             Date end_date = event.getEnd_date();
-            log.info("start_date={}", start_date);
-
             Boolean search_is_end = Boolean.FALSE;
             Date date_now = java.sql.Date.valueOf(now);
             if (end_date.before(date_now)) {
@@ -127,49 +114,51 @@ public class EventsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public EventsDetailResponseDto detail(User loginUser, EventsDetailRequestDto requestDto) throws ParseException {
-        EventsDetailResponseDto eventsDetailResponseDto = new EventsDetailResponseDto();
+    public EventsDetailResponseDto detail(User loginUser, EventsDetailRequestDto requestDto) {
+
         Long event_id = requestDto.getEvent_id();
         Long user_id = null;
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
         }
+
         Event event = eventRepository.findById(event_id).orElseThrow(() -> new IllegalArgumentException("해당 이벤트가 없습니다. event_id = "+ event_id));
         String cinema_name = event.getCinema().getName();
         String title = event.getTitle();
         String detail_image_url = event.getDetail_image_url();
-        log.info("detail_image={}", detail_image_url);
+
         String[] array = detail_image_url.split(", ");
         List<String> image_url = new ArrayList<>();
         for (String objects : array) {
             String detail_url=objects;
-            log.info("detail_url={}", detail_url);
             image_url.add(detail_url);
         }
+
         String link_url = event.getLink_url();
         Date start_date = event.getStart_date();
         Date end_date = event.getEnd_date();
         Long like_count = event.getLike_count();
         Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
 
-        EventsDetailResponseDto result =new EventsDetailResponseDto(event_id, cinema_name, title, image_url, link_url, start_date, end_date, like_count, is_like);
+        EventsDetailResponseDto eventsDetailResponseDto =new EventsDetailResponseDto(event_id, cinema_name, title,
+                image_url, link_url, start_date, end_date, like_count, is_like);
 
-        return result;
+        return eventsDetailResponseDto;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto like(User loginUser, EventsLikeRequestDto requestDto) throws ParseException {
-
+    public ResultResponseDto like(User loginUser, EventsLikeRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
         Long event_id = requestDto.getEvent_id();
-        // 로그인
-        Long user_id = null;
-        if (loginUser != null) {
-            user_id = loginUser.getUser_id();
+
+        if (loginUser == null) {
+            resultResponseDto.setResult(false);
+            return resultResponseDto;
         }
+        Long user_id = loginUser.getUser_id();
+
         Boolean is_like = likeBasketsService.isLikeEvent(user_id, event_id);
         Event event = eventRepository.findById(event_id).orElseThrow(() -> new IllegalArgumentException("해당 이벤트가 없습니다. event_id = "+ event_id));
-        //Long finalUser_id = user_id;
-        //User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ finalUser_id));
 
         Boolean result = false;
         if (Objects.equals(is_like,false)) {
@@ -181,8 +170,6 @@ public class EventsService {
             Long like_basket_id = likeBasketsService.selectLikeEvent(user_id,event_id);
             result = likeBasketsService.deleteLike(like_basket_id,user_id);
         }
-
-        ResultResponseDto resultResponseDto = new ResultResponseDto();
         resultResponseDto.setResult(result);
 
         return resultResponseDto;

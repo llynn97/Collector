@@ -35,13 +35,14 @@ public class MainController {
     }
 
     @GetMapping("/event-limit")
-    public ResponseEntity<List<MainEventLimitResponseDto>> eventLimit(@Login User loginUser) throws ParseException {
+    public ResponseEntity<List<MainEventLimitResponseDto>> eventLimit(@Login User loginUser){
         List<MainEventLimitResponseDto> list = mainService.eventLimit(loginUser);
         ResponseEntity<List<MainEventLimitResponseDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
     }
+
     @GetMapping("/daily-community")
-    public ResponseEntity<List<MainDailyCommunityResponseDto>> dailyCommunity(@ModelAttribute MainDailyCommunityRequestDto requestDto) throws ParseException {
+    public ResponseEntity<List<MainDailyCommunityResponseDto>> dailyCommunity(@ModelAttribute MainDailyCommunityRequestDto requestDto) {
         List<MainDailyCommunityResponseDto> list = mainService.dailyCommunity(requestDto);
         ResponseEntity<List<MainDailyCommunityResponseDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;

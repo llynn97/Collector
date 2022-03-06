@@ -32,12 +32,14 @@ public class MyPageService {
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
         }
-        log.info("user_id3={}", user_id);
+        User user = userRepository.getById(user_id);
+        log.info("user_id={}", user_id);
+        log.info("user_profile={}", loginUser.getProfile_url());
 
         MyPageUser myPageUserDto=new MyPageUser();
-        myPageUserDto.setNickname(loginUser.getNickname());
-        myPageUserDto.setProfile_url(loginUser.getProfile_url());
-        myPageUserDto.setReliability(loginUser.getReliability());
+        myPageUserDto.setNickname(user.getNickname());
+        myPageUserDto.setProfile_url(user.getProfile_url());
+        myPageUserDto.setReliability(user.getReliability());
         myPageResponseSearch.setUser(myPageUserDto);
 
 

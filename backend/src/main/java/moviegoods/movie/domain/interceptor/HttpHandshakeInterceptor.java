@@ -1,6 +1,7 @@
-package moviegoods.movie.configure;
+package moviegoods.movie.domain.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.entity.User.User;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
