@@ -254,7 +254,7 @@ const MyPageNomal = () => {
                     </div>
 
                     <button onClick={nicknameModifyClick} className={style.nicknameDupButton}>중복 확인하기</button>
-                    {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
+                    {nicknameError && <div className={style.nicknameDupText}>닉네임 중복확인해주세요</div>}
                     <button onClick={profileCompleteClick} className={style.completeButton}>완료</button>
                     <button onClick={profileCancelClick} className={style.cancelButton}>취소</button>
                 </div>
@@ -263,14 +263,36 @@ const MyPageNomal = () => {
             }
         </div>
 
-        
-        <div>
-            {myList.map((item, index) => (
-                <button key={index} onClick={(e) => myListClick(index, e)}>{item}</button>
-            ))}
-        </div>
-        <div>
-            <MyPageDetail myList={myList} myMenu={myMenu}/>
+        <div className={style.detailArea}>
+            <nav className={style.menu}>
+                <ul>
+                    <li>
+                        <button onClick={(e) => myListClick(0, e)} className={style.myEvents}></button>
+                        <div>관심있는 이벤트</div>
+                    </li>
+                    <li>
+                        <button onClick={(e) => myListClick(1, e)} className={style.mytransactions}></button>
+                        <div>내가 쓴 거래</div>
+                    </li>
+                    <li>
+                        <button onClick={(e) => myListClick(2, e)} className={style.myliketransactions}></button>
+                        <div>내가 좋아요 한 거래</div>
+                    </li>
+                    <li>
+                        <button onClick={(e) => myListClick(3, e)} className={style.myposts}></button>
+                        <div>내가 쓴 글</div>
+                    </li>
+                    <li>
+                        <button onClick={(e) => myListClick(4, e)} className={style.mycomments}></button>
+                        <div>내가 쓴 댓글</div>
+                    </li>
+                </ul>
+            </nav>
+
+            <div className={style.detail}>
+                <MyPageDetail myList={myList} myMenu={myMenu}/>
+            </div>
+            
         </div>
         <div>
             <button>탈퇴하기</button>

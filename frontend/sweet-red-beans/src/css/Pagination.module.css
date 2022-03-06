@@ -7,23 +7,36 @@
 }
 
 .button {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   padding: 8px;
   margin: 0;
-  background: black;
+  background: #F23333;
   color: white;
   font-size: 1rem;
+  margin: 10px;
 }
 
-.button:hover {
-    background: tomato;
-    cursor: pointer;
-    transform: translateY(-2px);
+.pageButton {
+  border:none;
+  color: #F23333;
+  background-color: transparent;
+  margin: 10px;
+  font-size: 14pt;
+  transition: transform 300ms ease;
+}
+
+.pageButton:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
 }
 
 .button:disabled {
-    background: grey;
+    background: #c4c4c4;
+    opacity: 0.8;
     cursor: revert;
     transform: revert;
 }
@@ -35,6 +48,6 @@
     transform: revert;
 }
 
-.button:clicked {
-    color: gold;
+.pageButton:active {
+    background-color: gold;
 }

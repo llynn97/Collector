@@ -8,7 +8,7 @@
     border: 1px solid #C4C4C4;
     box-sizing: border-box;
     padding: 30px;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
 }
 
 .profileImageBorder {
@@ -79,15 +79,28 @@
 }
 
 .profileChangeButton {
+    cursor: pointer;
     width: 150px;
     height: 50px;
     border-radius: 10px;
     border: none;
     background-color: #F23333;
     color: white;
+    font-family: "ROKAFSansBold";
 }
 
-.preview, .nicknameChangeArea, .nicknameDupButton, .completeButton, .cancelButton {
+.profileChangeButton:hover{
+    animation: swing linear 0.15s 2;
+}
+  
+@keyframes swing {
+    0% {  }
+    33% {transform: rotate(3deg);}
+    66% {transform: rotate(-3deg);}
+    100% {  }
+}
+
+.preview, .nicknameChangeArea, .nicknameDupButton {
     position: absolute;
     display: inline-block;
     vertical-align: middle;
@@ -110,13 +123,16 @@
     top: 33%;
     transform: translate(0, -50%);
     left:105px;
-    background-color: white;
-    opacity: 0.8;
     border: #C4C4C4 1px solid;
     border-radius: 50px;
     width: 30px;
     height: 30px;
-    
+    background: url("../../img/plus.png");
+    background-color: white;
+    opacity: 0.8;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
 
 .nicknameChangeArea {
@@ -139,9 +155,10 @@
 }
 
 .nicknameChange {
+    font-family: "ROKAFSansBold";
     border: none;
     font-size: 14pt;
-    width: 150px;
+    width: 180px;
 }
 
 .nicknameChange:focus {
@@ -159,15 +176,144 @@
 }
 
 .nicknameDupButton {
-    left:330px;
+    cursor: pointer;
+    left:360px;
     width: 110px;
     height: 50px;
     border-radius: 10px;
     border: none;
     background-color: #F23333;
     color: white;
+    font-family: "ROKAFSansBold";
+}
+
+.nicknameDupText {
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    left:158px;
+    top:70%;
+    transform: translate(0, -50%);
+    color: #F23333;
 }
 
 .completeButton {
-    left:450px;
+    cursor: pointer;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:75%;
+    transform: translate(0, -50%);
+    right: 110px;
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
+    font-family: "ROKAFSansBold";
+}
+
+.cancelButton {
+    cursor: pointer;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:75%;
+    transform: translate(0, -50%);
+    right: 25px;
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #C4C4C4;
+    color: #5A5A5A;
+    font-family: "ROKAFSansBold";
+}
+
+.detailArea {
+    position: relative;
+    background-color:transparent;
+    width: 1000px;
+    height: 1000px;
+    margin : 0 auto;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin-bottom: 100px;
+}
+
+.menu{
+    position: absolute;
+    top:20px;
+    left:20px;
+    width: 120px;
+}
+
+.menu li {
+    margin-bottom: 50px;
+}
+
+.myEvents, .mytransactions, .myliketransactions, .myposts, .mycomments {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    border: none;
+    margin-bottom: 10px;
+    transition: transform 300ms ease ;
+    
+    
+}
+
+.myEvents{
+    background: url("../../img/movie.png");
+    background-repeat: no-repeat;
+}
+
+.mytransactions {
+    background: url("../../img/transaction.png");
+}
+
+.myliketransactions {
+    background: url("../../img/liketransaction.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.myposts {
+    background: url("../../img/post.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.mycomments {
+    background: url("../../img/comment.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.myEvents:hover, .mytransactions:hover, .myliketransactions:hover, .myposts:hover, .mycomments:hover{
+    transform: scale(1.2);
+}
+
+.myEvents:hover + div, .mytransactions:hover + div, .myliketransactions:hover + div, .myposts:hover + div, .mycomments:hover + div{
+    color: #F23333;
+}
+
+.detail {
+    position: absolute;
+    right: 0px;
+    width: 800px;
+    height: 900px;
+    border: 1px #C4C4C4 solid;
+    border-radius: 20px;
+    background-color: white;
+    box-sizing: border-box;
+    padding:30px;
+}
+
+@font-face {
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

@@ -11,7 +11,7 @@ const MyTransactions = () => {
         }
     })
 
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(3);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
 
