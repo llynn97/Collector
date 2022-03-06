@@ -1,9 +1,9 @@
 package moviegoods.movie.domain.entity.ChatRoom;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
-@Repository
-public interface ChatRoomRepository extends JpaRepository<Chat_Room,Long> {
+public interface ChatRoomRepository extends JpaRepository<Chat_Room, Long> {
+    Optional<Chat_Room> findById(Long chat_room_id);
 }

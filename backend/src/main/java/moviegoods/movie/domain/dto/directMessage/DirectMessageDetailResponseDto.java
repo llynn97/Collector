@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DirectMessageDetailResponseDto {
 
-    private String message_content;
+    private String content;
     private LocalDateTime written_date;
     private String image_url;
     private Long user_id;

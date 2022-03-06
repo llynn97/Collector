@@ -1,16 +1,16 @@
 package moviegoods.movie.service;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
-import moviegoods.movie.domain.entity.ChatRoom.ChatRoomJoinRepository;
-import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
-import moviegoods.movie.domain.entity.ChatRoom.Chat_Room_Join;
+import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;
+import moviegoods.movie.domain.entity.ChatRoomJoin.Chat_Room_Join;
+import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
@@ -20,13 +20,14 @@ import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MessageRoomService {
+public class ChatRoomService {
 
     private final EntityManager em;
     private final ChatRoomRepository chatRoomRepository;
@@ -34,8 +35,14 @@ public class MessageRoomService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
-    public DirectMessageCreateRoomResponseDto createRoom(DirectMessageCreateRoomRequestDto requestDto){
+    public DirectMessageCreateRoomResponseDto createRoom(User loginUser, DirectMessageCreateRoomRequestDto requestDto){
         Chat_Room chat_room = new Chat_Room();
+
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
 
@@ -43,7 +50,7 @@ public class MessageRoomService {
         if(relatedTransaction.isPresent()) {
             Transaction transaction = relatedTransaction.get();
             Long writer_id = transaction.getUser().getUser_id();
-            User user = userRepository.getById(requestDto.getUser_id());
+            User user = userRepository.getById(user_id);
             User writerUser = userRepository.getById(writer_id);
             chat_room.setTransaction(transaction);
             Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
@@ -79,7 +86,7 @@ public class MessageRoomService {
         }
     }
 
-    public List<DirectMessageListResponseDto> findMessageRooms(Long user_id) {
+    public List<DirectMessageListResponseDto> findMessageRooms(User loginUser, Long user_id) {
         List<DirectMessageListResponseDto> roomsList = new ArrayList<>();
         Optional<User> user = userRepository.findById(user_id);
         User findedUser = user.get();
@@ -154,6 +161,8 @@ public class MessageRoomService {
             return result;
         }
     }
+
+
 
     private static class Comp2 implements Comparator<DirectMessageListResponseDto> {
 

@@ -1,3 +1,7 @@
-app:
-  firebase-configuration-file: ./serviceAccountKey.json
-  firebase-bucket: stroagetest-f0778.appspot.com
+spring:
+
+  mvc:
+
+    pathmatch:
+
+      matching-strategy: ant_path_matcher

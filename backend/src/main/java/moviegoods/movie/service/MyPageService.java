@@ -3,7 +3,7 @@ package moviegoods.movie.service;
 
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
-import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.User.User;
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
@@ -25,16 +26,18 @@ public class MyPageService {
     private final UserRepository userRepository;
     private final FireBaseService fireBaseService;
 
-    public MyPageResponseSearch search(MyPageRequestSearch mprs){
+    public MyPageResponseSearch search(User loginUser,MyPageRequestSearch mprs){
         MyPageResponseSearch myPageResponseSearch=new MyPageResponseSearch();
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
 
-        Long user_id= mprs.getUser_id();
-        User user=userRepository.findById(user_id).get();
         MyPageUser myPageUserDto=new MyPageUser();
-        myPageUserDto.setNickname(user.getNickname());
-        myPageUserDto.setProfile_url(user.getProfile_url());
-        myPageUserDto.setReliability(user.getReliability());
-        myPageResponseSearch.getUser().add(myPageUserDto);
+        myPageUserDto.setNickname(loginUser.getNickname());
+        myPageUserDto.setProfile_url(loginUser.getProfile_url());
+        myPageUserDto.setReliability(loginUser.getReliability());
+        myPageResponseSearch.setUser(myPageUserDto);
 
 
         List<Object[]> row= em.createQuery("select c.comment_id , d.content, d.written_date,p.category,p.post_id from comment c join c.user u left join c.content_detail d left join c.post p where u.user_id =:user_id order by d.written_date DESC").setParameter("user_id",user_id).getResultList();
@@ -85,7 +88,6 @@ public class MyPageService {
         }
 
         List<Object[]> row3=  em.createQuery("select t.transaction_id ,u.nickname,u.reliability,u.user_id from like_basket b join b.user u left join b.transaction t where u.user_id =:user_id ").setParameter("user_id",user_id).getResultList();
-
         for (Object[] objects : row3) {
             Boolean is_mine=false;
             Long transaction_id=(Long)objects[0];
@@ -106,12 +108,6 @@ public class MyPageService {
             }
         }
 
-
-
-
-
-
-
         List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url from like_basket b join b.event e left join b.user u where u.user_id=:user_id").setParameter("user_id",user_id).getResultList();
         for (Object[] objects : row5) {
             Long event_id=(Long)objects[0];
@@ -124,33 +120,28 @@ public class MyPageService {
 
         return myPageResponseSearch;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
-    public String updateNickname(MyPageRequestNickname mprn){
-        Long user_id=mprn.getUser_id();
+    public String updateNickname(User loginUser,MyPageRequestNickname mprn){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         String nickname=mprn.getNickname();
+        log.info("nickname={}", nickname);
         User user=userRepository.findById(user_id).get();
         user.setNickname(nickname);
         userRepository.save(user);
         return userRepository.findById(user_id).get().getNickname();
     }
 
-    public void updateProfile(MyPageRequestProfile mprp) throws IOException, FirebaseAuthException {
+    public void updateProfile(User loginUser,MyPageRequestProfile mprp) throws IOException, FirebaseAuthException {
         MultipartFile profile_image=mprp.getProfile_image();
-        Long user_id=mprp.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+
+            user_id = loginUser.getUser_id();
+        }
         String firebaseUrl="";
         if(profile_image!=null){
             String nameFile= UUID.randomUUID().toString();
@@ -164,9 +155,13 @@ public class MyPageService {
 
     }
 
-    public Boolean withdrawal(MyPageRequestWithdrawal mrwd){
+    public Boolean withdrawal(User loginUser,MyPageRequestWithdrawal mrwd){
         Boolean check=false;
-        Long user_id=mrwd.getUser_id();
+        Long user_id = null;
+        if (loginUser != null) {
+
+            user_id = loginUser.getUser_id();
+        }
         userRepository.deleteById(user_id);
         if(!userRepository.existsById(user_id)){
             check=true;

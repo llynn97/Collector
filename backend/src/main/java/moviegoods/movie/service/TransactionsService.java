@@ -1,14 +1,15 @@
 package moviegoods.movie.service;
 
 
+import com.google.api.Http;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.events.EventsLikeRequestDto;
 import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Event.Event;
-import moviegoods.movie.domain.entity.Event.EventRepository;
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 import moviegoods.movie.domain.entity.Report.Report;
@@ -23,6 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,24 +43,32 @@ public class TransactionsService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final ContentDetailRepository contentDetailRepository;
+    private final LikeBasketRepository likeBasketRepository;
     private final ReportRepository reportRepository;
     private final ContentDetailService contentDetailService;
     private final LikeBasketsService likeBasketsService;
-    private final EventRepository eventRepository;
-    private final LikeBasketRepository likeBasketRepository;
     private final EntityManager em;
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto write(TransactionsSaveRequestDto requestDto) {
-        Long user_id = requestDto.getUser_id();
+    public ResultResponseDto write(User loginUser,TransactionsSaveRequestDto requestDto) {
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
+
+        if (loginUser == null) {
+            resultResponseDto.setResult(false);
+        }
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
         String content = requestDto.getContent();
         Status status = 진행중;
 
-        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = {}"+ user_id));
+        Long finalUser_id = user_id;
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = {}"+ finalUser_id));
         Content_Detail content_detail = contentDetailService.saveContentDetail(content);
         Transaction saveEntity = Transaction.builder().user(user).content_detail(content_detail).status(status).build();
 
-        ResultResponseDto resultResponseDto = new ResultResponseDto();
 
         transactionRepository.save(saveEntity);
         resultResponseDto.setResult(true);
@@ -65,15 +77,24 @@ public class TransactionsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public List<TransactionsSearchResponseDto> search(TransactionsSearchRequestDto requestDto) {
+    public List<TransactionsSearchResponseDto> search(User loginUser, TransactionsSearchRequestDto requestDto) {
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
         List<TransactionsSearchResponseDto> searchList = new ArrayList<>();
 
-        Long user_id = requestDto.getUser_id();
         Boolean is_proceed = requestDto.getIs_proceed(); // 모집중(1) , 전체(0)
         String search_word = requestDto.getSearch_word(); // 검색어
         String sort_criteria = requestDto.getSort_criteria(); // 최신순
         String search_criteria = requestDto.getSearch_criteria(); // 작성자/글내용
+        Long start = requestDto.getStart();
+        Long end = requestDto.getEnd();
         String linking_word = "where ";
+        log.info("search_word={}", search_word);
+        log.info("is_proceed={}", is_proceed);
+        log.info("search_criteria={}", search_criteria);
 
         if (search_word == null) {
             search_word = "";
@@ -100,6 +121,7 @@ public class TransactionsService {
             if (check == 1) {
                 linking_word = "and ";
             }
+            log.info("check={},searchJpql={}", check, searchJpql);
             searchJpql += linking_word+ "t.status = '진행중' ";
         }
 
@@ -107,7 +129,7 @@ public class TransactionsService {
         searchJpql += "order by c.written_date desc";
         log.info("searchJpql={}", searchJpql);
 
-        List<Transaction> transactionList = em.createQuery(searchJpql, Transaction.class).getResultList();
+        List<Transaction> transactionList = em.createQuery(searchJpql, Transaction.class).setFirstResult(start.intValue()).setMaxResults(end.intValue()).getResultList();
         for (Transaction transaction : transactionList) {
             Long search_user_id = transaction.getUser().getUser_id();
             Long reliability = transaction.getUser().getReliability();
@@ -116,6 +138,7 @@ public class TransactionsService {
             Long transaction_id = transaction.getTransaction_id();
             LocalDateTime written_date = transaction.getContent_detail().getWritten_date();
             String nickname = transaction.getUser().getNickname();
+            String profile_url = transaction.getUser().getProfile_url();
 
             Boolean is_mine = Boolean.FALSE;
             if (search_user_id == user_id) {
@@ -124,14 +147,18 @@ public class TransactionsService {
 
             Boolean is_like = likeBasketsService.isLikeTransaction(user_id, transaction_id);
 
-            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, transaction_id, reliability, written_date, is_mine, is_like,nickname));
+            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, transaction_id, reliability, written_date, is_mine, is_like,nickname,profile_url));
         }
         return searchList;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto changeStatus(TransactionsChangeStatusRequestDto requestDto) {
-        Long user_id = requestDto.getUser_id();
+    public ResultResponseDto changeStatus(User loginUser, TransactionsChangeStatusRequestDto requestDto) {
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+        //Long user_id = requestDto.getUser_id();
         String status = requestDto.getStatus();
         Long transaction_id = requestDto.getTransaction_id();
 
@@ -153,8 +180,12 @@ public class TransactionsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto delete(TransactionsDeleteRequestDto requestDto) {
-        Long user_id = requestDto.getUser_id();
+    public ResultResponseDto delete(User loginUser, TransactionsDeleteRequestDto requestDto) {
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+        //Long user_id = requestDto.getUser_id();
         Long transaction_id = requestDto.getTransaction_id();
 
         Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = {}"+ transaction_id));
@@ -174,28 +205,32 @@ public class TransactionsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto report(TransactionsReportRequestDto requestDto) {
-        // 신고자 아이디 저장할건가??, 신고글 작성안해???, 본인이 본인글 신고가능?, 중복 신고 가능?
-        Long user_id = requestDto.getUser_id();
+    public ResultResponseDto report(User loginUser, TransactionsReportRequestDto requestDto) {
+        Long user_id = loginUser.getUser_id();
+        //Long user_id = requestDto.getUser_id();
         Long transaction_id = requestDto.getTransaction_id();
+        String content = requestDto.getContent();
 
+        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = "+ user_id));
         Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = "+ transaction_id));
-        Long content_detail_id = transaction.getContent_detail().getContent_detail_id();
-        Content_Detail content_detail = contentDetailRepository.findById(content_detail_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역 메세지가 없습니다. content_detail_id = "+ content_detail_id));
-        Report saveEntity = Report.builder().transaction(transaction).content_detail(content_detail).build();
+        Content_Detail content_detail = contentDetailService.saveContentDetail(content);
+
+        Report saveEntity = Report.builder().user(user).transaction(transaction).content_detail(content_detail).build();
 
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         reportRepository.save(saveEntity);
         resultResponseDto.setResult(true);
 
         return resultResponseDto;
+
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto like(TransactionsLikeRequestDto requestDto) throws ParseException {
+    public ResultResponseDto like(User loginUser, TransactionsLikeRequestDto requestDto) throws ParseException {
 
         Long transaction_id = requestDto.getTransaction_id();
-        Long user_id = requestDto.getUser_id();
+        Long user_id = loginUser.getUser_id();
+        //Long user_id = requestDto.getUser_id();
 
         Boolean is_like = likeBasketsService.isLikeTransaction(user_id, transaction_id);
         Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 대리구매가 없습니다. transaction_id = "+ transaction_id));

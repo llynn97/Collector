@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.informationShare.*;
 import moviegoods.movie.domain.entity.Cinema.Cinema;
 import moviegoods.movie.domain.entity.Cinema.CinemaRepository;
@@ -14,11 +15,13 @@ import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
-import moviegoods.movie.domain.entity.User.Authority;
+import moviegoods.movie.domain.entity.Transaction.Status;
+import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
@@ -26,15 +29,17 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class InformationShareService {
 
-   // private final InformationShareRepository informationShareRepository;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
     private final ContentDetailRepository contentDetailRepository;
+    private final ContentDetailService contentDetailService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final FireBaseService fireBaseService;
@@ -50,16 +55,13 @@ public class InformationShareService {
         String content=isrw.getContent();
         MultipartFile image_url=isrw.getImage_url();
         String firebaseUrl="";
-        log.info("imageurl={}",image_url);
+
         if(image_url!=null){
             String nameFile= UUID.randomUUID().toString();
-            //log.info("imageurl={}",image_url);
-
             fireBaseService.uploadFiles(image_url,nameFile);
             firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
-            //log.info("firebaseurl={}",firebaseUrl);
-        }
 
+        }
 
 
         Optional<User> OptionalUser=userRepository.findById(user_id);
@@ -81,7 +83,6 @@ public class InformationShareService {
             post.setContent_detail(content_detail);
             cinema.setPost(post);
             post.setCinema(cinema);
-
 
 
             postRepository.save(post);
@@ -111,9 +112,7 @@ public class InformationShareService {
 
         userRepository.save(user);
 
-
     }
-
 
 
 
@@ -297,14 +296,17 @@ public class InformationShareService {
 
 
     //상세조회
-    public InformationShareResponseDetail detailInfo(InformationShareRequestDetail isrd){
+    public InformationShareResponseDetail detailInfo(User loginUser, InformationShareRequestDetail isrd){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Long post_id=isrd.getPost_id();
-        Long user_id=isrd.getUser_id();
-        User user=userRepository.findById(user_id).get();
+        User user=loginUser;
         Post post=postRepository.findById(post_id).get();
         List<Object[]> row=em.createQuery("select u.user_id, u.nickname, p.views,p.title,p.image_url,d.written_date," +
-               " d.content,c.name,c.area,c.branch from post p join p.content_detail d left join p.cinema c left join p.user u where p.post_id=:post_id ").setParameter("post_id",post_id).getResultList();
-         Object[] result=row.get(0);
+                " d.content,c.name,c.area,c.branch from post p join p.content_detail d left join p.cinema c left join p.user u where p.post_id=:post_id ").setParameter("post_id",post_id).getResultList();
+        Object[] result=row.get(0);
         InformationShareDetailDTO ifsd= new InformationShareDetailDTO((Long)result[0],(String)result[1],(Long)result[2],(String)result[3],(String)result[4],(LocalDateTime)result[5],(String)result[6],(String)result[7],(String)result[8],(String)result[9]);
 
         InformationShareResponseDetail informationShareResponseDetail=new InformationShareResponseDetail();
@@ -323,7 +325,7 @@ public class InformationShareService {
         Collections.reverse(result2);
 
         if(ifsd.getUser_id()==user_id){
-           informationShareResponseDetail.setIs_mine(true);
+            informationShareResponseDetail.setIs_mine(true);
         }else{
             informationShareResponseDetail.setIs_mine(false);
         }
@@ -344,43 +346,38 @@ public class InformationShareService {
 
         return informationShareResponseDetail;
 
+    }
+
+    public ResultResponseDto saveComment(User loginUser, InformationShareRequestSaveComment isrsc){
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
+        if (loginUser == null) {
+            resultResponseDto.setResult(false);
+            return resultResponseDto;
+        }
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
+
+        String content = isrsc.getContent();
+        Long post_id = isrsc.getPost_id();
+        Post post = postRepository.getById(post_id);
+        Content_Detail content_detail = contentDetailService.saveContentDetail(content);
+        Comment saveEntity = Comment.builder().post(post).user(loginUser).content_detail(content_detail).build();
 
 
+        commentRepository.save(saveEntity);
+        resultResponseDto.setResult(true);
 
+        return resultResponseDto;
 
     }
 
-    public Comment saveComment(InformationShareRequestSaveComment isrsc){
-       Long user_id=isrsc.getUser_id();
-       Long post_id=isrsc.getPost_id();
-       String content=isrsc.getContent();
-       User user=userRepository.findById(user_id).get();
-       Content_Detail content_detail=new Content_Detail();
-       content_detail.setWritten_date(LocalDateTime.now());
-       content_detail.setContent(content);
-       Post post=postRepository.findById(post_id).get();
-       Comment comment=new Comment();
-
-       comment.setUser(user);
-       user.getComments().add(comment);
-       comment.setContent_detail(content_detail);
-       content_detail.setComment(comment);
-       comment.setPost(post);
-       post.getComments().add(comment);
-       Comment comment1=commentRepository.save(comment);
-   //    informationShareContent_detailRepository.save(content_detail);
-
-      Comment result= commentRepository.findById(comment1.getComment_id()).get();
-
-       return result;
-
-
-
-    }
-
-    public Boolean deleteDetail(InformationShareRequestDeleteDetail isrdd){
-
-        Long user_id=isrdd.getUser_id();
+    public Boolean deleteDetail(User loginUser, InformationShareRequestDeleteDetail isrdd){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Long post_id=isrdd.getPost_id();
 
 
@@ -390,8 +387,11 @@ public class InformationShareService {
         return result;
     }
 
-    public Boolean deleteComment(InformationShareRequestDeleteComment isrdc){
-        Long user_id=isrdc.getUser_id();
+    public Boolean deleteComment(User loginUser, InformationShareRequestDeleteComment isrdc){
+        Long user_id = null;
+        if (loginUser != null) {
+            user_id = loginUser.getUser_id();
+        }
         Long comment_id=isrdc.getComment_id();
 
         commentRepository.deleteById(comment_id);

@@ -2,18 +2,17 @@ package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.main.MainDailyCommunityRequestDto;
 import moviegoods.movie.domain.dto.main.MainDailyCommunityResponseDto;
 import moviegoods.movie.domain.dto.main.MainEventLimitResponseDto;
 import moviegoods.movie.domain.dto.main.MainVideoResponseDto;
+import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.service.MainService;
 import moviegoods.movie.service.MovieVideoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -35,11 +34,9 @@ public class MainController {
         return mainVideoResponseDto;
     }
 
-
-
     @GetMapping("/event-limit")
-    public ResponseEntity<List<MainEventLimitResponseDto>> eventLimit() throws ParseException {
-        List<MainEventLimitResponseDto> list = mainService.eventLimit();
+    public ResponseEntity<List<MainEventLimitResponseDto>> eventLimit(@Login User loginUser) throws ParseException {
+        List<MainEventLimitResponseDto> list = mainService.eventLimit(loginUser);
         ResponseEntity<List<MainEventLimitResponseDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
     }

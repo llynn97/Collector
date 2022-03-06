@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionsLikeRequestDto {
-
     private Long user_id;
     private Long transaction_id;
 }

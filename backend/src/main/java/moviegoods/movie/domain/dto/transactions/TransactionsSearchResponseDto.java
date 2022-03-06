@@ -19,6 +19,7 @@ public class TransactionsSearchResponseDto {
     private Boolean is_mine;
     private Boolean is_like;
     private String nickname;
+    private String profile_url;
 
 
 }

@@ -24,16 +24,16 @@ public class Report {
     private Long report_id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_detail_id")
     private Content_Detail content_detail;
-
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
 
 
 }
