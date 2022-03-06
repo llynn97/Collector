@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios"
 import { Cookies } from "react-cookie";
+import { Link } from "react-router-dom";
 
 const GoogleLogin = () => {
     let navigation = useNavigate();
@@ -25,8 +26,7 @@ const GoogleLogin = () => {
                     const date = new Date();
                     date.setMinutes(date.getMinutes() + 30);
                     cookies.set("login", true, {expires: date});
-                    navigation('/')
-          
+                
                 } else {
                   alert("로그인에 실패했습니다.");
                 }

@@ -106,14 +106,6 @@ const LogIn = () =>{
 
   const googleLoginClick = () => {
     window.open(GOOGLE_AUTH_URL, "_self");
-    axios.get('http://localhost:8080/signin/auth/google', { withCredentials: true })
-    .then(response => {
-      const date = new Date();
-      date.setMinutes(date.getMinutes() + 30);
-      cookies.set("login", true, {expires: date});
-      navigation('/');
-    })
-    .catch(error => console.log(error));
   }
 
   return (

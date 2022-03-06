@@ -120,13 +120,11 @@
 }
 
 .nicknameChangeArea {
-    height: 50px;
-    background-color: #C4C4C4;
+    position: absolute;
     left:158px;
 }
 
-.nicknameChangeArea::after {
-    content: "";
+.focus {
     position: absolute;
     left: 0;
     bottom: -10px;
@@ -135,51 +133,41 @@
     margin-left: 50%;
     width: calc(100%);
     background: #F23333;
-}
-
-.nicknameChangeArea::after {
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 300ms ease, margin-left .3s ease;
 }
 
-.nicknameChangeArea:hover::after {
-    transform: scaleX(1);
-    margin-left: 0;
+.nicknameChange {
+    border: none;
+    font-size: 14pt;
+    width: 150px;
 }
 
 .nicknameChange:focus {
     outline: none;
 }
 
-
-.nicknameChange {
-    border: none;
-    font-size: 14pt;
+.nicknameChange:hover + .focus{
+    transform: scaleX(1);
+    margin-left: 0;
 }
 
-.active {
-    height: 50px;
-    background-color: #C4C4C4;
-    left:158px;
-}
-
-.active::after{
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    height: 5px;
-    border-radius: 50px;
-    margin-left: 50%;
-    width: calc(100%);
-    background: #F23333;
+.nicknameChange:focus + .focus {
+    transform: scaleX(1);
+    margin-left: 0;
 }
 
 .nicknameDupButton {
-    left:300px;
+    left:330px;
+    width: 110px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
 }
 
 .completeButton {
-    left:400px;
+    left:450px;
 }
