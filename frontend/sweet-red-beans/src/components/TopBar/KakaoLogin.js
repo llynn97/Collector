@@ -22,9 +22,9 @@ const KakaoLogin = () => {
             axios.post('http://localhost:8080/signin', data, { withCredentials: true })
             .then(response => {
                 if(response.data.result){
-                    const date = new Date();
-                    date.setMinutes(date.getMinutes() + 30);
-                    cookies.set("login", true, {expires: date});
+                    console.log("???");
+                    console.log(cookies);
+                    sessionStorage.setItem("login", true);
                     navigation('/')
           
                 } else {
@@ -34,7 +34,14 @@ const KakaoLogin = () => {
             .catch(e => console.log(e))
         })
         .catch(e => console.log(e));
-    })
+
+        return () => {
+
+            // const date = new Date();
+            // date.setMinutes(date.getMinutes() + 30);
+            //cookies.set("login", true);
+        }
+    }, [])
 
     return (
         <>

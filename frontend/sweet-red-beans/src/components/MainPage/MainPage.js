@@ -6,12 +6,15 @@ import axios from "axios";
 import mainEvents from "../../actions/main_action";
 import {MAIN_EVENTS} from "../../actions/types";
 import style from "../../css/MainPage/MainPage.module.css";
+import { Cookies } from "react-cookie";
 
 
 const MainPage = () => {
     const [cinemaNames, setCinemaNames] = useState(["CGV", "롯데시네마", "메가박스", "씨네큐"]);
     const dispatch = useDispatch();
     const [mainVideo, setMainVideo] = useState("");
+
+    const cookies = new Cookies();
 
     dispatch({
         type: CINEMA_NAMES,
@@ -31,6 +34,14 @@ const MainPage = () => {
             setMainVideo(response.data.src)
         })
         .catch(error => console.log(error))
+
+        if(sessionStorage.getItem("login")){
+            const date = new Date();
+            date.setMinutes(date.getMinutes() + 30);
+            cookies.set("login", true, {expires: date});
+            sessionStorage.removeItem("login");
+        }
+        
     }, [])
 
 

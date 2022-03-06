@@ -23,6 +23,7 @@ const LogIn = () =>{
   const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope=email profile&response_type=code&client_id=435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com&redirect_uri=http://localhost:3000/signin/auth/google/callback"
 
   const cookies = new Cookies();
+  console.log(cookies);
 
   const openModal = () => {
     setModalOpen(true);
