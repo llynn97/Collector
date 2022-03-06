@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 application-aws.properties
 chromedriver1.exe
+
 ### STS ###
 .apt_generated
 .classpath
