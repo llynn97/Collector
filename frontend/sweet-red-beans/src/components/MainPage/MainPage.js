@@ -35,12 +35,17 @@ const MainPage = () => {
         })
         .catch(error => console.log(error))
 
-        if(sessionStorage.getItem("login")){
-            const date = new Date();
-            date.setMinutes(date.getMinutes() + 30);
-            cookies.set("login", true, {expires: date});
-            sessionStorage.removeItem("login");
-        }
+        // const date = new Date();
+        // date.setMinutes(date.getMinutes() + 30);
+
+        // cookies.set("login", true, {expires: date});
+
+        // if(sessionStorage.getItem("login")){
+        //     const date = new Date();
+        //     date.setMinutes(date.getMinutes() + 30);
+        //     cookies.set("login", true, {expires: date});
+        //     //sessionStorage.removeItem("login");
+        // }
         
     }, [])
 
