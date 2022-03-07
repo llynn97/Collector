@@ -38,10 +38,13 @@ public class ChatRoomService {
 
     public DirectMessageCreateRoomResponseDto createRoom(User loginUser, DirectMessageCreateRoomRequestDto requestDto){
 
-        Long user_id = null;
-        if (loginUser != null) {
-            user_id = loginUser.getUser_id();
+        if (loginUser == null) {
+            DirectMessageCreateRoomResponseDto responseDto =
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+            return responseDto;
+
         }
+        Long user_id = loginUser.getUser_id();
 
         log.info("transaction_id={}", requestDto.getTransaction_id());
 

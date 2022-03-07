@@ -3,6 +3,7 @@ package moviegoods.movie.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.argumentresolver.Login;
+import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageDetailResponseDto;
@@ -32,7 +33,13 @@ public class ChatRoomController {
     @PostMapping
     public ResponseEntity<DirectMessageCreateRoomResponseDto> create(@Login User loginUser, @RequestBody DirectMessageCreateRoomRequestDto requestDto){
         DirectMessageCreateRoomResponseDto responseDto = chatRoomService.createRoom(loginUser, requestDto);
-        ResponseEntity<DirectMessageCreateRoomResponseDto> result = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        ResponseEntity<DirectMessageCreateRoomResponseDto> result;
+        result = new ResponseEntity<>(responseDto, HttpStatus.OK);
+
+        if (!responseDto.isResult()) {
+            result = new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
         return result;
     }
 

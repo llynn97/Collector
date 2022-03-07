@@ -1,15 +1,14 @@
 package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.signin.SignInRequestDto;
 import moviegoods.movie.domain.dto.signin.SignInResponseDto;
 import moviegoods.movie.service.SignInService;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 
-
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/signin")
@@ -26,22 +25,20 @@ public class SignInController {
     @ResponseBody
     @GetMapping("/oauth2/code/kakao")
     public SignInRequestDto  kakaoCallback(@RequestParam String code, HttpServletRequest httpServletRequest){
+
         String access_Token = signInService.getKaKaoAccessToken(code);
-        SignInRequestDto signInRequestDto = signInService.getUserInfo(access_Token);
+        SignInRequestDto userInfo = signInService.getUserInfo(access_Token);
 
-        return signInRequestDto;
-    }
+        return userInfo;
 
-    @GetMapping("/auth/google")
-    public void googleLogin() {
-        signInService.googleRequest();
     }
 
     @GetMapping("/auth/google/callback")
-    public String googleCallback(@RequestParam String code) {
-        return signInService.googleRequestAccessToken(code);
+    public SignInRequestDto googleCallback(@RequestParam String code) {
+        String access_Token = signInService.googleRequestAccessToken(code);
+        SignInRequestDto userInfo = signInService.googleGetUserInfo(access_Token);
+
+        return userInfo;
     }
-
-
 
 }

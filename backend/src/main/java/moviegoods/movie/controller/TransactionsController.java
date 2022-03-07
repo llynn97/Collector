@@ -21,10 +21,16 @@ public class TransactionsController {
     private final TransactionsService transactionsService;
 
     @PostMapping("/write")
-    public ResultResponseDto write(@Login User loginUser, @RequestBody TransactionsSaveRequestDto requestDto) {
+    public ResponseEntity<ResultResponseDto> write(@Login User loginUser, @RequestBody TransactionsSaveRequestDto requestDto) {
         ResultResponseDto resultResponseDto = transactionsService.write(loginUser,requestDto);
+        ResponseEntity<ResultResponseDto> result;
+        result = new ResponseEntity<>(resultResponseDto, HttpStatus.OK);
 
-        return resultResponseDto;
+        if (!resultResponseDto.isResult()) {
+            result = new ResponseEntity<>(resultResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        return result;
     }
 
     @GetMapping("/search")
@@ -50,16 +56,28 @@ public class TransactionsController {
     }
 
     @PostMapping("/report")
-    public ResultResponseDto report(@Login User loginUser, @RequestBody TransactionsReportRequestDto requestDto) {
+    public ResponseEntity<ResultResponseDto> report(@Login User loginUser, @RequestBody TransactionsReportRequestDto requestDto) {
         ResultResponseDto resultResponseDto = transactionsService.report(loginUser, requestDto);
+        ResponseEntity<ResultResponseDto> result;
+        result = new ResponseEntity<>(resultResponseDto, HttpStatus.OK);
 
-        return resultResponseDto;
+        if (!resultResponseDto.isResult()) {
+            result = new ResponseEntity<>(resultResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        return result;
     }
 
     @PostMapping("/like")
-    public ResultResponseDto like(@Login User loginUser, @RequestBody TransactionsLikeRequestDto requestDto) throws ParseException {
+    public ResponseEntity<ResultResponseDto> like(@Login User loginUser, @RequestBody TransactionsLikeRequestDto requestDto) throws ParseException {
         ResultResponseDto resultResponseDto = transactionsService.like(loginUser, requestDto);
+        ResponseEntity<ResultResponseDto> result;
+        result = new ResponseEntity<>(resultResponseDto, HttpStatus.OK);
 
-        return resultResponseDto;
+        if (!resultResponseDto.isResult()) {
+            result = new ResponseEntity<>(resultResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        return result;
     }
 }

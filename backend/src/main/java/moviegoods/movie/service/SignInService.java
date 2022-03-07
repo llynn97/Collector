@@ -39,7 +39,6 @@ public class SignInService {
     private final PasswordEncoder passwordEncoder;
     private final SignUpService signUpService;
     private final EntityManager em;
-    private final HttpServletResponse response;
     //private final GoogleConfigUtils googleConfigUtils;
 
     public SignInResponseDto login(SignInRequestDto requestDto, HttpServletRequest request) {
@@ -54,7 +53,7 @@ public class SignInService {
             user = em.createQuery(searchJpql, User.class).getSingleResult();
 
         }catch (NoResultException e){
-            signInResponseDto = new SignInResponseDto(null,null,true, false);
+            signInResponseDto = new SignInResponseDto(null,null,true, false, null);
             return signInResponseDto;
         }
 
@@ -64,17 +63,18 @@ public class SignInService {
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, user);
             @NotNull Byte status = user.getStatus();
-            log.info("status={}",String.valueOf(status));
+            Enum authority = user.getAuthority();
+
             Boolean user_status = true;
             if (status == 0) {
                 user_status = false;
             }
 
-            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(), user_status, true);
+            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(), user_status, true, authority.toString());
 
         }
         else {
-            signInResponseDto = new SignInResponseDto(null,null,true,false);
+            signInResponseDto = new SignInResponseDto(null,null,true,false, null);
         }
 
         return signInResponseDto;
@@ -182,28 +182,6 @@ public class SignInService {
         return signInRequestDto;
     }
 
-    public void googleRequest() {
-        String baseUrl = "https://accounts.google.com/o/oauth2/v2/auth";
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("scope", "email profile");
-        params.put("response_type", "code");
-        params.put("client_id", "435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
-        params.put("redirect_uri", "http://localhost:8080/signin/auth/google/callback");
-
-        String parameterString = params.entrySet().stream()
-                .map(x -> x.getKey() + "=" + x.getValue())
-                .collect(Collectors.joining("&"));
-
-        String redirectUrl = baseUrl + "?" + parameterString;
-
-        try {
-            response.sendRedirect(redirectUrl);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String googleRequestAccessToken(String code) {
         try {
             URL url = new URL("https://www.googleapis.com/oauth2/v4/token");
@@ -216,7 +194,7 @@ public class SignInService {
             params.put("code", code);
             params.put("client_id", "435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com");
             params.put("client_secret", "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");
-            params.put("redirect_uri", "http://localhost:8080/signin/auth/google/callback");
+            params.put("redirect_uri", "http://localhost:3000/signin/auth/google/callback");
             params.put("grant_type", "authorization_code");
             params.put("state", "url_parameter");
 
@@ -297,5 +275,4 @@ public class SignInService {
         }
         return signInRequestDto;
     }
-
 }

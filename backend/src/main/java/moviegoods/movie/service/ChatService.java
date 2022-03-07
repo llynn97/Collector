@@ -22,11 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
@@ -45,46 +43,57 @@ public class ChatService {
     private final ContentDetailService contentDetailService;
 
     @Transactional(rollbackFor = Exception.class)
-    public void saveMessage(User loginUser, DirectMessage message) throws IOException, FirebaseAuthException {
-
+    public String saveMessage(User loginUser, DirectMessage message) throws IOException, FirebaseAuthException {
+        String finalUrl="";
         Long user_id = null;
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
         }
         User user=loginUser;
-
+        Message message1=new Message();
         Chat_Room chat_room=chatRoomRepository.findById(message.getChat_room_id()).get();
-        String content = message.getContent();
-        Message saveEntity;
-
-
+        Content_Detail content_detail=new Content_Detail();
+        content_detail.setWritten_date(LocalDateTime.now());
         String firebaseUrl="";
-        if(message.getImage_url()==null){
-            Content_Detail content_detail = contentDetailService.saveContentDetail(content);
-            saveEntity = Message.builder().user(user).content_detail(content_detail).chat_room(chat_room).build();
+        content_detail.setContent(message.getContent());
+        if(message.getImage_url()!=null){
 
-        }else {
-
-            MultipartFile image_url=message.getImage_url();
-            String nameFile= UUID.randomUUID().toString();
-            log.info("nameFile={}", nameFile);
-            fireBaseService.uploadFiles(image_url,nameFile);
-            firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
-
-            saveEntity = Message.builder().user(user).image_url(firebaseUrl).chat_room(chat_room).build();
-//
-//            message1.setImage_url(firebaseUrl);
+            content_detail.setContent(message.getContent());
+            firebaseUrl+=changeStringToFileAndUpload(message.getImage_url());
+            message1.setImage_url(firebaseUrl);
+            finalUrl+=firebaseUrl;
         }
+        message1.setContent_detail(content_detail);
+        message1.setUser(user);
+        message1.setChat_room(chat_room);
+        messageRepository.save(message1);
+
+        return finalUrl;
+
+    }
+
+    public String changeStringToFileAndUpload(String base64url) throws IOException, FirebaseAuthException {
+        String firebaseUrl="";
+        String url="";
+        String contentType="";
+        if(base64url.contains("image/png")){
+            contentType+="image/png";
+        }else if(base64url.contains("image/jpeg")){
+            contentType+="image/jpeg";
+        }
+        int startIdx= base64url.indexOf("base64,");
+        int start=startIdx+7;
+        for(int i=start; i<base64url.length(); i++){
+            url+=base64url.charAt(i);
+        }
+        byte[] decodeByte= Base64.getDecoder().decode(url.getBytes());
+        String nameFile= UUID.randomUUID().toString();
+        fireBaseService.uploadFiles2(decodeByte,contentType,nameFile);
+        firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
+
+        return firebaseUrl;
 
 
-//        //content_detail.setMessage(message1);
-//        message1.setContent_detail(content_detail);
-//        message1.setUser(user);
-//        //user.getMessages().add(message1);
-//        message1.setChat_room(chat_room);
-//        //chat_room.getMessages().add(message1);
-
-        messageRepository.save(saveEntity);
 
     }
 
@@ -92,7 +101,6 @@ public class ChatService {
         List<DirectMessageDetailResponseDto> messagesList = new ArrayList<>();
         Optional<Chat_Room> chatRoom = chatRoomRepository.findById(room_id);
         Chat_Room findedRoom = chatRoom.get();
-
         List<Message> messages = findedRoom.getMessages();
         for (Message message : messages) {
             Content_Detail content_detail = message.getContent_detail();
@@ -133,9 +141,10 @@ public class ChatService {
             user_id = loginUser.getUser_id();
         }
         User user= loginUser;
-        Long n= user.getReliability()+1;
-        user.setReliability(n);
-        User u=informationShareUserRepository.save(user);
+        User user2=informationShareUserRepository.findById(dmrr.getUser_id()).get();
+        Long n= user2.getReliability()+1;
+        user2.setReliability(n);
+        User u=informationShareUserRepository.save(user2);
         if(u.getReliability()==n){
             check=true;
         }

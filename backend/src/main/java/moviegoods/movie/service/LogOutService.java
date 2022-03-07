@@ -3,10 +3,7 @@ package moviegoods.movie.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.configure.SessionConfig;
-import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
-import moviegoods.movie.domain.dto.logout.LogOutRequestDto;
-import moviegoods.movie.domain.dto.signin.SignInRequestDto;
 import moviegoods.movie.domain.entity.User.User;
 import org.springframework.stereotype.Service;
 

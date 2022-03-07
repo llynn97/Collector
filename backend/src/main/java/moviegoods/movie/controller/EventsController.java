@@ -2,7 +2,6 @@ package moviegoods.movie.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import moviegoods.movie.configure.SessionConfig;
 import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.events.*;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -40,9 +38,16 @@ public class EventsController {
     }
 
     @PostMapping("/like")
-    public ResultResponseDto like(@Login User loginUser, @RequestBody EventsLikeRequestDto requestDto) {
+    public ResponseEntity<ResultResponseDto> like(@Login User loginUser, @RequestBody EventsLikeRequestDto requestDto) {
         ResultResponseDto resultResponseDto = eventsService.like(loginUser, requestDto);
-        return resultResponseDto;
+        ResponseEntity<ResultResponseDto> result;
+        result = new ResponseEntity<>(resultResponseDto, HttpStatus.OK);
+
+        if (!resultResponseDto.isResult()) {
+            result = new ResponseEntity<>(resultResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        return result;
     }
 
 }

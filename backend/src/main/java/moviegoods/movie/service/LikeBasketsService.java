@@ -1,7 +1,6 @@
 package moviegoods.movie.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.entity.Like_Basket.LikeBasketRepository;
 import moviegoods.movie.domain.entity.Like_Basket.Like_Basket;
 import org.springframework.stereotype.Service;
