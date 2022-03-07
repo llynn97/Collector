@@ -15,16 +15,19 @@ const TopBar = () => {
     }
 
     return (
-        <Fragment>
-        <LogIn/>
-        <div className={style.title}>
-            <button onClick={titleClick}>타이틀</button>
+        <>
+        <div className={style.container}>
+            <div className={style.title}>
+                <button onClick={titleClick}>타이틀</button>
+            </div>
+            <div className={style.navigationBar}>
+                <NavigationBar/>
+            </div>
+            <div className={style.loginArea}>
+                <LogIn/>
+            </div>
         </div>
-        <div className={style.navigationBar}>
-            <NavigationBar/>
-        </div>
-
-        </Fragment>
+        </>
     );
     
 }

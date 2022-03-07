@@ -121,7 +121,11 @@ const InformationShareWritePage = () => {
                         alert("게시글 작성을 실패했습니다.")
                     }
                 })
-                .catch(error => console.dir(error.response.status));
+                .catch(error => {
+                    if(error.response.status === 401){
+                      alert("로그인을 먼저 해주세요");
+                    }
+                });
             }
             //이미지 파일 있을 때
             else {
@@ -148,7 +152,11 @@ const InformationShareWritePage = () => {
                         alert("게시글 작성을 실패했습니다.")
                     }
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    if(error.response.status === 401){
+                        alert("로그인을 먼저 해주세요");
+                    }
+                });
             }
         }
 

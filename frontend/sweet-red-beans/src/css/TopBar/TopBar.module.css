@@ -1,31 +1,45 @@
 .container {
-    margin-bottom: 30px;
+    position: relative;
+    height: 70px;
+    border-bottom: #5A5A5A 1px solid;
+}
+
+.loginArea {
+    position: absolute;
+    display: inline-block;
+    right: 0px;
+    bottom: 10px;
 }
 
 .title{
+    position: absolute;
+    left:0px;
+    bottom: 10px;
+    display: inline-block;
     margin: 0 auto;
-    text-align: center;
-    margin-bottom: 15px;
+    margin-left: 10px;
 }
 
 .title > button {
+    cursor: pointer;
     border-style: none;
     background-color:rgba(205, 92, 92, 0);
-    font-family: '어그로';
+    font-family: 'ROKAFSansBold';
     font-size: 30px;
-    vertical-align: bottoms;
 }
 
 .navigationBar{
-    position: relative;
-    vertical-align: top;
+    position: absolute;
+    display: inline-block;
+    left:150px;
+    bottom: 10px;
     text-align: center;
-    border-top: #F23333 solid 1px;
-    border-bottom: #F23333 solid 1px;
-    margin-bottom: 50px;
+    vertical-align: middle;
 }
 
 @font-face {
-    font-family: '어그로';
-    src: url('../fonts/SB\ 어그로\ B.ttf');
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

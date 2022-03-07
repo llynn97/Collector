@@ -43,6 +43,7 @@ const MainMovieEvents = ({cinemaName}) => {
     }, [events])
 
     useEffect(() => {
+        console.log(thisEvents);
     }, [thisEvents])
 
     const settings = { 
@@ -51,56 +52,14 @@ const MainMovieEvents = ({cinemaName}) => {
         infinite: true,
         speed: 500,
         slidesToShow: 2,
-        slidesToScroll: 1,
+        slidesToScroll: 2,
     };
-    
-    
-
-    const test2 = [{
-        cinema_name: "씨네큐",
-        end_date: "2022-03-06",
-        event_id: 10,
-        is_like: false,
-        start_date: "2022-02-21",
-        thumbnail_url: "https://file.cineq.co.kr/j.aspx?guid=0c6274725b8941188c865226523f5d3f",
-        title: "<극장판 주술회전 0> 캘린더보드 증정 이벤트"
-        
-    }, {
-        cinema_name: "씨네큐",
-        end_date: "2022-03-06",
-        event_id: 10,
-        is_like: false,
-        start_date: "2022-02-21",
-        thumbnail_url: "https://file.cineq.co.kr/j.aspx?guid=0c6274725b8941188c865226523f5d3f",
-        title: "<극장판 주술회전 0> 캘린더보드 증정 이벤트"
-        
-    }, {
-        cinema_name: "씨네큐",
-        end_date: "2022-03-06",
-        event_id: 10,
-        is_like: false,
-        start_date: "2022-02-21",
-        thumbnail_url: "https://file.cineq.co.kr/j.aspx?guid=0c6274725b8941188c865226523f5d3f",
-        title: "<극장판 주술회전 0> 캘린더보드 증정 이벤트"
-        
-    }, {
-        cinema_name: "씨네큐",
-        end_date: "2022-03-06",
-        event_id: 10,
-        is_like: false,
-        start_date: "2022-02-21",
-        thumbnail_url: "https://file.cineq.co.kr/j.aspx?guid=0c6274725b8941188c865226523f5d3f",
-        title: "<극장판 주술회전 0> 캘린더보드 증정 이벤트"
-        
-    }]
-    const test = [<MovieThumbnail thisEvent={test2}/>, <MovieThumbnail thisEvent={test2}/>,<MovieThumbnail thisEvent={test2}/>, <MovieThumbnail thisEvent={test2}/>]
-
-   
-    
-
     return (
         <>
-        <div className={style.cinemaName}>{cinemaName}</div>
+        <div className={style.cinemaName}>
+            {cinemaName}
+            <div className={style.underline}></div>
+        </div>
         <div className={style.movieThumbnails}>
         
         {

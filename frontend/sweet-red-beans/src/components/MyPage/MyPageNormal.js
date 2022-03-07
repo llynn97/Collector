@@ -30,7 +30,7 @@ const MyPageNomal = () => {
     //닉네임 중복 확인 안 됐을 때 false
     const [nicknameError, setNicknameError] = useState(false);
 
-    const [renderError, setRenderError] = useState(false);
+    const [renderError, setRenderError] = useState(true);
 
     const dispatch = useDispatch();
     const navigation = useNavigate();
@@ -69,11 +69,14 @@ const MyPageNomal = () => {
                 type:MYPAGE_LIKE_TRANSACTIONS,
                 payload:response.data.likeTransaction
             })
+            setRenderError(false);
         })
         .catch(error => {
-            setRenderError(true);
-            alert("로그인을 먼저 해주세요");
-            navigation('/');
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+                setRenderError(true);
+                navigation('/');
+            }
         });
     }, [])
 

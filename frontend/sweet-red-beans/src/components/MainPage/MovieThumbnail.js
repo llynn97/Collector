@@ -39,14 +39,16 @@ const MovieThumbnail = ({thisEvent}) => {
         <>
         <div className={style.container}>
 
-            <Link to = {`/event/${thisEvent.event_id}`}>
-            <img src={thisEvent.thumbnail_url} width="300px" height="200px"/>
-            <div>{thisEvent.cinema_name}</div>
-            <div>{thisEvent.title}</div>
-            <div>{thisEvent.start_date} ~ {thisEvent.end_date}</div>
+            <Link to = {`/event/${thisEvent.event_id}`} style={{ textDecoration: 'none' }}>
+            <div className={style.thumbnailArea}>
+            <img src={thisEvent.thumbnail_url} className={style.thumbnailImage}/>
+            </div>
+            
+            <div className={style.title}>{thisEvent.title}</div>
+            <div className={style.date}>{thisEvent.start_date} ~ {thisEvent.end_date}</div>
             </Link>
             <div>
-                <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
+                {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
             </div>
         </div>
         

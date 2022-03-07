@@ -6,55 +6,50 @@ import axios from "axios";
 import mainEvents from "../../actions/main_action";
 import {MAIN_EVENTS} from "../../actions/types";
 import style from "../../css/MainPage/MainPage.module.css";
-import { Cookies } from "react-cookie";
+import MainPosts from "./MainPosts";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 
 const MainPage = () => {
     const [cinemaNames, setCinemaNames] = useState(["CGV", "롯데시네마", "메가박스", "씨네큐"]);
     const dispatch = useDispatch();
     const [mainVideo, setMainVideo] = useState("");
-
-    const cookies = new Cookies();
+    const navigation = useNavigate();
 
     dispatch({
         type: CINEMA_NAMES,
         cinemaNames: cinemaNames,
     });
 
-    // dispatch({
-    //     type: MAIN_EVENTS,
-    //     events: data,
-    // })
-
     useEffect(() => {
         axios.get("http://localhost:8080/main/video", {
             withCredentials: true,
         })
         .then(response => {
+            console.log(response.data.src);
             setMainVideo(response.data.src)
         })
         .catch(error => console.log(error))
-
-        // const date = new Date();
-        // date.setMinutes(date.getMinutes() + 30);
-
-        // cookies.set("login", true, {expires: date});
-
-        // if(sessionStorage.getItem("login")){
-        //     const date = new Date();
-        //     date.setMinutes(date.getMinutes() + 30);
-        //     cookies.set("login", true, {expires: date});
-        //     //sessionStorage.removeItem("login");
-        // }
-        
     }, [])
+
+    const arrowClick = () => {
+        navigation('/event');
+    }
 
 
     return(
         <>
-        <iframe src={mainVideo} style={{width:"1000px", height:"300px"}}></iframe>
+        <div className={style.videoArea}>
+            <video src={mainVideo} className={style.video} controls></video>
+        </div>
+        <div className={style.eventsText}>
+            EVENTS
+            <div className={style.arrow} onClick={arrowClick}></div>
+        </div>
         {cinemaNames.map((item, index) => <div key={index} className={style.movieThumbnail}><MainMovieEvents cinemaName={item}/></div>)}
 
+        <MainPosts/>
         
         </>
     )

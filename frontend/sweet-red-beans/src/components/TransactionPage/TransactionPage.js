@@ -7,6 +7,7 @@ import InfiniteScroll from "./InfiniteScroll";
 import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import userImage from "../../img/user.png";
 
 const TransactionPage = () => {
     const navigation = useNavigate()
@@ -91,7 +92,6 @@ const TransactionPage = () => {
     //내용 변경됐을 때
     const contentChange = (e) => {
         setContent(e.target.value);
-        console.log(e.target.value);
     }
 
     //글쓰기 버튼 클릭했을 때
@@ -102,7 +102,6 @@ const TransactionPage = () => {
       else {
         const body = {
           content: content,
-          user_id: "1",
         }
   
         axios.post('http://localhost:8080/transactions/write', body, { withCredentials: true })
@@ -111,7 +110,6 @@ const TransactionPage = () => {
             axios.get('http://localhost:8080/transactions/search',{ 
             withCredentials: true,
             params: {
-                      user_id: "1",
                       is_proceed: isProceed,
                       search_word: search,
                       sort_criteria : "최신순",
@@ -123,14 +121,20 @@ const TransactionPage = () => {
           .then(response => {
             setTransactions(response.data);
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            
+          });
           }
 
           else {
             alert("글 작성에 실패했습니다.");
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          if(error.response.status === 401){
+            alert("로그인을 먼저 해주세요");
+          }
+        });
         
         setContent("");
         setModalOpen(false)
@@ -231,8 +235,9 @@ const TransactionPage = () => {
         })
         .catch(error => console.log(error));
       
+        //내 프로필 조회
         axios.get('http://localhost:8080/mypage',{
-        withCredentials: true ,
+          withCredentials: true ,
         })
         .then(response => {
             setNickname(response.data.user.nickname);
@@ -240,7 +245,11 @@ const TransactionPage = () => {
             setReliability(response.data.user.reliability);
         })
         .catch(error => {
-            
+            if(error.response.status === 401){
+              setNickname("익명");
+              setProfileImage(userImage);
+              setReliability(0);
+            }
         });
     }, [])
 

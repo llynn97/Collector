@@ -106,7 +106,11 @@ const TransactionDetail = ({transaction}) => {
             console.log(response.data);
             setLoading(true);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        })
 
     }
 
@@ -117,6 +121,7 @@ const TransactionDetail = ({transaction}) => {
         console.log("loading: ", loading);
     }, [loading]);
 
+    //좋아요 눌렀을 때
     const likeClick = () => {
         const body = {
             user_id: "1",
@@ -136,7 +141,11 @@ const TransactionDetail = ({transaction}) => {
                 alert("좋아요 변경에 실패했습니다.")
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
     }
 
     //날짜 형식 바꾸기
@@ -198,7 +207,11 @@ const TransactionDetail = ({transaction}) => {
                 alert("신고에 실패했습니다.")
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
     }
 
     //모달창에서 신고하기 버튼 눌렀을 때

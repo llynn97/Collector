@@ -18,31 +18,38 @@
     line-height: 0;
 
     position: absolute;
-    top: 50%;
+    top: 35%;
 
     display: block;
 
     width: 50px;
     height: 50px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 0;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     transform: translate(0, -50%);
+    opacity: 0.8;
 
     cursor: pointer;
 
-
-    border: #5A5A5A solid 1px;
+    border: none;
     border-radius: 50px;
     outline: none;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+    transition: background-color 500ms ease;
 }
 
 .slick-prev:hover,
 .slick-next:hover
 {
-    background-color: #F23333;
+    opacity: 1;
 }
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+}
+
 .slick-prev:hover:before,
 .slick-prev:focus:before,
 .slick-next:hover:before,
@@ -72,7 +79,8 @@
 
 .slick-prev
 {
-    left: -70px;
+    left: -0px;
+    z-index: 1;
 }
 [dir='rtl'] .slick-prev
 {
@@ -90,7 +98,7 @@
 
 .slick-next
 {
-    right: -70px;
+    right: -0px;
 }
 [dir='rtl'] .slick-next
 {

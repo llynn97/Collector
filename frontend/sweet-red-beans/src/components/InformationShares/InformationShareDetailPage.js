@@ -119,15 +119,17 @@ const InformationShareDetailPage = () => {
         .then(response => {
             if(response.data.result){
                 console.log("댓글 작성됨");
-                navigation(0)
+                //navigation(0)
             }
             else{
                 alert("댓글 작성에 실패했습니다.");
             }
         })
-        .catch(error => console.log(error));
-
-        navigation(0)
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
 
     }
 

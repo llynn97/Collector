@@ -1,11 +1,35 @@
 .cinemaName{
+    display: inline-block;
+    position: relative;
     text-align: left;
-    margin-bottom: 15px;
-    font-size: 16px;
+    margin-bottom: 50px;
+    margin-left: -870px;
+    font-size: 20px;
+    font-family: 'ROKAFSansBold';
+    z-index: 5;
+}
+
+.underline {
+    display: inline-block;
+    z-index: 0;
+    position: absolute;
+    content: "";
+    bottom: -8px;
+    left:50%;
+    transform: translate(-50%, 0%);
+    width: 120%;
+    height: 5px;
+    background-color: #F23333;
+    border-radius: 10px;
 }
 
 .movieThumbnails {
-    border: 1px solid black;
-    height: 300px;
-    margin: 10px 0px 50px 0px;
+    margin-bottom: 50px;
+}
+
+@font-face {
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

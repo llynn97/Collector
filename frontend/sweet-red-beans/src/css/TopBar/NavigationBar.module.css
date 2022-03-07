@@ -57,25 +57,28 @@ nav ul li {
     position:relative;
 }
 
+/*상위메뉴*/
 .dropdownMenu{
     position: relative;
     color: black;
-    margin: 20px 10px 20px 10px;
-    min-width: 160px;
+    margin: 0px 40px 0px 0px;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
+    font-family: 'ROKAFSansBold';
 }
 
+/*하위메뉴*/
 .dropdownContent{
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
     background-color: transparent;
-    padding: 20px 0 20px 0;
     display: none;
     z-index: 1;
-    min-width: 160px;
+    min-width: 100px;
+    text-align: left;
+    background-color: white;
 }
 
 .dropdownContent div {
@@ -90,6 +93,9 @@ nav ul li {
     color: #F23333;
 }
 
+.dropdownMenu:hover ~ ul{
+    background-color: black;
+}
 
 .dropdown:hover .dropdownContent{
     display: block;
@@ -98,4 +104,11 @@ nav ul li {
 .dropdownContent div:hover{
     color: white;
     background-color: #F23333;
+}
+
+@font-face {
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
