@@ -51,28 +51,18 @@ const NavigationBar = () => {
     return (
         <>
         <nav>
-            <ul>
-                <li className={styles.dropdown}>
-                    <div className={styles.dropdownMenu} onClick={eventClick}>이벤트</div>
-                </li>
-                <li className={styles.dropdown}>
-                    <div className={styles.dropdownMenu} onClick={transactionClick}>대리구매</div>
-                </li>
-                <li className={styles.dropdown}>
-                    <div className={styles.dropdownMenu} onClick={imformationShareClick}>커뮤니티</div>
-                    <div className={styles.dropdownContent}>
-                        <div onClick={imformationShareClick}>정보공유</div>
-                    </div>
-                </li>
-                <li className={styles.dropdown}>
-                    <div className={styles.dropdownMenu} onClick={DMClick}>개인메시지</div>
-                </li>
-                <li className={styles.dropdown}>
-                    <div className={styles.dropdownMenu} onClick={mypageClick}>마이페이지</div>
-                </li>
-            </ul>
+        <ul className={styles.mainMenu}>
+            <li><div onClick={eventClick}>이벤트</div></li>
+            <li><div onClick={transactionClick}>대리구매</div></li>
+            <li><div onClick={imformationShareClick}>커뮤니티</div>
+                <ul className={styles.subMenu}>
+                    <li><div onClick={imformationShareClick}>정보공유</div></li>
+                </ul>
+            </li>
+            <li><div onClick={DMClick}>개인메시지</div></li>
+            <li><div onClick={mypageClick}>마이페이지</div></li>
+        </ul>
         </nav>
-        
         </>
     );
 }

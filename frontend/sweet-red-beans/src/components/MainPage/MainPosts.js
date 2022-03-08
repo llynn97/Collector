@@ -22,9 +22,9 @@ const MainPosts = () => {
         <>
         <div>
         {dailyPosts.map((item, index) => (
-            <>
+            <div key={index}>
             {item.title}, {item.post_id}
-            </>
+            </div>
         ))}
         </div>
         

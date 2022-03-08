@@ -43,7 +43,6 @@ const MainMovieEvents = ({cinemaName}) => {
     }, [events])
 
     useEffect(() => {
-        console.log(thisEvents);
     }, [thisEvents])
 
     const settings = { 

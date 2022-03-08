@@ -40,70 +40,101 @@
     font-family: '어그로';
     src: url('../fonts/SB\ 어그로\ B.ttf');
 } */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
 
-nav ul {
-    width:100%;
-    background-color: transparent;
-    list-style-type: none;
+ul, li {
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
-nav ul li {
-    display: inline-block;
-}
-
-.dropdown{
-    position:relative;
-}
-
-/*상위메뉴*/
-.dropdownMenu{
+.mainMenu > li {
+    float: left;
     position: relative;
-    color: black;
-    margin: 0px 40px 0px 0px;
-    font-size: 16px;
+}
+
+.mainMenu > li > div {
     cursor: pointer;
+    font-size: 16px;
+    color: black;
     text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    padding: 10px 20px;
     font-family: 'ROKAFSansBold';
 }
 
-/*하위메뉴*/
-.dropdownContent{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background-color: transparent;
-    display: none;
-    z-index: 1;
-    min-width: 100px;
-    text-align: left;
-    background-color: white;
-}
-
-.dropdownContent div {
-    color: black;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-}
-
-.dropdownMenu:hover{
-    background-color: transparent;
+.mainMenu > li > div:hover {
     color: #F23333;
 }
 
-.dropdownMenu:hover ~ ul{
-    background-color: black;
-}
-
-.dropdown:hover .dropdownContent{
-    display: block;
-}
-
-.dropdownContent div:hover{
-    color: white;
+.mainMenu > li > div::after {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0px;
+    content: "";
+    width: 0px;
+    height: 4px;
     background-color: #F23333;
+}
+
+.mainMenu > li > div:hover::after {
+    content: "";
+    width: 100%;
+    transition: width 300ms ease
+}
+
+.subMenu {
+    z-index: 3;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    visibility: hidden;
+    width: 100%;
+}
+
+.subMenu > li {
+    padding: 10px 10px;
+}
+
+.subMenu > li >  div {
+    font-size: 14px;
+    color: black;
+    text-decoration: none;
+    font-family: 'ROKAFSansBold';
+}
+
+.mainMenu > li:hover .subMenu {
+    opacity: 1;
+    visibility: visible;
+    animation: slide linear 0.15s;
+}
+
+.mainMenu > li:hover .subMenu > li > div {
+
+    animation: slide linear 0.3s;
+}
+
+@keyframes slide {
+    0%{
+        color: transparent;
+        height: 0;
+    }
+    100%{
+        color: black;
+        height: 100%;
+    }
+}
+
+.subMenu > li >  div:hover {
+    cursor: pointer;
+    color: #F23333;
 }
 
 @font-face {

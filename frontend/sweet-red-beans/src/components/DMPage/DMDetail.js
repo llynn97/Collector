@@ -20,7 +20,7 @@ const DMDetail = ({selectedRoom}) => {
     const [reportContent, setReportContent] = useState("");
     //거래완료되면 true
     //초기값 selectedRoom.is_complete로 설정하기
-    const [complete, setComplete] = useState(false);
+    const [complete, setComplete] = useState(selectedRoom.is_complete);
 
     const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState("");
@@ -47,8 +47,8 @@ const DMDetail = ({selectedRoom}) => {
     }, [])
 
     useEffect(() => {
-        
-    }, [contents])
+        console.log(complete);
+    }, [complete])
     
     //전송 버튼 눌렀을 때
     const sendClick = () => {
@@ -131,20 +131,26 @@ const DMDetail = ({selectedRoom}) => {
     //신뢰도 +1 주는 버튼
     const reliabilityPlusClick = () => {
         //신뢰도 1 주기
-
-        const body = {
-            user_id: selectedRoom.not_mine_id
+        if(complete === false) {
+            alert("거래완료를 해야 신뢰도를 줄 수 있습니다");
         }
-        axios.post('http://localhost:8080/direct-message/reliability', body, { withCredentials: true })
-        .then(response => {
-            if(response.data.result){
-                alert("상대방의 신뢰도가 올랐습니다.")
+
+        else {
+            const body = {
+                user_id: selectedRoom.not_mine_id
             }
-            else {
-                alert("신뢰도를 올리는 데 실패했습니다.")
-            }
-        })
-        .catch(error => console.log(error));
+            axios.post('http://localhost:8080/direct-message/reliability', body, { withCredentials: true })
+            .then(response => {
+                if(response.data.result){
+                    alert("상대방의 신뢰도가 올랐습니다.")
+                }
+                else {
+                    alert("신뢰도를 올리는 데 실패했습니다.")
+                }
+            })
+            .catch(error => console.log(error));
+        }
+        
     }
 
     //신고 내용
@@ -253,12 +259,21 @@ const DMDetail = ({selectedRoom}) => {
                 <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
                 <button onClick={openModal}>신고하기</button>
             </div>
-            <div style={{width:"200px", height:"200px", overflow:"auto"}} id="messagebox">
+            <div style={{width:"300px", height:"400px", overflow:"auto"}} id="messagebox">
                 {
                 //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
             }
             {contents.map((message, index) => (
-                <div key={index}> {message.nickname} : {message.content} </div>
+                <div key={index}> 
+                {message.image_url===null
+                ? <div>{message.nickname} : {message.content}</div>
+                :<div>{message.nickname} : {message.content}
+                    <div>
+                    <img src={message.image_url} width="100px" height="100px"/>
+                    </div>
+                </div>}
+                </div>
+                
             ))}
             </div>
             

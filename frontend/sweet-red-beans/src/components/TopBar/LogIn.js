@@ -116,24 +116,26 @@ const LogIn = () =>{
 
       <Modal open={modalOpen} close={closeModal} header="로그인">
         <form>
-        <div>
-        <input type="text" placeholder="example@naver.com" onChange={emailChange} value={email} className={style.inputText}/>
-        </div>
-        {email === "" ? <div style={{color : 'red'}}>이메일을 입력해주세요</div> : null}
+          <div className={style.emailArea}>
+          <input type="text" placeholder="example@naver.com" onChange={emailChange} value={email} className={style.inputText}/>
+          {email === "" ? <div className={style.errormessage}>*이메일을 입력해주세요</div> : null}
+          </div>
 
-        <div>
-        <input type="password" placeholder="********" onChange={passwordChange} value={password} className={style.inputText}/>
-        </div>
-        {password === "" ? <div style={{color : 'red'}}>비밀번호를 입력해주세요</div> : null}
-        <button onClick={LoginClick}>로그인</button>
-        {loginError && <div style={{color : 'red'}}>이메일과 비밀번호를 입력해주세요</div>}
+          <div className={style.passwordArea}>
+          <input type="password" placeholder="********" onChange={passwordChange} value={password} className={style.inputText}/>
+          {password === "" ? <div className={style.errormessage}>*비밀번호를 입력해주세요</div> : null}
+          </div>
+          
+          <button onClick={LoginClick} className={style.innerloginButton}>로그인</button>
+          {loginError && <div className={style.errormessage}>*이메일과 비밀번호를 입력해주세요</div>}
         </form>
-        <button id="signup" onClick={SigninClick}>회원가입</button>
+
+        <div id="signup" onClick={SigninClick} className={style.signupButton}>회원가입</div>
         <div>
-        <button href={KAKAO_AUTH_URL} onClick={KakaoLoginClick}>카카오로 로그인</button>
+        <button onClick={KakaoLoginClick} className={style.kakaologinButton}>카카오로 로그인</button>
         </div>
         <div>
-        <button onClick={googleLoginClick}>구글로 로그인</button>
+        <button onClick={googleLoginClick} className={style.googleloginButton}>구글로 로그인</button>
         </div>
       </Modal>
       </>
