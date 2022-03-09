@@ -297,9 +297,10 @@ const TransactionPage = () => {
               </select>
               <span className={style.filterArrow}>▼</span>
             </div>
-            <div className={style.searchBox}>
-              <input type="text" placeholder="검색" value={search} onChange={searchChange} className={style.searchArea}/>
-              <button onClick={searchClick} className={style.searchButton}></button>
+            <div className={style.search}>
+                <input type="text" placeholder="검색" value={search} onChange={searchChange} className={style.searchArea}/>
+                <div className={style.underline}></div>
+                <button onClick={searchClick} className={style.searchButton}></button>
             </div>
           </div>
           

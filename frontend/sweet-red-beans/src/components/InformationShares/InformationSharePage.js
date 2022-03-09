@@ -8,10 +8,7 @@ import InformationShares from "./InformationShares";
 import { Link } from "react-router-dom";
 import { INFO } from "../../actions/types";
 import axios from "axios";
-
-const a = () => {
-    console.log("안녕");
-}
+import style from "../../css/InformationSharePage/InformationSharePage.module.css";
 
 const InformationSharePage = () => {
     const dispatch = useDispatch();
@@ -43,29 +40,16 @@ const InformationSharePage = () => {
     const sorts = ["제목+내용", "제목", "내용", "작성자"];
     const [sort, setSort] = useState("제목+내용");
 
-    //게시글들
-    const [infos, setInfos] = useState([]);
-    const [infoIsHere, setInfoIsHere] = useState(false);
-
-    const serverReq = () => {
-        axios.get('http://localhost:8080/information-share/search',{
-        withCredentials: true,
-        params: {
-                    search_word : search,
-                    cinema_name : cinemaName,
-                    cinema_area : cinemaArea,
-                    cinema_branch : cinemaBranch,
-                    sort_name: sort,
-                }
-        })
-        .then(response => setInfos(response.data))
-        .catch(error => console.log(error));
-    }
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    }, [])
 
     //영화관을 선택했을 때
     const cinemaNameChange = (e) => {
         if(e.target.value === "전체"){
             setCinemaName("전체");
+            setCinemaArea("지역")
+            setCinemaBranch("지점")
             setCinemaNameSelected(false);
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
@@ -75,15 +59,27 @@ const InformationSharePage = () => {
             setCinemaName(selected);
             if(selected === "CGV"){
                 setCinemaAreas(CGVarea);
+                setCinemaAreaSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(CGVarray);
             } else if (selected === "롯데시네마"){
                 setCinemaAreas(LCarea);
+                setCinemaAreaSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(LCarray);
             } else if (selected === "메가박스"){
                 setCinemaAreas(MBarea);
+                setCinemaAreaSelected(false);
+                setCinemaBranch("지점")
+                setCinemaArea("지역")
                 setArray(MBarray);
             } else if (selected === "씨네큐"){
                 setCinemaAreas(CQarea);
+                setCinemaAreaSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(CQarray);
             }
             setCinemaNameSelected(true);
@@ -94,11 +90,13 @@ const InformationSharePage = () => {
     const cinemaAreaChange = (e) => {
         if(e.target.value === "지역"){
             setCinemaArea("지역")
+            setCinemaBranch("지점")
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
         }
         else {
             setCinemaArea(e.target.value);
+            setCinemaBranch("지점")
             setCinemaAreaSelected(true);
             //선택한 지역에 따라 해당 지역에 있는 지점들 리스트로 지정해줌
             setCinemaBranches(array[cinemaAreas.indexOf(e.target.value)-1]);
@@ -107,8 +105,13 @@ const InformationSharePage = () => {
 
     //지점 선택했을 때
     const cinemaBranchChange = (e) => {
-        setCinemaBranch(e.target.value);
-        setCinemaBranchSelected(true);
+        if(e.target.value === "지점"){
+            setCinemaBranch("지점")
+        }
+        else {
+            setCinemaBranch(e.target.value);
+            setCinemaBranchSelected(true);
+        }
     }
 
     const sortChange = (e) => {
@@ -121,133 +124,55 @@ const InformationSharePage = () => {
 
     //검색 버튼 클릭했을 때
     const searchClick = () => {
-        if (search === "" && cinemaName === "전체") {
-            alert("검색할 단어를 입력해주세요");
-        }
-        else {
-            setSearchWords([...searchWords, search]);
-        }
+        setSearchWords([...searchWords, search]);
     }
-
-    useEffect(()=>{
-        //처음에 최신순으로 요청
-        axios.get('http://localhost:8080/information-share/search',{
-        withCredentials: true,
-        params: {
-                    search_word : search,
-                    sort_name: sort,
-                }
-        })
-        .then(response => setInfos(response.data))
-        .catch(error => console.log(error));
-
-
-        //여기서 infos는 아직 빈 배열
-
-    }, [])
-
-    useEffect(()=>{
-        dispatch({
-            type:INFO,
-            info:infos,
-        });
-        console.log(infos);
-        setInfoIsHere(true);
-    }, [infos])
-
-    useEffect(()=>{
-        if(cinemaName === "전체"){
-            axios.get('http://localhost:8080/information-share/search',{
-            withCredentials: true,
-            params: {
-                        search_word : search,
-                        sort_name: sort,
-                    }
-            })
-            .then(response => setInfos(response.data))
-            .catch(error => console.log(error));
-        } else if(cinemaArea === "지역"){
-            axios.get('http://localhost:8080/information-share/search',{
-            withCredentials: true,
-            params: {
-                        search_word : search,
-                        cinema_name : cinemaName,
-                        sort_name: sort,
-                    }
-            })
-            .then(response => setInfos(response.data))
-            .catch(error => console.log(error));
-        } else if(cinemaBranch === "지점"){
-            axios.get('http://localhost:8080/information-share/search',{
-            withCredentials: true,
-            params: {
-                        search_word : search,
-                        cinema_name : cinemaName,
-                        cinema_area : cinemaArea,
-                        sort_name: sort,
-                    }
-            })
-            .then(response => setInfos(response.data))
-            .catch(error => console.log(error));
-        } else {
-            axios.get('http://localhost:8080/information-share/search',{
-            withCredentials: true,
-            params: {
-                        search_word : search,
-                        cinema_name : cinemaName,
-                        cinema_area : cinemaArea,
-                        cinema_branch: cinemaBranch,
-                        sort_name: sort,
-                    }
-            })
-            .then(response => setInfos(response.data))
-            .catch(error => console.log(error));
-        }
-
-    }, [searchWords])
-
 
     return(
         <>
-        <select onChange={cinemaNameChange}>
-            {cinemaNames.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select>
-        {
-            cinemaNameSelected ? <select onChange={cinemaAreaChange}>
-            {cinemaAreas.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select> : null
-        }
+        <div className={style.whiteBox}>
+            <div className={style.filterArea}>
+                <select onChange={cinemaNameChange}>
+                    {cinemaNames.map((item) => (
+                        <option value={item} key={item}>{item}</option>
+                    ))}
+                </select>
+                {
+                    cinemaNameSelected ? <select onChange={cinemaAreaChange}>
+                    {cinemaAreas.map((item) => (
+                        <option value={item} key={item}>{item}</option>
+                    ))}
+                </select> : null
+                }
 
-        {
-            cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
-            {cinemaBranches.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select> : null
-        }
+                {
+                    cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
+                    {cinemaBranches.map((item) => (
+                        <option value={item} key={item}>{item}</option>
+                    ))}
+                </select> : null
+                }
 
-        <select onChange={sortChange}>
-            {sorts.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select>
+                <select onChange={sortChange}>
+                    {sorts.map((item) => (
+                        <option value={item} key={item}>{item}</option>
+                    ))}
+                </select>
 
-        <div>
-            <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
-            <button id="searchButton" onClick={searchClick}>검색</button>
+                <div className={style.search}>
+                    <input type="text" placeholder="검색" onChange={searchChange} value={search} size="5"></input>
+                    <div className={style.underline}></div>
+                    <button id="searchButton" onClick={searchClick}></button>
+                </div>
+            </div>
+            <InformationShares 
+            searchWords={searchWords} 
+            sort={sort} 
+            cinemaName={cinemaName} 
+            cinemaArea={cinemaArea} 
+            cinemaBranch={cinemaBranch}/>
+
         </div>
-
-        {useMemo(() => (infoIsHere ? <InformationShares infos={infos}/> : null), [searchWords, infos])}
-
-        <div>
-            <Link to={`/informationShareWrite`}>
-            <button>글쓰기</button>
-            </Link>
-        </div>
+        
         </>
     );
 }

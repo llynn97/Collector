@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import style from "../../css/InformationSharePage/InformationShareWritePage.module.css";
 
 const InformationShareWritePage = () => {
     let navigation = useNavigate();
@@ -37,6 +38,10 @@ const InformationShareWritePage = () => {
     //사진 첨부
     const [imgFile, setImgFile] = useState(null);
 
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    }, [])
+
     const cinemaNameChange = (e) => {
         if(e.target.value === "영화관"){
             setCinemaNameSelected(false);
@@ -48,15 +53,31 @@ const InformationShareWritePage = () => {
             setCinemaName(selected);
             if(selected === "CGV"){
                 setCinemaAreas(CGVarea);
+                setCinemaAreaSelected(false);
+                setCinemaBranchSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(CGVarray);
             } else if (selected === "롯데시네마"){
                 setCinemaAreas(LCarea);
+                setCinemaAreaSelected(false);
+                setCinemaBranchSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(LCarray);
             } else if (selected === "메가박스"){
                 setCinemaAreas(MBarea);
+                setCinemaAreaSelected(false);
+                setCinemaBranchSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(MBarray);
             } else if (selected === "씨네큐"){
                 setCinemaAreas(CQarea);
+                setCinemaAreaSelected(false);
+                setCinemaBranchSelected(false);
+                setCinemaArea("지역")
+                setCinemaBranch("지점")
                 setArray(CQarray);
             }
             setCinemaNameSelected(true);
@@ -67,10 +88,13 @@ const InformationShareWritePage = () => {
         if(e.target.value === "지역"){
             setCinemaAreaSelected(false);
             setCinemaBranchSelected(false);
+            setCinemaBranch("지점")
         }
         else {
             setCinemaArea(e.target.value);
+            setCinemaBranchSelected(false);
             setCinemaAreaSelected(true);
+            setCinemaBranch("지점")
             setCinemaBranches(array[cinemaAreas.indexOf(e.target.value)-1]);
         }
     }
@@ -159,8 +183,6 @@ const InformationShareWritePage = () => {
                 });
             }
         }
-
-
     }
 
     const titleChange = (e) => {
@@ -190,35 +212,43 @@ const InformationShareWritePage = () => {
 
     return(
         <>
-        <input type="text" value={title} onChange={titleChange}/>
-        <select onChange={cinemaNameChange}>
-            {cinemaNames.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select>
-        {
-            cinemaNameSelected ? <select onChange={cinemaAreaChange}>
-            {cinemaAreas.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select> : null
-        }
+        <div className={style.whiteBox}>
+            <div className={style.titleArea}>
+                <input type="text" value={title} onChange={titleChange}/>
+                <div className={style.filterArea}>
+                    <select onChange={cinemaNameChange}>
+                    {cinemaNames.map((item) => (
+                        <option value={item} key={item}>{item}</option>
+                    ))}
+                    </select>
+                    {
+                        cinemaNameSelected ? <select onChange={cinemaAreaChange}>
+                        {cinemaAreas.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select> : null
+                    }
 
-        {
-            cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
-            {cinemaBranches.map((item) => (
-                <option value={item} key={item}>{item}</option>
-            ))}
-        </select> : null
-        }
+                    {
+                        cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
+                        {cinemaBranches.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select> : null
+                    }
+                </div>
+            </div>
 
-        <div className="preview" style={{width:"100px", height:"100px"}}></div>
-        <label for="upload_file">업로드</label>
-        <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-        <div>
-        <input type="textarea" style={{width: "400px", height:"200px"}} onChange={contentChange} value={content}/>
+            
+            
+            <div className={style.contentArea}>
+                <textarea onChange={contentChange} value={content}/>
+            </div>
+            <div className="preview" style={{width:"100px", height:"100px"}}></div>
+            <label for="upload_file">업로드</label>
+            <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
+            <button onClick={writeClick}>글 작성하기</button>
         </div>
-        <button onClick={writeClick}>글 작성하기</button>
         </>
     );
 }
