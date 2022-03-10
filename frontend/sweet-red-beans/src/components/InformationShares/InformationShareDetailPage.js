@@ -5,9 +5,10 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import style from "../../css/InformationSharePage/InformationShareDetailPage.module.css";
 
 const InformationShareDetailPage = () => {
-    console.log("정보공유 상세 페이지 렌더");
+    
     let navigation = useNavigate();
     const {postid} = useParams();
     //const userid = useSelector(state => state.user.user_id);
@@ -19,6 +20,8 @@ const InformationShareDetailPage = () => {
 
     //처음 조회
     useEffect(()=>{
+        document.documentElement.scrollTop = 0;
+
         axios.get('http://localhost:8080/information-share/detail',{
         withCredentials: true,
         params: {
@@ -27,7 +30,7 @@ const InformationShareDetailPage = () => {
                 }
         })
         .then(response => {
-            console.log(response.data);
+            console.log(response.data.content.replace('\r\n', <br/>));
             const post = {
                 post_id: response.data.post_id,
                 title: response.data.title,
@@ -108,73 +111,100 @@ const InformationShareDetailPage = () => {
 
     //댓글쓰기 버튼 눌렀을 때
     const commentAddClick = () => {
-        setCommentContent("");
-        const body = {
-            user_id: "1",
-            content: commentContent,
-            post_id: postid,
+        if(commentContent !== "") {
+            setCommentContent("");
+            const body = {
+                user_id: "1",
+                content: commentContent,
+                post_id: postid,
+            }
+    
+            axios.post('http://localhost:8080/information-share/comment', body, { withCredentials: true })
+            .then(response => {
+                if(response.data.result){
+                    console.log("댓글 작성됨");
+                    navigation(0)
+                }
+                else{
+                    alert("댓글 작성에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                if(error.response.status === 401){
+                    alert("로그인을 먼저 해주세요");
+                }
+            });
         }
-
-        axios.post('http://localhost:8080/information-share/comment', body, { withCredentials: true })
-        .then(response => {
-            if(response.data.result){
-                console.log("댓글 작성됨");
-                //navigation(0)
-            }
-            else{
-                alert("댓글 작성에 실패했습니다.");
-            }
-        })
-        .catch(error => {
-            if(error.response.status === 401){
-                alert("로그인을 먼저 해주세요");
-            }
-        });
-
     }
 
     //날짜 형식 바꾸기
     const parseDate = (written_date) => {
         const d = new Date(written_date);
         const year = d.getFullYear();
-        const month = d.getMonth();
-        const date = d.getDate();
-        const hours = d.getHours();
-        const min = d.getMinutes();
+        let month = d.getMonth();
+        let date = d.getDate();
+        let hours = d.getHours();
+        let min = d.getMinutes();
+        if(month<10){
+            month = '0'+month;
+        }
+        if(date<10){
+            date = '0'+date;
+        }
+        if(hours<10){
+            hours = '0'+hours;
+        }
+        if(min<10){
+            min = '0'+min;
+        }
         return (
-            <div>{year}-{month}-{date}, {hours} : {min}</div>
+            `${year}-${month}-${date} ${hours} : ${min}`
         )
     }
 
     return(
         <>
-        <h2>{detailInfo.title}</h2>
-        <div>{detailInfo.nickname}, 
-        {parseDate(detailInfo.written_date)}
-        조회수 : {detailInfo.views}</div>
-        <div>{detailInfo.cinema_name}, {detailInfo.cinema_area}, {detailInfo.cinema_branch}</div>
-        <div>{detailInfo.image_url !== "" ? <img src={detailInfo.image_url}/> : null}</div>
-        <div>{detailInfo.content}</div>
-        <div>
-            {detailInfo.is_mine ? <button onClick={deleteClick}>삭제</button> : null}
-        </div>
+        <div className={style.whiteBox}>
+            <div className={style.detailArea}>
+                <div className={style.titleArea}>
+                    <div>{detailInfo.title}</div>
+                    <div>{detailInfo.cinema_name} &gt; {detailInfo.cinema_area} &gt; {detailInfo.cinema_branch}</div>
+                </div>
 
-        <hr/>
+                <div className={style.topBar}>
+                    <div>{detailInfo.nickname}</div>
+                    <div>{parseDate(detailInfo.written_date)}</div>
+                    <div></div>
+                    <div>{detailInfo.views}</div>
+                </div>
 
-        <div>
-            <div>닉네임</div>
-            <input type="textarea" placeholder="댓글 쓰기" value={commentContent} onChange={commentContentChange}/>
-            <button onClick={commentAddClick}>댓글 달기</button>
-        </div>
-
-        {commentsIsHere ? (
-            comments.map((item, index) => <div key={index}><Comment comment={item}/></div>)
-        ) : null}
-
-        <div>
-            <Link to={`/informationShare`}>
-            <button>목록으로 돌아가기</button>
-            </Link>
+                <div className={style.contentArea}>
+                    <div>{detailInfo.image_url !== "" ? <img src={detailInfo.image_url}/> : null}</div>
+                    <div>{detailInfo.content}</div>
+                    <div>
+                        {detailInfo.is_mine ? <button onClick={deleteClick}>삭제</button> : null}
+                    </div>
+                </div>
+                
+                <div className={style.commentArea}>
+                    <div>댓글</div>
+                    
+                    {commentsIsHere ? (
+                    comments.map((item, index) => <div key={index}><Comment comment={item}/></div>)
+                    ) : null}
+                    <div className={style.commentWriteArea}>
+                        <input type="textarea" placeholder="댓글 쓰기" value={commentContent} onChange={commentContentChange}/>
+                        <button onClick={commentAddClick}></button>
+                    </div>
+                    
+                </div>
+            </div>
+        
+            <div className={style.preButton}>
+                <Link to={`/informationShare`}>
+                <button>목록으로 돌아가기</button>
+                </Link>
+            </div>
         </div>
         </>
     );

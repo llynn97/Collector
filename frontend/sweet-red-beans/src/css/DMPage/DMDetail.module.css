@@ -1,0 +1,11 @@
+.chatcontainer {
+    position: relative;
+    display: inline-block;
+    width: 610px;
+    border: 1px solid #C4C4C4;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 800px;
+    padding: 25px;
+    background-color: white;
+}

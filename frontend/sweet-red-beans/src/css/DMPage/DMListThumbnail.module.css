@@ -1,0 +1,65 @@
+.thumbnail, .currentThumbnail {
+    position: relative;
+    text-align: left;
+    border: #c4c4c4 1px solid;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    min-height: 80px;
+    background-color: white;
+}
+
+.currentThumbnail {
+    border: #5A5A5A 2px solid;
+    background-color: #F9F2EC;
+}
+
+.thumbnail > img, .currentThumbnail > img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    object-fit: cover;
+    left: 15px;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.thumbnail > div, .currentThumbnail > div {
+    position: absolute;
+    display: inline-block;
+}
+
+.thumbnail > div:nth-child(2), .currentThumbnail > div:nth-child(2) {
+    left: 80px;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+/* 닉네임 */
+.thumbnail > div:nth-child(2) > div:nth-child(1), .currentThumbnail > div:nth-child(2) > div:nth-child(1) {
+    font-size: 0.88rem;
+    width: 120px;
+    overflow:hidden;
+    text-overflow: ellipsis; 
+    white-space:nowrap;
+}
+
+/* 최근 메시지 */
+.thumbnail > div:nth-child(2) > div:nth-child(2), .currentThumbnail > div:nth-child(2) > div:nth-child(2) {
+    margin-top: 10px;
+    font-size: 0.74rem;
+    width: 120px;
+    overflow:hidden;
+    text-overflow: ellipsis; 
+    white-space:nowrap;
+}
+
+/* 날짜 */
+.thumbnail > div:nth-child(3), .currentThumbnail > div:nth-child(3) {
+    text-align: right;
+    width: 100px;
+    top: 15px;
+    right: 15px;
+    font-size: 0.74rem;
+    color: #c4c4c4;
+}

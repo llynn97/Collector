@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, useMemo} from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DMList from "./DMList";
 import DMDetail from "./DMDetail";
 import * as StompJs from '@stomp/stompjs';
@@ -9,8 +9,11 @@ import Stomp from "stompjs";
 import axios from "axios";
 import store from "../../store";
 import { useNavigate } from "react-router";
+import style from "../../css/DMPage/DMPage.module.css";
+import { SELECTED_DM } from "../../actions/types";
 
 const DMPage = () => {
+    const dispatch = useDispatch();
     const [DMlist, setDMList] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
 
@@ -34,6 +37,10 @@ const DMPage = () => {
     }, [])
 
     const DMListClick = (selectedRoom, e) => {
+        dispatch({
+            type: SELECTED_DM,
+            payload: selectedRoom.chat_room_id,
+        })
         setSelectedRoomId(selectedRoom);
     }
 
@@ -41,16 +48,22 @@ const DMPage = () => {
         <>
         {!renderError ? 
         <>
-            <div>
-                <DMList DMlist={DMlist} DMListClick={DMListClick}/>
+            <div className={style.dmpage}>
+                <div>
+                    <DMList DMlist={DMlist} DMListClick={DMListClick}/>
+                </div>
+                <div>
+                    {
+                    selectedRoomId !== null ? <DMDetail selectedRoom={selectedRoomId}/> : null
+                    }
+                </div>
+                
             </div>
-            {
-            selectedRoomId !== null ? <DMDetail selectedRoom={selectedRoomId}/> : null
-            }
         </>
-        : null}
+            : null}
+        </>
         
-        </>
+        
     );
 }
 

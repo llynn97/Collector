@@ -249,7 +249,7 @@ const MyPageNomal = () => {
                     {preImage !== null ?
                     <img src={preImage} className={style.preview}/>
                     : <img src={profileImage} className={style.preview}/>}
-                    <label for="upload_file" className={style.fileButton}></label>
+                    <label htmlFor="upload_file" className={style.fileButton}></label>
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
                     <div className={style.nicknameChangeArea} id="nicknameChangeArea">
                         <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} className={style.nicknameChange}/>

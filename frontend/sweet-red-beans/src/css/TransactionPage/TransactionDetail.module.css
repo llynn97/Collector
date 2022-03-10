@@ -3,7 +3,7 @@
     border: 2px #C4C4C4 solid;
     border-radius: 10px;
     width: 700px;
-    height: 200px;
+    min-height: 200px;
     margin : 0 auto;
     margin-bottom: 30px;
     box-sizing: border-box;
@@ -52,6 +52,7 @@
 
 .content {
     margin-top: 10px;
+    white-space: pre-wrap;
 }
 
 .profileImage {

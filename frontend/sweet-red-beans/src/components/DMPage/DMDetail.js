@@ -5,12 +5,16 @@ import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
 import Modal from "../../components/Modals/ReportModal";
+import style from "../../css/DMPage/DMDetail.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { SELECTED_DM } from "../../actions/types";
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
+
     const [ms, setMs] = useState("");
     const [mList, setMList] = useState([]);
     const [detailMessages, setDetailMessages] = useState([]);
@@ -24,6 +28,7 @@ const DMDetail = ({selectedRoom}) => {
 
     const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState("");
+
 
     const openModal = () => {
         setModalOpen(true);
@@ -249,52 +254,49 @@ const DMDetail = ({selectedRoom}) => {
         </form>
 
         </Modal>
-        <h2>DM 메시지 창</h2>
-        {useMemo(() => 
-        <div style={{width:"200px", height:"300px"}}>
-            {selectedRoom !== undefined ? selectedRoom.chat_room_id : null}, 
-            메시지 내용 올라오는 곳
-            <div>
-                닉네임, 신뢰도 : 0
-                <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
-                <button onClick={openModal}>신고하기</button>
-            </div>
-            <div style={{width:"300px", height:"400px", overflow:"auto"}} id="messagebox">
-                {
-                //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
-            }
-            {contents.map((message, index) => (
-                <div key={index}> 
-                {message.image_url===null
-                ? <div>{message.nickname} : {message.content}</div>
-                :<div>{message.nickname} : {message.content}
-                    <div>
-                    <img src={message.image_url} width="100px" height="100px"/>
-                    </div>
-                </div>}
+        
+        <div className={style.chatcontainer}>
+            {useMemo(() => 
+            <div style={{width:"200px", height:"300px"}}>
+                {selectedRoom !== undefined ? selectedRoom.chat_room_id : null}, 
+                메시지 내용 올라오는 곳
+                <div>
+                    닉네임, 신뢰도 : 0
+                    <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
+                    <button onClick={openModal}>신고하기</button>
                 </div>
-                
-            ))}
+                <div style={{width:"300px", height:"400px", overflow:"auto"}} id="messagebox">
+                    {
+                    //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
+                }
+                {contents.map((message, index) => (
+                    <div key={index}> 
+                    {message.image_url===null || message.image_url===""
+                    ? <div>{message.nickname} : {message.content}</div>
+                    :<div>{message.nickname} : {message.content}
+                        <div>
+                        <img src={message.image_url} width="100px" height="100px"/>
+                        </div>
+                    </div>}
+                    </div>
+                    
+                ))}
+                </div>
             </div>
+            , [contents])}
+
+            {imgBase64 !== null ?
+                <img src={imgBase64}/>
+            : null}
             
-            
-            {
-            //detailMessages.map((item, index) => <div key={index}>{item.nickname}</div>)
-            }
+            {complete ? <div>거래가 완료되었습니다.</div> : null}
+            <input type="text" value={message} onChange={onChange} name={message}/>
+            <button onClick={sendClick}>전송</button>
+            <label htmlFor="upload_file">업로드</label>
+            <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
+            <button onClick={completeClick}>거래완료</button>
         </div>
         
-        , [contents])}
-
-        {imgBase64 !== null ?
-            <img src={imgBase64}/>
-            : null}
-        
-        {complete ? <div>거래가 완료되었습니다.</div> : null}
-        <input type="text" value={message} onChange={onChange} name={message}/>
-        <button onClick={sendClick}>전송</button>
-        <label for="upload_file">업로드</label>
-        <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-        <button onClick={completeClick}>거래완료</button>
         </>
     );
 }

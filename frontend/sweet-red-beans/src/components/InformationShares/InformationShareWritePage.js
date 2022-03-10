@@ -105,6 +105,8 @@ const InformationShareWritePage = () => {
     }
 
     const contentChange = (e) => {
+        // const a = content.replace("\n", <br/>)
+        // console.log(a);
         setContent(e.target.value);
     }
 
@@ -120,6 +122,8 @@ const InformationShareWritePage = () => {
         }
         else {
             const fd = new FormData();
+
+            
 
             //이미지 파일 없을 때
             if(imgFile === null){
@@ -245,7 +249,7 @@ const InformationShareWritePage = () => {
                 <textarea onChange={contentChange} value={content}/>
             </div>
             <div className="preview" style={{width:"100px", height:"100px"}}></div>
-            <label for="upload_file">업로드</label>
+            <label htmlFor="upload_file">업로드</label>
             <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
             <button onClick={writeClick}>글 작성하기</button>
         </div>
