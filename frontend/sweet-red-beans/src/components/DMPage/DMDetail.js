@@ -14,11 +14,6 @@ let stompClient = null;
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
-
-    const [ms, setMs] = useState("");
-    const [mList, setMList] = useState([]);
-    const [detailMessages, setDetailMessages] = useState([]);
-
     const [modalOpen, setModalOpen] = useState(false);
 
     const [reportContent, setReportContent] = useState("");
@@ -27,7 +22,9 @@ const DMDetail = ({selectedRoom}) => {
     const [complete, setComplete] = useState(selectedRoom.is_complete);
 
     const [imgFile, setImgFile] = useState(null);
-    const [imgBase64, setImgBase64] = useState("");
+    const [imgBase64, setImgBase64] = useState(null);
+
+    const [myNickname, setMyNickname] = useState("");
 
 
     const openModal = () => {
@@ -48,13 +45,19 @@ const DMDetail = ({selectedRoom}) => {
     let stompClient = Stomp.over(socket);
     
     useEffect(() => {
-
+        axios.get('http://localhost:8080/mypage',{
+        withCredentials: true ,
+        })
+        .then(response => {
+            setMyNickname(response.data.user.nickname);
+        })
+        .catch(e => console.log(e))
     }, [])
 
     useEffect(() => {
-        console.log(complete);
-    }, [complete])
-    
+        console.log(myNickname);
+    }, [myNickname])
+
     //전송 버튼 눌렀을 때
     const sendClick = () => {
         sendMessage(message);
@@ -88,6 +91,10 @@ const DMDetail = ({selectedRoom}) => {
     useEffect(() => {
         console.log(imgBase64);
     }, [imgBase64])
+
+    useEffect(() => {
+        console.log(contents);
+    }, [contents])
 
     const addMessage = (message) =>{
         //상대에게 받아온 메시지를 추가함
@@ -225,10 +232,15 @@ const DMDetail = ({selectedRoom}) => {
     useEffect(() => {
         let messagebox = document.querySelector("#messagebox");
         messagebox.scrollTop = messagebox.scrollHeight;
-    }, [contents])
+    }, [contents, imgBase64])
 
     const handleChangeFile = (e) => {
         setImgFile(e.target.files);
+    }
+
+    const previewCancelClick = () => {
+        setImgFile(null);
+        setImgBase64(null);
     }
 
     useEffect(() => {
@@ -241,6 +253,30 @@ const DMDetail = ({selectedRoom}) => {
         reader.readAsDataURL(imgFile[0]);
 
     }, [imgFile])
+
+    const parseDate = (written_date) => {
+        const d = new Date(written_date);
+        const year = d.getFullYear();
+        let month = d.getMonth();
+        let date = d.getDate();
+        let hours = d.getHours();
+        let min = d.getMinutes();
+        if(month<10){
+            month = '0'+month;
+        }
+        if(date<10){
+            date = '0'+date;
+        }
+        if(hours<10){
+            hours = '0'+hours;
+        }
+        if(min<10){
+            min = '0'+min;
+        }
+        return (
+            `${year}-${month}-${date} ${hours}:${min}`
+        )
+    }
 
     return (
         <>
@@ -256,45 +292,63 @@ const DMDetail = ({selectedRoom}) => {
         </Modal>
         
         <div className={style.chatcontainer}>
-            {useMemo(() => 
-            <div style={{width:"200px", height:"300px"}}>
-                {selectedRoom !== undefined ? selectedRoom.chat_room_id : null}, 
-                메시지 내용 올라오는 곳
+            <div className={style.topBar}></div>
+            <div className={style.notMyArea}>
+                <img src={selectedRoom.not_mine_profile_url}/>
+                <div>{selectedRoom.not_mine_nickname}</div>
+                <div>{selectedRoom.not_mine_reliability}</div>
                 <div>
-                    닉네임, 신뢰도 : 0
                     <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
+                    <button onClick={completeClick}>거래완료</button>
                     <button onClick={openModal}>신고하기</button>
                 </div>
-                <div style={{width:"300px", height:"400px", overflow:"auto"}} id="messagebox">
-                    {
-                    //mList.map((item, index) => <div key={index}>{item.nickname} : {item.message_content}</div>)
-                }
+            </div>
+            {useMemo(() => 
+
+            <div id="messagebox" className={!complete ? style.messagebox : style.messagebox2}>
                 {contents.map((message, index) => (
-                    <div key={index}> 
-                    {message.image_url===null || message.image_url===""
-                    ? <div>{message.nickname} : {message.content}</div>
-                    :<div>{message.nickname} : {message.content}
+                    <div key={index} className={message.nickname===myNickname ? style.myMessage : style.notMyMessage}> 
+                        {message.image_url===null || message.image_url===""
+                        ? 
+                        <>
+                        <div>{message.nickname===myNickname ? parseDate(message.written_date) : null}</div>
+                        <div>{message.content}</div>
+                        <div>{!(message.nickname===myNickname) ? parseDate(message.written_date) : null}</div>
+                        </>
+                        :
+                        <>
+                        <div>{message.nickname===myNickname ? parseDate(message.written_date) : null}</div>
                         <div>
-                        <img src={message.image_url} width="100px" height="100px"/>
+                            <div>{message.content}</div>
+                            <div><img src={message.image_url}/></div>
                         </div>
-                    </div>}
+                        <div>{!(message.nickname===myNickname) ? parseDate(message.written_date) : null}</div>
+                        </>
+                        }
                     </div>
                     
                 ))}
+                <div className={style.preview}>
+                {imgBase64 !== null ?
+                <div>
+                    <img src={imgBase64}/>
+                    <button onClick={previewCancelClick}>{' '}&times;{' '}</button>
                 </div>
+                : null}
+                </div>
+                
             </div>
-            , [contents])}
+            , [contents, imgBase64, myNickname])}
 
-            {imgBase64 !== null ?
-                <img src={imgBase64}/>
-            : null}
+
             
-            {complete ? <div>거래가 완료되었습니다.</div> : null}
-            <input type="text" value={message} onChange={onChange} name={message}/>
-            <button onClick={sendClick}>전송</button>
-            <label htmlFor="upload_file">업로드</label>
-            <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-            <button onClick={completeClick}>거래완료</button>
+            {complete ? <div className={style.complete}>거래가 완료되었습니다.</div> : null}
+            <div className={style.writeArea}>
+                <label htmlFor="upload_file"></label>
+                <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
+                <input type="text" value={message} onChange={onChange} name={message}/>
+                <button onClick={sendClick}></button>
+            </div>
         </div>
         
         </>

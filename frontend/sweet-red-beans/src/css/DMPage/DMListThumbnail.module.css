@@ -1,4 +1,5 @@
 .thumbnail, .currentThumbnail {
+    cursor: pointer;
     position: relative;
     text-align: left;
     border: #c4c4c4 1px solid;
