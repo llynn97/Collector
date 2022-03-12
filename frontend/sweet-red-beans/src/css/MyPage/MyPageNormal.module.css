@@ -1,0 +1,357 @@
+.profileWhiteBox {
+    position: relative;
+    background-color: white;
+    width: 1000px;
+    height: 200px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+/* 프로필 테두리 */
+.profileBox > div:nth-child(1) {
+    position: absolute;
+    display: inline-block;
+    top:50%;
+    transform: translate(0, -50%);
+    left: 40px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    border: #F23333 2px solid;
+}
+
+.profileBox > div:nth-child(1) > img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+/* 닉네임 */
+.profileBox > div:nth-child(2) {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 160px;
+    font-size: 14pt;
+}
+
+/* 프로필 수정하기 버튼 */
+.profileBox > div:nth-child(3) {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 150px;
+    transform: translate(0, -50%);
+}
+
+.profileBox > div:nth-child(3) > button {
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
+    font-family: "ROKAFSansBold";
+}
+
+/* 신뢰도 */
+.profileBox > div:nth-child(4) {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 40px;
+    transform: translate(0, -50%);
+}
+
+.profileBox > div:nth-child(4)::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 20px;
+    transform: translate(0, -50%);
+    width: 50px;
+    height: 50px;
+    border: #C4C4C4 1px solid;
+    border-radius: 50px;
+    background: url('../../img/reliability.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+@keyframes swing {
+    0% {  }
+    33% {transform: rotate(3deg);}
+    66% {transform: rotate(-3deg);}
+    100% {  }
+}
+
+.profileChangeBox > img, .nicknameChangeArea, .nicknameDupButton {
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.profileChangeBox > img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+    left:47px;
+    object-fit: cover;
+}
+
+.profileChangeBox > label {
+    cursor: pointer;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top: 33%;
+    transform: translate(0, -50%);
+    left:105px;
+    border: #C4C4C4 1px solid;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    background: url("../../img/plus.png");
+    background-color: white;
+    opacity: 0.8;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.profileChangeBox > .nicknameChangeArea {
+    width: 180px;
+    left:158px;
+}
+
+.focus {
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    height: 5px;
+    border-radius: 50px;
+    margin-left: 50%;
+    width: calc(100%);
+    background: #F23333;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease, margin-left .3s ease;
+}
+
+.nicknameChangeArea > input {
+    font-family: "ROKAFSansBold";
+    border: none;
+    font-size: 14pt;
+    width: 180px;
+}
+
+.nicknameChangeArea > input:focus {
+    outline: none;
+}
+
+.nicknameChangeArea > input:hover + .nicknameChangeArea > div{
+    transform: scaleX(1);
+    margin-left: 0;
+}
+
+.nicknameChangeArea > input:focus + .nicknameChangeArea > div {
+    transform: scaleX(1);
+    margin-left: 0;
+}
+
+.nicknameDupButton {
+    cursor: pointer;
+    left:360px;
+    width: 110px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
+    font-family: "ROKAFSansBold";
+}
+
+.nicknameDupText {
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    left:158px;
+    top:70%;
+    transform: translate(0, -50%);
+    color: #F23333;
+}
+
+.completeButton {
+    cursor: pointer;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:75%;
+    transform: translate(0, -50%);
+    right: 110px;
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #F23333;
+    color: white;
+    font-family: "ROKAFSansBold";
+}
+
+.cancelButton {
+    cursor: pointer;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top:75%;
+    transform: translate(0, -50%);
+    right: 25px;
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #C4C4C4;
+    color: #5A5A5A;
+    font-family: "ROKAFSansBold";
+}
+
+/* 카테고리 */
+.detailMenuArea {
+    position: relative;
+    background-color:transparent;
+    width: 1000px;
+    height: 200px;
+    margin : 0 auto;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.detailMenuArea > nav{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.detailMenuArea > nav li {
+    position: absolute;
+    display: inline-block;
+    margin-bottom: 50px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(1) {
+    left:10px;
+}
+
+.detailMenuArea > nav li:nth-child(2) {
+    left:28%;
+    transform: translate(-50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(3) {
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(4) {
+    right:28%;
+    transform: translate(50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(5) {
+    right:10px;
+}
+
+.detailMenuArea > nav li > button {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    border: none;
+    margin-bottom: 10px;
+    transition: transform 300ms ease ;
+}
+
+.detailMenuArea > nav li:nth-child(1) > button{
+    background: url("../../img/movie.png");
+    background-repeat: no-repeat;
+}
+
+.detailMenuArea > nav li:nth-child(2) > button{
+    background: url("../../img/transaction.png");
+}
+
+.detailMenuArea > nav li:nth-child(3) > button {
+    background: url("../../img/liketransaction.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.detailMenuArea > nav li:nth-child(4) > button {
+    background: url("../../img/post.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.detailMenuArea > nav li:nth-child(5) > button {
+    background: url("../../img/comment.png");
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
+.detailMenuArea > nav li > button:hover{
+    transform: scale(1.2);
+}
+
+.detailMenuArea > nav li:hover > div{
+    color: #F23333;
+}
+
+.detail {
+    position: relative;
+    background-color: white;
+    width: 1000px;
+    min-height: 900px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    padding: 50px;
+}
+
+.quitArea {
+    margin-top: 50px;
+}
+
+.quitArea > button {
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #C4C4C4;
+}
+
+.quitArea > button:hover {
+    text-decoration: underline;
+}
+
+@font-face {
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

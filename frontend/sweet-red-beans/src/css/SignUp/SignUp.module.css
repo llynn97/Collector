@@ -1,0 +1,98 @@
+.whiteBox {
+    position: relative;
+    background-color: white;
+    width: 799px;
+    height: 1000px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+.signUpText {
+    width: 90px;
+    height: 20px;
+    font-size: 20px;
+    font-family: 'ROKAFSansBold';
+    margin-top: 130px;
+    margin-left: 203px;
+    margin-bottom: 80px;
+}
+
+.emailText{
+    width: 90px;
+    height: 15px;
+    font-size: 15px;
+    font-family: 'ROKAFSansBold';
+    margin-left: -275px;
+}
+
+.emailInputText{
+    width: 200px;
+    height: 40px;
+    border: #c4c4c4 1px solid;
+    margin-top: 13px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.dupChkButton {
+    color: white;
+    width: 100px;
+    height: 43px;
+    font-size: 11px;
+    background-color: #F23333;
+    border: none;
+    border-radius: 5px;
+    font-family: 'ROKAFSansBold';
+}
+
+.errormessage {
+    width: 200px;
+    height: 13px;
+    font-size: 0.85rem;
+    color: #F23333;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 210px;
+    margin-top: 4px;
+}
+
+.passwordText{
+    width: 90px;
+    height: 15px;
+    font-size: 15px;
+    font-family: 'ROKAFSansBold';
+    margin-left: -259px;
+}
+
+.inputText{
+    width: 316px;
+    height: 40px;
+    border: #c4c4c4 1px solid;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.passwordChkText{
+    width: 90px;
+    height: 15px;
+    font-size: 15px;
+    font-family: 'ROKAFSansBold';
+    margin-left: -229px;
+}
+
+.joinButton{
+    width: 316px;
+    height: 40px;
+    color: white;
+    font-size: 11px;
+    background-color: #F23333;
+    border: none;
+    border-radius: 5px;
+    font-family: 'ROKAFSansBold';
+    margin-top: 20px;
+}
+

@@ -1,0 +1,16 @@
+.events {
+    position: relative;
+    width: 940px;
+}
+
+.events > div {
+    display: inline-block;
+    margin: 15px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    left:50%;
+    transform: translate(-50%, 0%);
+}
