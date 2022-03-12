@@ -1,0 +1,292 @@
+.wrap {
+  position: relative;
+  padding: 10px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.writeBox {
+  position: relative;
+  background-color: white;
+  width: 1000px;
+  margin : 0 auto;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 30px;
+  margin-bottom: 100px;
+}
+
+.profileArea {
+  position: absolute;
+  display: inline-block;
+  text-align: left;
+  top:30px;
+}
+
+.profileImage {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.nickname {
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+
+}
+
+.writeButtonArea {
+  position: absolute;
+  display: inline-block;
+  top: 30px;
+  right: 150px;
+}
+
+.writeButton {
+  cursor: pointer;
+  border: none;
+  width: 190px;
+  height: 50px;
+  background-color: #F23333;
+  border-radius: 10px;
+  color: white;
+}
+
+.writeButton:hover{
+  animation: swing linear 0.15s 2;
+}
+
+@keyframes swing {
+  0% {  }
+  33% {transform: rotate(3deg);}
+  66% {transform: rotate(-3deg);}
+  100% {  }
+}
+
+.writeTextArea {
+  width: 700px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid #656565;
+  box-sizing: border-box;
+  padding: 20px;
+  resize: none;
+  margin-top: 70px;
+}
+
+.writeTextArea:focus{
+  outline: none;
+}
+
+.writeTextArea::-webkit-scrollbar{
+  width: 15px;
+}
+
+.writeTextArea::-webkit-scrollbar-thumb{
+  width: 15px;
+  background-color: #C4C4C4;
+  border-radius: 20px;
+  background-clip: padding-box;
+  border: 4px solid transparent;
+
+}
+
+.transactionsBox {
+  background-color: white;
+  width: 1000px;
+  margin : 0 auto;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 30px;
+  min-height: 1000px;
+}
+
+.topBox{
+  text-align: right;
+  margin-right: 120px;
+  margin-bottom: 30px;
+}
+
+.proceedSelected, .notSelected{
+  cursor: pointer;
+  border: none;
+  width: 90px;
+  padding: 10px;
+  height: 45px;
+  margin-left: 0px;
+  background-color: transparent;
+}
+
+.proceedSelected {
+  font-size: 12pt;
+  color: #F23333;
+  background: url("../../img/check.png");
+  background-size: 20%;
+  background-repeat: no-repeat;
+  background-position: 0% 60%;
+}
+
+.search {
+  display: inline-block;
+  position: relative;
+  text-align: right;
+  width: 200px;
+  height: 45px;
+  margin-left: 20px;
+  border-bottom: 3px solid #C4C4C4;
+  vertical-align: bottom;
+}
+
+.search input {
+  position: absolute;
+  bottom: 0px;
+  left:0px;
+  width: 170px;
+  height: 35px;
+  box-sizing: border-box;
+  border: none;
+  padding: 10px;
+
+  transition: border-bottom 200ms ease;
+}
+
+.search input::placeholder {
+  color: #C4C4C4;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.underline {
+  position: absolute;
+  width: 0px;
+  height: 3px;
+  background-color: #f23333;
+  bottom: -3px;
+  transition: width 300ms ease;
+}
+.search input:focus + .underline {
+  width: 200px;
+}
+
+.search button {
+  cursor: pointer;
+  position: absolute;
+  top: 0; 
+  right: 0;
+  transform: translate(-0%, 50%);
+  z-index: 3;
+  width: 25px; 
+  height: 25px;
+  display: flex;
+  background: url('../../img/search.png');
+  background-size: cover;
+  border: 0 none;
+  outline: 0 none;
+  background-color: white;
+}
+.filterBox{
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 45px;
+  border-bottom: 3px solid #C4C4C4;
+  margin-left: 20px;
+}
+
+.filter {
+  width: inherit;
+  height: inherit;
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  padding: 0 8px;
+  position: relative;
+  z-index: 3;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.filter option {
+  color: #656565;
+  padding: 3px 0;
+  font-size: 16px;
+}
+
+.filterArrow{
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  z-index: 1; 
+  width: 35px; 
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #C4C4C4;
+}
+
+/* .filter .filterArrow {
+  width: 50%;
+  transition: .3s;
+} */
+
+.filter:focus + .filterArrow{
+  transform: rotate(180deg);
+}
+
+.topBtn {
+  position: fixed; 
+  opacity: 0; 
+  bottom: 30px;
+  right: 30px;
+  z-index: -10; 
+  width: 80px; 
+  height: 80px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.5s ease-in-out;
+  background-color: #F23333;
+  color: white;
+}
+
+.topBtn.active {
+  z-index: 10; 
+  opacity: 1;
+}
+
+.topBtn:hover,
+.topBtn:focus,
+.topBtn:active { 
+  outline: 0 none; 
+}
+
+.writeBtn {
+  position: fixed; 
+  opacity: 0; 
+  bottom: 140px;
+  right: 30px;
+  z-index: -10; 
+  width: 80px; 
+  height: 80px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.5s ease-in-out;
+  background-color: #F23333;
+  color: white;
+}
+
+.writeBtn.active {
+  z-index: 10; 
+  opacity: 1;
+}

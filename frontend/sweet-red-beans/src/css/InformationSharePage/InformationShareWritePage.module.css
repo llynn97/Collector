@@ -1,0 +1,165 @@
+.whiteBox {
+    position: relative;
+    background-color: white;
+    width: 1000px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    padding: 80px 100px 30px 100px;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+
+.titleArea {
+    position: relative;
+    text-align: left;
+    background-color: aqua;
+    
+}
+
+/* 제목 */
+.titleArea input {
+    position: absolute;
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+    border-radius: 10px;
+    bottom: 0px;
+    box-sizing: border-box;
+    padding: 0px 20px 0px 20px;
+    outline: none;
+    border: #C4C4C4 1px solid;
+    font-size: 16px;
+    /* background-color: #F0F0F0; */
+}
+
+.titleArea input:focus {
+    border: #5A5A5A 2px solid;
+    background-color: white;
+}
+
+.titleArea input::placeholder {
+    color: #C4C4C4;
+}
+
+.filterArea {
+    position: absolute;
+    right: -20px;
+    bottom: 0px;
+    display: inline-block;
+}
+
+.filterArea > select {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-bottom: 3px solid #C4C4C4;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.filterArea > select:nth-child(1) {
+    
+}
+
+.contentArea {
+    margin-top: 30px;
+}
+
+.contentArea > textarea {
+    width: 800px;
+    height: 350px;
+    border-radius: 10px;
+    border: #C4C4C4 1px solid;
+    outline: none;
+    box-sizing: border-box;
+    padding: 20px;
+    resize: none;
+    font-size: 16px;
+}
+
+.contentArea > textarea:focus {
+    border: #5A5A5A 2px solid;
+}
+
+.contentArea > textarea::placeholder {
+    color: #C4C4C4;
+}
+
+.contentArea > textarea::-webkit-scrollbar{
+    width: 15px;
+}
+
+.contentArea > textarea::-webkit-scrollbar-thumb{
+    width: 15px;
+    background-color: #C4C4C4;
+    border-radius: 20px;
+    background-clip: padding-box;
+    border: 4px solid transparent;
+}
+
+.buttonArea {
+    position: relative;
+    height: 120px;
+}
+
+.buttonArea > *{
+    position: absolute;
+    display: inline-block;
+}
+
+.buttonArea > label {
+    cursor: pointer;
+    background: url("../../img/gallery.png");
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: 50% 50%;
+    background-color: #f32222;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.buttonArea > div {
+    left: 70px;
+    bottom: 0px;
+}
+
+.buttonArea > div > img {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    vertical-align: bottom;
+}
+
+.buttonArea > div > button {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    border: none;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    color: #C4C4C4;
+    margin-top: -5px;
+    background-color: transparent;
+}
+
+.buttonArea > button {
+    cursor: pointer;
+    bottom: 0px;
+    right: 0px;
+    background-color: #f32222;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    height: 50px;
+    padding: 0px 20px 0px 20px;
+}

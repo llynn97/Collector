@@ -1,0 +1,99 @@
+.whiteBox {
+  position: relative;
+  background-color: white;
+  width: 1000px;
+  min-height: 1400px;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  margin-top: 50px;
+}
+
+.titleBox {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #c4c4c4;
+}
+
+.title {
+  color: black;
+  font-size: 20px;
+  margin: 5px;
+  padding: 15px 20px;
+  font-family: "ROKAFSansBold";
+}
+.date {
+  color: #5a5a5a;
+  font-size: 16px;
+  margin: 5px;
+  padding: 15px 20px;
+  font-family: "ROKAFSansBold";
+}
+
+.cinemaBox {
+  padding: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cinemaName {
+  border: 1px solid #c4c4c4;
+  padding: 15px 30px;
+  position: absolute;
+  right: 7%;
+  border-radius: 50px;
+  margin-right: 20px;
+  color: #5a5a5a;
+  font-family: "ROKAFSansBold";
+  font-size: 18px;
+}
+
+.likeBox {
+  font-size: 14px;
+  color: #5a5a5a;
+  font-family: "ROKAFSansBold";
+  display: flex;
+  flex-direction: column;
+}
+.linkBox {
+  margin: 70px;
+}
+
+.linkButton {
+  font-size: 20px;
+  background-color: #f23333;
+  color: #ffffff;
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: none;
+  font-family: "ROKAFSansBold";
+}
+
+.likeOnButton {
+  background: url("../../img/ticket.png");
+}
+
+.likeOffButton {
+  background: url("../../img/ticket.png");
+}
+
+.likeOnButton,
+.likeOffButton {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border: #c4c4c4 solid 1px;
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: 10px;
+  right: 10px;
+}
+
+.imageBox {
+  width: 998px;
+  height: auto;
+}
