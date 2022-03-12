@@ -31,16 +31,15 @@ const EventMovieThumbnail = ({event}) => {
 
     return(
         <>
-        <Link to = {`/event/${event.event_id}`}>
-        <h3>
-            <img src={event.thumbnail_url} width="300px" height="200px"/>
-        </h3>
-        <div>
-            {event.title}, {event.start_date} ~ {event.end_date}, {event.cinema_name}
-        </div>
-        </Link>
-        <div>
-            <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
+        <div className={style.container}>
+            <Link to = {`/event/${event.event_id}`} style={{ textDecoration: 'none' }} className={style.thumbnailArea}>
+                <img src={event.thumbnail_url}/>
+                <div>{event.title}</div>
+                <div>{event.start_date} ~ {event.end_date}</div>
+            </Link>
+            
+            {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
+
         </div>
         
         </>

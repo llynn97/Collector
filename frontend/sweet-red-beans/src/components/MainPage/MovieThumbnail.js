@@ -38,10 +38,9 @@ const MovieThumbnail = ({thisEvent}) => {
     return(
         <>
         <div className={style.container}>
-
             <Link to = {`/event/${thisEvent.event_id}`} style={{ textDecoration: 'none' }}>
             <div className={style.thumbnailArea}>
-            <img src={thisEvent.thumbnail_url} className={style.thumbnailImage}/>
+                <img src={thisEvent.thumbnail_url}/>
             </div>
             
             <div className={style.title}>{thisEvent.title}</div>

@@ -8,8 +8,13 @@ import EventMovieThumbnail from "./EventMovieThumbnail";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../css/EventPage/Events.module.css";
+import Pagination from "./Pagination";
 
 const Events = ({sort, isEnd, search_word, cinema_name}) => {
+    const [limit, setLimit] = useState(12);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * limit;
+
     const [events, setEvents] = useState([]); 
     useEffect(()=> {
         const body = 
@@ -64,10 +69,16 @@ const Events = ({sort, isEnd, search_word, cinema_name}) => {
 
     return(
         <>
-            <div>
-            {events.map((item) => <div key={item.event_id}><EventMovieThumbnail event={item}/></div>)}
+        <div className={style.events}>
+        {events.slice(offset, offset+limit).map((item) => <div key={item.event_id}><EventMovieThumbnail event={item}/></div>)}
+        </div>
 
-            </div>
+        <footer className={style.footer}>
+            <Pagination total={events.length}
+            limit={limit}
+            page={page}
+            setPage={setPage}/>
+        </footer>
     
         </>
     );

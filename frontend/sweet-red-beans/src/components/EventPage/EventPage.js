@@ -111,11 +111,11 @@ const EventPage = () => {
     return(
         <>
         <div className={style.whiteBox}>
-            <div>
+            <div className={style.datefilter}>
                 <button onClick={ongoingClick}>진행 중 이벤트</button>
                 <button onClick={doneClick}>완료된 이벤트</button>
             </div>
-            <div id="align">
+            <div id="align" className={style.filter}>
                 <button onClick={recentClick}>최신순</button>
                 <button onClick={interestClick}>관심도순</button>
             </div>
@@ -125,9 +125,10 @@ const EventPage = () => {
                 ))}
             </select>
 
-            <div>
+            <div className={style.search}>
                 <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
-                <button id="searchButton" onClick={searchClick}>검색</button>
+                <div className={style.underline}></div>
+                <button id="searchButton" onClick={searchClick}></button>
             </div>
             {
             <Events sort={sort} isEnd={isEnd} search_word={searchWords} cinema_name={selecteds}/>
