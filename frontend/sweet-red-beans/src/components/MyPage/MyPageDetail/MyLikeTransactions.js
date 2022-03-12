@@ -3,6 +3,7 @@ import store from "../../../store";
 import TransactionDetail from "../../TransactionPage/TransactionDetail";
 import Pagination from "./Pagination";
 import { useSelector } from "react-redux";
+import style from "../../../css/MyPage/MyPageDetail/MyLikeTransactions.module.css";
 
 const MyLikeTransactions = () => {
     const myLikeTransactions = useSelector(s => {
@@ -27,7 +28,7 @@ const MyLikeTransactions = () => {
             </article>
         )) : null}
 
-        <footer>
+        <footer className={style.footer}>
             {myLikeTransactions !== undefined ? 
             <Pagination total={myLikeTransactions.length}
             limit={limit}

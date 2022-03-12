@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import store from "../../../store";
 import TransactionDetail from "../../TransactionPage/TransactionDetail";
 import Pagination from "./Pagination";
+import style from "../../../css/MyPage/MyPageDetail/MyTransactions.module.css";
 
 const MyTransactions = () => {
     const myTransactions = useSelector(s => {
@@ -27,7 +28,7 @@ const MyTransactions = () => {
             </article>
         )) : null}
 
-        <footer>
+        <footer className={style.footer}>
             {myTransactions !== undefined ? 
             <Pagination total={myTransactions.length}
             limit={limit}

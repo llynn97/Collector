@@ -219,41 +219,33 @@ const MyPageNomal = () => {
         <>
         {!renderError ? 
         <>
-            <div className={style.profileBox}>
+            <div className={style.profileWhiteBox}>
             {hide? 
-            <div>
-                <div className={style.profileImageBorder}>
-                    <img src={profileImage} className={style.profileImage}/>
-                    </div>
-                    <div className={style.nickname}>
-                        {nickname}
-                    </div>
-                    <div className={style.profileChangeButtonArea}>
-                        <button onClick={profileChangeClick} className={style.profileChangeButton}>프로필 수정하기</button>
-                    </div>
-
-                
-
-                <div className={style.reliability}>
-                <div className={style.reliabilityIcon}></div>
-                <div className={style.reliabilityCount}>
-                    {reliability}
+            <div className={style.profileBox}>
+                <div>
+                    <img src={profileImage}/>
                 </div>
+                <div>{nickname}</div>
+                <div>
+                    <button onClick={profileChangeClick}>프로필 수정하기</button>
                 </div>
+
+                <div>{reliability}</div>
             </div>
             : null}
 
             {
                 !hide?
-                <div>
+                <div className={style.profileChangeBox}>
                     {preImage !== null ?
-                    <img src={preImage} className={style.preview}/>
-                    : <img src={profileImage} className={style.preview}/>}
-                    <label htmlFor="upload_file" className={style.fileButton}></label>
+                    <img src={preImage}/>
+                    : <img src={profileImage}/>}
+                    <label htmlFor="upload_file"></label>
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
+
                     <div className={style.nicknameChangeArea} id="nicknameChangeArea">
-                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} className={style.nicknameChange}/>
-                        <div className={style.focus}></div>
+                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
+                        <div></div>
                     </div>
 
                     <button onClick={nicknameModifyClick} className={style.nicknameDupButton}>중복 확인하기</button>
@@ -266,38 +258,37 @@ const MyPageNomal = () => {
             }
         </div>
 
-        <div className={style.detailArea}>
-            <nav className={style.menu}>
+        <div className={style.detailMenuArea}>
+            <nav>
                 <ul>
                     <li>
-                        <button onClick={(e) => myListClick(0, e)} className={style.myEvents}></button>
+                        <button onClick={(e) => myListClick(0, e)}></button>
                         <div>관심있는 이벤트</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(1, e)} className={style.mytransactions}></button>
+                        <button onClick={(e) => myListClick(1, e)}></button>
                         <div>내가 쓴 거래</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(2, e)} className={style.myliketransactions}></button>
+                        <button onClick={(e) => myListClick(2, e)}></button>
                         <div>내가 좋아요 한 거래</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(3, e)} className={style.myposts}></button>
+                        <button onClick={(e) => myListClick(3, e)}></button>
                         <div>내가 쓴 글</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(4, e)} className={style.mycomments}></button>
+                        <button onClick={(e) => myListClick(4, e)}></button>
                         <div>내가 쓴 댓글</div>
                     </li>
                 </ul>
             </nav>
 
-            <div className={style.detail}>
-                <MyPageDetail myList={myList} myMenu={myMenu}/>
-            </div>
-            
         </div>
-        <div>
+        <div className={style.detail}>
+                <MyPageDetail myList={myList} myMenu={myMenu}/>
+        </div>
+        <div className={style.quitArea}>
             <button>탈퇴하기</button>
         </div>
 

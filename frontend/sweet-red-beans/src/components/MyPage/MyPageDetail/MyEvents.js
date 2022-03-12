@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import store from "../../../store";
 import Pagination from "./Pagination";
 import { useNavigate } from "react-router";
+import style from "../../../css/MyPage/MyPageDetail/MyEvents.module.css";
 
 const MyEvents = () => {
     const navigation = useNavigate();
@@ -37,7 +38,7 @@ const MyEvents = () => {
             </article>
         )) : null}
 
-        <footer>
+        <footer className={style.footer}>
             {myEvents !== undefined ? 
             <Pagination total={myEvents.length}
             limit={limit}

@@ -1,4 +1,4 @@
-.profileBox {
+.profileWhiteBox {
     position: relative;
     background-color: white;
     width: 1000px;
@@ -8,10 +8,11 @@
     border: 1px solid #C4C4C4;
     box-sizing: border-box;
     padding: 30px;
-    margin-bottom: 60px;
+    margin-top: 50px;
 }
 
-.profileImageBorder {
+/* 프로필 테두리 */
+.profileBox > div:nth-child(1) {
     position: absolute;
     display: inline-block;
     top:50%;
@@ -23,7 +24,7 @@
     border: #F23333 2px solid;
 }
 
-.profileImage {
+.profileBox > div:nth-child(1) > img {
     position: absolute;
     top: 5px;
     left: 5px;
@@ -33,7 +34,8 @@
     object-fit: cover;
 }
 
-.nickname {
+/* 닉네임 */
+.profileBox > div:nth-child(2) {
     position: absolute;
     display: inline-block;
     top: 50%;
@@ -42,35 +44,8 @@
     font-size: 14pt;
 }
 
-.reliability {
-    position: absolute;
-    display: inline-block;
-    top: 50%;
-    right: 40px;
-    transform: translate(0, -50%);
-}
-
-.reliabilityCount {
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: 15px;
-}
-
-.reliabilityIcon {
-    float: left;
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-    border: #C4C4C4 1px solid;
-    border-radius: 50px;
-    margin-right: 10px;
-    background: url('../../img/reliability.png');
-    background-size: 60%;
-    background-repeat: no-repeat;
-    background-position: 50% 40%;
-}
-
-.profileChangeButtonArea {
+/* 프로필 수정하기 버튼 */
+.profileBox > div:nth-child(3) {
     position: absolute;
     display: inline-block;
     top: 50%;
@@ -78,7 +53,7 @@
     transform: translate(0, -50%);
 }
 
-.profileChangeButton {
+.profileBox > div:nth-child(3) > button {
     cursor: pointer;
     width: 150px;
     height: 50px;
@@ -89,10 +64,32 @@
     font-family: "ROKAFSansBold";
 }
 
-.profileChangeButton:hover{
-    animation: swing linear 0.15s 2;
+/* 신뢰도 */
+.profileBox > div:nth-child(4) {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 40px;
+    transform: translate(0, -50%);
 }
-  
+
+.profileBox > div:nth-child(4)::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 20px;
+    transform: translate(0, -50%);
+    width: 50px;
+    height: 50px;
+    border: #C4C4C4 1px solid;
+    border-radius: 50px;
+    background: url('../../img/reliability.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+}
+
 @keyframes swing {
     0% {  }
     33% {transform: rotate(3deg);}
@@ -100,7 +97,7 @@
     100% {  }
 }
 
-.preview, .nicknameChangeArea, .nicknameDupButton {
+.profileChangeBox > img, .nicknameChangeArea, .nicknameDupButton {
     position: absolute;
     display: inline-block;
     vertical-align: middle;
@@ -108,7 +105,7 @@
     transform: translate(0, -50%);
 }
 
-.preview {
+.profileChangeBox > img {
     width: 90px;
     height: 90px;
     border-radius: 50px;
@@ -116,7 +113,8 @@
     object-fit: cover;
 }
 
-.fileButton{
+.profileChangeBox > label {
+    cursor: pointer;
     position: absolute;
     display: inline-block;
     vertical-align: middle;
@@ -135,8 +133,8 @@
     background-position: 50% 50%;
 }
 
-.nicknameChangeArea {
-    position: absolute;
+.profileChangeBox > .nicknameChangeArea {
+    width: 180px;
     left:158px;
 }
 
@@ -154,23 +152,23 @@
     transition: transform 300ms ease, margin-left .3s ease;
 }
 
-.nicknameChange {
+.nicknameChangeArea > input {
     font-family: "ROKAFSansBold";
     border: none;
     font-size: 14pt;
     width: 180px;
 }
 
-.nicknameChange:focus {
+.nicknameChangeArea > input:focus {
     outline: none;
 }
 
-.nicknameChange:hover + .focus{
+.nicknameChangeArea > input:hover + .nicknameChangeArea > div{
     transform: scaleX(1);
     margin-left: 0;
 }
 
-.nicknameChange:focus + .focus {
+.nicknameChangeArea > input:focus + .nicknameChangeArea > div {
     transform: scaleX(1);
     margin-left: 0;
 }
@@ -231,84 +229,124 @@
     font-family: "ROKAFSansBold";
 }
 
-.detailArea {
+/* 카테고리 */
+.detailMenuArea {
     position: relative;
     background-color:transparent;
     width: 1000px;
-    height: 1000px;
+    height: 200px;
     margin : 0 auto;
     border-radius: 20px;
     box-sizing: border-box;
-    margin-bottom: 100px;
 }
 
-.menu{
+.detailMenuArea > nav{
     position: absolute;
-    top:20px;
-    left:20px;
-    width: 120px;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
-.menu li {
+.detailMenuArea > nav li {
+    position: absolute;
+    display: inline-block;
     margin-bottom: 50px;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
-.myEvents, .mytransactions, .myliketransactions, .myposts, .mycomments {
+.detailMenuArea > nav li:nth-child(1) {
+    left:10px;
+}
+
+.detailMenuArea > nav li:nth-child(2) {
+    left:28%;
+    transform: translate(-50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(3) {
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(4) {
+    right:28%;
+    transform: translate(50%, -50%);
+}
+
+.detailMenuArea > nav li:nth-child(5) {
+    right:10px;
+}
+
+.detailMenuArea > nav li > button {
     cursor: pointer;
     width: 80px;
     height: 80px;
     border: none;
     margin-bottom: 10px;
     transition: transform 300ms ease ;
-    
-    
 }
 
-.myEvents{
+.detailMenuArea > nav li:nth-child(1) > button{
     background: url("../../img/movie.png");
     background-repeat: no-repeat;
 }
 
-.mytransactions {
+.detailMenuArea > nav li:nth-child(2) > button{
     background: url("../../img/transaction.png");
 }
 
-.myliketransactions {
+.detailMenuArea > nav li:nth-child(3) > button {
     background: url("../../img/liketransaction.png");
     background-repeat: no-repeat;
     background-position: 50% 40%;
 }
 
-.myposts {
+.detailMenuArea > nav li:nth-child(4) > button {
     background: url("../../img/post.png");
     background-repeat: no-repeat;
     background-position: 50% 40%;
 }
 
-.mycomments {
+.detailMenuArea > nav li:nth-child(5) > button {
     background: url("../../img/comment.png");
     background-repeat: no-repeat;
     background-position: 50% 40%;
 }
 
-.myEvents:hover, .mytransactions:hover, .myliketransactions:hover, .myposts:hover, .mycomments:hover{
+.detailMenuArea > nav li > button:hover{
     transform: scale(1.2);
 }
 
-.myEvents:hover + div, .mytransactions:hover + div, .myliketransactions:hover + div, .myposts:hover + div, .mycomments:hover + div{
+.detailMenuArea > nav li:hover > div{
     color: #F23333;
 }
 
 .detail {
-    position: absolute;
-    right: 0px;
-    width: 800px;
-    height: 900px;
-    border: 1px #C4C4C4 solid;
-    border-radius: 20px;
+    position: relative;
     background-color: white;
+    width: 1000px;
+    min-height: 900px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
     box-sizing: border-box;
-    padding:30px;
+    padding: 50px;
+}
+
+.quitArea {
+    margin-top: 50px;
+}
+
+.quitArea > button {
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #C4C4C4;
+}
+
+.quitArea > button:hover {
+    text-decoration: underline;
 }
 
 @font-face {

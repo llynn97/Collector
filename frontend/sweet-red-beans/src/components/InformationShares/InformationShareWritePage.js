@@ -37,6 +37,7 @@ const InformationShareWritePage = () => {
 
     //사진 첨부
     const [imgFile, setImgFile] = useState(null);
+    const [imgBase64, setImgBase64] = useState(null);
 
     useEffect(() => {
         document.documentElement.scrollTop = 0;
@@ -199,26 +200,26 @@ const InformationShareWritePage = () => {
     }
 
     useEffect(() => {
-        preview();
-        return () => preview();
-    })
-
-    const preview = () => {
         if(!imgFile) return false;
 
-        const imgEl = document.querySelector('.preview');
         const reader = new FileReader();
-        reader.onloadend = () => (
-            imgEl.style.backgroundImage = `url(${reader.result})`
-        )
+        reader.onloadend = () => {
+            setImgBase64(reader.result);
+        }
         reader.readAsDataURL(imgFile[0]);
+
+    }, [imgFile])
+
+    const previewCancelClick = () => {
+        setImgFile(null);
+        setImgBase64(null);
     }
 
     return(
         <>
         <div className={style.whiteBox}>
             <div className={style.titleArea}>
-                <input type="text" value={title} onChange={titleChange}/>
+                <input type="text" value={title} onChange={titleChange} placeholder="제목"/>
                 <div className={style.filterArea}>
                     <select onChange={cinemaNameChange}>
                     {cinemaNames.map((item) => (
@@ -242,16 +243,24 @@ const InformationShareWritePage = () => {
                     }
                 </div>
             </div>
-
-            
             
             <div className={style.contentArea}>
-                <textarea onChange={contentChange} value={content}/>
+                <textarea onChange={contentChange} value={content} placeholder="내용을 입력해주세요"/>
             </div>
-            <div className="preview" style={{width:"100px", height:"100px"}}></div>
-            <label htmlFor="upload_file">업로드</label>
-            <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
-            <button onClick={writeClick}>글 작성하기</button>
+
+            <div className={style.buttonArea}>
+                <label htmlFor="upload_file"></label>
+                <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
+                {imgBase64 !== null ?
+                <div>
+                    <img src={imgBase64}/>
+                    <button onClick={previewCancelClick}>&times;</button>
+                </div>
+                : null}
+                <button onClick={writeClick}>글쓰기</button>
+            </div>
+
+            
         </div>
         </>
     );
