@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import style from "../../css/EventPage/EventMovieThumbnail.module.css";
 
 const EventMovieThumbnail = ({event}) => {
     //좋아요 상태 변경용

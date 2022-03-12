@@ -7,6 +7,7 @@ import EventPage from "./EventPage";
 import EventMovieThumbnail from "./EventMovieThumbnail";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import style from "../../css/EventPage/Events.module.css";
 
 const Events = ({sort, isEnd, search_word, cinema_name}) => {
     const [events, setEvents] = useState([]); 

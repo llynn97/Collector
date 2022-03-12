@@ -1,0 +1,11 @@
+.whiteBox {
+    position: relative;
+    background-color: white;
+    width: 1000px;
+    margin : 0 auto;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    padding: 30px;
+    margin-top: 50px;
+}

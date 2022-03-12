@@ -8,6 +8,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import events from "../../actions/event_action";
 import { EVENT_ISEND, EVENT_SORT, EVENTS } from "../../actions/types";
 import axios from "axios";
+import style from "../../css/EventPage/EventPage.module.css";
 
 const EventPage = () => {
     
@@ -109,7 +110,7 @@ const EventPage = () => {
 
     return(
         <>
-        <div>
+        <div className={style.whiteBox}>
             <div>
                 <button onClick={ongoingClick}>진행 중 이벤트</button>
                 <button onClick={doneClick}>완료된 이벤트</button>

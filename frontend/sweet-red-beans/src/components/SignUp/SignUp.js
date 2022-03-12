@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import style from "../../css/SignUp/SignUp.module.css";
 
 const SignUp = () => {
 
@@ -176,40 +177,41 @@ const SignUp = () => {
 
     return (
         <>
-        <div>회원가입</div>
-        <form>
+        
+        <form className={style.whiteBox}>
+            <div>회원가입</div>
             <div>
-            <label>
-            이메일
-            <input id="email" type="email" placeholder="example@naver.com" onChange={onEmailChange} value={email} maxLength="100"/>
-            <button id="emailCheck" onClick={clickEmailCheck}>중복 확인하기</button>
-            </label>
+                <label>
+                이메일
+                    <input id="email" type="email" placeholder="example@naver.com" onChange={onEmailChange} value={email} maxLength="100"/>
+                    <button id="emailCheck" onClick={clickEmailCheck}>중복 확인하기</button>
+                </label>
             </div>
             {email === "" ? <div style={{color : 'red'}}>이메일을 입력해주세요</div> : null}
             {!emailForm && <div style={{color : 'red'}}>이메일 형식이 아닙니다.</div>}
 
             <div>
-            <label>
-            비밀번호
-            <input id="password" type="password" placeholder="********" onChange={onPasswordChange} value={password}/>
-            </label>
+                <label>
+                    비밀번호
+                    <input id="password" type="password" placeholder="********" onChange={onPasswordChange} value={password}/>
+                </label>
             </div>
             {!passwordForm && <div style={{color : 'red'}}>8자 이상, 특수문자, 숫자 포함</div>}
             
             <div>
-            <label>
-            비밀번호 확인
-            <input id="passwordCheck" type="password" placeholder="********" onChange={onChangePasswordChk} value={passwordCheck}/>
-            </label>
+                <label>
+                비밀번호 확인
+                <input id="passwordCheck" type="password" placeholder="********" onChange={onChangePasswordChk} value={passwordCheck}/>
+                </label>
             </div>
             {passwordError && <div style={{color : 'red'}}>비밀번호가 일치하지 않습니다.</div>}
             
             <div>
-            <label>
-            닉네임
-            <input id="nickname" type="text" placeholder="닉네임" onChange={onChange} value={nickname} maxLength="15"/>
-            <button id="nicknameCheck" onClick={clickNicknameCheck}>중복 확인하기</button>
-            </label>
+                <label>
+                닉네임
+                <input id="nickname" type="text" placeholder="닉네임" onChange={onChange} value={nickname} maxLength="15"/>
+                <button id="nicknameCheck" onClick={clickNicknameCheck}>중복 확인하기</button>
+                </label>
             </div>
             {nickname === "" ? <div style={{color : 'red'}}>닉네임을 입력해주세요</div> : null}
             
