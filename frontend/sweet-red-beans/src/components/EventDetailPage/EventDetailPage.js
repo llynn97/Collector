@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import events from "../../actions/event_action";
 import axios from "axios";
+import style from "../../css/EventPage/EventDetailPage.module.css";
 
 const EventDetailPage = () => {
     const {id} = useParams();
@@ -76,29 +77,28 @@ const EventDetailPage = () => {
     return (
         <>
         {thisEventIsHere ? 
-             <>
-             <h1>{id}, {title}</h1>
-             <div>
-                 {startDate} ~ {endDate}
-             </div>
-             <div>
-                 {cinemaName}
-             </div>
-             <div>
-                 좋아요 수 : {likeCount}
-             </div>
-             <div>
-                 <button onClick={likeClick}>{status ? "좋아요o" : "좋아요x"}</button>
-             </div>
-             <div>
-                 {   
-                     imageUrl.map((item, index) => <img key={index} src={item}/>)
-                 }
-             </div>
-             <div>
-                 <button onClick={() => window.open(linkUrl, '_blank')}>자세히 보기</button>
-             </div>
-             </>
+            <div className={style.whiteBox}>
+            <div className={style.titleBox}>
+                <div>{title}</div>
+                <div>{startDate} ~ {endDate}</div>
+            </div>
+            <div className={style.cinemaBox}>
+                <div>{cinemaName}</div>
+                <div className={style.likeBox}>
+                    <div>{status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}</div>
+                    <div>{likeCount}</div>
+                </div>
+            </div>
+            
+            <div>
+                {   
+                    imageUrl.map((item, index) => <img  className={style.imageBox} key={index} src={item}/>)
+                }
+            </div>
+            <div className={style.linkBox}>
+                <button onClick={() => window.open(linkUrl, '_blank')}>자세히 보러 가기</button>
+            </div>
+            </div>
         : null}
         
         </>

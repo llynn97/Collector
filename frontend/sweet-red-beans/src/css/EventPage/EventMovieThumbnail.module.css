@@ -23,6 +23,7 @@
 
 /* 제목 */
 .thumbnailArea > div:nth-child(2) {
+    display: inline-block;
     overflow: hidden;
     width: 280px;
     text-align: left;

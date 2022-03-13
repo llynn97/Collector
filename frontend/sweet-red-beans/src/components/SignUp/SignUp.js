@@ -177,49 +177,50 @@ const SignUp = () => {
 
     return (
         <>
-        
         <form className={style.whiteBox}>
-            <div>회원가입</div>
-            <div>
-                <label>
-                이메일
-                    <input id="email" type="email" placeholder="example@naver.com" onChange={onEmailChange} value={email} maxLength="100"/>
-                    <button id="emailCheck" onClick={clickEmailCheck}>중복 확인하기</button>
-                </label>
-            </div>
-            {email === "" ? <div style={{color : 'red'}}>이메일을 입력해주세요</div> : null}
-            {!emailForm && <div style={{color : 'red'}}>이메일 형식이 아닙니다.</div>}
+            <div className={style.signupArea}>
+            <div className={style.signUpText}>회원가입</div>
 
-            <div>
+            <div className={style.inputArea}>
                 <label>
-                    비밀번호
-                    <input id="password" type="password" placeholder="********" onChange={onPasswordChange} value={password}/>
+                    <div>이메일</div>
+                    <input className={style.dupInputText} id="email" type="email" placeholder="example@naver.com" onChange={onEmailChange} value={email} maxLength="100"/>
+                    <button className={style.dupChkButton} id="emailCheck" onClick={clickEmailCheck}>중복 확인하기</button>
                 </label>
+                {email === "" ? <div className={style.errormessage}>* 이메일을 입력해주세요</div> : null}
+                {!emailForm && <div className={style.errormessage}>* 이메일 형식이 아닙니다</div>}
             </div>
-            {!passwordForm && <div style={{color : 'red'}}>8자 이상, 특수문자, 숫자 포함</div>}
-            
-            <div>
-                <label>
-                비밀번호 확인
-                <input id="passwordCheck" type="password" placeholder="********" onChange={onChangePasswordChk} value={passwordCheck}/>
-                </label>
-            </div>
-            {passwordError && <div style={{color : 'red'}}>비밀번호가 일치하지 않습니다.</div>}
-            
-            <div>
-                <label>
-                닉네임
-                <input id="nickname" type="text" placeholder="닉네임" onChange={onChange} value={nickname} maxLength="15"/>
-                <button id="nicknameCheck" onClick={clickNicknameCheck}>중복 확인하기</button>
-                </label>
-            </div>
-            {nickname === "" ? <div style={{color : 'red'}}>닉네임을 입력해주세요</div> : null}
-            
-            <input type="submit" value="가입하기" onClick={onClick}/>
 
-            {emailError && <div style={{color : 'red'}}>이메일 중복확인해주세요</div>}
-            {nicknameError && <div style={{color : 'red'}}>닉네임 중복확인해주세요</div>}
-            {passwordFormError && <div style={{color : 'red'}}>비밀번호 양식을 확인해주세요</div>}
+            <div className={style.inputArea}>
+                <label>
+                    <div>비밀 번호</div>
+                    <input className={style.inputText} id="password" type="password" placeholder="********" onChange={onPasswordChange} value={password}/>
+                </label>
+                {!passwordForm && <div className={style.errormessage}>* 8자 이상, 특수문자, 숫자 포함</div>}
+            </div>
+
+            <div className={style.inputArea}>
+                <label>
+                <div>비밀번호 확인</div>
+                <input className={style.inputText} id="passwordCheck" type="password" placeholder="********" onChange={onChangePasswordChk} value={passwordCheck}/>
+                </label>
+                {passwordError && <div className={style.errormessage}>* 비밀번호가 일치하지 않습니다</div>}
+            </div>
+
+            <div className={style.inputArea}>
+                <label>
+                <div>닉네임</div>
+                <input className={style.dupInputText} id="nickname" type="text" placeholder="닉네임" onChange={onChange} value={nickname} maxLength="15"/>
+                <button className={style.dupChkButton} id="nicknameCheck" onClick={clickNicknameCheck}>중복 확인하기</button>
+                </label>
+                {nickname === "" ? <div className={style.errormessage}>* 닉네임을 입력해주세요</div> : null}
+            </div>
+
+            <input className={style.joinButton} type="submit" value="가입하기" onClick={onClick}/>
+            {emailError && <div className={style.errormessage}>이메일 중복확인해주세요</div>}
+            {nicknameError && <div className={style.errormessage}>닉네임 중복확인해주세요</div>}
+            {passwordFormError && <div className={style.errormessage}>비밀번호 양식을 확인해주세요</div>}
+            </div>
         </form>
         </>
         

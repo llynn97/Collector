@@ -22,11 +22,14 @@ const MyTransactions = () => {
 
     return (
         <>
+        <div className={style.container}>
         {myTransactions !== undefined ? myTransactions.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <TransactionDetail transaction={item}/>
             </article>
         )) : null}
+        </div>
+        
 
         <footer className={style.footer}>
             {myTransactions !== undefined ? 

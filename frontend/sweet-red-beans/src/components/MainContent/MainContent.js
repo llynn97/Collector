@@ -17,6 +17,8 @@ import MyPageAdmin from "../MyPage/MyPageAdmin";
 import MyPageNormal from "../MyPage/MyPageNormal";
 import KakaoLogin from "../TopBar/KakaoLogin";
 import GoogleLogin from "../TopBar/GoogleLogin";
+import MyEvents from "../MyPage/MyPageDetail/MyEvents";
+import MyPageDetail from "../MyPage/MyPageDetail";
 
 const MainContenet = () => {
     return (
@@ -32,7 +34,9 @@ const MainContenet = () => {
           <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
           <Route path="/transaction/*" element={<TransactionPage/>}/>
           <Route path="/DM" element={<DMPage/>}/>
-          <Route path="/mypage" element={<MyPageNormal/>}/>
+          <Route path="/mypage/*" element={<MyPageNormal/>}>
+            {/* <Route path=":detail" element={<MyEvents/>}/> */}
+          </Route>
           <Route path="/adminpage" element={<MyPageAdmin/>}/>
           <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin/>}/>
           <Route path="/signin/auth/google/callback" element={<GoogleLogin/>}/>

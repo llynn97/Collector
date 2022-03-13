@@ -22,11 +22,14 @@ const MyLikeTransactions = () => {
 
     return (
         <>
+        <div className={style.container}>
         {myLikeTransactions !== undefined ? myLikeTransactions.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <TransactionDetail transaction={item}/>
             </article>
         )) : null}
+        </div>
+        
 
         <footer className={style.footer}>
             {myLikeTransactions !== undefined ? 

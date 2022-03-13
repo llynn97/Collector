@@ -11,6 +11,73 @@
     margin-top: 50px;
 }
 
+.topBar {
+  text-align: right;
+  margin-right: 20px;
+  margin-bottom: 30px;
+}
+
+.datefilter {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.filter {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 20px;
+}
+
+.selected, .notSelected {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.selected{
+  font-size: 16px;
+  color: #f23333;
+}
+.selected::before {
+  display: inline-block;
+  margin-right: 5px;
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url("../../img/check.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.cinemafilter {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 45px;
+  border-bottom: 3px solid #C4C4C4;
+  margin-left: 20px;
+  vertical-align: bottom;
+}
+
+.cinemafilter > select {
+  cursor: pointer;
+  width: inherit;
+  height: 35px;
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  padding: 0 8px;
+  position: absolute;
+  z-index: 3;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  left: 0px;
+  bottom: 0px;
+}
+
 .search {
     display: inline-block;
     position: relative;
@@ -20,6 +87,8 @@
     margin-left: 20px;
     border-bottom: 3px solid #C4C4C4;
     vertical-align: bottom;
+    right: 0px;
+    bottom: 0px;
   }
   
   .search input {
