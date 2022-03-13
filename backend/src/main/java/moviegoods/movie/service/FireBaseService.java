@@ -17,12 +17,12 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class FireBaseService {
 
-    public String uploadFiles(MultipartFile file, String nameFile) throws IOException, FirebaseAuthException {
+    public String uploadFiles(MultipartFile file, String nameFile)throws IOException, FirebaseAuthException {
 
         Bucket bucket= StorageClient.getInstance().bucket("stroagetest-f0778.appspot.com");
+
         InputStream content=new ByteArrayInputStream(file.getBytes());
         Blob blob=bucket.create(nameFile.toString(),content,file.getContentType());
-
         return blob.getMediaLink();
 
     }

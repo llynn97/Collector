@@ -21,7 +21,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class MainService {
     private final EntityManager em;
     private final LikeBasketsService likeBasketsService;

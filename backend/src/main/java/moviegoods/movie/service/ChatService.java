@@ -44,7 +44,7 @@ public class ChatService {
 
     @Transactional(rollbackFor = Exception.class)
     public String saveMessage(User loginUser, DirectMessage message) throws IOException, FirebaseAuthException {
-       String finalUrl="";
+        String finalUrl="";
         Long user_id = null;
         if (loginUser != null) {
             user_id = loginUser.getUser_id();
@@ -81,17 +81,17 @@ public class ChatService {
         }else if(base64url.contains("image/jpeg")){
             contentType+="image/jpeg";
         }
-       int startIdx= base64url.indexOf("base64,");
-       int start=startIdx+7;
-       for(int i=start; i<base64url.length(); i++){
-           url+=base64url.charAt(i);
-       }
-       byte[] decodeByte= Base64.getDecoder().decode(url.getBytes());
-       String nameFile= UUID.randomUUID().toString();
-       fireBaseService.uploadFiles2(decodeByte,contentType,nameFile);
-       firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
+        int startIdx= base64url.indexOf("base64,");
+        int start=startIdx+7;
+        for(int i=start; i<base64url.length(); i++){
+            url+=base64url.charAt(i);
+        }
+        byte[] decodeByte= Base64.getDecoder().decode(url.getBytes());
+        String nameFile= UUID.randomUUID().toString();
+        fireBaseService.uploadFiles2(decodeByte,contentType,nameFile);
+        firebaseUrl+="https://firebasestorage.googleapis.com/v0/b/stroagetest-f0778.appspot.com/o/"+nameFile+"?alt=media";
 
-       return firebaseUrl;
+        return firebaseUrl;
 
 
 

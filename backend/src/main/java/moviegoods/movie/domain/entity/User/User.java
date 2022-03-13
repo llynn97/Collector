@@ -57,6 +57,10 @@ public class User {
     @Column(columnDefinition = "tinyint default 1")
     private Byte status;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Method method;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
@@ -77,5 +81,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
+
 
 }
