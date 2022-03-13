@@ -4,6 +4,7 @@
   align-items: center;
   gap: 4px;
   margin: 16px;
+
 }
 
 .button {
@@ -12,12 +13,16 @@
   height: 20px;
   border: none;
   border-radius: 50px;
-  padding: 8px;
-  margin: 0;
   background: #F23333;
   color: white;
-  font-size: 1rem;
+  font-size: 12px;
   margin: 10px;
+  transition: transform 300ms ease;
+}
+
+.button:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
 }
 
 .pageButton {
@@ -25,7 +30,7 @@
   color: #F23333;
   background-color: transparent;
   margin: 10px;
-  font-size: 14pt;
+  font-size: 16px;
   transition: transform 300ms ease;
 }
 
@@ -41,13 +46,18 @@
     transform: revert;
 }
 
-.button:aria-current {
-    background: deeppink;
+.pageButton[aria-current] {
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    box-shadow: #c4c4c4 0px 4px 7px;
+    font-size: 24px;
     font-weight: bold;
     cursor: revert;
     transform: revert;
 }
 
 .pageButton:active {
-    background-color: gold;
+    
 }
