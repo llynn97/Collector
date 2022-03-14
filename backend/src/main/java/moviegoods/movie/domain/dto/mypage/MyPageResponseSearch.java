@@ -17,6 +17,7 @@ public class MyPageResponseSearch {
     private MyPageUser user;
     private List<MyPageTransaction> likeTransaction=new ArrayList<>();
     private List<MyPageTransaction> writeTransaction=new ArrayList<>();
+    private List<MyPageFreeContent> freeContent=new ArrayList<>();
 
 
 

@@ -21,7 +21,7 @@ public class InformationShareResponseDetail {
     private String cinema_area;
     private String cinema_branch;
     private Boolean is_mine;
-
+    private Byte status;
     List<Comments> comment=new ArrayList<>(); //댓글리스트
 
     /*
