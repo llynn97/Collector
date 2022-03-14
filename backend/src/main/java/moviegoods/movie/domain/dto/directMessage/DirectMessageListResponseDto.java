@@ -17,6 +17,7 @@ public class DirectMessageListResponseDto {
     private String not_mine_nickname;
     private String not_mine_profile_url;
     private Long not_mine_reliability;
+    private Byte not_mine_status;
 
     private Long transaction_id;
     private Boolean is_complete;

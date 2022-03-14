@@ -38,10 +38,13 @@ public class ChatRoomService {
 
     public DirectMessageCreateRoomResponseDto createRoom(User loginUser, DirectMessageCreateRoomRequestDto requestDto){
 
-        Long user_id = null;
-        if (loginUser != null) {
-            user_id = loginUser.getUser_id();
+        if (loginUser == null) {
+            DirectMessageCreateRoomResponseDto responseDto =
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+            return responseDto;
+
         }
+        Long user_id = loginUser.getUser_id();
 
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
@@ -141,6 +144,7 @@ public class ChatRoomService {
             String not_mine_nickname = null;
             String not_mine_profile_url = null;
             Long not_mine_reliability = null;
+            Byte not_mine_status = null;
             Long transaction_id = null;
             Boolean is_complete = false;
             String recent_message = null;
@@ -155,6 +159,7 @@ public class ChatRoomService {
                     not_mine_nickname = user1.getNickname();
                     not_mine_profile_url = user1.getProfile_url();
                     not_mine_reliability = user1.getReliability();
+                    not_mine_status = user1.getStatus();
                 }
             }
 
@@ -179,6 +184,7 @@ public class ChatRoomService {
                     not_mine_nickname,
                     not_mine_profile_url,
                     not_mine_reliability,
+                    not_mine_status,
                     transaction_id,
                     is_complete,
                     recent_message,

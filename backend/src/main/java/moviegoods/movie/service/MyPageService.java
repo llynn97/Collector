@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,12 +112,14 @@ public class MyPageService {
             }
         }
 
-        List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url from like_basket b join b.event e left join b.user u where u.user_id=:user_id").setParameter("user_id",user_id).getResultList();
+        List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url, e.start_date, e.end_date from like_basket b join b.event e left join b.user u where u.user_id=:user_id").setParameter("user_id",user_id).getResultList();
         for (Object[] objects : row5) {
             Long event_id=(Long)objects[0];
             String event_title=(String)objects[1];
             String thumbnail_url=(String)objects[2];
-            myPageResponseSearch.getLikeEvent().add(new MyPageLikeEvent(event_id,event_title,thumbnail_url));
+            Date start_date=(Date)objects[3];
+            Date end_date=(Date)objects[4];
+            myPageResponseSearch.getLikeEvent().add(new MyPageLikeEvent(event_id,event_title,thumbnail_url,start_date,end_date));
         }
 
 

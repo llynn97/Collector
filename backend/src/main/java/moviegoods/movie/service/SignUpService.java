@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import static moviegoods.movie.domain.entity.User.Method.*;
 
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SignUpService {
@@ -33,15 +32,20 @@ public class SignUpService {
 
         String encodedPassword = passwordEncoder.encode(password);
         User saveEntity = new User();
+
         if (method==일반) {
-            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(일반).build();
+            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).
+                    nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(일반).build();
         }
         if (method==카카오) {
-            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(카카오).build();
+            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).
+                    nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(카카오).build();
         }
         if (method==구글) {
-            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(구글).build();
+            saveEntity = User.builder().authority(Authority.일반).email(email).status(basicStatus).reliability(basicReliability).
+                    nickname(nickname).password(encodedPassword).profile_url(basicUrl).method(구글).build();
         }
+
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         userRepository.save(saveEntity);
         resultResponseDto.setResult(true);
@@ -49,6 +53,7 @@ public class SignUpService {
         return resultResponseDto;
     }
     public ResultResponseDto duplicateCheck(SignUpDuplicateCheckRequestDto requestDto,Method method) {
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
 
@@ -60,13 +65,10 @@ public class SignUpService {
             user = userRepository.findByNickname(nickname).orElse(null);
         }
 
-        ResultResponseDto resultResponseDto = new ResultResponseDto();
         resultResponseDto.setResult(true);
-
         if (user == null) {
             resultResponseDto.setResult(false);
         }
-
 
         return resultResponseDto;
     }

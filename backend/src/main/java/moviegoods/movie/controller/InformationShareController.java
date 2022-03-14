@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.argumentresolver.Login;
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
 import moviegoods.movie.domain.dto.informationShare.*;
-import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.service.FireBaseService;
@@ -31,22 +30,26 @@ public class InformationShareController {
     private final FireBaseService fireBaseService;
 
     @PostMapping("/write")
-    public Result write2(@Login User loginUser, @RequestParam(value="image_url",required = false)MultipartFile image_url,
+    public ResponseEntity<Result> write2(@Login User loginUser, @RequestParam(value="image_url",required = false)MultipartFile image_url,
                          @RequestParam(value="cinema_name")String cinema_name,
                          @RequestParam(value="cinema_area")String cinema_area,
                          @RequestParam(value="cinema_branch")String cinema_branch,
                          @RequestParam(value="title")String title,
                          @RequestParam(value="content")String content
     ) throws IOException, FirebaseAuthException {
-        Long user_id = null;
-        if (loginUser != null) {
-            user_id = loginUser.getUser_id();
-        }
+        ResponseEntity<Result> result2;
         Result result=new Result();
-        if (cinema_area.equals("") || cinema_name.equals("") || cinema_branch.equals("") || user_id.equals("") || title.equals("") || content.equals("")) {
+        if (loginUser == null) {
+            result2 = new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+            return result2;
+        }
+        Long user_id = loginUser.getUser_id();
 
+        if (cinema_area.equals("") || cinema_name.equals("") || cinema_branch.equals("") || user_id.equals("") || title.equals("") || content.equals("")) {
             result.setResult(false);
-            return result;
+            result2 = new ResponseEntity<>(result, HttpStatus.OK);
+
+            return result2;
         }
         InformationShareRequestWrite isrw=new InformationShareRequestWrite(user_id,image_url,cinema_branch,cinema_area,cinema_name,title,content);
 
@@ -58,9 +61,10 @@ public class InformationShareController {
             log.info("저장된 post_user_id={}",post.getUser().getUser_id());
         }
 
-
         result.setResult(true);
-        return result;
+        result2 = new ResponseEntity<>(result, HttpStatus.OK);
+
+        return result2;
 
     }
 
@@ -78,10 +82,16 @@ public class InformationShareController {
     }
 
     @PostMapping("/comment")
-    public ResultResponseDto saveComment(@Login User loginUser, @RequestBody InformationShareRequestSaveComment isrsc){
+    public ResponseEntity<ResultResponseDto> saveComment(@Login User loginUser, @RequestBody InformationShareRequestSaveComment isrsc){
         ResultResponseDto resultResponseDto=informationShareService.saveComment(loginUser,isrsc);
+        ResponseEntity<ResultResponseDto> result;
+        result = new ResponseEntity<>(resultResponseDto, HttpStatus.OK);
 
-        return resultResponseDto;
+        if (!resultResponseDto.isResult()) {
+            result = new ResponseEntity<>(resultResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        return result;
     }
 
     @DeleteMapping("/detail")

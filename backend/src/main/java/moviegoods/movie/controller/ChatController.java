@@ -41,17 +41,18 @@ public class ChatController {
     private final FireBaseService fireBaseService;
 
     @MessageMapping("/chat/message")
-    public void message(@Login User loginUser, DirectMessage message, SimpMessageHeaderAccessor headerAccessor) throws IOException, FirebaseAuthException {
+    public void message(@Login User loginUser,DirectMessage message, SimpMessageHeaderAccessor headerAccessor) throws IOException, FirebaseAuthException {
+
         User user1 = (User) headerAccessor.getSessionAttributes().get(SessionConfig.SessionConst.LOGIN_MEMBER);
-
-        // if(message.getMessageType().equals(DirectMessage.MessageType.ENTER)) {
-        //   message.setContent(message.getNickname() + "입장");
-
-        //}
-        messageService.saveMessage(user1,message);
+        String url= messageService.saveMessage(user1,message);
+        if(message.getImage_url()!=null){
+            message.setImage_url(url);
+        }else{
+            message.setImage_url("");
+        }
         message.setNickname(user1.getNickname());
         message.setUser_id(user1.getUser_id());
-        log.info("message={}", message);
+
 
         messagingTemplate.convertAndSend("/sub/chat/room/"+message.getChat_room_id(), message);
 

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class ContentDetailService {
     public Content_Detail saveContentDetail(String content) {
         Content_Detail content_detail = new Content_Detail();

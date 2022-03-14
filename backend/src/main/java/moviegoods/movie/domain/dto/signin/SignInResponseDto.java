@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class SignInResponseDto {
     private String nickname;
     private String image_url;
+    private Boolean status;
     private Boolean result;
+    private String authority;
 }

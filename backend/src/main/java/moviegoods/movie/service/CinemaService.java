@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class CinemaService {
     public Cinema saveCinemaDetail(String cinema_name, String cinema_area, String cinema_branch) {
         Cinema cinema = new Cinema();

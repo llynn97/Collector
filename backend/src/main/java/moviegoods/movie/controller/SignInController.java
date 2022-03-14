@@ -33,11 +33,6 @@ public class SignInController {
 
     }
 
-    @GetMapping("/auth/google")
-    public void googleLogin() {
-        signInService.googleRequest();
-    }
-
     @GetMapping("/auth/google/callback")
     public SignInRequestDto googleCallback(@RequestParam String code) {
         String access_Token = signInService.googleRequestAccessToken(code);

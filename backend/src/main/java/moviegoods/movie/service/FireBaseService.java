@@ -26,4 +26,14 @@ public class FireBaseService {
         return blob.getMediaLink();
 
     }
+
+    public String uploadFiles2(byte[] decodeByte, String contentType, String nameFile) throws IOException, FirebaseAuthException {
+
+        Bucket bucket= StorageClient.getInstance().bucket("stroagetest-f0778.appspot.com");
+        InputStream content=new ByteArrayInputStream(decodeByte);
+        Blob blob=bucket.create(nameFile.toString(),content,contentType);
+
+        return blob.getMediaLink();
+
+    }
 }
