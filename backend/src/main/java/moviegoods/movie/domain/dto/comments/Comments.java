@@ -1,11 +1,13 @@
-package moviegoods.movie.domain.dto.informationShare;
+package moviegoods.movie.domain.dto.comments;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 
 @Data
+@AllArgsConstructor
 public class Comments {
     private Long comment_id;
     private Long user_id;
@@ -22,4 +24,5 @@ public class Comments {
         this.comment_written_date=comment_written_date;
 
     }
+
 }

@@ -53,8 +53,7 @@ public class TransactionsService {
         String content = requestDto.getContent();
         Status status = 진행중;
 
-        Long finalUser_id = user_id;
-        User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id = {}"+ finalUser_id));
+        User user = userRepository.getById(user_id);
         Content_Detail content_detail = contentDetailService.saveContentDetail(content);
         Transaction saveEntity = Transaction.builder().user(user).content_detail(content_detail).status(status).build();
 

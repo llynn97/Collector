@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.comments.Comments;
 import moviegoods.movie.domain.dto.informationShare.*;
 import moviegoods.movie.domain.entity.Cinema.Cinema;
 import moviegoods.movie.domain.entity.Cinema.CinemaRepository;
@@ -15,21 +16,16 @@ import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
-import moviegoods.movie.domain.entity.Transaction.Status;
-import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
 @Slf4j
 @Service

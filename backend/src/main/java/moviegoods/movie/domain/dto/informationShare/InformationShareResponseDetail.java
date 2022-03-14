@@ -2,6 +2,7 @@ package moviegoods.movie.domain.dto.informationShare;
 
 
 import lombok.Data;
+import moviegoods.movie.domain.dto.comments.Comments;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
