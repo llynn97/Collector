@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../css/modal.css';
+import style from '../../css/Modal/modal.module.css';
 
 const Modal = (props) => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -7,19 +7,19 @@ const Modal = (props) => {
 
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
-    <div className={open ? 'openModal modal' : 'modal'}>
+    <div className={open ? `${style.openModal} ${style.modal}` : style.modal}>
       {open ? (
-        <section className='section'>
-            <div className='buttonArea'>
-              <button className="topClose" onClick={close}>
+        <section>
+            <div className={style.buttonArea}>
+              <button onClick={close}>
                 {' '}
                 &times;{' '}
               </button>
             </div>
-            <div className='header'>
+            <header>
               {header}
-            </div>
-          <div className='main'>{props.children}</div>
+            </header>
+          <main>{props.children}</main>
           <footer>
             {/* <button className="close" onClick={close}>
               close

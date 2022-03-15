@@ -131,32 +131,49 @@ const InformationSharePage = () => {
         <>
         <div className={style.whiteBox}>
             <div className={style.filterArea}>
-                <select onChange={cinemaNameChange}>
-                    {cinemaNames.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                </select>
+                <div className={style.filter}>
+                    <select onChange={cinemaNameChange} value={cinemaName}>
+                        {cinemaNames.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select>
+                    <span className={style.filterArrow}></span>
+                </div>
+                
                 {
-                    cinemaNameSelected ? <select onChange={cinemaAreaChange}>
-                    {cinemaAreas.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                </select> : null
+                    cinemaNameSelected ? 
+                    <div className={style.filter}>
+                        <select onChange={cinemaAreaChange} value={cinemaArea}>
+                        {cinemaAreas.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                        </select> 
+                        <span className={style.filterArrow}></span>
+                    </div>
+                : null
                 }
 
                 {
-                    cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
-                    {cinemaBranches.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                </select> : null
+                    cinemaAreaSelected ? 
+                    <div className={style.filter}>
+                        <select onChange={cinemaBranchChange} value={cinemaBranch}>
+                        {cinemaBranches.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                        </select>
+                        <span className={style.filterArrow}></span>
+                    </div>
+                : null
                 }
 
-                <select onChange={sortChange}>
-                    {sorts.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                </select>
+                <div className={style.filter}>
+                    <select onChange={sortChange} value={sort}>
+                        {sorts.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select>
+                    <span className={style.filterArrow}></span>
+                </div>
 
                 <div className={style.search}>
                     <input type="text" placeholder="검색" onChange={searchChange} value={search} size="5"></input>

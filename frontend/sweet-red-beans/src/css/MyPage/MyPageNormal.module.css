@@ -138,12 +138,12 @@
     left:158px;
 }
 
-.focus {
+/* 밑줄 */
+.nicknameChangeArea > div {
     position: absolute;
     left: 0;
     bottom: -10px;
-    height: 5px;
-    border-radius: 50px;
+    height: 3px;
     margin-left: 50%;
     width: calc(100%);
     background: #F23333;
@@ -157,18 +157,15 @@
     border: none;
     font-size: 14pt;
     width: 180px;
-}
-
-.nicknameChangeArea > input:focus {
     outline: none;
 }
 
-.nicknameChangeArea > input:hover + .nicknameChangeArea > div{
+.nicknameChangeArea > input:hover + div{
     transform: scaleX(1);
     margin-left: 0;
 }
 
-.nicknameChangeArea > input:focus + .nicknameChangeArea > div {
+.nicknameChangeArea > input:focus + div {
     transform: scaleX(1);
     margin-left: 0;
 }

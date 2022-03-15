@@ -138,6 +138,7 @@ const DMDetail = ({selectedRoom}) => {
                 addMessage(newMessage);
             })
         });
+        setComplete(selectedRoom.is_complete)
     }, [selectedRoom])
 
     //신뢰도 +1 주는 버튼
@@ -280,15 +281,14 @@ const DMDetail = ({selectedRoom}) => {
 
     return (
         <>
-        <Modal open={modalOpen} close={closeModal} header="로그인">
-        <form>
-            신고사유를 적어주세요
+        <Modal open={modalOpen} close={closeModal} header="신고하기">
+        <form className={style.modal}>
+            <div>신고사유를 적어주세요</div>
             <div>
-            <textarea value={reportContent} onChange={reportContentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
-            <button onClick={reportClick}>신고하기</button>
+                <textarea value={reportContent} onChange={reportContentChange}></textarea>
             </div>
+            <button onClick={reportClick}>신고하기</button>
         </form>
-
         </Modal>
         
         <div className={style.chatcontainer}>
@@ -341,8 +341,8 @@ const DMDetail = ({selectedRoom}) => {
             , [contents, imgBase64, myNickname])}
 
 
-            
             {complete ? <div className={style.complete}>거래가 완료되었습니다.</div> : null}
+            
             <div className={style.writeArea}>
                 <label htmlFor="upload_file"></label>
                 <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>

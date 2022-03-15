@@ -121,11 +121,12 @@ const EventPage = () => {
                     <button onClick={interestClick} className={sort==="관심도순"?style.selected:style.notSelected}>관심도순</button>
                 </div>
                 <div className={style.cinemafilter}>
-                    <select onChange={selectChange}>
+                    <select onChange={selectChange} value={selected}>
                         {selectList.map((item) => (
                             <option value={item} key={item}>{item}</option>
                         ))}
                     </select>
+                    <span className={style.filterArrow}></span>
                 </div>
                 
 

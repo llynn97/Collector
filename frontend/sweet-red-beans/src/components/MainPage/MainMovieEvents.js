@@ -30,6 +30,7 @@ const MainMovieEvents = ({cinemaName}) => {
     , []);
 
     useEffect(()=>{
+        console.log(events);
         events.map((item, index) => {
             if(item.cinema_name === cinemaName){
                 filterMovieList.push(item)
@@ -50,8 +51,8 @@ const MainMovieEvents = ({cinemaName}) => {
         arrows:true,
         infinite: true,
         speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToShow: 3,
+        slidesToScroll: 3,
     };
     return (
         <>

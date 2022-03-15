@@ -231,65 +231,74 @@ const TransactionDetail = ({transaction}) => {
 
     return(
         <>
-        <Modal open={modalOpen} close={closeModal} header="로그인">
-        <form>
-            신고사유를 적어주세요
+        <Modal open={modalOpen} close={closeModal} header="신고하기">
+        <form className={style.modal}>
+            <div>신고사유를 적어주세요</div>
             <div>
-            <textarea value={reportContent} onChange={reportContentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
-            <button onClick={reportClick}>신고하기</button>
+                <textarea value={reportContent} onChange={reportContentChange}></textarea>
             </div>
+            <button onClick={reportClick}>신고하기</button>
         </form>
         </Modal>
 
         <div className={style.transactionBox}>
-            <div>
-                <img src={transaction.profile_url} className={style.profileImage}/>
-                <div className={style.nickname}>
-                    {transaction.nickname} 
-                </div>
-                <div className={style.reliability}>
-                <div className={style.reliabilityIcon}></div>
-                <div className={style.reliabilityCount}>
-                {transaction.reliability}
-                </div>
-                </div>
 
-                {status === '진행중' ? <div className={style.proceeding}>진행중</div> : null}
-                {status === '마감' ? <div className={style.done}>마감</div> : null}
-                
-                <div className={style.statusButtonArea}>
-                {transaction.is_mine ? (<div>
+            <div className={style.profileArea}>
+                <img src={transaction.profile_url}/>
+                <div className={style.nickname}>{transaction.nickname}</div>
+                <div className={style.reliabilityArea}>{transaction.reliability}</div>
+            </div>
+
+            <div className={style.statusArea}>
+            {
+                transaction.is_mine
+                ? 
+                <div onClick={statusClick} className={status==='진행중'?style.proceedingButton : style.doneButton}>
+                    <div>{status==='진행중'? "진행중" : "마감"}</div>
+                </div>
+                :
+                <div className={status === '진행중' ? style.proceeding : style.done}>
+                {status === '진행중' ? <div>진행중</div> : <div>마감</div>}
+                </div>
+            }
+            </div>
+            
+            {/* <div className={style.statusButtonArea}>
+                {transaction.is_mine ? 
+                <div>
                     <button className={style.statusButton} onClick={statusClick}>{status==="진행중" ? "마감으로 바꾸기" : "진행중으로 바꾸기"}</button>
-                    </div>
-                ) : 
-                <div className={style.notMine}>
-                    <button onClick={openModal} className={style.reportButton}></button>
-                    {status === '진행중' ? <button onClick={DMClick} className={style.DMButton}></button> :
-                    <button disabled={true} className={style.DMButton}></button>}
-                    
-                    <button onClick={likeClick} className={style.likeButton}>{likeStatus ? "" : ""}</button>
-                </div>}
                 </div>
+                : 
+                null}
+            </div> */}
                 
-            </div>
-            <div>
-
-                {transaction.is_mine ? (
-                    <div className={style.deleteArea}>
-                    <button onClick={deleteClick} className={style.deleteButton}></button>
-                    </div>
-                ) : null}
-            </div>
             
             <div className={style.content}>
                 {transaction.content}
             </div>
 
-            <div className={style.date}>
-            {
-                parseDate(transaction.written_date)
-            }
+            <div className={style.bottomArea}>
+                <div>
+                    {transaction.is_mine ? 
+                        <div className={style.deleteArea}>
+                            <button onClick={deleteClick}></button>
+                        </div>
+                    : 
+                    <div className={style.notMineButtonArea}>
+                        <button onClick={openModal}></button>
+                        {status === '진행중' ? <button onClick={DMClick}></button> :
+                        <button disabled={true}></button>}
+                        <button onClick={likeClick}>{likeStatus ? "" : ""}</button>
+                    </div>}
+                </div>
+
+                <div className={style.date}>
+                {
+                    parseDate(transaction.written_date)
+                }
+                </div>
             </div>
+
         </div>
 
         

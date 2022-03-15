@@ -34,48 +34,76 @@
   border: none;
   font-size: 14px;
   margin-left: 5px;
+  transition: transform 200ms ease;
+}
+
+.notSelected:hover {
+  transform: scale(1.2);
 }
 
 .selected{
-  font-size: 16px;
+  cursor:default;
+  font-size: 18px;
   color: #f23333;
 }
 .selected::before {
   display: inline-block;
   margin-right: 5px;
   content: "";
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   background: url("../../img/check.png");
   background-repeat: no-repeat;
   background-size: 100%;
 }
 
-.cinemafilter {
+.cinemafilter{
   display: inline-block;
   position: relative;
   width: 100px;
-  height: 45px;
+  height: 35px;
   border-bottom: 3px solid #C4C4C4;
-  margin-left: 20px;
-  vertical-align: bottom;
+  margin-left: 30px;
 }
 
 .cinemafilter > select {
+  font-size: 14px;
   cursor: pointer;
   width: inherit;
-  height: 35px;
+  height: inherit;
   background: transparent;
   border: 0 none;
   outline: 0 none;
   padding: 0 8px;
-  position: absolute;
+  position: relative;
   z-index: 3;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  left: 0px;
-  bottom: 0px;
+}
+
+.cinemafilter > select > option {
+  color: #5a5a5a;
+  padding: 10px 0px 10px 0px;
+  font-size: 16px;
+}
+
+.filterArrow {
+  position: absolute; 
+  bottom: 7px; 
+  right: 0; 
+  z-index: 1; 
+  width: 20px; 
+  height: 20px;
+  transition: transform 300ms ease-in-out;
+  background: url("../../img/down-arrow.png");
+  background-repeat: no-repeat;
+  background-size: 70%;
+  background-position: 50% 50%;
+}
+
+.cinemafilter > select:focus + .filterArrow{
+  transform: rotate(180deg);
 }
 
 .search {
@@ -84,7 +112,7 @@
     text-align: right;
     width: 200px;
     height: 45px;
-    margin-left: 20px;
+    margin-left: 30px;
     border-bottom: 3px solid #C4C4C4;
     vertical-align: bottom;
     right: 0px;

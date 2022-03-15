@@ -221,25 +221,39 @@ const InformationShareWritePage = () => {
             <div className={style.titleArea}>
                 <input type="text" value={title} onChange={titleChange} placeholder="제목"/>
                 <div className={style.filterArea}>
-                    <select onChange={cinemaNameChange}>
-                    {cinemaNames.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                    </select>
+                    <div className={style.filter}>
+                        <select onChange={cinemaNameChange} value={cinemaName}>
+                            {cinemaNames.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                        </select>
+                        <span className={style.filterArrow}></span>
+                    </div>
+
                     {
-                        cinemaNameSelected ? <select onChange={cinemaAreaChange}>
-                        {cinemaAreas.map((item) => (
-                            <option value={item} key={item}>{item}</option>
-                        ))}
-                    </select> : null
+                        cinemaNameSelected ? 
+                        <div className={style.filter}>
+                            <select onChange={cinemaAreaChange} value={cinemaArea}>
+                            {cinemaAreas.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                            </select> 
+                            <span className={style.filterArrow}></span>
+                        </div>
+                    : null
                     }
 
                     {
-                        cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
-                        {cinemaBranches.map((item) => (
-                            <option value={item} key={item}>{item}</option>
-                        ))}
-                    </select> : null
+                        cinemaAreaSelected ? 
+                        <div className={style.filter}>
+                            <select onChange={cinemaBranchChange} value={cinemaBranch}>
+                            {cinemaBranches.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                            </select>
+                            <span className={style.filterArrow}></span>
+                        </div>
+                    : null
                     }
                 </div>
             </div>
