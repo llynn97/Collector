@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import styles from "../../css/TopBar/NavigationBar.module.css";
 import BottomCategory from "./BottomCategory";
 import { useNavigate } from "react-router";
+import { Cookies } from "react-cookie";
 
 const NavigationBar = () => {
+    const cookies = new Cookies();
     const navigation = useNavigate();
     const [hide, setHide] = useState(true);
     const [userId, setUserId] = useState(false);
@@ -44,7 +46,14 @@ const NavigationBar = () => {
     }
 
     const mypageClick = () => {
-        navigation('/mypage');
+        const authority = cookies.get("user").authority
+        if(authority === "일반") {
+            navigation('/mypage');
+        }
+        else if (authority === "관리자") {
+            navigation('/adminpage');
+        }
+        
     }
 
 

@@ -20,11 +20,11 @@ const Modal = (props) => {
               {header}
             </header>
           <main>{props.children}</main>
-          <footer>
-            {/* <button className="close" onClick={close}>
+          {/* <footer>
+            <button className="close" onClick={close}>
               close
-            </button> */}
-          </footer>
+            </button>
+          </footer> */}
         </section>
       ) : null}
     </div>

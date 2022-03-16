@@ -101,22 +101,20 @@ const DMDetail = ({selectedRoom}) => {
         setContents(prev=>[...prev, message]);
     };
 
-    
     const onChange = useCallback(
         (e) => {
             setMessage(e.target.value);
         }, []
     )
 
-
-    const disconnect = () => {
-        if(stompClient != null) {
-            stompClient.disconnect();
-        }
-    }
+    useEffect(() => {
+        console.log("아ㅏ아아ㅏ아아아아");
+    }, [])
 
     //이제까지 메시지 내역 조회
     useEffect(() => {
+        setContents([]);
+        setMessage("");
         if(selectedRoom !== undefined){
             axios.get("http://localhost:8080/direct-message/detail", {
                 withCredentials: true,
@@ -139,6 +137,12 @@ const DMDetail = ({selectedRoom}) => {
             })
         });
         setComplete(selectedRoom.is_complete)
+        
+        return () => {
+            if(stompClient != null) {
+                stompClient.disconnect();
+            }
+        }
     }, [selectedRoom])
 
     //신뢰도 +1 주는 버튼

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../css/Comments.module.css"
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";

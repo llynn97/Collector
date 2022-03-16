@@ -74,9 +74,15 @@ const LogIn = () =>{
         const date = new Date();
         date.setMinutes(date.getMinutes() + 30);
         cookies.set("login", true, {expires: date});
+        cookies.set("user", {
+          authority:response.data.authority,
+          porfileImage:response.data.image_url,
+          nickname:response.data.nickname,
+        }, {expires:date});
 
         setModalOpen(false);
-        navigation(0);
+
+
         
       } else {
         alert("로그인에 실패했습니다.");
@@ -95,6 +101,7 @@ const LogIn = () =>{
     .then(response => {
       if(response.data.result){
         cookies.remove("login")
+        cookies.remove("user")
         navigation(0)
       } else {
         alert("로그아웃에 실패했습니다.");

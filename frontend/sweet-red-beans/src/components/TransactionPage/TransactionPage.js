@@ -8,9 +8,12 @@ import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import userImage from "../../img/user.png";
+import { Cookies } from "react-cookie";
 
 const TransactionPage = () => {
-    const navigation = useNavigate()
+    const cookies = new Cookies();
+    const navigation = useNavigate();
+
     const [modalOpen, setModalOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [transactionIsHere, setTransactionIsHere] = useState(false);
@@ -32,7 +35,6 @@ const TransactionPage = () => {
     //내 프로필
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState("");
-    const [reliability, setReliability] = useState(0);
 
     const [fetching, setFetching] = useState(false);
 
@@ -231,21 +233,15 @@ const TransactionPage = () => {
         .catch(error => console.log(error));
       
         //내 프로필 조회
-        axios.get('http://localhost:8080/mypage',{
-          withCredentials: true ,
-        })
-        .then(response => {
-            setNickname(response.data.user.nickname);
-            setProfileImage(response.data.user.profile_url);
-            setReliability(response.data.user.reliability);
-        })
-        .catch(error => {
-            if(error.response.status === 401){
-              setNickname("익명");
-              setProfileImage(userImage);
-              setReliability(0);
-            }
-        });
+        if(cookies.get("user")){
+          setNickname(cookies.get("user").nickname);
+          setProfileImage(cookies.get("user").porfileImage);
+        }
+        else {
+          setNickname("익명");
+          setProfileImage(userImage);
+        }
+
     }, [])
 
     useEffect(()=>{
