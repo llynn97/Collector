@@ -4,7 +4,7 @@ import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
-import Modal from "../../components/Modals/ReportModal";
+import Modal from "../../components/Modals/TransactionModal";
 import style from "../../css/DMPage/DMDetail.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { SELECTED_DM } from "../../actions/types";

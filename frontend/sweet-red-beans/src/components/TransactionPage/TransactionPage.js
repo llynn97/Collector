@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import Transactions from "./Transactions";
 import style from "../../css/TransactionPage/TransactionPage.module.css";
 import axios from "axios";
-import TransactionWriteModal from "../Modals/TransactionWriteModal";
+import TransactionWriteModal from "../Modals/TransactionModal";
 import InfiniteScroll from "./InfiniteScroll";
 import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
@@ -263,8 +263,8 @@ const TransactionPage = () => {
         <div className={style.wrap}>
         <div className={style.writeBox}>
           <div className={style.profileArea}>
-            <img src={profileImage}/>
-            <div>{nickname}</div>
+            <img src={profileImage} className={style.profileImage}/>
+            <div className={style.nickname}>{nickname}</div>
           </div>
 
           <div className={style.writeButtonArea}>
@@ -297,7 +297,7 @@ const TransactionPage = () => {
         
           <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
 
-          <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}>글쓰기</button>
+          <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}></button>
         </div>
         
         <TransactionWriteModal open={modalOpen} close={closeModal} header="글 작성하기">

@@ -16,9 +16,6 @@ const TransactionWriteModal = (props) => {
                 &times;{' '}
               </button>
             </div>
-            <header>
-              {header}
-            </header>
           <main>{props.children}</main>
         </section>
       ) : null}

@@ -24,7 +24,7 @@
   top:30px;
 }
 
-.profileArea > img {
+.profileImage {
   display: inline-block;
   vertical-align: middle;
   width: 50px;
@@ -33,7 +33,7 @@
   object-fit: cover;
 }
 
-.profileArea > div {
+.nickname {
   margin-left: 20px;
   display: inline-block;
   vertical-align: middle;
@@ -285,8 +285,8 @@
   bottom: 30px;
   right: 30px;
   z-index: -10; 
-  width: 80px; 
-  height: 80px;
+  width: 60px; 
+  height: 60px;
   border-radius: 50px;
   border: none;
   cursor: pointer;
@@ -309,15 +309,19 @@
 .writeBtn {
   position: fixed; 
   opacity: 0; 
-  bottom: 140px;
+  bottom: 120px;
   right: 30px;
   z-index: -10; 
-  width: 80px; 
-  height: 80px;
+  width: 60px; 
+  height: 60px;
   border-radius: 50px;
   border: none;
   cursor: pointer;
   transition: opacity 0.5s ease-in-out;
+  background: url("../../img/quill.png");
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
   background-color: #F23333;
   color: white;
 }

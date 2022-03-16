@@ -22,36 +22,38 @@ const NavigationBar = () => {
 
     const eventClick = () => {
         navigation('/event');
-        navigation(0);
     }
 
     const transactionClick = () => {
         navigation('/transaction');
-        navigation(0);
     }
 
     const imformationShareClick = () => {
         navigation('/informationShare');
-        navigation(0);
     }
 
     const DMClick = () => {
-        // if(userId){
+        if(cookies.get("login")) {
             navigation('/DM');
-            navigation(0);
-        // }
-        // else {
-        //     alert("로그인을 먼저 해주세요")
-        //}
+        }
+        else {
+            alert("로그인을 먼저 해주세요");
+        }
     }
 
     const mypageClick = () => {
-        const authority = cookies.get("user").authority
-        if(authority === "일반") {
-            navigation('/mypage');
+        if(cookies.get("login")) {
+            const authority = cookies.get("user").authority
+            if(authority === "일반") {
+                navigation('/mypage');
+            }
+            else if(authority === "관리자") {
+                navigation('/adminpage');
+            }
+            
         }
-        else if (authority === "관리자") {
-            navigation('/adminpage');
+        else {
+            alert("로그인을 먼저 해주세요");
         }
         
     }

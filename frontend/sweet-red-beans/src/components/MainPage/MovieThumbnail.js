@@ -29,10 +29,14 @@ const MovieThumbnail = ({thisEvent}) => {
                 }
             }
             else {
-                alert("삭제에 실패했습니다.")
+                alert("좋아요에 실패했습니다.")
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
     }
 
     return(

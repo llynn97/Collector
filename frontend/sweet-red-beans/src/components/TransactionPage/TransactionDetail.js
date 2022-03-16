@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DM_CREATE } from "../../actions/types";
 import style from "../../css/TransactionPage/TransactionDetail.module.css";
-import Modal from "../../components/Modals/ReportModal";
+import Modal from "../Modals/TransactionModal";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();

@@ -9,10 +9,10 @@
     box-sizing: border-box;
     padding: 20px;
     text-align: left;
-    animation: fadein 1.5s;
-    -moz-animation: fadein 1.5s; /* Firefox */
-    -webkit-animation: fadein 1.5s; /* Safari and Chrome */
-    -o-animation: fadein 1.5s; /* Opera */
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s; /* Firefox */
+    -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+    -o-animation: fadein 0.5s; /* Opera */
 }
 
 @keyframes fadein {
@@ -254,7 +254,7 @@
     background: url('../../img/siren.png');
     background-size: 60%;
     background-repeat: no-repeat;
-    background-position: 50% 45%;
+    background-position: 50% 40%;
 }
 
 .notMineButtonArea > button:nth-child(2) {
