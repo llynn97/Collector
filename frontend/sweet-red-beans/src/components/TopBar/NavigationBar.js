@@ -45,7 +45,7 @@ const NavigationBar = () => {
         if(cookies.get("login")) {
             const authority = cookies.get("user").authority
             if(authority === "일반") {
-                navigation('/mypage');
+                navigation('/mypage/myevents');
             }
             else if(authority === "관리자") {
                 navigation('/adminpage');

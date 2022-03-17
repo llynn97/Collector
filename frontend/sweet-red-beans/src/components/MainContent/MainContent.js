@@ -18,7 +18,11 @@ import MyPageNormal from "../MyPage/MyPageNormal";
 import KakaoLogin from "../TopBar/KakaoLogin";
 import GoogleLogin from "../TopBar/GoogleLogin";
 import MyEvents from "../MyPage/MyPageDetail/MyEvents";
+import MyTransactions from "../MyPage/MyPageDetail/MyTransactions";
+import MyLikeTransactions from "../MyPage/MyPageDetail/MyLikeTransactions";
+import MyPosts from "../MyPage/MyPageDetail/MyPosts";
 import MyPageDetail from "../MyPage/MyPageDetail";
+import MyComments from "../MyPage/MyPageDetail/MyComments";
 
 const MainContenet = () => {
     return (
@@ -34,8 +38,12 @@ const MainContenet = () => {
           <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
           <Route path="/transaction/*" element={<TransactionPage/>}/>
           <Route path="/DM" element={<DMPage/>}/>
-          <Route path="/mypage/*" element={<MyPageNormal/>}>
-            {/* <Route path=":detail" element={<MyEvents/>}/> */}
+          <Route path="/mypage" element={<MyPageNormal/>}>
+            <Route path="myevents" element={<MyEvents/>}/>
+            <Route path="mytransactions" element={<MyTransactions/>}/>
+            <Route path="myliketransactions" element={<MyLikeTransactions/>}/>
+            <Route path="myposts" element={<MyPosts/>}/>
+            <Route path="mycomments" element={<MyComments/>}/>
           </Route>
           <Route path="/adminpage" element={<MyPageAdmin/>}/>
           <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin/>}/>

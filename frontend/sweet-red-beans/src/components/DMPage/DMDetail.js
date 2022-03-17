@@ -8,6 +8,7 @@ import Modal from "../../components/Modals/TransactionModal";
 import style from "../../css/DMPage/DMDetail.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { SELECTED_DM } from "../../actions/types";
+import { parseDate } from "../../parseDate/parseDate";
 
 let stompClient = null;
 
@@ -258,30 +259,6 @@ const DMDetail = ({selectedRoom}) => {
         reader.readAsDataURL(imgFile[0]);
 
     }, [imgFile])
-
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            `${year}-${month}-${date} ${hours}:${min}`
-        )
-    }
 
     return (
         <>

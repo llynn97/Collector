@@ -58,7 +58,7 @@
 /* 날짜 */
 .thumbnail > div:nth-child(3), .currentThumbnail > div:nth-child(3) {
     text-align: right;
-    width: 100px;
+    width: 70px;
     top: 15px;
     right: 15px;
     font-size: 0.74rem;

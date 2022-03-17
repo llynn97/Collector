@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import style from "../../css/DMPage/DMListThumbnail.module.css";
+import { parseDate } from "../../parseDate/parseDate";
 
 const DMListThumbnail = ({dm}) => {
     const [currentRoom, setCurrentRoom] = useState(false);
@@ -25,34 +26,6 @@ const DMListThumbnail = ({dm}) => {
             }
         }
     }, [selectedRoomId])
-    
-    
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            <>
-            <div>{year}-{month}-{date}</div>
-            <div>{hours} : {min}</div>
-            </>
-        )
-    }
     
     return (
         <>

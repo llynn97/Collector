@@ -15,10 +15,6 @@ const MyPageNomal = () => {
     const [nickname, setNickname] = useState("");
     const [reliability, setReliability] = useState("");
 
-    //하위 메뉴들
-    const [myMenu, setMyMenu] = useState(0); 
-    const myList = ["내가 관심있는 이벤트", "내가 쓴 거래", "내가 좋아요 한 거래", "내가 쓴 글", "내가 쓴 댓글"];
-
     //프로필 수정
     const [hide, setHide] = useState(true);
     //이미지 불러오기
@@ -85,7 +81,7 @@ const MyPageNomal = () => {
 
     //메뉴 선택
     const myListClick = (index, e) => {
-        setMyMenu(index)
+        navigation('/mypage/'+index)
     }
 
     //프로필 변경 버튼 눌렀을 때
@@ -314,23 +310,23 @@ const MyPageNomal = () => {
             <nav>
                 <ul>
                     <li>
-                        <button onClick={(e) => myListClick(0, e)}></button>
+                        <button onClick={(e) => myListClick('myevents', e)}></button>
                         <div>관심있는 이벤트</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(1, e)}></button>
+                        <button onClick={(e) => myListClick('mytransactions', e)}></button>
                         <div>내가 쓴 거래</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(2, e)}></button>
+                        <button onClick={(e) => myListClick('myliketransactions', e)}></button>
                         <div>내가 좋아요 한 거래</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(3, e)}></button>
+                        <button onClick={(e) => myListClick('myposts', e)}></button>
                         <div>내가 쓴 글</div>
                     </li>
                     <li>
-                        <button onClick={(e) => myListClick(4, e)}></button>
+                        <button onClick={(e) => myListClick('mycomments', e)}></button>
                         <div>내가 쓴 댓글</div>
                     </li>
                 </ul>
@@ -338,10 +334,7 @@ const MyPageNomal = () => {
 
         </div>
         <div className={style.detail}>
-                <MyPageDetail myList={myList} myMenu={myMenu}/>
-                {/* <Routes>
-                    <Route path="/mypage/:detail" element={<MyEvents/>}/>
-                </Routes> */}
+            <Outlet/>
         </div>
         <div className={style.quitArea}>
             <button onClick={quitClick}>탈퇴하기</button>

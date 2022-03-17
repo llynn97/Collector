@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import style from "../../css/Report/Report.module.css";
 import Modal from "../Modals/Modal";
+import { parseDate } from "../../parseDate/parseDate";
 
 const Report = ({report}) => {
     const navigation = useNavigate();
@@ -73,30 +74,6 @@ const Report = ({report}) => {
         confirm,
         cancelConfirm
     );
-
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            <div>{year}-{month}-{date} {hours} : {min}</div>
-        )
-    }
 
     return (
         <>

@@ -16,8 +16,8 @@ const MyPageDetail = ({myMenu}) => {
     }, [id])
     return (
         <>
-        <Outlet/>
-        {myComponents[myMenu]}
+        
+        {/* {myComponents[myMenu]} */}
         </>
     )
 }

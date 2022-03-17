@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { DM_CREATE } from "../../actions/types";
 import style from "../../css/TransactionPage/TransactionDetail.module.css";
 import Modal from "../Modals/TransactionModal";
-import SwitchSelector from "react-switch-selector";
 import Switch from "react-switch";
+import { parseDate } from "../../parseDate/parseDate";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
@@ -156,31 +156,6 @@ const TransactionDetail = ({transaction}) => {
         });
     }
 
-    //날짜 형식 바꾸기
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            <div>{year}-{month}-{date}  {hours} : {min}</div>
-        )
-    }
-
     useEffect(() => {
         setStatus(transaction.status)
         setLikeStatus(transaction.is_like);
@@ -295,8 +270,9 @@ const TransactionDetail = ({transaction}) => {
                         checked={status==="진행중"?true:false}
                         onColor="#F32222"
                         offColor="#C4C4C4"
-                        width={90}
+                        width={85}
                         height={30}
+                        handleDiameter={22}
                         uncheckedIcon={
                             <div className={style.doneButton}>마감</div>
                         }
@@ -311,51 +287,6 @@ const TransactionDetail = ({transaction}) => {
                 </div>
             }
             </div>
-            
-            <div className={style.statusButtonArea}>
-                {transaction.is_mine ? 
-                <div>
-                    {/* <button className={style.statusButton} onClick={statusClick}>{status==="진행중" ? "마감으로 바꾸기" : "진행중으로 바꾸기"}</button> */}
-                </div>
-                : 
-                null}
-            </div>
-
-
-
-            {/* {useMemo(() =>
-            
-            initialSelectedIndex !== -1 ? 
-                <div>
-                <SwitchSelector
-                    onChange={switchChange}
-                    options={options}
-                    initialSelectedIndex={initialSelectedIndex}
-                    backgroundColor={"#c4c4c4"}
-                    fontColor={"#ffffff"}
-                />
-                </div>
-            : 
-            null
-            , [transaction])}
-
-
-            {initialSelectedIndex !== -1 ? 
-                <div>
-                <SwitchSelector
-                    onChange={switchChange}
-                    options={options}
-                    initialSelectedIndex={initialSelectedIndex}
-                    backgroundColor={"#c4c4c4"}
-                    fontColor={"#ffffff"}
-                />
-                </div>
-            : 
-            null
-            } */}
-            
-            
-                
             
             <div className={style.content}>
                 {transaction.content}
@@ -377,9 +308,7 @@ const TransactionDetail = ({transaction}) => {
                 </div>
 
                 <div className={style.date}>
-                {
-                    parseDate(transaction.written_date)
-                }
+                {parseDate(transaction.written_date)}
                 </div>
             </div>
 
