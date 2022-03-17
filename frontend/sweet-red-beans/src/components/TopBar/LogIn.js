@@ -81,7 +81,7 @@ const LogIn = () =>{
         }, {expires:date});
 
         setModalOpen(false);
-
+        navigation(0)
 
         
       } else {

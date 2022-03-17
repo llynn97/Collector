@@ -58,7 +58,7 @@
   top:50%;
   transform: translate(0%, -50%);
   color: black;
-  font-size: 0.88rem;
+  font-size: 14px;
   overflow:hidden;
   text-overflow: ellipsis; 
   white-space:nowrap;

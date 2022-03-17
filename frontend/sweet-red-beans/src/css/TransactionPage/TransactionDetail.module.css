@@ -1,6 +1,6 @@
 .transactionBox {
     position: relative;
-    border: 2px #C4C4C4 solid;
+    box-shadow: 0px 0px 7px rgba(90, 90, 90, 0.25);
     border-radius: 10px;
     width: 700px;
     min-height: 200px;
@@ -159,7 +159,8 @@
 }
 
 .proceeding{
-    background-color: #F23333;
+    background-color: white;
+    border: #F23333 2px solid;
 }
 
 .done{
@@ -174,35 +175,44 @@
     color: white;
     width: inherit;
     font-size: 16px;
+}
 
+.proceeding > div {
+    color: #F23333;
 }
 
 .proceedingButton, .doneButton {
-    cursor: default;
+    /* cursor: default;
     text-align: center;
     width: 80px;
     height: 30px;
     border-radius: 50px;
     background-color: #5a5a5a;
+    font-size: 16px; */
+    width: 50px;
     font-size: 16px;
+    color: white;
+    position: absolute;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.proceedingButton {
+    margin-left: 8px;
+}
+
+.doneButton{
+    right: 0px;
+    margin-right: 15px;
+    text-align: right;
 }
 
 .proceedingButton > div, .doneButton > div {
-    position: absolute;
+    /* position: absolute; */
 }
 
-.statusButton {
-    cursor: pointer;
-    text-align: center;
-    color: #F23333;
-    width: 180px;
-    height: 30px;
-    border-radius: 50px;
-    background-color: white;
-    border: #F23333 solid 2px;
-    display: inline-block;
-    margin-right: 20px;
-    font-size: 13pt;
+.statusButton >* > div {
+
 }
 
 .notMine {

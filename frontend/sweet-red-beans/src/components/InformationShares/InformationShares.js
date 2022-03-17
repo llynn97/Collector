@@ -24,6 +24,10 @@ const InformationShares = ({searchWords, sort, cinemaName, cinemaArea, cinemaBra
         })
         .then(response => setInfos(response.data))
         .catch(error => console.log(error));
+
+        return () => {
+            setInfos([])
+        }
     }, [])
 
     useEffect(()=>{

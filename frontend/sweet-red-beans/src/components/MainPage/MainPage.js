@@ -30,6 +30,9 @@ const MainPage = () => {
             setMainVideo(response.data.src)
         })
         .catch(error => console.log(error))
+        return () => {
+            setMainVideo("");
+        }
     }, [])
 
     const arrowClick = () => {
@@ -42,12 +45,15 @@ const MainPage = () => {
         <div className={style.videoArea}>
             <video src={mainVideo} className={style.video} controls></video>
         </div>
-        <div className={style.eventsText}>
+        <div className={style.mainText}>
             EVENTS
             <div className={style.arrow} onClick={arrowClick}></div>
         </div>
         {cinemaNames.map((item, index) => <div key={index} className={style.movieThumbnail}><MainMovieEvents cinemaName={item}/></div>)}
 
+        <div className={style.mainText}>
+            TODAY'S POSTS
+        </div>
         <MainPosts/>
         
         </>

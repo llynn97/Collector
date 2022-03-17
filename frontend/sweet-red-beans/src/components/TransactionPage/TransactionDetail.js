@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DM_CREATE } from "../../actions/types";
 import style from "../../css/TransactionPage/TransactionDetail.module.css";
 import Modal from "../Modals/TransactionModal";
+import SwitchSelector from "react-switch-selector";
+import Switch from "react-switch";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
@@ -17,13 +19,19 @@ const TransactionDetail = ({transaction}) => {
 
     const serverReqStatus = () => {
         const body = {
-            user_id: "1",
             transaction_id: transaction.transaction_id,
             status: status,
         }
         axios.post('http://localhost:8080/transactions/change-status', body , { withCredentials: true })
         .then(response => {
+            console.log(response.data);
             if(response.data.result){
+                if(status==="진행중"){
+                    setStatus("마감");
+                }
+                else {
+                    setStatus("진행중");
+                }
             }
         })
         .catch(error => console.log(error))
@@ -124,11 +132,11 @@ const TransactionDetail = ({transaction}) => {
     //좋아요 눌렀을 때
     const likeClick = () => {
         const body = {
-            user_id: "1",
             transaction_id: transaction.transaction_id,
         }
         axios.post('http://localhost:8080/transactions/like', body, { withCredentials: true })
         .then(response => {
+            console.log(response.data);
             if(response.data.result){
                 if(status){
                     setLikeStatus(false);
@@ -229,6 +237,31 @@ const TransactionDetail = ({transaction}) => {
         }
     }
 
+    const options = [
+        {
+            label: "마감",
+            value: "마감",
+            selectedBackgroundColor: "#0097e6",
+        },
+        {
+            label: "진행중",
+            value: "진행중",
+            selectedBackgroundColor: "#fbc531"
+        }
+    ];
+
+    const handleChange = (checked) =>{
+        console.log(checked);
+        if(!checked){
+            serverReqStatus()
+            setStatus("마감");
+        }
+        else{
+            serverReqStatus()
+            setStatus("진행중");
+        }
+    }
+
     return(
         <>
         <Modal open={modalOpen} close={closeModal} header="신고하기">
@@ -253,9 +286,25 @@ const TransactionDetail = ({transaction}) => {
             {
                 transaction.is_mine
                 ? 
-                <div onClick={statusClick} className={status==='진행중'?style.proceedingButton : style.doneButton}>
-                    <div>{status==='진행중'? "진행중" : "마감"}</div>
-                </div>
+                // <div onClick={statusClick} className={status==='진행중'?style.proceedingButton : style.doneButton}>
+                //     <div>{status==='진행중'? "진행중" : "마감"}</div>
+                // </div>
+                <label className={style.statusButton}>
+                    <Switch
+                        onChange={handleChange}
+                        checked={status==="진행중"?true:false}
+                        onColor="#F32222"
+                        offColor="#C4C4C4"
+                        width={90}
+                        height={30}
+                        uncheckedIcon={
+                            <div className={style.doneButton}>마감</div>
+                        }
+                        checkedIcon={
+                            <div className={style.proceedingButton}>진행중</div>
+                        }
+                    />
+                </label>
                 :
                 <div className={status === '진행중' ? style.proceeding : style.done}>
                 {status === '진행중' ? <div>진행중</div> : <div>마감</div>}
@@ -263,14 +312,49 @@ const TransactionDetail = ({transaction}) => {
             }
             </div>
             
-            {/* <div className={style.statusButtonArea}>
+            <div className={style.statusButtonArea}>
                 {transaction.is_mine ? 
                 <div>
-                    <button className={style.statusButton} onClick={statusClick}>{status==="진행중" ? "마감으로 바꾸기" : "진행중으로 바꾸기"}</button>
+                    {/* <button className={style.statusButton} onClick={statusClick}>{status==="진행중" ? "마감으로 바꾸기" : "진행중으로 바꾸기"}</button> */}
                 </div>
                 : 
                 null}
-            </div> */}
+            </div>
+
+
+
+            {/* {useMemo(() =>
+            
+            initialSelectedIndex !== -1 ? 
+                <div>
+                <SwitchSelector
+                    onChange={switchChange}
+                    options={options}
+                    initialSelectedIndex={initialSelectedIndex}
+                    backgroundColor={"#c4c4c4"}
+                    fontColor={"#ffffff"}
+                />
+                </div>
+            : 
+            null
+            , [transaction])}
+
+
+            {initialSelectedIndex !== -1 ? 
+                <div>
+                <SwitchSelector
+                    onChange={switchChange}
+                    options={options}
+                    initialSelectedIndex={initialSelectedIndex}
+                    backgroundColor={"#c4c4c4"}
+                    fontColor={"#ffffff"}
+                />
+                </div>
+            : 
+            null
+            } */}
+            
+            
                 
             
             <div className={style.content}>

@@ -1,4 +1,5 @@
 .cinemaName{
+    cursor: default;
     display: inline-block;
     position: relative;
     text-align: left;
