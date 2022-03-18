@@ -30,9 +30,14 @@ const DMListThumbnail = ({dm}) => {
     return (
         <>
         <div className={currentRoom ? style.currentThumbnail : style.thumbnail}>
-            <img src={dm.not_mine_profile_url}/>
+            {dm.not_mine_profile_url === null ?
+                <div className={style.nonePorfile}></div>
+                :
+                <img src={dm.not_mine_profile_url}/>
+            }
+            
             <div className={style.contentArea}>
-                <div>{dm.not_mine_nickname}</div>
+                <div>{dm.not_mine_nickname === null ? "(알수없음)" : dm.not_mine_nickname}</div>
                 <div>{dm.recent_message}</div>
             </div>
             <div>

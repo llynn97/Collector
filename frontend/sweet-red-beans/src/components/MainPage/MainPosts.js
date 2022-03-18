@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import style from "../../css/MainPage/MainPosts.module.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const MainPosts = () => {
+    const navigation = useNavigate();
     const [dailyPosts, setDailyPosts] = useState(null);
 
     const data = [
@@ -39,7 +41,9 @@ const MainPosts = () => {
         //setDailyPosts(data)
     }, [])
 
-    console.log(dailyPosts);
+    const writeClick = () => {
+        navigation('/informationShare')
+    }
 
     return (
         <>
@@ -58,7 +62,7 @@ const MainPosts = () => {
                 :
                 <div className={style.nullMessage}>
                     <div>지금 당장 글 쓰러 가기</div>
-                    <div className={style.arrow}></div>
+                    <div className={style.arrow} onClick={writeClick}></div>
                     <div>내 통장처럼 비어버린 오늘의 글...</div>
                 </div>
             }

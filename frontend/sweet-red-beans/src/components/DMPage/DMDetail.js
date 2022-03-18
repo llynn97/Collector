@@ -108,10 +108,6 @@ const DMDetail = ({selectedRoom}) => {
         }, []
     )
 
-    useEffect(() => {
-        console.log("아ㅏ아아ㅏ아아아아");
-    }, [])
-
     //이제까지 메시지 내역 조회
     useEffect(() => {
         setContents([]);
@@ -275,8 +271,12 @@ const DMDetail = ({selectedRoom}) => {
         <div className={style.chatcontainer}>
             <div className={style.topBar}></div>
             <div className={style.notMyArea}>
-                <img src={selectedRoom.not_mine_profile_url}/>
-                <div>{selectedRoom.not_mine_nickname}</div>
+                {selectedRoom.not_mine_profile_url === null ?
+                    <div className={style.nonePorfile}></div>
+                    :
+                    <img src={selectedRoom.not_mine_profile_url}/>
+                }
+                <div>{selectedRoom.not_mine_nickname === null ? "(알수없음)" : selectedRoom.not_mine_nickname}</div>
                 <div>{selectedRoom.not_mine_reliability}</div>
                 <div>
                     <button onClick={reliabilityPlusClick}>신뢰도 주기</button>

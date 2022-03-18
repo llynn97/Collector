@@ -292,7 +292,7 @@ const MyPageNomal = () => {
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
 
                     <div className={style.nicknameChangeArea} id="nicknameChangeArea">
-                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} maxlength="15"/>
+                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} maxLength="15"/>
                         <div></div>
                     </div>
 
