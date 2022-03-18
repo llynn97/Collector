@@ -44,3 +44,51 @@
     text-overflow: ellipsis; 
     white-space:nowrap;
 }
+
+.nullMessage {
+    text-align: center;
+    padding: 50px;
+    font-size: 20px;
+}
+
+.nullMessage > div:nth-child(1) {
+    display: inline-block;
+    margin-bottom: 50px;
+}
+
+.arrow{
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    margin-left: 20px;
+    bottom: -5px;
+    background-color: transparent;
+    border-bottom: 2px black solid;
+    transition: width 200ms ease;
+}
+
+.arrow::after{
+    cursor: pointer;
+    position: absolute;
+    content: "";
+    display: inline-block;
+    right: -3px;
+    bottom: 9px;
+    width: 30px;
+    height: 2px;
+    margin-left: 0px;
+    background-color: black;
+    transform: rotate(45deg);
+
+}
+
+.arrow:hover{
+    width: 130px;
+}
+
+.nullMessage > div:nth-child(3) {
+    color: #5a5a5a;
+    font-size: 16px;
+}
