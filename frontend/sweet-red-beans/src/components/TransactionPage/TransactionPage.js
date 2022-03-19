@@ -3,7 +3,6 @@ import Transactions from "./Transactions";
 import style from "../../css/TransactionPage/TransactionPage.module.css";
 import axios from "axios";
 import TransactionWriteModal from "../Modals/TransactionModal";
-import InfiniteScroll from "./InfiniteScroll";
 import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";

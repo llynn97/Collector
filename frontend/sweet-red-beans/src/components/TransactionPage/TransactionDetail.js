@@ -7,6 +7,7 @@ import style from "../../css/TransactionPage/TransactionDetail.module.css";
 import Modal from "../Modals/TransactionModal";
 import Switch from "react-switch";
 import { parseDate } from "../../parseDate/parseDate";
+import user from "../../img/user.png";
 
 const TransactionDetail = ({transaction}) => {
     const dispatch = useDispatch();
@@ -16,6 +17,8 @@ const TransactionDetail = ({transaction}) => {
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [reportContent, setReportContent] = useState("");
+    const profileImage = transaction.profile_url;
+    const nickname = transaction.nickname;
 
     const serverReqStatus = () => {
         const body = {
@@ -86,18 +89,6 @@ const TransactionDetail = ({transaction}) => {
         deleteConfirm,
         cancelConfirm
     );
-
-    //마감으로 변경 눌렀을 때
-    const statusClick = () => {
-        if(status === "진행중"){
-            serverReqStatus()
-            setStatus("마감");
-        }
-        else if(status === "마감"){
-            serverReqStatus()
-            setStatus("진행중");
-        }
-    }
 
     const DMClick = () => {
 
@@ -225,7 +216,7 @@ const TransactionDetail = ({transaction}) => {
         }
     ];
 
-    const handleChange = (checked) =>{
+    const statusClick = (checked) =>{
         console.log(checked);
         if(!checked){
             serverReqStatus()
@@ -252,8 +243,8 @@ const TransactionDetail = ({transaction}) => {
         <div className={style.transactionBox}>
 
             <div className={style.profileArea}>
-                <img src={transaction.profile_url}/>
-                <div className={style.nickname}>{transaction.nickname}</div>
+                <img src={profileImage}/>
+                <div className={style.nickname}>{nickname}</div>
                 <div className={style.reliabilityArea}>{transaction.reliability}</div>
             </div>
 
@@ -266,7 +257,7 @@ const TransactionDetail = ({transaction}) => {
                 // </div>
                 <label className={style.statusButton}>
                     <Switch
-                        onChange={handleChange}
+                        onChange={statusClick}
                         checked={status==="진행중"?true:false}
                         onColor="#F32222"
                         offColor="#C4C4C4"
@@ -303,7 +294,7 @@ const TransactionDetail = ({transaction}) => {
                         <button onClick={openModal}></button>
                         {status === '진행중' ? <button onClick={DMClick}></button> :
                         <button disabled={true}></button>}
-                        <button onClick={likeClick}>{likeStatus ? "" : ""}</button>
+                        {likeStatus? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
                     </div>}
                 </div>
 

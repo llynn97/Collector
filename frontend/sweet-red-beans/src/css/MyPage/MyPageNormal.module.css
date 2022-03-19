@@ -249,6 +249,8 @@
     margin-bottom: 50px;
     top: 50%;
     transform: translate(0, -50%);
+    font-size: 20px;
+    transition: color 200ms ease;
 }
 
 .detailMenuArea > nav li:nth-child(1) {
@@ -279,42 +281,77 @@
     width: 80px;
     height: 80px;
     border: none;
-    margin-bottom: 10px;
-    transition: transform 300ms ease ;
+    margin-bottom: 20px;
+    transition: transform 300ms ease, background 200ms ease ;
+}
+
+.detailMenuArea > nav li:nth-child(1):hover > button {
+    background: url("../../img/my-events-red.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(1) > button{
-    background: url("../../img/movie.png");
+    background: url("../../img/my-events.png");
     background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.detailMenuArea > nav li:nth-child(2):hover > button {
+    background: url("../../img/my-transactions-red.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(2) > button{
-    background: url("../../img/transaction.png");
+    width: 90px;
+    background: url("../../img/my-transactions.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.detailMenuArea > nav li:nth-child(3):hover > button {
+    background: url("../../img/my-like-transactions-red.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(3) > button {
-    background: url("../../img/liketransaction.png");
+    background: url("../../img/my-like-transactions.png");
     background-repeat: no-repeat;
-    background-position: 50% 40%;
+    background-size: 100%;
+}
+
+.detailMenuArea > nav li:nth-child(4):hover > button {
+    background: url("../../img/my-posts-red.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(4) > button {
-    background: url("../../img/post.png");
+    background: url("../../img/my-posts.png");
     background-repeat: no-repeat;
-    background-position: 50% 40%;
+    background-size: 100%;
+}
+
+.detailMenuArea > nav li:nth-child(5):hover > button {
+    background: url("../../img/my-comments-red.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(5) > button {
-    background: url("../../img/comment.png");
+    background: url("../../img/my-comments.png");
     background-repeat: no-repeat;
-    background-position: 50% 40%;
+    background-size: 100%;
 }
 
-.detailMenuArea > nav li > button:hover{
+.detailMenuArea > nav li:hover > button{
     transform: scale(1.2);
 }
 
-.detailMenuArea > nav li:hover > div{
+.detailMenuArea > nav li:hover{
+    cursor: pointer;
     color: #F23333;
 }
 

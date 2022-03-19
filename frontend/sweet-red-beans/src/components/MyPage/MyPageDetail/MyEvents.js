@@ -3,13 +3,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import store from "../../../store";
-import Pagination from "./Pagination";
+import Pagination from "../../Pagination/Pagination";
 import { useNavigate } from "react-router";
 import style from "../../../css/MyPage/MyPageDetail/MyEvents.module.css";
 import EventMovieThumbnail from "../../EventPage/EventMovieThumbnail";
 
 const MyEvents = () => {
-    const {id} = useParams();
     const navigation = useNavigate();
     
     const myEvents = useSelector(s => {
@@ -31,8 +30,8 @@ const MyEvents = () => {
     }
 
     useEffect(() => {
-        console.log(id);
-    }, [id])
+        console.log(myEvents);
+    }, [])
 
     return (
         <>

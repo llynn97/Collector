@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Report from "../Report/Report";
 import axios from "axios";
-import Pagination from "./MyPageDetail/Pagination";
+import Pagination from "../Pagination/Pagination";
 import style from "../../css/MyPage/MyPageAdmin.module.css";
 
 const MyPageAdmin = () => {

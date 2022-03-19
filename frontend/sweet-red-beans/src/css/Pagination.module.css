@@ -7,13 +7,29 @@
 
 }
 
+.button:first-child {
+  background: url("../img/page-left-arrow.png");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 30%;
+  background-color: #F23333;
+}
+
+.button:last-child {
+  background: url("../img/page-right-arrow.png");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 30%;
+  background-color: #F23333;
+}
+
 .button {
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border: none;
   border-radius: 50px;
-  background: #F23333;
+  background-color: #F23333;
   color: white;
   font-size: 12px;
   margin: 10px;
@@ -22,13 +38,22 @@
 
 .button:hover {
   cursor: pointer;
-  transform: translateY(-4px);
+  transform: translateY(-3px);
+}
+
+.button:disabled {
+  background: #c4c4c4;
+  opacity: 0.8;
+  cursor: revert;
+  transform: revert;
 }
 
 .pageButton {
   border:none;
   color: #F23333;
   background-color: transparent;
+  box-sizing: border-box;
+  padding: 5px;
   margin: 10px;
   font-size: 16px;
   transition: transform 300ms ease;
@@ -39,12 +64,6 @@
   transform: translateY(-4px);
 }
 
-.button:disabled {
-    background: #c4c4c4;
-    opacity: 0.8;
-    cursor: revert;
-    transform: revert;
-}
 
 .pageButton[aria-current] {
     background: white;

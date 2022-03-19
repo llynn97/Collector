@@ -1,8 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import styles from "../../css/TopBar/NavigationBar.module.css";
-import BottomCategory from "./BottomCategory";
+import style from "../../css/TopBar/NavigationBar.module.css";
 import { useNavigate } from "react-router";
 import { Cookies } from "react-cookie";
 
@@ -62,11 +61,11 @@ const NavigationBar = () => {
     return (
         <>
         <nav>
-        <ul className={styles.mainMenu}>
+        <ul className={style.mainMenu}>
             <li><div onClick={eventClick}>이벤트</div></li>
             <li><div onClick={transactionClick}>대리구매</div></li>
             <li><div onClick={imformationShareClick}>커뮤니티</div>
-                <ul className={styles.subMenu}>
+                <ul className={style.subMenu}>
                     <li><div onClick={imformationShareClick}>정보공유</div></li>
                 </ul>
             </li>

@@ -242,7 +242,14 @@
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    transition: background-color 200ms ease;
+    transition: background-color 200ms ease, background 200ms ease;
+}
+
+.deleteArea > button:hover {
+    background: url('../../img/trash-red.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
 }
 
 
@@ -255,6 +262,15 @@
     background-position: 50% 40%;
 }
 
+.notMineButtonArea > button:nth-child(1):hover {
+    background: url('../../img/siren-red.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    background-color: rgba(242, 51, 51, 0.3);
+}
+
+/* 디엠 버튼 */
 .notMineButtonArea > button:nth-child(2) {
     left: 80px;
     background: url('../../img/email.png');
@@ -263,9 +279,33 @@
     background-position: 50% 50%;
 }
 
-.notMineButtonArea > button:nth-child(3) {
+.notMineButtonArea > button:nth-child(2):hover {
+    background: url('../../img/email-red.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 35%;
+    background-color: rgba(242, 51, 51, 0.3);
+}
+
+/* 좋아요 버튼 */
+.notMineButtonArea > .likeOffButton {
     left: 140px;
     background: url('../../img/heart.png');
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position: 50% 60%;
+}
+
+.notMineButtonArea > .likeOffButton:hover {
+    background: url('../../img/heart-red.png');
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: rgba(242, 51, 51, 0.3);
+}
+
+.notMineButtonArea > .likeOnButton {
+    background: url('../../img/heart-like.png');
     background-size: 55%;
     background-repeat: no-repeat;
     background-position: 50% 60%;
@@ -278,7 +318,7 @@
     height: 40px;
     border: none;
     border-radius: 50px;
-    transition: background-color 200ms ease;
+    transition: background-color 200ms ease, background 200ms ease;
 }
 
 .bottomArea button:hover {

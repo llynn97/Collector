@@ -1,12 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import SignUp from "../SignUp/SignUp";
 import MainPage from "../MainPage/MainPage";
-import {useNavigate} from "react-router-dom";
 import {Route, Routes} from "react-router-dom";
 import EventDetailPage from "../EventDetailPage/EventDetailPage";
 import EventPage from "../EventPage/EventPage";
-import { useDispatch, useSelector } from "react-redux";
-import { LOGIN_USER } from "../../actions/types";
 import TopBar from "../TopBar/TopBar";
 import InformationSharePage from "../InformationShares/InformationSharePage";
 import InformationShareWritePage from "../InformationShares/InformationShareWritePage";
@@ -21,10 +18,9 @@ import MyEvents from "../MyPage/MyPageDetail/MyEvents";
 import MyTransactions from "../MyPage/MyPageDetail/MyTransactions";
 import MyLikeTransactions from "../MyPage/MyPageDetail/MyLikeTransactions";
 import MyPosts from "../MyPage/MyPageDetail/MyPosts";
-import MyPageDetail from "../MyPage/MyPageDetail";
 import MyComments from "../MyPage/MyPageDetail/MyComments";
 
-const MainContenet = () => {
+const MainContent = () => {
     return (
         <>
         <TopBar/>
@@ -53,4 +49,4 @@ const MainContenet = () => {
     );
 }
 
-export default MainContenet;
+export default MainContent;

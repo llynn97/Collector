@@ -9,7 +9,6 @@ const EventMovieThumbnail = ({event}) => {
 
     const likeClick = () => {
         const body = {
-            user_id: "1",
             event_id: event.event_id,
         }
         axios.post('http://localhost:8080/events/like', body, { withCredentials: true })

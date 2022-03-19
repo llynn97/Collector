@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import store from "../../../store";
 import TransactionDetail from "../../TransactionPage/TransactionDetail";
-import Pagination from "./Pagination";
+import Pagination from "../../Pagination/Pagination";
 import style from "../../../css/MyPage/MyPageDetail/MyTransactions.module.css";
 
 const MyTransactions = () => {

@@ -309,24 +309,24 @@ const MyPageNomal = () => {
         <div className={style.detailMenuArea}>
             <nav>
                 <ul>
-                    <li>
-                        <button onClick={(e) => myListClick('myevents', e)}></button>
+                    <li onClick={(e) => myListClick('myevents', e)}>
+                        <button></button>
                         <div>관심있는 이벤트</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick('mytransactions', e)}></button>
+                    <li onClick={(e) => myListClick('mytransactions', e)}>
+                        <button></button>
                         <div>내가 쓴 거래</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick('myliketransactions', e)}></button>
+                    <li onClick={(e) => myListClick('myliketransactions', e)}>
+                        <button></button>
                         <div>내가 좋아요 한 거래</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick('myposts', e)}></button>
+                    <li onClick={(e) => myListClick('myposts', e)}>
+                        <button></button>
                         <div>내가 쓴 글</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick('mycomments', e)}></button>
+                    <li onClick={(e) => myListClick('mycomments', e)}>
+                        <button></button>
                         <div>내가 쓴 댓글</div>
                     </li>
                 </ul>

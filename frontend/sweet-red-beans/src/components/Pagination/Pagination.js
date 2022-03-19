@@ -10,7 +10,7 @@ function Pagination({ total, limit, page, setPage }) {
         <nav className={style.nav}>
           {/*이전버튼(<), page가 1이면 안 보이게 함*/}
           <button onClick={() => setPage(page - 1)} disabled={page === 1} className={style.button}>
-            &lt;
+
           </button>
           {/*Array(numPages)하면 numPages길이의 빈 배열을 만듦 -> fill로 배열을 undefined로 채워줌*/}
           {Array(numPages)
@@ -26,7 +26,6 @@ function Pagination({ total, limit, page, setPage }) {
             ))}
           {/*다음버튼(>), page가 마지막 페이지이면 안 보이게 함*/}
           <button onClick={() => setPage(page + 1)} disabled={page === numPages} className={style.button}>
-            &gt;
           </button>
         </nav>
       </>

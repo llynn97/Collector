@@ -42,7 +42,7 @@
 }
 
 .likeOnButton {
-    background: url("../../img/ticket.png");
+    background: url("../../img/ticket-like.png");
 }
 
 .likeOffButton {
@@ -63,6 +63,13 @@
     top: 10px;
     right: 10px;
     transition: background-color 200ms ease;
+}
+
+.likeOffButton:hover {
+    background: url("../../img/ticket-red.png");
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
 
 .likeOnButton:hover, .likeOffButton:hover {
