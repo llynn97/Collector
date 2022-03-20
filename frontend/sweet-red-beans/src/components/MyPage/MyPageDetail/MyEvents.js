@@ -38,9 +38,7 @@ const MyEvents = () => {
         <div className={style.container}>
             {myEvents !== undefined ? myEvents.slice(offset, offset + limit).map((item, index) => (
                 <article key={index}>
-                    <div onClick={e => eventClick(item.event_id, e)}>
-                        <EventMovieThumbnail event={item}/>
-                    </div>
+                    <EventMovieThumbnail event={item}/>
                 </article>
             )) : null}
         </div>

@@ -156,6 +156,7 @@
     width: 85px;
     height: 30px;
     border-radius: 50px;
+    font-size: 16px;
 }
 
 .proceeding{
@@ -174,7 +175,6 @@
     transform: translate(-50%, -50%);
     color: white;
     width: inherit;
-    font-size: 16px;
 }
 
 .proceeding > div {
@@ -192,14 +192,12 @@
 
 .proceedingButton {
     margin-left: 8px;
-    font-family: 'ROKAFSansBold';
 }
 
 .doneButton{
     right: 0px;
     margin-right: 15px;
     text-align: right;
-    font-family: 'ROKAFSansBold';
 }
 
 
@@ -326,7 +324,7 @@
 }
 
 .date {
-    font-size: 14px;
+    font-size: 12px;
     position: absolute;
     display: inline-block;
     color: #C4C4C4;

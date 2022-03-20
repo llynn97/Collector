@@ -44,6 +44,7 @@
 }
 
 .nickname {
+  cursor: default;
   margin-left: 20px;
   display: inline-block;
   vertical-align: middle;
@@ -66,9 +67,11 @@
   background-color: #F23333;
   border-radius: 10px;
   color: white;
+  font-size: 16px;
+  font-family: 'ROKAFSansBold';
 }
 
-.writeButtonArea > button:hover{
+/* .writeButtonArea > button:hover{
   animation: swing linear 0.15s 2;
 }
 
@@ -77,9 +80,10 @@
   33% {transform: rotate(3deg);}
   66% {transform: rotate(-3deg);}
   100% {  }
-}
+} */
 
 .writeBox > textarea {
+  font-size: 14px;
   width: 700px;
   height: 200px;
   border-radius: 10px;
@@ -131,6 +135,7 @@
   font-size: 14px;
   margin-left: 20px;
   transition: transform 200ms ease;
+  font-family: 'ROKAFSansBold';
 }
 
 .notSelected:hover {
@@ -182,7 +187,7 @@
 .filter > select > option {
   color: #5a5a5a;
   padding: 10px 0px 10px 0px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .filterArrow {
@@ -202,25 +207,6 @@
 .filter > select:focus + .filterArrow{
   transform: rotate(180deg);
 }
-
-/* .filterArrow{
-  position: absolute; 
-  top: 0; 
-  right: 0; 
-  z-index: 1; 
-  width: 35px; 
-  height: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #C4C4C4;
-  transition: transform 300ms ease-in-out;
-} */
-
-/* .filter .filterArrow {
-  width: 50%;
-  transition: .3s;
-} */
 
 .search {
   display: inline-block;

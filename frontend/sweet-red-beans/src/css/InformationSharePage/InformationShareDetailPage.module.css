@@ -1,8 +1,8 @@
 .whiteBox{
     position: relative;
-    /* background-color: white;
+    background-color: white;
     border: 1px solid #C4C4C4;
-    padding: 100px; */
+    padding: 50px;
     width: 1000px;
     margin : 0 auto;
     border-radius: 20px;
@@ -16,11 +16,12 @@
     border-radius: 10px;
     width: 800px;
     border: #5A5A5A solid 2px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     background-color: white;
 }
 
 .titleArea {
+    font-size: 16px;
     position: relative;
     border-radius: 8px 8px 0px 0px;
     border-bottom: #5A5A5A 2px solid;
@@ -34,8 +35,6 @@
     top:50%;
     transform: translate(0, -50%);
     color: white;
-    font-family: 'ROKAFSansBold';
-    font-size: 1rem;
 }
 
 /* 타이틀 */
@@ -59,24 +58,28 @@
     display: inline-block;
     top:50%;
     transform: translate(0, -50%);
-    font-size: 14px;
+    font-size: 16px;
 }
 
 /* 닉네임 */
 .topBar div:nth-child(1) {
     left: 20px;
-    font-family: 'ROKAFSansBold';
 }
 
 /* 날짜 */
 .topBar div:nth-child(2) {
+    font-size: 12px;
     width: 200px;
     right: 30px;
+    color: #C4C4C4;
 }
 
 /* 조회수 아이콘 */
-.topBar div:nth-child(3) {
-    right: 40px;
+.topBar div:nth-child(3)::before {
+    display: inline-block;
+    vertical-align: middle;
+    content: "";
+    margin-right: 8px;
     width: 20px;
     height: 20px;
     top:21px;
@@ -86,11 +89,14 @@
 }
 
 /* 조회수 */
-.topBar div:nth-child(4) {
+.topBar div:nth-child(3) {
     right: 20px;
+    color: #C4C4C4;
+    font-size: 12px;
 }
 
 .contentArea {
+    font-size: 14px;
     padding: 20px;
     border-bottom: #5A5A5A 2px solid;
 }
@@ -120,17 +126,15 @@
     width: 50px;
     height: 30px;
     color: white;
-    font-size: 0.88rem;
-    font-family: 'ROKAFSansBold';
+    font-size: 14px;
 }
 
 .commentArea > div:nth-child(1) {
     padding: 10px 0px 0px 20px;
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 16px;
     color: #5A5A5A;
     text-align: left;
-    font-family: 'ROKAFSansBold';
     height: 45px;
     border-bottom: #C4C4C4 1px solid;
 }
@@ -141,6 +145,7 @@
     vertical-align: bottom;
     width: 26px;
     height: 22px;
+    margin-right: 10px;
     background: url("../../img/commentarrow.png");
 }
 
@@ -163,6 +168,7 @@
     outline: none;
     padding-left: 10px;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
 .commentWriteArea > input::placeholder {
@@ -200,13 +206,5 @@
     background-color: #f32222;
     border-radius: 10px;
     color: white;
-    font-size: 1rem;
-    font-family: 'ROKAFSansBold';
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+    font-size: 16px;
 }

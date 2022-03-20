@@ -41,7 +41,7 @@
     top: 50%;
     transform: translate(0, -50%);
     left: 160px;
-    font-size: 14pt;
+    font-size: 16px;
 }
 
 /* 프로필 수정하기 버튼 */
@@ -54,6 +54,7 @@
 }
 
 .profileBox > div:nth-child(3) > button {
+    font-size: 16px;
     cursor: pointer;
     width: 150px;
     height: 50px;
@@ -61,7 +62,6 @@
     border: none;
     background-color: #F23333;
     color: white;
-    font-family: "ROKAFSansBold";
 }
 
 /* 신뢰도 */
@@ -153,9 +153,8 @@
 }
 
 .nicknameChangeArea > input {
-    font-family: "ROKAFSansBold";
     border: none;
-    font-size: 14pt;
+    font-size: 16px;
     width: 180px;
     outline: none;
 }
@@ -173,13 +172,13 @@
 .nicknameDupButton {
     cursor: pointer;
     left:360px;
-    width: 110px;
+    width: 130px;
     height: 50px;
     border-radius: 10px;
     border: none;
     background-color: #F23333;
     color: white;
-    font-family: "ROKAFSansBold";
+    font-size: 16px;
 }
 
 .nicknameDupText {
@@ -206,7 +205,7 @@
     border: none;
     background-color: #F23333;
     color: white;
-    font-family: "ROKAFSansBold";
+    font-size: 16px;
 }
 
 .cancelButton {
@@ -223,7 +222,7 @@
     border: none;
     background-color: #C4C4C4;
     color: #5A5A5A;
-    font-family: "ROKAFSansBold";
+    font-size: 16px;
 }
 
 /* 카테고리 */
@@ -249,7 +248,7 @@
     margin-bottom: 50px;
     top: 50%;
     transform: translate(0, -50%);
-    font-size: 20px;
+    font-size: 16px;
     transition: color 200ms ease;
 }
 
@@ -381,11 +380,4 @@
 
 .quitArea > button:hover {
     text-decoration: underline;
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }

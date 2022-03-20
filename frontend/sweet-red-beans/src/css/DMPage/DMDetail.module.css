@@ -101,7 +101,7 @@
 /* 상대방 닉네임 */
 .notMyArea > div:nth-child(2) {
     left: 90px;
-    font-size: 1.25rem;
+    font-size: 18px;
 }
 
 .notMyArea > div:nth-child(3)::before {
@@ -301,6 +301,7 @@
     margin: 10px;
     font-size: 12px;
     vertical-align: bottom;
+    color: #C4C4C4;
 }
 
 .myMessage > div:nth-child(2) img, .notMyMessage > div:nth-child(2) img{

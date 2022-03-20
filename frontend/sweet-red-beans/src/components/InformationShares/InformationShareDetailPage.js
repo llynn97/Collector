@@ -150,7 +150,6 @@ const InformationShareDetailPage = () => {
                 <div className={style.topBar}>
                     <div>{detailInfo.nickname}</div>
                     <div>{parseDate(detailInfo.written_date)}</div>
-                    <div></div>
                     <div>{detailInfo.views}</div>
                 </div>
 

@@ -33,12 +33,10 @@ const MainPosts = () => {
             }
         })
         .then(response => {
-            // console.log(response.data);
-            // setDailyPosts(response.data);
+            console.log(response.data);
+            setDailyPosts(response.data);
         })
         .catch(error => console.log(error))
-
-        //setDailyPosts(data)
     }, [])
 
     const writeClick = () => {

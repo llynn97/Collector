@@ -6,7 +6,6 @@
     margin-bottom: 50px;
     margin-left: -870px;
     font-size: 20px;
-    font-family: 'ROKAFSansBold';
     z-index: 5;
 }
 
@@ -26,11 +25,4 @@
 
 .movieThumbnails {
     margin-bottom: 50px;
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }

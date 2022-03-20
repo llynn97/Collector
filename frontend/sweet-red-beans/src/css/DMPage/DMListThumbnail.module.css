@@ -50,7 +50,7 @@
 
 /* 닉네임 */
 .thumbnail > div:nth-child(2) > div:nth-child(1), .currentThumbnail > div:nth-child(2) > div:nth-child(1) {
-    font-size: 0.88rem;
+    font-size: 14px;
     width: 120px;
     overflow:hidden;
     text-overflow: ellipsis; 
@@ -60,7 +60,7 @@
 /* 최근 메시지 */
 .thumbnail > div:nth-child(2) > div:nth-child(2), .currentThumbnail > div:nth-child(2) > div:nth-child(2) {
     margin-top: 10px;
-    font-size: 0.74rem;
+    font-size: 12px;
     width: 120px;
     overflow:hidden;
     text-overflow: ellipsis; 
@@ -70,9 +70,9 @@
 /* 날짜 */
 .thumbnail > div:nth-child(3), .currentThumbnail > div:nth-child(3) {
     text-align: right;
-    width: 70px;
+    width: 80px;
     top: 15px;
     right: 15px;
-    font-size: 0.74rem;
+    font-size: 12px;
     color: #c4c4c4;
 }

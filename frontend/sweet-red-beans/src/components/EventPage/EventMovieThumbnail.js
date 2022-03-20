@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import style from "../../css/EventPage/EventMovieThumbnail.module.css";
@@ -32,6 +32,12 @@ const EventMovieThumbnail = ({event}) => {
             }
         });
     }
+
+    useEffect(() => {
+        if(status === undefined) {
+            setStatus(true)
+        }
+    }, [status])
 
     return(
         <>
