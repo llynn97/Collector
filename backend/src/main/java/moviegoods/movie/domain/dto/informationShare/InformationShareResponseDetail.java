@@ -22,7 +22,7 @@ public class InformationShareResponseDetail {
     private String cinema_area;
     private String cinema_branch;
     private Boolean is_mine;
-
+    private Byte status;
     List<Comments> comment=new ArrayList<>(); //댓글리스트
 
     /*
@@ -30,7 +30,6 @@ public class InformationShareResponseDetail {
     private String comment_nickname;
     private String comment_content;
     private LocalDateTime comment_written_date;
-
     */
 
 

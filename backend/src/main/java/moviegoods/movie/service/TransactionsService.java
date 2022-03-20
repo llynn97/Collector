@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +118,7 @@ public class TransactionsService {
             Long reliability = transaction.getUser().getReliability();
             String content = transaction.getContent_detail().getContent();
             String status2 = String.valueOf(transaction.getStatus());
+            Byte user_status = transaction.getUser().getStatus();
             Long transaction_id = transaction.getTransaction_id();
             LocalDateTime written_date = transaction.getContent_detail().getWritten_date();
             String nickname = transaction.getUser().getNickname();
@@ -131,7 +131,8 @@ public class TransactionsService {
 
             Boolean is_like = likeBasketsService.isLikeTransaction(user_id, transaction_id);
 
-            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, transaction_id, reliability, written_date, is_mine, is_like,nickname,profile_url));
+            searchList.add(new TransactionsSearchResponseDto(search_user_id, content, status2, user_status, transaction_id,
+                    reliability, written_date, is_mine, is_like,nickname,profile_url));
         }
         return searchList;
     }
@@ -142,9 +143,9 @@ public class TransactionsService {
         String status = requestDto.getStatus();
         Long transaction_id = requestDto.getTransaction_id();
 
-        Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = {}"+ transaction_id));
+        Transaction transaction = transactionRepository.getById(transaction_id);
 
-        if (transaction.getUser() != loginUser || loginUser == null) {
+        if (transaction.getUser().getUser_id() != loginUser.getUser_id() || loginUser == null) {
             resultResponseDto.setResult(false);
             return resultResponseDto;
         }
@@ -167,10 +168,9 @@ public class TransactionsService {
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         Long transaction_id = requestDto.getTransaction_id();
 
-        Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() -> new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = {}"+ transaction_id));
+        Transaction transaction = transactionRepository.getById(transaction_id);
 
-        // 예외처리하기
-        if (transaction.getUser() != loginUser || loginUser == null) {
+        if (transaction.getUser().getUser_id() != loginUser.getUser_id() || loginUser == null) {
             resultResponseDto.setResult(false);
             return resultResponseDto;
         }
@@ -186,8 +186,7 @@ public class TransactionsService {
         Long transaction_id = requestDto.getTransaction_id();
         String content = requestDto.getContent();
 
-        Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() ->
-                new IllegalArgumentException("해당 거래내역이 없습니다. transaction_id = "+ transaction_id));
+        Transaction transaction = transactionRepository.getById(transaction_id);
         Content_Detail content_detail = contentDetailService.saveContentDetail(content);
 
         if (transaction.getUser() != loginUser || loginUser == null) {
@@ -204,14 +203,13 @@ public class TransactionsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultResponseDto like(User loginUser, TransactionsLikeRequestDto requestDto) throws ParseException {
+    public ResultResponseDto like(User loginUser, TransactionsLikeRequestDto requestDto){
         ResultResponseDto resultResponseDto = new ResultResponseDto();
         Long transaction_id = requestDto.getTransaction_id();
 
-        Transaction transaction = transactionRepository.findById(transaction_id).orElseThrow(() ->
-                new IllegalArgumentException("해당 대리구매가 없습니다. transaction_id = "+ transaction_id));
+        Transaction transaction = transactionRepository.getById(transaction_id);
 
-        if (loginUser == null || transaction.getUser() != loginUser) {
+        if (loginUser == null) {
             resultResponseDto.setResult(false);
             return resultResponseDto;
         }

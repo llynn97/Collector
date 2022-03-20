@@ -13,5 +13,5 @@ public class InformationShareResponseSearch {
     private String nickname; //user
     private LocalDateTime written_date;  //content-detail
     private Long view;  //post
-
+    private Byte status;
 }

@@ -15,7 +15,6 @@ import moviegoods.movie.configure.SessionConfig.*;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +27,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -157,7 +157,11 @@ public class SignInService {
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            Long lastUserId = getUserId();
+            Long nxtUserId = lastUserId + 1;
+
+            String originNickname = properties.getAsJsonObject().get("nickname").getAsString();
+            String nickname = originNickname + nxtUserId.toString() + randomNumGen();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String password = email + "kakao";
 
@@ -248,10 +252,13 @@ public class SignInService {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
+            Long lastUserId = getUserId();
+            Long nxtUserId = lastUserId + 1;
 
-            System.out.println("element : " + element.toString());
+            String originNickname = element.getAsJsonObject().get("name").getAsString();
+            String nickname = originNickname + nxtUserId.toString() + randomNumGen();
+            System.out.println("nickname : " + nickname);
 
-            String nickname = element.getAsJsonObject().get("name").getAsString();
             String email = element.getAsJsonObject().get("email").getAsString();
             String password = email + "google";
 
@@ -274,5 +281,23 @@ public class SignInService {
             e.printStackTrace();
         }
         return signInRequestDto;
+    }
+    public static String randomNumGen() {
+        Random random = new Random();
+        String numStr = "";
+
+        for(int i=0; i<4; i++) {
+            //0~9 난수 생성
+            String ran = Integer.toString(random.nextInt(10));
+            numStr += ran;
+        }
+
+        return numStr;
+    }
+
+    public Long getUserId() {
+        String getLastUserIdJpql = "select MAX(u.user_id) from user u";
+        Object lastUserId = em.createQuery(getLastUserIdJpql).getSingleResult();
+        return Long.valueOf(String.valueOf(lastUserId));
     }
 }

@@ -16,16 +16,21 @@ import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
+import moviegoods.movie.domain.entity.Transaction.Status;
+import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
 @Slf4j
 @Service
@@ -114,13 +119,14 @@ public class InformationShareService {
 
 
 
-    public InformationShareResponseSearch makeInformationShareResponseSearch(String nickname, String title, Long views, Long post_id, LocalDateTime written_date){
+    public InformationShareResponseSearch makeInformationShareResponseSearch(String nickname, String title, Long views, Long post_id, LocalDateTime written_date,Byte status){
         InformationShareResponseSearch informationShareResponseSearch=new InformationShareResponseSearch();
         informationShareResponseSearch.setNickname(nickname);
         informationShareResponseSearch.setPost_id(post_id);
         informationShareResponseSearch.setTitle(title);
         informationShareResponseSearch.setView(views);
         informationShareResponseSearch.setWritten_date(written_date);
+        informationShareResponseSearch.setStatus(status);
         return informationShareResponseSearch;
     }
 
@@ -134,34 +140,37 @@ public class InformationShareService {
         String search_word = isrs.getSearch_word();
         String sort_name = isrs.getSort_name(); // 제목 / 제목+내용 / 내용 / 작성자
         String searchJpql1 = "select p From post p join p.content_detail c ";
-        String searchWord = "";
+        String searchWord = "where p.category='정보공유' ";
         String orderLatest ="order by c.written_date DESC";
+        String categoryInformationShare=" and p.category='정보공유' ";
         if ((area == null) && (branch == null) && (name == null)) { // 영화관 필터가 없을때
             if (search_word.equals("")) {   //검색어가 없으면
 
             }
             if (!search_word.equals("")) {  //검색어가 있으면
                 if (sort_name.equals("제목")) {
-                    searchWord += "where p.title like '%" + search_word + "%'";
+                    searchWord += "and p.title like '%" + search_word + "%'";
                 } else if (sort_name.equals("제목+내용")) {
-                    searchWord += "where (c.content like '%" + search_word + "%') " + "OR (p.title like '%" + search_word + "%')";
+                    searchWord += "and (c.content like '%" + search_word + "%') " + "OR (p.title like '%" + search_word + "%')";
 
                 } else if (sort_name.equals("내용")) {
-                    searchWord += "where c.content like '%" + search_word + "%'";
+                    searchWord += "and c.content like '%" + search_word + "%'";
                 } else if (sort_name.equals("작성자")) {
 
-                    String searchJpql2="select p From post p join p.user u where u.nickname like '%"+search_word+"%'";
+                    String searchJpql2="select p From post p join p.user u where u.nickname like '%"+search_word+"%'"+categoryInformationShare;
+
                     List<Post> postList=em.createQuery(searchJpql2,Post.class).getResultList();
                     for (Post post : postList) {
                         Long content_detail_id=post.getContent_detail().getContent_detail_id();
                         Content_Detail content_detail=contentDetailRepository.findById(content_detail_id).get();
 
                         String nickname=post.getUser().getNickname();
+                        Byte status=userRepository.findByNickname(nickname).get().getStatus();
                         String title=post.getTitle();
                         Long views=post.getViews();
                         Long post_id=post.getPost_id();
                         LocalDateTime written_date=content_detail.getWritten_date();
-                        searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date));
+                        searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date,status));
 
 
 
@@ -171,6 +180,7 @@ public class InformationShareService {
                 }
             }
             searchJpql1+=searchWord;
+
             searchJpql1+=orderLatest;
 
             List<Post> postList=em.createQuery(searchJpql1,Post.class).getResultList();
@@ -178,11 +188,12 @@ public class InformationShareService {
                 Long user_id=post.getUser().getUser_id();
                 User user=userRepository.findById(user_id).get();
                 String nickname=user.getNickname();
+                Byte status=userRepository.findByNickname(nickname).get().getStatus();
                 String title=post.getTitle();
                 Long views=post.getViews();
                 Long post_id=post.getPost_id();
                 LocalDateTime written_date=post.getContent_detail().getWritten_date();
-                searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date));
+                searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date,status));
 
             }
             return searchList;
@@ -217,15 +228,18 @@ public class InformationShareService {
                     }
                 }
 
+                filterJpql+=categoryInformationShare;
+
 
                 List<Post> postList=em.createQuery(filterJpql,Post.class).getResultList();
                 for (Post post : postList) {
                     String nickname=userRepository.findById(post.getUser().getUser_id()).get().getNickname();
+                    Byte status=userRepository.findByNickname(nickname).get().getStatus();
                     String title=post.getTitle();
                     Long views=post.getViews();
                     Long post_id=post.getPost_id();
                     LocalDateTime written_date=contentDetailRepository.findById(post.getContent_detail().getContent_detail_id()).get().getWritten_date();
-                    searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date));
+                    searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date,status));
 
                 }
                 Collections.reverse(searchList);
@@ -257,6 +271,7 @@ public class InformationShareService {
                     filterJpql1+="c.name= '"+name+"'";
                 }
             }
+            filterJpql1+=categoryInformationShare;
             filterJpql1+="AND ";
             if (sort_name.equals("제목")) {
 
@@ -277,11 +292,12 @@ public class InformationShareService {
                 Content_Detail content_detail=contentDetailRepository.findById(content_detail_id).get();
 
                 String nickname=post.getUser().getNickname();
+                Byte status=userRepository.findByNickname(nickname).get().getStatus();
                 String title=post.getTitle();
                 Long views=post.getViews();
                 Long post_id=post.getPost_id();
                 LocalDateTime written_date=content_detail.getWritten_date();
-                searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date));
+                searchList.add(makeInformationShareResponseSearch(nickname,title,views,post_id,written_date,status));
 
 
 
@@ -308,12 +324,16 @@ public class InformationShareService {
         InformationShareDetailDTO ifsd= new InformationShareDetailDTO((Long)result[0],(String)result[1],(Long)result[2],(String)result[3],(String)result[4],(LocalDateTime)result[5],(String)result[6],(String)result[7],(String)result[8],(String)result[9]);
 
         InformationShareResponseDetail informationShareResponseDetail=new InformationShareResponseDetail();
-
+        String nickname=(String)result[1];
+        informationShareResponseDetail.setStatus(userRepository.findByNickname(nickname).get().getStatus());
         List<Object[]> row2=em.createQuery("select  u.user_id, u.nickname, d.content, d.written_date ,c.comment_id from comment c join c.post p left join c.user u left join c.content_detail d where p.post_id=:post_id").setParameter("post_id",post_id).getResultList();
         List<Comments> result2=new ArrayList<>();
+
         for (Object[] objects : row2) {
             Boolean check=false;
-            Comments comment=new Comments((Long)objects[0],(String)objects[1],(String)objects[2],(LocalDateTime)objects[3],(Long)objects[4]);
+            String nickname2=(String)objects[1];
+            Byte status2=userRepository.findByNickname(nickname2).get().getStatus();
+            Comments comment=new Comments((Long)objects[0],(String)objects[1],(String)objects[2],(LocalDateTime)objects[3],(Long)objects[4],status2);
             if(user_id==(Long)objects[0]){
                 check=true;
             }
@@ -337,7 +357,9 @@ public class InformationShareService {
         informationShareResponseDetail.setViews(ifsd.getViews()+1);
         informationShareResponseDetail.setWritten_date(ifsd.getWritten_date());
         informationShareResponseDetail.setTitle(ifsd.getTitle());
+
         informationShareResponseDetail.setComment(result2);
+
 
         post.setViews(post.getViews()+1);
         postRepository.save(post);

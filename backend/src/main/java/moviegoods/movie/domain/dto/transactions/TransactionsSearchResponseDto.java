@@ -13,6 +13,7 @@ public class TransactionsSearchResponseDto {
     private Long user_id;
     private String content;
     private String status;
+    private Byte user_status;
     private Long transaction_id;
     private Long reliability;
     private LocalDateTime written_date;

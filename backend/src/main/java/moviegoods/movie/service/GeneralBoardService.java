@@ -157,13 +157,14 @@ public class GeneralBoardService {
             String comment_nickname = comment.getUser().getNickname();
             String comment_content = comment.getContent_detail().getContent();
             LocalDateTime comment_written_date = comment.getContent_detail().getWritten_date();
+            Byte user_status = comment.getUser().getStatus();
 
             Boolean comment_is_mine = Boolean.FALSE;
             if (search_user_id == user_id) {
                 comment_is_mine = Boolean.TRUE;
             }
 
-            searchCommentList.add(new Comments(comment_id,search_user_id,comment_nickname,comment_content,comment_is_mine,comment_written_date));
+            searchCommentList.add(new Comments(comment_id,search_user_id,comment_nickname,comment_content,comment_is_mine,comment_written_date,user_status));
         }
 
         GeneralBoardDetailResponseDto responseDto = new GeneralBoardDetailResponseDto(post_id,title,written_date,content,views+1,nickname,image_url,is_mine,searchCommentList);
