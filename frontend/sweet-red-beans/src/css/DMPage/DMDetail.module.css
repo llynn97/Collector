@@ -190,12 +190,18 @@
 .preview div > button {
     cursor: pointer;
     position: absolute;
+    width: 30px;
+    height: 30px;
     right: 0px;
     border: none;
     font-size: 21px;
     font-weight: 700;
     text-align: center;
     color: #C4C4C4;
+    background: url("../../img/x.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 50%;
     background-color: transparent;
 }
 
@@ -223,6 +229,7 @@
     transform: translate(-50%, -50%);
     background-color: #FBC2C2;
     font-size: 14px;
+    font-family: 'Pretendard-Regular';
 }
 
 .writeArea > input:focus {
@@ -283,6 +290,7 @@
     max-width: 350px;
     border: #5A5A5A 1px solid;
     font-size: 14px;
+    font-family: 'Pretendard-Regular';
 }
 
 .myMessage > div:nth-child(2) {
@@ -302,6 +310,7 @@
     font-size: 12px;
     vertical-align: bottom;
     color: #C4C4C4;
+    font-family: 'Pretendard-Regular';
 }
 
 .myMessage > div:nth-child(2) img, .notMyMessage > div:nth-child(2) img{

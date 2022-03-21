@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import style from "../../css/DMPage/DMListThumbnail.module.css";
 import { parseDate } from "../../parseDate/parseDate";
 
 const DMListThumbnail = ({dm}) => {
+    //const cookies = Cookies();
+    const dispatch = useDispatch();
+    const navigation = useNavigate();
     const [currentRoom, setCurrentRoom] = useState(false);
     const selectedRoomId = useSelector(s => {
         if (s === undefined) {
@@ -15,6 +19,12 @@ const DMListThumbnail = ({dm}) => {
     })
 
     useEffect(() => {
+        //console.log(cookies);
+        // if(!cookies.get("login")) {
+        //     alert("로그인을 먼저 해주세요");
+        //     return
+        //     // navigation('/')
+        // }
         if(selectedRoomId !== null) {
             if (dm.chat_room_id === selectedRoomId) {
                 console.log("a의 번호: ", selectedRoomId);

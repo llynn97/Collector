@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState, useMemo} from "react";
 import { Routes, Route } from "react-router";
 import { Link } from "react-router-dom";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
+import EventDetailPage from "./EventDetailPage";
 import { useNavigate } from "react-router";
 import Events from "./Events";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";

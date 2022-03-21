@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Routes, Route } from "react-router";
 import { Link } from "react-router-dom";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
+import EventDetailPage from "./EventDetailPage";
 import { useNavigate } from "react-router";
 import EventPage from "./EventPage";
 import EventMovieThumbnail from "./EventMovieThumbnail";

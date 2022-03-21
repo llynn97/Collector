@@ -21,6 +21,10 @@
     transform: scale(0.9);
 }
 
+.thumbnailArea > div {
+    font-family: 'Pretendard-Regular';
+}
+
 /* 제목 */
 .thumbnailArea > div:nth-child(2) {
     display: inline-block;

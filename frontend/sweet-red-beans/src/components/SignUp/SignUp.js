@@ -216,7 +216,7 @@ const SignUp = () => {
                 {nickname === "" ? <div className={style.errormessage}>* 닉네임을 입력해주세요</div> : null}
             </div>
 
-            <input className={style.joinButton} type="submit" value="가입하기" onClick={onClick}/>
+            <button className={style.joinButton} type="submit" onClick={onClick}>가입하기</button>
             {emailError && <div className={style.errormessage}>이메일 중복확인해주세요</div>}
             {nicknameError && <div className={style.errormessage}>닉네임 중복확인해주세요</div>}
             {passwordFormError && <div className={style.errormessage}>비밀번호 양식을 확인해주세요</div>}

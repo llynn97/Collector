@@ -13,6 +13,7 @@
     -moz-animation: fadein 0.5s; /* Firefox */
     -webkit-animation: fadein 0.5s; /* Safari and Chrome */
     -o-animation: fadein 0.5s; /* Opera */
+    font-family: 'ROKAFSansBold';
 }
 
 @keyframes fadein {
@@ -212,6 +213,11 @@
     white-space: pre-wrap;
     font-size: 14px;
     width: 90%;
+    font-family: 'Pretendard-Regular';
+}
+
+.content > * {
+    font-family: 'Pretendard-Regular';
 }
 
 .bottomArea {
@@ -330,4 +336,5 @@
     color: #C4C4C4;
     right: 20px;
     bottom: 0px;
+    font-family: 'Pretendard-Regular';
 }

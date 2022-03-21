@@ -2,6 +2,7 @@
     position: relative;
     border-bottom: 1px #c4c4c4 solid;
     padding: 10px;
+    font-family: 'ROKAFSansBold';
 }
 
 .topBar {
@@ -24,6 +25,7 @@
     right: 20px;
     color: #c4c4c4;
     font-size: 12px;
+    font-family: 'Pretendard-Regular';
 }
 
 .contentArea{
@@ -39,6 +41,7 @@
     margin-top: 10px;
     display: inline-block;
     width: 630px;
+    font-family: 'Pretendard-Regular';
 }
 /* 버튼 */
 .contentArea > div:nth-child(2){

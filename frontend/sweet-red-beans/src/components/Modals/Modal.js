@@ -11,10 +11,7 @@ const Modal = (props) => {
       {open ? (
         <section>
             <div className={style.buttonArea}>
-              <button onClick={close}>
-                {' '}
-                &times;{' '}
-              </button>
+              <button onClick={close}></button>
             </div>
             <header>
               {header}

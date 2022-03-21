@@ -20,6 +20,7 @@
   display: inline-block;
   top:50%;
   transform: translate(0%, -50%);
+  font-family: 'Pretendard-Regular';
 }
 
 .topBar div:nth-child(1) {
@@ -49,7 +50,6 @@
   position: relative;
   height: 45px;
   border-bottom: #c4c4c4 1px solid;
-  
 }
 
 .infoBox main article div {
@@ -61,6 +61,7 @@
   overflow:hidden;
   text-overflow: ellipsis; 
   white-space:nowrap;
+  font-family: 'Pretendard-Regular';
 }
 
 .infoBox main article div:nth-child(1) {

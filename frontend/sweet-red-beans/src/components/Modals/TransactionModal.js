@@ -12,8 +12,7 @@ const TransactionWriteModal = (props) => {
         <section>
             <div className={style.buttonArea}>
               <button onClick={close}>
-                {' '}
-                &times;{' '}
+
               </button>
             </div>
           <main>{props.children}</main>

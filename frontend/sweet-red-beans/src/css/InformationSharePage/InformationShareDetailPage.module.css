@@ -72,6 +72,7 @@
     width: 200px;
     right: 30px;
     color: #C4C4C4;
+    font-family: 'Pretendard-Regular';
 }
 
 /* 조회수 아이콘 */
@@ -90,9 +91,11 @@
 
 /* 조회수 */
 .topBar div:nth-child(3) {
+    vertical-align: middle;
     right: 20px;
     color: #C4C4C4;
     font-size: 12px;
+    font-family: 'Pretendard-Regular';
 }
 
 .contentArea {
@@ -111,6 +114,7 @@
 .contentArea div:nth-child(2) {
     text-align: left;
     white-space: pre-wrap;
+    font-family: 'Pretendard-Regular';
 }
 
 /* 삭제 버튼 */

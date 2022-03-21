@@ -31,7 +31,7 @@ const LogIn = () =>{
     setModalOpen(false);
   };
 
-  const SigninClick = () => {
+  const SignupClick = () => {
     navigation('/signup');
     setModalOpen(false);
   }
@@ -137,7 +137,7 @@ const LogIn = () =>{
           {loginError && <div className={style.errormessage}>*이메일과 비밀번호를 입력해주세요</div>}
         </form>
 
-        <div id="signup" onClick={SigninClick} className={style.signupButton}>회원가입</div>
+        <button id="signup" onClick={SignupClick} className={style.signupButton}>회원가입</button>
         <div>
         <button onClick={KakaoLoginClick} className={style.kakaologinButton}>카카오로 로그인</button>
         </div>

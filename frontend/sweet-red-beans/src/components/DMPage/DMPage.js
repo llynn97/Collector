@@ -34,6 +34,13 @@ const DMPage = () => {
             alert("로그인을 먼저 해주세요");
             navigation('/');
         });
+
+        return () => {
+            dispatch({
+                type: SELECTED_DM,
+                payload: null,
+            })
+        }
     }, [])
 
     const DMListClick = (selectedRoom, e) => {

@@ -41,6 +41,7 @@ const EventDetailPage = () => {
             setStartDate(response.data.start_date)
             setEndDate(response.data.end_date)
             setLikeCount(response.data.like_count);
+            console.log(response.data);
         })
         .catch(error => console.log(error));
 
@@ -48,31 +49,36 @@ const EventDetailPage = () => {
 
     const likeClick = () => {
         const body = {
-            user_id: "1",
             event_id: thisEvent.event_id,
         }
         axios.post('http://localhost:8080/events/like', body, { withCredentials: true })
         .then(response => {
+            console.log(response.data);
             if(response.data.result){
                 if(status){
                     setStatus(false);
+                    setLikeCount(likeCount-1);
                 }
                 else {
                     setStatus(true);
+                    setLikeCount(likeCount+1);
                 }
             }
             else {
-                alert("삭제에 실패했습니다.")
+                alert("좋아요에 실패했습니다.")
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
     }
 
     useEffect(()=>{
         console.log(thisEvent)
         setThisEventIsHere(true);
     }, [thisEvent])
-    
 
     return (
         <>

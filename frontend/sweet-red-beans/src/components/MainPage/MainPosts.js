@@ -6,24 +6,7 @@ import { useNavigate } from "react-router";
 
 const MainPosts = () => {
     const navigation = useNavigate();
-    const [dailyPosts, setDailyPosts] = useState(null);
-
-    const data = [
-        {post_id : 12,
-        title : "제목",
-        content:"내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용"},
-        {post_id : 12,
-        title : "제목",
-        content:"내용내용내용내용내용내용"},
-        {post_id : 12,
-        title : "제목",
-        content:"내용내용내용내용내용내용내용내용내용내용내용내용"},
-        {post_id : 12,
-        title : "제목",
-        content:"내용내용내용내용내용내용내용내용내용내용내용내용"},
-        {post_id : 12,
-        title : "제목",
-        content:"내용내용내용내용내용내용내용내용내용내용내용내용"}]
+    const [dailyPosts, setDailyPosts] = useState([]);
     
     useEffect(() => {
         axios.get("http://localhost:8080/main/daily-community", {
@@ -46,7 +29,7 @@ const MainPosts = () => {
     return (
         <>
         <div className={style.posts}>
-            {dailyPosts !== null ? 
+            {dailyPosts.length !== 0 ? 
                 <ul>
                 {dailyPosts.map((item, index) => (
                     <li key={index}>

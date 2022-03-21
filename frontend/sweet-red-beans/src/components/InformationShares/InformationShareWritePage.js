@@ -219,7 +219,7 @@ const InformationShareWritePage = () => {
         <>
         <div className={style.whiteBox}>
             <div className={style.titleArea}>
-                <input type="text" value={title} onChange={titleChange} placeholder="제목"/>
+                <input type="text" value={title} onChange={titleChange} placeholder="제목" maxLength="50"/>
                 <div className={style.filterArea}>
                     <div className={style.filter}>
                         <select onChange={cinemaNameChange} value={cinemaName}>
@@ -268,7 +268,7 @@ const InformationShareWritePage = () => {
                 {imgBase64 !== null ?
                 <div>
                     <img src={imgBase64}/>
-                    <button onClick={previewCancelClick}>&times;</button>
+                    <button onClick={previewCancelClick}></button>
                 </div>
                 : null}
                 <button onClick={writeClick}>글쓰기</button>

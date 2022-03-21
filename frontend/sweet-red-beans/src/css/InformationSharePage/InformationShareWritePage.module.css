@@ -192,12 +192,18 @@
     display: inline-block;
     vertical-align: top;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
     border: none;
     font-size: 21px;
     font-weight: 700;
     text-align: center;
     color: #C4C4C4;
     margin-top: -5px;
+    background: url("../../img/x.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 50%;
     background-color: transparent;
 }
 

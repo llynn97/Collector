@@ -45,6 +45,7 @@ nav {
     display: flex;
     justify-content: center;
     position: relative;
+    font-family: 'ROKAFSansBold';
 }
 
 ul, li {

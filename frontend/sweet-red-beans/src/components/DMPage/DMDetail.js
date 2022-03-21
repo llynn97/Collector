@@ -9,12 +9,16 @@ import style from "../../css/DMPage/DMDetail.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { SELECTED_DM } from "../../actions/types";
 import { parseDate } from "../../parseDate/parseDate";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router";
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
+    const navigation = useNavigate();
+
     const [modalOpen, setModalOpen] = useState(false);
 
     const [reportContent, setReportContent] = useState("");
@@ -61,6 +65,11 @@ const DMDetail = ({selectedRoom}) => {
 
     //전송 버튼 눌렀을 때
     const sendClick = () => {
+
+        // if(!cookies.get("login")) {
+        //     alert("로그인을 먼저 해주세요");
+        //     navigation('/')
+        // }
         sendMessage(message);
         //서버에서 받아올 때처럼 비슷한 형식으로 넣어주기 위해
         setMessage("");
@@ -313,7 +322,7 @@ const DMDetail = ({selectedRoom}) => {
                 {imgBase64 !== null ?
                 <div>
                     <img src={imgBase64}/>
-                    <button onClick={previewCancelClick}>{' '}&times;{' '}</button>
+                    <button onClick={previewCancelClick}></button>
                 </div>
                 : null}
                 </div>

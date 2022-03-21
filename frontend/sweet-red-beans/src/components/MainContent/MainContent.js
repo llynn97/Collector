@@ -2,7 +2,7 @@ import React from "react";
 import SignUp from "../SignUp/SignUp";
 import MainPage from "../MainPage/MainPage";
 import {Route, Routes} from "react-router-dom";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
+import EventDetailPage from "../EventPage/EventDetailPage";
 import EventPage from "../EventPage/EventPage";
 import TopBar from "../TopBar/TopBar";
 import InformationSharePage from "../InformationShares/InformationSharePage";
