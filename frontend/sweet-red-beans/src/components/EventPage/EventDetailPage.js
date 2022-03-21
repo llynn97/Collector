@@ -32,14 +32,14 @@ const EventDetailPage = () => {
             }
         })
         .then(response => {
-            setThisEvent(response.data)
+            setThisEvent(response.data);
             setStatus(response.data.is_like);
             setTitle(response.data.title);
             setCinemaName(response.data.cinema_name);
-            setImageUrl(response.data.detail_image_url)
-            setLinkUrl(response.data.link_url)
-            setStartDate(response.data.start_date)
-            setEndDate(response.data.end_date)
+            setImageUrl(response.data.detail_image_url);
+            setLinkUrl(response.data.link_url);
+            setStartDate(response.data.start_date);
+            setEndDate(response.data.end_date);
             setLikeCount(response.data.like_count);
             console.log(response.data);
         })
