@@ -23,7 +23,7 @@ const EventMovieThumbnail = ({event}) => {
                 }
             }
             else {
-                alert("좋아요에 실패했습니다.")
+                alert("좋아요에 실패했습니다.");
             }
         })
         .catch(error => {
@@ -35,7 +35,7 @@ const EventMovieThumbnail = ({event}) => {
 
     useEffect(() => {
         if(status === undefined) {
-            setStatus(true)
+            setStatus(true);
         }
     }, [status])
 
@@ -47,9 +47,8 @@ const EventMovieThumbnail = ({event}) => {
                 <div>{event.title}</div>
                 <div>{event.start_date} ~ {event.end_date}</div>
             </Link>
-            
-            {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
 
+            {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
         </div>
         
         </>
