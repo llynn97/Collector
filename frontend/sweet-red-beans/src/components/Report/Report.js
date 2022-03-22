@@ -64,7 +64,7 @@ const Report = ({report}) => {
             console.log(error);
         })
         closeModal();
-        navigation(0);
+        //navigation(0);
     }
 
     const cancelConfirm = () => console.log("승인 취소")
@@ -85,7 +85,7 @@ const Report = ({report}) => {
                 </div>
                 <div>신고 받은 사람 : {reportedNickname}</div>
                 <div>{content}</div>
-                <button onClick={reportAcceptClick}>승인하기</button>
+                <button onClick={reportAcceptClick}>{isComplete ? "승인취소" : "승인하기"}</button>
             </form>
         </Modal>
         <div className={style.main} onClick={openModal}>

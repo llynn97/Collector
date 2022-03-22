@@ -9,18 +9,16 @@ import style from "../../css/TopBar/LogIn.module.css";
 import { getCookie, setCookie } from "../../Cookie";
 import { Cookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import { KAKAO_AUTH_URL, GOOGLE_AUTH_URL } from "../../url/url";
 
 const LogIn = () =>{
-  let navigation = useNavigate();
+  const navigation = useNavigate();
   const dispatch = useDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-
-  const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=e64599af67aac20483ad02a14a8c5058&redirect_uri=http://localhost:3000/signin/oauth2/code/kakao&response_type=code"
-  const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope=email profile&response_type=code&client_id=435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com&redirect_uri=http://localhost:3000/signin/auth/google/callback"
 
   const cookies = new Cookies();
 
@@ -85,7 +83,7 @@ const LogIn = () =>{
 
         
       } else {
-        alert("로그인에 실패했습니다.");
+        alert("이메일과 비밀번호를 확인해주세요.");
       }
     })
     .catch(error => console.log(error));

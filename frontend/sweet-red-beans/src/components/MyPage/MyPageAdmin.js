@@ -3,8 +3,13 @@ import Report from "../Report/Report";
 import axios from "axios";
 import Pagination from "../Pagination/Pagination";
 import style from "../../css/MyPage/MyPageAdmin.module.css";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router";
 
 const MyPageAdmin = () => {
+    const cookies = new Cookies();
+    const navigation = useNavigate();
+
     const [reports, setReports] = useState([]);
     const [reportIsHere, setReportIsHere] = useState(false);
 
@@ -13,13 +18,27 @@ const MyPageAdmin = () => {
     const offset = (page - 1) * limit;
 
     useEffect(() => {
-        axios.get('http://localhost:8080/manager/report', {withCredentials: true})
-        .then(response => {
-            
-            setReports(response.data.reports);
-        })
-        .catch(error => console.log(error))
-
+        if (cookies.get("user")){
+            if (cookies.get("user").authority === "일반"){
+                alert("접근할 수 없습니다.")
+                navigation('/')
+                return
+            }
+            else {
+                axios.get('http://localhost:8080/manager/report', {withCredentials: true})
+                .then(response => {
+                    
+                    setReports(response.data.reports);
+                })
+                .catch(error => console.log(error))
+            }
+        }
+        else {
+            alert("접근할 수 없습니다.")
+            navigation('/')
+            return
+        }
+        
     }, [])
 
     useEffect(() => {
