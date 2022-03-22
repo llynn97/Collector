@@ -64,7 +64,8 @@ const Comment = ({comment}) => {
         <>
         <div className={style.comment}>
             <div className={style.topBar}>
-                <div>{comment.comment_nickname}</div>
+                
+                <div>{comment.user_status === "정지" || comment.user_status === "탈퇴" ? "(알수없음)" : comment.comment_nickname}</div>
                 <div>{parseDate(comment.comment_written_date)}</div>
             </div>
             

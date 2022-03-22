@@ -11,6 +11,7 @@ import { SELECTED_DM } from "../../actions/types";
 import { parseDate } from "../../parseDate/parseDate";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router";
+import user from "../../img/user.png";
 
 let stompClient = null;
 
@@ -119,6 +120,7 @@ const DMDetail = ({selectedRoom}) => {
 
     //이제까지 메시지 내역 조회
     useEffect(() => {
+        console.log(selectedRoom);
         setContents([]);
         setMessage("");
         if(selectedRoom !== undefined){
@@ -280,12 +282,8 @@ const DMDetail = ({selectedRoom}) => {
         <div className={style.chatcontainer}>
             <div className={style.topBar}></div>
             <div className={style.notMyArea}>
-                {selectedRoom.not_mine_profile_url === null ?
-                    <div className={style.nonePorfile}></div>
-                    :
-                    <img src={selectedRoom.not_mine_profile_url}/>
-                }
-                <div>{selectedRoom.not_mine_nickname === null ? "(알수없음)" : selectedRoom.not_mine_nickname}</div>
+                <img src={selectedRoom.user_status === "정지" || selectedRoom.user_status === "탈퇴" ? user : selectedRoom.not_mine_profile_url}/>
+                <div>{selectedRoom.user_status === "정지" || selectedRoom.user_status === "탈퇴" ? "(알수없음)" : selectedRoom.not_mine_nickname}</div>
                 <div>{selectedRoom.not_mine_reliability}</div>
                 <div>
                     <button onClick={reliabilityPlusClick}>신뢰도 주기</button>

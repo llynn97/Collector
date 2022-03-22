@@ -31,21 +31,7 @@ const InformationShareDetailPage = () => {
                 }
         })
         .then(response => {
-            console.log(response.data.content.replace('\r\n', <br/>));
-            const post = {
-                post_id: response.data.post_id,
-                title: response.data.title,
-                written_date: response.data.written_date,
-                content: response.data.content,
-                views: response.data.views,
-                nickname: response.data.nickname,
-                image_url: response.data.image_url,
-                cinema_name: response.data.cinema_name,
-                cinema_area: response.data.cinema_area,
-                cinema_branch: response.data.cinema_branch,
-                is_mine: response.data.is_mine,
-            }
-            setDetailInfo(post); 
+            setDetailInfo(response.data); 
             setComments(response.data.comment)
         })
         .catch(error => console.log(error));
@@ -148,7 +134,7 @@ const InformationShareDetailPage = () => {
                 </div>
 
                 <div className={style.topBar}>
-                    <div>{detailInfo.nickname}</div>
+                    <div>{detailInfo.user_status === "정지" || detailInfo.user_status === "탈퇴" ? "(알수없음)" : detailInfo.nickname}</div>
                     <div>{parseDate(detailInfo.written_date)}</div>
                     <div>{detailInfo.views}</div>
                 </div>

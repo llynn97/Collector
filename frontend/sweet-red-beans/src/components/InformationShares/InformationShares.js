@@ -86,8 +86,6 @@ const InformationShares = ({searchWords, sort, cinemaName, cinemaArea, cinemaBra
         }
     },[searchWords])
 
-    console.log(infos);
-
     return (
     <div className={style.layout}>
         {/* <label>
@@ -118,7 +116,7 @@ const InformationShares = ({searchWords, sort, cinemaName, cinemaArea, cinemaBra
                 <Link to={`/informationShare/${item.post_id}`} style={{textDecoration:"none"}}>
                 <div>{item.title}</div>
                 </Link>
-                <div>{item.nickname}</div>
+                <div>{item.user_status === "정지" || item.user_status === "탈퇴" ? "(알수없음)" : item.nickname}</div>
                 <div>{parseDate(item.written_date)}</div>
                 <div>{item.view}</div>
                 

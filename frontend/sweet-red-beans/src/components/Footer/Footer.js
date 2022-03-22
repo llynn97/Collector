@@ -77,7 +77,7 @@ const Footer = () => {
             <div className={style.github} onClick={githubClick}><Github/></div>
             
             <div className={copy ? style.mailArea : style.mailArea} onClick={mailClick}>
-                <div class={copy ? `${style.message} ${style.active}` : style.message}>
+                <div className={copy ? `${style.message} ${style.active}` : style.message}>
                     {EMAIL}
                     <div>
                     {notCopy ? "복사 실패!" : "복사!"}

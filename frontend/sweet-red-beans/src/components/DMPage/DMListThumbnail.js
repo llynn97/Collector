@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import style from "../../css/DMPage/DMListThumbnail.module.css";
 import { parseDate } from "../../parseDate/parseDate";
+import user from "../../img/user.png";
 
 const DMListThumbnail = ({dm}) => {
     //const cookies = Cookies();
@@ -19,12 +20,7 @@ const DMListThumbnail = ({dm}) => {
     })
 
     useEffect(() => {
-        //console.log(cookies);
-        // if(!cookies.get("login")) {
-        //     alert("로그인을 먼저 해주세요");
-        //     return
-        //     // navigation('/')
-        // }
+        console.log(dm);
         if(selectedRoomId !== null) {
             if (dm.chat_room_id === selectedRoomId) {
                 console.log("a의 번호: ", selectedRoomId);
@@ -40,14 +36,11 @@ const DMListThumbnail = ({dm}) => {
     return (
         <>
         <div className={currentRoom ? style.currentThumbnail : style.thumbnail}>
-            {dm.not_mine_profile_url === null ?
-                <div className={style.nonePorfile}></div>
-                :
-                <img src={dm.not_mine_profile_url}/>
-            }
+
+            <img src={dm.user_status === "정지" || dm.user_status === "탈퇴" ? user : dm.not_mine_profile_url}/>
             
             <div className={style.contentArea}>
-                <div>{dm.not_mine_nickname === null ? "(알수없음)" : dm.not_mine_nickname}</div>
+                <div>{dm.user_status === "정지" || dm.user_status === "탈퇴" ? "(알수없음)" : dm.not_mine_nickname}</div>
                 <div>{dm.recent_message}</div>
             </div>
             <div>

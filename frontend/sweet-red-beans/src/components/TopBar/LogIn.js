@@ -60,7 +60,7 @@ const LogIn = () =>{
     axios.post('http://localhost:8080/signin', body, { withCredentials: true })
     .then(response => {
       if(!response.data.status) {
-        alert("정지된 상태입니다.");
+        alert("정지된 상태입니다. 관리자에게 문의해주세요.");
         setModalOpen(false);
       }
       else if(response.data.result){

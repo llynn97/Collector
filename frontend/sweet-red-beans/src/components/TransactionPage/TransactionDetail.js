@@ -17,8 +17,8 @@ const TransactionDetail = ({transaction}) => {
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [reportContent, setReportContent] = useState("");
-    const profileImage = transaction.profile_url;
-    const nickname = transaction.nickname;
+    const [profileImage, setProfileImage] = useState(null);
+    const [nickname, setNickname] = useState();
 
     const serverReqStatus = () => {
         const body = {
@@ -102,8 +102,8 @@ const TransactionDetail = ({transaction}) => {
                 type:DM_CREATE,
                 DMCreate: response.data,
             })
-            console.log(response.data);
-            setLoading(true);
+            navigation('/DM')
+            return
         })
         .catch(error => {
             if(error.response.status === 401){
@@ -112,13 +112,6 @@ const TransactionDetail = ({transaction}) => {
         })
 
     }
-
-    useEffect(() => {
-        if(loading){
-            navigation('/DM')
-        }
-        console.log("loading: ", loading);
-    }, [loading]);
 
     //좋아요 눌렀을 때
     const likeClick = () => {
@@ -150,6 +143,15 @@ const TransactionDetail = ({transaction}) => {
     useEffect(() => {
         setStatus(transaction.status)
         setLikeStatus(transaction.is_like);
+        if(transaction.user_status === "정지" || transaction.user_status === "탈퇴") {
+            setNickname("(알수없음)");
+            setProfileImage(user);
+        }
+        else {
+            setNickname(transaction.nickname);
+            setProfileImage(transaction.profile_url);
+        }
+        
     },[transaction])
 
     const openModal = () => {
@@ -202,19 +204,6 @@ const TransactionDetail = ({transaction}) => {
             }
         }
     }
-
-    const options = [
-        {
-            label: "마감",
-            value: "마감",
-            selectedBackgroundColor: "#0097e6",
-        },
-        {
-            label: "진행중",
-            value: "진행중",
-            selectedBackgroundColor: "#fbc531"
-        }
-    ];
 
     const statusClick = (checked) =>{
         console.log(checked);

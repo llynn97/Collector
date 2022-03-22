@@ -110,6 +110,7 @@ const SignUp = () => {
         axios.post('http://localhost:8080/signup', body)
         .then(response => {
             if (response.data.result){
+                alert("회원가입되었습니다!");
                 navigation('/')}
             else {
                 alert("회원가입할 수 없습니다.");
@@ -129,14 +130,15 @@ const SignUp = () => {
             const userEmail = {email : email}
             axios.post('http://localhost:8080/signup/duplicate-check', userEmail)
                 .then(response => {
+                    console.log(response.data);
                     const data = response.data
                     if(data.result === false){
                         setEmailCheck(true);
                         setEmailError(false);
-                        alert("이메일 인증에 성공했습니다.");
+                        alert("사용할 수 있는 이메일입니다.");
                     }
                     else {
-                        alert("이메일 인증에 실패했습니다.");
+                        alert("사용할 수 없습니다.");
                     }
                 })
                 .catch(error => {
