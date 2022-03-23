@@ -8,42 +8,40 @@
 }
 
 .posts li {
-    margin-bottom: 50px;
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+    margin-bottom: 30px;
 }
 
-.posts li::before {
+.posts li::after {
     display: inline-block;
+    position: absolute;
+    bottom: -10px;
+    left:50%;
+    transform: translate(-50%, 0) scaleX(0);
     content: "";
-    width: 10px;
-    height: 10px;
-    border-radius: 50px;
+    width: 800px;
+    height: 2px;
     background-color: black;
-    vertical-align: middle;
-    margin-right: 20px;
+    margin-top: 10px;
+    transform-origin : left bottom;
+    transition: transform 200ms ease;
+
+}
+
+.posts li:hover::after {
+    transform: translate(-50%, 0) scaleX(1);
 }
 
 .title {
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
-    font-size: 20px;
+    font-size: 18px;
     color: black;
 }
 
-.title:hover {
-    text-decoration: underline;
-}
-
-.posts li > div:nth-child(2) {
-    cursor: default;
-    margin: 20px 0px 0px 50px;
-    color: #5a5a5a;
-    font-size: 16px;
-    width: 800px;
-    overflow:hidden;
-    text-overflow: ellipsis; 
-    white-space:nowrap;
-}
 
 .nullMessage {
     text-align: center;

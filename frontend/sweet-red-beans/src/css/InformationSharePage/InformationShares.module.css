@@ -58,9 +58,6 @@
   top:50%;
   transform: translate(0%, -50%);
   color: black;
-  overflow:hidden;
-  text-overflow: ellipsis; 
-  white-space:nowrap;
   font-family: 'Pretendard-Regular';
 }
 

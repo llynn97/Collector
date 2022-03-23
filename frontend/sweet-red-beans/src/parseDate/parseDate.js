@@ -1,5 +1,11 @@
 export const parseDate = (written_date) => {
-    const d = new Date(written_date);
+    let d = null;
+    if(written_date === null) {
+        d = new Date();
+    }
+    else {
+        d = new Date(written_date);
+    }
     const year = d.getFullYear();
     let month = d.getMonth()+1;
     let date = d.getDate();

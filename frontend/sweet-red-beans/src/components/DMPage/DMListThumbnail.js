@@ -44,7 +44,7 @@ const DMListThumbnail = ({dm}) => {
                 <div>{dm.recent_message}</div>
             </div>
             <div>
-                {parseDate(dm.recent_message_date)}
+                {dm.recent_message_date === null ? "" : parseDate(dm.recent_message_date)}
             </div>
         </div>
         

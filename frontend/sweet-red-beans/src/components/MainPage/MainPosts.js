@@ -32,12 +32,11 @@ const MainPosts = () => {
             {dailyPosts.length !== 0 ? 
                 <ul>
                 {dailyPosts.map((item, index) => (
-                    <li key={index}>
-                        <Link to={`/informationShare/${item.post_id}`} style={{textDecoration:"none"}}>
+                    <Link to={`/informationShare/${item.post_id}`} style={{textDecoration:"none"}} key={index}>
+                        <li>
                             <div className={style.title}>{item.title}</div>
-                        </Link>
-                        <div>{item.content}</div>
-                    </li>
+                        </li>
+                    </Link>
                 ))}
                 </ul>
                 :

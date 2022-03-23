@@ -51,7 +51,7 @@ const Report = ({report}) => {
 
     const confirm = () => {
         axios.patch('http://localhost:8080/manager/report', {
-            user_id:report.reported_nickname
+            user_id:report.reported_user_id
         },
         {withCredentials: true}
         )
@@ -64,13 +64,13 @@ const Report = ({report}) => {
             console.log(error);
         })
         closeModal();
-        //navigation(0);
+        navigation(0);
     }
 
     const cancelConfirm = () => console.log("승인 취소")
 
     const reportAcceptClick = useConfirm(
-        "승인하시겠습니까?",
+        isComplete? "승인을 취소하시겠습니까?" : "승인하시겠습니까?",
         confirm,
         cancelConfirm
     );
