@@ -96,13 +96,13 @@ const EventDetailPage = () => {
                                 {status ? (
                                     <button
                                         onClick={likeClick}
-                                        className={style.likeOnButton}
-                                    ></button>
+                                        className={style.likeOnButton}></button>
                                 ) : (
                                     <button
                                         onClick={likeClick}
-                                        className={style.likeOffButton}
-                                    ></button>
+                                        className={
+                                            style.likeOffButton
+                                        }></button>
                                 )}
                             </div>
                             <div>{likeCount}</div>

@@ -3,9 +3,9 @@
     background-color: white;
     width: 1000px;
     min-height: 800px;
-    margin : 0 auto;
+    margin: 0 auto;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     box-sizing: border-box;
     padding: 30px;
     margin-top: 50px;
@@ -14,8 +14,7 @@
 
 .signupArea {
     width: 320px;
-    margin : 0 auto;
-
+    margin: 0 auto;
 }
 .signUpText {
     text-align: left;
@@ -29,12 +28,12 @@
     margin-bottom: 15px;
 }
 
-.inputArea > label > div{
+.inputArea > label > div {
     font-size: 16px;
     margin-bottom: 15px;
 }
 
-.dupInputText{
+.dupInputText {
     width: 190px;
     height: 50px;
     border: #c4c4c4 1px solid;
@@ -46,7 +45,7 @@
     font-family: 'Pretendard-Regular';
 }
 
-.dupInputText:focus{
+.dupInputText:focus {
     border: #5a5a5a 2px solid;
 }
 
@@ -56,7 +55,7 @@
     width: 115px;
     height: 50px;
     font-size: 14px;
-    background-color: #F23333;
+    background-color: #f23333;
     border: none;
     border-radius: 5px;
     margin-left: 15px;
@@ -64,13 +63,13 @@
 
 .errormessage {
     font-size: 12px;
-    color: #F23333;
+    color: #f23333;
     margin-bottom: 10px;
     text-align: left;
     font-family: 'Pretendard-Regular';
 }
 
-.inputText{
+.inputText {
     width: 320px;
     height: 50px;
     border: #c4c4c4 1px solid;
@@ -82,17 +81,17 @@
     font-family: 'Pretendard-Regular';
 }
 
-.inputText:focus{
+.inputText:focus {
     border: #5a5a5a 2px solid;
 }
 
-.joinButton{
+.joinButton {
     cursor: pointer;
     width: 320px;
     height: 50px;
     color: white;
     font-size: 14px;
-    background-color: #F23333;
+    background-color: #f23333;
     border: none;
     border-radius: 5px;
     margin-top: 20px;

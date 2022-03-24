@@ -31,6 +31,10 @@ const NavigationBar = () => {
         navigation('/informationShare');
     };
 
+    const generalBoardClick = () => {
+        navigation('/GeneralBoard');
+    };
+
     const DMClick = () => {
         if (cookies.get('login')) {
             navigation('/DM');
@@ -68,6 +72,11 @@ const NavigationBar = () => {
                             <li>
                                 <div onClick={imformationShareClick}>
                                     정보공유
+                                </div>
+                            </li>
+                            <li>
+                                <div onClick={generalBoardClick}>
+                                    자유게시판
                                 </div>
                             </li>
                         </ul>

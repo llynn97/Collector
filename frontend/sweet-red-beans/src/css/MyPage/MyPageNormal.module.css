@@ -3,9 +3,9 @@
     background-color: white;
     width: 1000px;
     height: 200px;
-    margin : 0 auto;
+    margin: 0 auto;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     box-sizing: border-box;
     padding: 30px;
     margin-top: 50px;
@@ -16,13 +16,13 @@
 .profileBox > div:nth-child(1) {
     position: absolute;
     display: inline-block;
-    top:50%;
+    top: 50%;
     transform: translate(0, -50%);
     left: 40px;
     width: 100px;
     height: 100px;
     border-radius: 50px;
-    border: #F23333 2px solid;
+    border: #f23333 2px solid;
 }
 
 .profileBox > div:nth-child(1) > img {
@@ -61,7 +61,7 @@
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #F23333;
+    background-color: #f23333;
     color: white;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .profileBox > div:nth-child(4)::before {
-    content: "";
+    content: '';
     position: absolute;
     display: inline-block;
     top: 50%;
@@ -92,17 +92,25 @@
 }
 
 @keyframes swing {
-    0% {  }
-    33% {transform: rotate(3deg);}
-    66% {transform: rotate(-3deg);}
-    100% {  }
+    0% {
+    }
+    33% {
+        transform: rotate(3deg);
+    }
+    66% {
+        transform: rotate(-3deg);
+    }
+    100% {
+    }
 }
 
-.profileChangeBox > img, .nicknameChangeArea, .nicknameDupButton {
+.profileChangeBox > img,
+.nicknameChangeArea,
+.nicknameDupButton {
     position: absolute;
     display: inline-block;
     vertical-align: middle;
-    top:50%;
+    top: 50%;
     transform: translate(0, -50%);
 }
 
@@ -110,7 +118,7 @@
     width: 90px;
     height: 90px;
     border-radius: 50px;
-    left:47px;
+    left: 47px;
     object-fit: cover;
 }
 
@@ -121,12 +129,12 @@
     vertical-align: middle;
     top: 33%;
     transform: translate(0, -50%);
-    left:105px;
-    border: #C4C4C4 1px solid;
+    left: 105px;
+    border: #c4c4c4 1px solid;
     border-radius: 50px;
     width: 30px;
     height: 30px;
-    background: url("../../img/plus.png");
+    background: url('../../img/plus.png');
     background-color: white;
     opacity: 0.8;
     background-size: 60%;
@@ -136,7 +144,7 @@
 
 .profileChangeBox > .nicknameChangeArea {
     width: 180px;
-    left:158px;
+    left: 158px;
 }
 
 /* 밑줄 */
@@ -147,10 +155,10 @@
     height: 3px;
     margin-left: 50%;
     width: calc(100%);
-    background: #F23333;
+    background: #f23333;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 300ms ease, margin-left .3s ease;
+    transition: transform 300ms ease, margin-left 0.3s ease;
 }
 
 .nicknameChangeArea > input {
@@ -161,7 +169,7 @@
     font-family: 'ROKAFSansBold';
 }
 
-.nicknameChangeArea > input:hover + div{
+.nicknameChangeArea > input:hover + div {
     transform: scaleX(1);
     margin-left: 0;
 }
@@ -173,12 +181,12 @@
 
 .nicknameDupButton {
     cursor: pointer;
-    left:360px;
+    left: 360px;
     width: 130px;
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #F23333;
+    background-color: #f23333;
     color: white;
     font-size: 16px;
 }
@@ -187,10 +195,10 @@
     position: absolute;
     display: inline-block;
     vertical-align: middle;
-    left:158px;
-    top:70%;
+    left: 158px;
+    top: 70%;
     transform: translate(0, -50%);
-    color: #F23333;
+    color: #f23333;
 }
 
 .completeButton {
@@ -198,14 +206,14 @@
     position: absolute;
     display: inline-block;
     vertical-align: middle;
-    top:75%;
+    top: 75%;
     transform: translate(0, -50%);
     right: 110px;
     width: 70px;
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #F23333;
+    background-color: #f23333;
     color: white;
     font-size: 16px;
 }
@@ -215,30 +223,30 @@
     position: absolute;
     display: inline-block;
     vertical-align: middle;
-    top:75%;
+    top: 75%;
     transform: translate(0, -50%);
     right: 25px;
     width: 70px;
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #C4C4C4;
-    color: #5A5A5A;
+    background-color: #c4c4c4;
+    color: #5a5a5a;
     font-size: 16px;
 }
 
 /* 카테고리 */
 .detailMenuArea {
     position: relative;
-    background-color:transparent;
+    background-color: transparent;
     width: 1000px;
     height: 200px;
-    margin : 0 auto;
+    margin: 0 auto;
     border-radius: 20px;
     box-sizing: border-box;
 }
 
-.detailMenuArea > nav{
+.detailMenuArea > nav {
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
@@ -253,30 +261,30 @@
     transform: translate(0, -50%);
     font-size: 16px;
     transition: color 200ms ease;
-    color: #5A5A5A;
+    color: #5a5a5a;
 }
 
 .detailMenuArea > nav li:nth-child(1) {
-    left:10px;
+    left: 10px;
 }
 
 .detailMenuArea > nav li:nth-child(2) {
-    left:28%;
+    left: 28%;
     transform: translate(-50%, -50%);
 }
 
 .detailMenuArea > nav li:nth-child(3) {
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .detailMenuArea > nav li:nth-child(4) {
-    right:28%;
+    right: 28%;
     transform: translate(50%, -50%);
 }
 
 .detailMenuArea > nav li:nth-child(5) {
-    right:10px;
+    right: 10px;
 }
 
 .detailMenuArea > nav li > button {
@@ -285,77 +293,77 @@
     height: 80px;
     border: none;
     margin-bottom: 20px;
-    transition: transform 300ms ease, background 200ms ease ;
+    transition: transform 300ms ease, background 200ms ease;
 }
 
 .detailMenuArea > nav li:nth-child(1):hover > button {
-    background: url("../../img/my-events-red.png");
+    background: url('../../img/my-events-red.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
-.detailMenuArea > nav li:nth-child(1) > button{
-    background: url("../../img/my-events.png");
+.detailMenuArea > nav li:nth-child(1) > button {
+    background: url('../../img/my-events.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(2):hover > button {
-    background: url("../../img/my-transactions-red.png");
+    background: url('../../img/my-transactions-red.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
-.detailMenuArea > nav li:nth-child(2) > button{
+.detailMenuArea > nav li:nth-child(2) > button {
     width: 90px;
-    background: url("../../img/my-transactions.png");
+    background: url('../../img/my-transactions.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(3):hover > button {
-    background: url("../../img/my-like-transactions-red.png");
+    background: url('../../img/my-like-transactions-red.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(3) > button {
-    background: url("../../img/my-like-transactions.png");
+    background: url('../../img/my-like-transactions.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(4):hover > button {
-    background: url("../../img/my-posts-red.png");
+    background: url('../../img/my-posts-red.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(4) > button {
-    background: url("../../img/my-posts.png");
+    background: url('../../img/my-posts.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(5):hover > button {
-    background: url("../../img/my-comments-red.png");
+    background: url('../../img/my-comments-red.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 .detailMenuArea > nav li:nth-child(5) > button {
-    background: url("../../img/my-comments.png");
+    background: url('../../img/my-comments.png');
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
-.detailMenuArea > nav li:hover > button{
+.detailMenuArea > nav li:hover > button {
     transform: scale(1.2);
 }
 
-.detailMenuArea > nav li:hover{
+.detailMenuArea > nav li:hover {
     cursor: pointer;
-    color: #F23333;
+    color: #f23333;
 }
 
 .detail {
@@ -363,9 +371,9 @@
     background-color: white;
     width: 1000px;
     min-height: 800px;
-    margin : 0 auto;
+    margin: 0 auto;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     box-sizing: border-box;
     padding: 30px;
     font-family: 'Pretendard-Regular';
@@ -380,7 +388,7 @@
     cursor: pointer;
     border: none;
     background-color: transparent;
-    color: #C4C4C4;
+    color: #c4c4c4;
 }
 
 .quitArea > button:hover {

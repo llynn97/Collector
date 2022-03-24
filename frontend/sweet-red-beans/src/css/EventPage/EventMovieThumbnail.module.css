@@ -1,4 +1,4 @@
-.container{
+.container {
     position: relative;
     text-align: left;
     width: 280px;
@@ -33,9 +33,9 @@
     text-align: left;
     color: black;
     font-size: 14px;
-    overflow:hidden;
-    text-overflow: ellipsis; 
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* 날짜 */
@@ -46,14 +46,15 @@
 }
 
 .likeOnButton {
-    background: url("../../img/ticket-like.png");
+    background: url('../../img/ticket-like.png');
 }
 
 .likeOffButton {
-    background: url("../../img/ticket.png");
+    background: url('../../img/ticket.png');
 }
 
-.likeOnButton, .likeOffButton {
+.likeOnButton,
+.likeOffButton {
     cursor: pointer;
     position: absolute;
     width: 40px;
@@ -70,13 +71,13 @@
 }
 
 .likeOffButton:hover {
-    background: url("../../img/ticket-red.png");
+    background: url('../../img/ticket-red.png');
     background-size: 90%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
 
-.likeOnButton:hover, .likeOffButton:hover {
+.likeOnButton:hover,
+.likeOffButton:hover {
     background-color: rgba(242, 51, 51, 0.3);
 }
-

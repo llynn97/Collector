@@ -1,6 +1,6 @@
 .container {
     position: relative;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, 0);
     text-align: left;
     min-height: 1200px;
@@ -19,6 +19,6 @@
 .footer {
     position: absolute;
     bottom: 10px;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, 0%);
 }

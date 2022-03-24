@@ -71,21 +71,22 @@ li {
 .mainMenu > li:hover .subMenu {
     opacity: 1;
     visibility: visible;
-    animation: slide linear 0.15s;
+    animation: slide ease 0.3s;
 }
 
+/* 하위 메뉴 글자 */
 .mainMenu > li:hover .subMenu > li > div {
-    animation: slide linear 0.3s;
+    animation: slide linear 0.1s;
 }
 
 @keyframes slide {
     0% {
         color: transparent;
-        height: 0;
+        opacity: 0;
     }
     100% {
         color: black;
-        height: 100%;
+        opacity: 1;
     }
 }
 

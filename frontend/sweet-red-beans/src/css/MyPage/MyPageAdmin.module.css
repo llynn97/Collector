@@ -1,4 +1,4 @@
-.layout{
+.layout {
     max-width: 800px;
     margin: 0 auto;
     margin-top: 50px;
@@ -11,7 +11,7 @@
 
 .reportBox {
     width: 100%;
-    border-top: #F23333 3px solid;
+    border-top: #f23333 3px solid;
 }
 
 .topBar {
@@ -23,18 +23,18 @@
 .topBar div {
     position: absolute;
     display: inline-block;
-    top:50%;
+    top: 50%;
     transform: translate(0%, -50%);
     font-size: 14px;
 }
 
 .topBar div:nth-child(1) {
-    left:15px;
+    left: 15px;
     width: 60px;
 }
 
 .topBar div:nth-child(2) {
-    left:200px;
+    left: 200px;
     width: 100px;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .topBar div:nth-child(4) {
-    right:0px;
+    right: 0px;
     width: 200px;
 }
 .writeButtonArea {
@@ -52,12 +52,12 @@
     text-align: right;
 }
 
-.writeButtonArea button{
+.writeButtonArea button {
     cursor: pointer;
     border: none;
     width: 100px;
     height: 50px;
-    background-color: #F23333;
+    background-color: #f23333;
     color: white;
     border-radius: 10px;
     font-size: 1rem;

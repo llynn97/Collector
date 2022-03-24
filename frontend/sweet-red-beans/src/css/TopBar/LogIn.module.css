@@ -5,7 +5,6 @@
     margin-top: 0px;
 } */
 
-
 .loginButton {
     cursor: pointer;
     border: none;
@@ -18,7 +17,7 @@
     text-decoration: underline;
 }
 
-.inputText{
+.inputText {
     width: 285px;
     height: 40px;
     margin-bottom: 10px;
@@ -29,7 +28,7 @@
 
 .errormessage {
     font-size: 0.85rem;
-    color: #F23333;
+    color: #f23333;
     margin-bottom: 15px;
     text-align: left;
     margin-left: 85px;
@@ -44,7 +43,7 @@
     width: 300px;
     height: 50px;
     font-size: 14px;
-    background-color: #F23333;
+    background-color: #f23333;
     border-radius: 5px;
     margin-bottom: 10px;
 }
@@ -61,7 +60,8 @@
     margin-left: -220px;
 }
 
-.kakaologinButton, .googleloginButton {
+.kakaologinButton,
+.googleloginButton {
     cursor: pointer;
     border: none;
     width: 300px;
@@ -72,7 +72,7 @@
 }
 
 .kakaologinButton {
-    background-color: #FAE100;
+    background-color: #fae100;
 }
 
 .googleloginButton {

@@ -1,4 +1,4 @@
-.cinemaName{
+.cinemaName {
     cursor: default;
     display: inline-block;
     position: relative;
@@ -14,13 +14,13 @@
     display: inline-block;
     z-index: 0;
     position: absolute;
-    content: "";
+    content: '';
     bottom: -8px;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, 0%);
     width: 120%;
     height: 5px;
-    background-color: #F23333;
+    background-color: #f23333;
     border-radius: 10px;
 }
 

@@ -8,7 +8,9 @@ import TopBar from '../TopBar/TopBar';
 import InformationSharePage from '../InformationShares/InformationSharePage';
 import InformationShareWritePage from '../InformationShares/InformationShareWritePage';
 import InformationShareDetailPage from '../InformationShares/InformationShareDetailPage';
-import InformationShares from '../InformationShares/InformationShares';
+import GeneralBoardPage from '../GeneralBoardPage/GeneralBoardPage';
+import GeneralBoardWritePage from '../GeneralBoardPage/GeneralBoardWritePage';
+import GeneralBoardDetailPage from '../GeneralBoardPage/GeneralBoardDetailPage';
 import TransactionPage from '../TransactionPage/TransactionPage';
 import DMPage from '../DMPage/DMPage';
 import MyPageAdmin from '../MyPage/MyPageAdmin';
@@ -39,8 +41,17 @@ const MainContent = () => {
                     element={<InformationShareWritePage />}
                 />
                 <Route
-                    path="/informationShare/:pageNumber"
-                    element={<InformationShares />}
+                    path="/informationShare/:postid"
+                    element={<InformationShareDetailPage />}
+                />
+                <Route path="/generalBoard/*" element={<GeneralBoardPage />} />
+                <Route
+                    path="/generalBoardWrite"
+                    element={<GeneralBoardWritePage />}
+                />
+                <Route
+                    path="/generalBoard/:postid"
+                    element={<GeneralBoardDetailPage />}
                 />
                 <Route path="/transaction/*" element={<TransactionPage />} />
                 <Route path="/DM" element={<DMPage />} />
@@ -49,7 +60,7 @@ const MainContent = () => {
                     <Route path="mytransactions" element={<MyTransactions />} />
                     <Route
                         path="myliketransactions"
-                        element={<MyLikeTransactions />}
+                        element={<sMyLikeTransactions />}
                     />
                     <Route path="myposts" element={<MyPosts />} />
                     <Route path="mycomments" element={<MyComments />} />

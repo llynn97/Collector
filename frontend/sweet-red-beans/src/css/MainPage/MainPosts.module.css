@@ -18,16 +18,15 @@
     display: inline-block;
     position: absolute;
     bottom: -10px;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, 0) scaleX(0);
-    content: "";
+    content: '';
     width: 800px;
     height: 2px;
     background-color: black;
     margin-top: 10px;
-    transform-origin : left bottom;
+    transform-origin: left bottom;
     transition: transform 200ms ease;
-
 }
 
 .posts li:hover::after {
@@ -42,7 +41,6 @@
     color: black;
 }
 
-
 .nullMessage {
     text-align: center;
     padding: 50px;
@@ -54,7 +52,7 @@
     margin-bottom: 50px;
 }
 
-.arrow{
+.arrow {
     cursor: pointer;
     position: relative;
     display: inline-block;
@@ -67,10 +65,10 @@
     transition: width 200ms ease;
 }
 
-.arrow::after{
+.arrow::after {
     cursor: pointer;
     position: absolute;
-    content: "";
+    content: '';
     display: inline-block;
     right: -3px;
     bottom: 9px;
@@ -79,10 +77,9 @@
     margin-left: 0px;
     background-color: black;
     transform: rotate(45deg);
-
 }
 
-.arrow:hover{
+.arrow:hover {
     width: 130px;
 }
 

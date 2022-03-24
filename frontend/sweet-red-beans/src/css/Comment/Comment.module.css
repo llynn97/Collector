@@ -15,20 +15,20 @@
 }
 
 /* 닉네임 */
-.topBar > div:nth-child(1){
+.topBar > div:nth-child(1) {
     left: 20px;
     font-size: 16px;
 }
 
 /* 날짜 */
-.topBar > div:nth-child(2){
+.topBar > div:nth-child(2) {
     right: 20px;
     color: #c4c4c4;
     font-size: 12px;
     font-family: 'Pretendard-Regular';
 }
 
-.contentArea{
+.contentArea {
     font-size: 14px;
     text-align: left;
     margin-top: 20px;
@@ -36,7 +36,7 @@
     min-height: 50px;
 }
 /* 댓글 내용 */
-.contentArea > div:nth-child(1){
+.contentArea > div:nth-child(1) {
     margin-left: 10px;
     margin-top: 10px;
     display: inline-block;
@@ -44,13 +44,13 @@
     font-family: 'Pretendard-Regular';
 }
 /* 버튼 */
-.contentArea > div:nth-child(2){
+.contentArea > div:nth-child(2) {
     position: absolute;
     right: 20px;
     bottom: 10px;
 }
 
-.contentArea > div:nth-child(2) > button{
+.contentArea > div:nth-child(2) > button {
     cursor: pointer;
     border: none;
     background-color: #f32222;

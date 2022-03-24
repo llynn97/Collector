@@ -8,19 +8,19 @@
     font-size: 16px;
 }
 
-.modal > div > textarea{
+.modal > div > textarea {
     width: 520px;
     height: 200px;
     resize: none;
     outline: none;
-    padding:20px;
+    padding: 20px;
     box-sizing: border-box;
     border-radius: 10px;
-    border: #C4C4C4 1px solid;
+    border: #c4c4c4 1px solid;
     font-size: 14px;
 }
 
-.modal > div > textarea:focus{
+.modal > div > textarea:focus {
     border: #5a5a5a 2px solid;
 }
 
@@ -28,7 +28,7 @@
     margin-top: 30px;
     cursor: pointer;
     border: none;
-    background-color: #F23333;
+    background-color: #f23333;
     color: white;
     font-size: 16px;
     border-radius: 10px;
@@ -40,7 +40,7 @@
     position: relative;
     display: inline-block;
     width: 610px;
-    border: 2px solid #5A5A5A;
+    border: 2px solid #5a5a5a;
     border-radius: 20px;
     box-sizing: border-box;
     height: 800px;
@@ -52,27 +52,27 @@
     height: 50px;
     border-radius: 17px 17px 0px 0px;
     background-color: #f32222;
-    border-bottom: #5A5A5A 2px solid;
+    border-bottom: #5a5a5a 2px solid;
 }
 
 .topBar::before {
     position: absolute;
-    content: "";
+    content: '';
     height: 30px;
     width: 30px;
-    background: url("../../img/chat.png");
+    background: url('../../img/chat.png');
     background-repeat: no-repeat;
     background-size: 100%;
     left: 20px;
-    top:50%;
+    top: 50%;
     transform: translate(0, -50%);
 }
 
 .notMyArea {
     position: relative;
     padding: 10px 20px 10px 20px;
-    background-color: #F9F2EC;
-    border-bottom: #5A5A5A 2px solid;
+    background-color: #f9f2ec;
+    border-bottom: #5a5a5a 2px solid;
     text-align: left;
 }
 
@@ -107,7 +107,7 @@
 .notMyArea > div:nth-child(3)::before {
     display: inline-block;
     vertical-align: middle;
-    content: "";
+    content: '';
     width: 40px;
     height: 40px;
     border-radius: 50px;
@@ -127,7 +127,7 @@
 }
 
 .notMyArea > div:nth-child(4) {
-    top:50%;
+    top: 50%;
     transform: translate(0%, -50%);
     position: absolute;
     right: 0px;
@@ -148,28 +148,29 @@
     box-sizing: border-box;
     height: 600px;
     overflow: auto;
-    border-bottom: #5A5A5A 2px solid;
+    border-bottom: #5a5a5a 2px solid;
 }
 
 .messagebox2 {
     box-sizing: border-box;
     height: 560px;
     overflow: auto;
-    border-bottom: #5A5A5A 2px solid;
+    border-bottom: #5a5a5a 2px solid;
 }
 
-.messagebox::-webkit-scrollbar, .messagebox2::-webkit-scrollbar{
+.messagebox::-webkit-scrollbar,
+.messagebox2::-webkit-scrollbar {
     width: 15px;
     background-color: transparent;
 }
 
-.messagebox::-webkit-scrollbar-thumb, .messagebox2::-webkit-scrollbar-thumb{
+.messagebox::-webkit-scrollbar-thumb,
+.messagebox2::-webkit-scrollbar-thumb {
     width: 15px;
-    background-color: #C4C4C4;
+    background-color: #c4c4c4;
     border-radius: 20px;
     background-clip: padding-box;
     border: 4px solid transparent;
-
 }
 
 .preview div {
@@ -177,7 +178,7 @@
     text-align: left;
     padding: 10px;
     height: 100px;
-    border-top: #5A5A5A 2px solid;
+    border-top: #5a5a5a 2px solid;
     background-color: white;
 }
 
@@ -197,8 +198,8 @@
     font-size: 21px;
     font-weight: 700;
     text-align: center;
-    color: #C4C4C4;
-    background: url("../../img/x.png");
+    color: #c4c4c4;
+    background: url('../../img/x.png');
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 50%;
@@ -213,7 +214,7 @@
 .writeArea > * {
     position: absolute;
     display: inline-block;
-    top:50%;
+    top: 50%;
     transform: translate(0%, -50%);
 }
 
@@ -222,12 +223,12 @@
     height: 50px;
     border-radius: 10px;
     outline: none;
-    border: #5A5A5A 2px solid;
+    border: #5a5a5a 2px solid;
     box-sizing: border-box;
     padding-left: 10px;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #FBC2C2;
+    background-color: #fbc2c2;
     font-size: 14px;
     font-family: 'Pretendard-Regular';
 }
@@ -239,35 +240,35 @@
 /* 사진 첨부 */
 .writeArea > label {
     cursor: pointer;
-    left:20px;
-    border: #5A5A5A 2px solid;
+    left: 20px;
+    border: #5a5a5a 2px solid;
     width: 50px;
     height: 50px;
     border-radius: 50px;
-    background: url("../../img/gallery-gray.png");
+    background: url('../../img/gallery-gray.png');
     background-repeat: no-repeat;
     background-size: 60%;
     background-position: 50% 50%;
-    background-color: #FBC2C2;
+    background-color: #fbc2c2;
 }
 
 /* 전송 버튼 */
 .writeArea > button {
     cursor: pointer;
-    right:20px;
-    background: url("../../img/send.png");
+    right: 20px;
+    background: url('../../img/send.png');
     background-repeat: no-repeat;
     background-size: 60%;
     background-position: 40% 50%;
-    background-color: #FBC2C2;
-    border: #5A5A5A 2px solid;
+    background-color: #fbc2c2;
+    border: #5a5a5a 2px solid;
     width: 50px;
     height: 50px;
     border-radius: 50px;
 }
 
 .complete {
-    border-bottom: #5A5A5A 2px solid;
+    border-bottom: #5a5a5a 2px solid;
     padding: 10px;
     font-size: 16px;
     color: #f32222;
@@ -284,36 +285,39 @@
 }
 
 /* 메시지 내용 */
-.myMessage > div:nth-child(2), .notMyMessage > div:nth-child(2){
+.myMessage > div:nth-child(2),
+.notMyMessage > div:nth-child(2) {
     display: inline-block;
     padding: 20px;
     max-width: 350px;
-    border: #5A5A5A 1px solid;
+    border: #5a5a5a 1px solid;
     font-size: 14px;
     font-family: 'Pretendard-Regular';
 }
 
 .myMessage > div:nth-child(2) {
     border-radius: 30px 10px 30px 30px;
-    background-color: #FBC2C2;
+    background-color: #fbc2c2;
 }
 
-.notMyMessage > div:nth-child(2){
+.notMyMessage > div:nth-child(2) {
     border-radius: 10px 30px 30px 30px;
-    background-color: #F9F2EC;
+    background-color: #f9f2ec;
 }
 
 /* 날짜 */
-.myMessage > div:nth-child(1), .notMyMessage > div:nth-child(3) {
+.myMessage > div:nth-child(1),
+.notMyMessage > div:nth-child(3) {
     display: inline-block;
     margin: 10px;
     font-size: 12px;
     vertical-align: bottom;
-    color: #C4C4C4;
+    color: #c4c4c4;
     font-family: 'Pretendard-Regular';
 }
 
-.myMessage > div:nth-child(2) img, .notMyMessage > div:nth-child(2) img{
+.myMessage > div:nth-child(2) img,
+.notMyMessage > div:nth-child(2) img {
     object-fit: cover;
     max-width: 350px;
     max-height: 350px;
