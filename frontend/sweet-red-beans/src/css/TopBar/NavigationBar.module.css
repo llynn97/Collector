@@ -1,45 +1,3 @@
-/* .topBar{
-    position: relative;
-    margin-top:10px;
-    margin-bottom: 10px;
-}
-
-.topBarButton {
-    font-size: 15px;
-    color:cornflowerblue;
-    margin-right: 90px;
-    border-style: none;
-    width: 94px;
-    height: 66px;
-    font-family: '어그로';
-}
-
-.topBarButton:hover {
-    font-size: 15px;
-    color:#FFA0AC;
-    margin-right: 90px;
-    border-style: none;
-    font-family: '어그로';
-    width: 94px;
-    height: 66px;
-}
-
-.bottomCategory {
-    display: none;
-}
-
-.bottomCategory:hover { 
-    color: white;
- }
-
- .topBar:hover .bottomCategory {
-     display: block;
- }
-
-@font-face {
-    font-family: '어그로';
-    src: url('../fonts/SB\ 어그로\ B.ttf');
-} */
 nav {
     width: 100%;
     display: flex;
@@ -48,7 +6,8 @@ nav {
     font-family: 'ROKAFSansBold';
 }
 
-ul, li {
+ul,
+li {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -67,11 +26,11 @@ ul, li {
     text-decoration: none;
     letter-spacing: 0.05em;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 5px 20px;
 }
 
 .mainMenu > li > div:hover {
-    color: #F23333;
+    color: #f23333;
 }
 
 .mainMenu > li > div::after {
@@ -79,16 +38,16 @@ ul, li {
     left: 50%;
     transform: translate(-50%, 0);
     bottom: 0px;
-    content: "";
+    content: '';
     width: 0px;
     height: 4px;
-    background-color: #F23333;
+    background-color: #f23333;
 }
 
 .mainMenu > li > div:hover::after {
-    content: "";
+    content: '';
     width: 100%;
-    transition: width 300ms ease
+    transition: width 300ms ease;
 }
 
 .subMenu {
@@ -103,7 +62,7 @@ ul, li {
     padding: 10px 10px;
 }
 
-.subMenu > li >  div {
+.subMenu > li > div {
     font-size: 14px;
     color: black;
     text-decoration: none;
@@ -116,22 +75,21 @@ ul, li {
 }
 
 .mainMenu > li:hover .subMenu > li > div {
-
     animation: slide linear 0.3s;
 }
 
 @keyframes slide {
-    0%{
+    0% {
         color: transparent;
         height: 0;
     }
-    100%{
+    100% {
         color: black;
         height: 100%;
     }
 }
 
-.subMenu > li >  div:hover {
+.subMenu > li > div:hover {
     cursor: pointer;
-    color: #F23333;
+    color: #f23333;
 }

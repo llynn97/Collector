@@ -2,9 +2,9 @@
     position: relative;
     background-color: white;
     width: 1000px;
-    margin : 0 auto;
+    margin: 0 auto;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     box-sizing: border-box;
     padding: 30px;
     margin-top: 50px;
@@ -16,15 +16,15 @@
     margin-bottom: 45px;
 }
 
-.filter{
+.filter {
     display: inline-block;
     position: relative;
     width: 100px;
     height: 35px;
-    border-bottom: 3px solid #C4C4C4;
+    border-bottom: 3px solid #c4c4c4;
     margin-left: 30px;
     text-align: left;
-  }
+}
 
 .filter > select {
     font-size: 14px;
@@ -40,33 +40,32 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    overflow:hidden;
-    text-overflow: ellipsis; 
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-
 
 .filter > select > option {
     color: #5a5a5a;
     padding: 10px 0px 10px 0px;
     font-size: 14px;
 }
-  
+
 .filterArrow {
-    position: absolute; 
-    bottom: 7px; 
-    right: 0; 
-    z-index: 1; 
-    width: 20px; 
+    position: absolute;
+    bottom: 7px;
+    right: 0;
+    z-index: 1;
+    width: 20px;
     height: 20px;
     transition: transform 300ms ease-in-out;
-    background: url("../../img/down-arrow.png");
+    background: url('../../img/down-arrow.png');
     background-repeat: no-repeat;
     background-size: 70%;
     background-position: 50% 50%;
 }
-  
-.filter > select:focus + .filterArrow{
+
+.filter > select:focus + .filterArrow {
     transform: rotate(180deg);
 }
 
@@ -82,7 +81,6 @@
     width: 140px;
 }
 
-
 .search {
     display: inline-block;
     position: relative;
@@ -90,7 +88,7 @@
     width: 200px;
     height: 45px;
     margin-left: 20px;
-    border-bottom: 3px solid #C4C4C4;
+    border-bottom: 3px solid #c4c4c4;
     vertical-align: bottom;
 }
 
@@ -98,18 +96,18 @@
     font-size: 14px;
     position: absolute;
     bottom: 0px;
-    left:0px;
+    left: 0px;
     width: 170px;
     height: 35px;
     box-sizing: border-box;
     border: none;
+    font-family: 'Pretendard-Regular';
     padding: 10px;
-
     transition: border-bottom 200ms ease;
 }
 
 .search input::placeholder {
-    color: #C4C4C4;
+    color: #c4c4c4;
 }
 
 .search input:focus {
@@ -131,11 +129,11 @@
 .search button {
     cursor: pointer;
     position: absolute;
-    top: 0; 
+    top: 0;
     right: 0;
     transform: translate(-0%, 50%);
     z-index: 3;
-    width: 25px; 
+    width: 25px;
     height: 25px;
     display: flex;
     background: url('../../img/search.png');
