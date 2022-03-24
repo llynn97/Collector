@@ -2,11 +2,10 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 import style from "../../css/GeneralBoardPage/GeneralBoard.module.css"
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { parseDate } from "../../parseDate/parseDate";
 
-const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch}) => {
+const GeneralBoard = ({searchWords, sort}) => {
     const [infos, setInfos] = useState([]);
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
@@ -14,7 +13,6 @@ const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch})
 
     useEffect(()=>{
         //처음에 최신순으로 요청
-        console.log(searchWords, sort, cinemaName, cinemaArea, cinemaBranch);
         axios.get('http://localhost:8080/general-board/search',{
         withCredentials: true,
         params: {
@@ -31,7 +29,6 @@ const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch})
     }, [])
 
     useEffect(()=>{
-        console.log(searchWords, sort, cinemaName, cinemaArea, cinemaBranch);
         let searchWord = ""
         if(searchWords.length!==0) {
             searchWord = searchWords[searchWords.length-1]
@@ -52,21 +49,7 @@ const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch})
 
     return (
     <div className={style.layout}>
-        {/* <label>
-            페이지 당 표시할 게시물 수:&nbsp;
-            <select
-            type="number"
-            value={limit}
-            onChange={({ target: { value } }) => setLimit(Number(value))}
-            >
-            <option value="10">10</option>
-            <option value="12">12</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            </select>
-        </label> */}
-        
+        {}
         <div className={style.infoBox}>
             <div className={style.topBar}>
                 <div>제목</div>
@@ -77,7 +60,7 @@ const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch})
             <main>
                 {infos.slice(offset, offset + limit).map((item, index) => (
                 <article key={index}>
-                <Link to={`/GeneralBoard/${item.post_id}`} style={{textDecoration:"none"}}>
+                <Link to={`/generalBoard/${item.post_id}`} style={{textDecoration:"none"}}>
                 <div>{item.title}</div>
                 </Link>
                 <div>{item.user_status === "정지" || item.user_status === "탈퇴" ? "(알수없음)" : item.nickname}</div>
@@ -90,7 +73,7 @@ const GeneralBoard = ({searchWords, sort, cinemaName, cinemaArea, cinemaBranch})
         </div>
         
         <div className={style.writeButtonArea}>
-            <Link to={`/GeneralBoardWrite`}>
+            <Link to={`/generalBoardWrite`}>
             <button>글쓰기</button>
             </Link>
         </div>

@@ -35,15 +35,15 @@ const MainContent = () => {
           <Route path="/informationShare/*" element={<InformationSharePage/>}/>
           <Route path="/informationShareWrite" element={<InformationShareWritePage/>}/>
           <Route path="/informationShare/:postid" element={<InformationShareDetailPage/>}/>
-          <Route path="/GeneralBoard/*" element={<GeneralBoardPage/>}/>
-          <Route path="/GeneralBoardWrite" element={<GeneralBoardWritePage/>}/>
-          <Route path="/GeneralBoard/:postid" element={<GeneralBoardDetailPage/>}/>
+          <Route path="/generalBoard/*" element={<GeneralBoardPage/>}/>
+          <Route path="/generalBoardWrite" element={<GeneralBoardWritePage/>}/>
+          <Route path="/generalBoard/:postid" element={<GeneralBoardDetailPage/>}/>
           <Route path="/transaction/*" element={<TransactionPage/>}/>
           <Route path="/DM" element={<DMPage/>}/>
           <Route path="/mypage" element={<MyPageNormal/>}>
             <Route path="myevents" element={<MyEvents/>}/>
             <Route path="mytransactions" element={<MyTransactions/>}/>
-            <Route path="myliketransactions" element={<MyLikeTransactions/>}/>
+            <Route path="myliketransactions" element={<sMyLikeTransactions/>}/>
             <Route path="myposts" element={<MyPosts/>}/>
             <Route path="mycomments" element={<MyComments/>}/>
           </Route>

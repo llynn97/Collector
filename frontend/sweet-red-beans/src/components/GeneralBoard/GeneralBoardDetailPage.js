@@ -2,7 +2,6 @@ import React, {useEffect, useMemo, useState}from "react";
 import { Link, unstable_HistoryRouter } from "react-router-dom";
 import Comment from "../Comment/Comment";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import style from "../../css/GeneralBoardPage/GeneralBoardDetailPage.module.css";
@@ -11,12 +10,11 @@ import { parseDate } from "../../parseDate/parseDate";
 const GeneralBoardDetailPage = () => {
     
     let navigation = useNavigate();
+
     const {postid} = useParams();
-    //const userid = useSelector(state => state.user.user_id);
     const [detailInfo, setDetailInfo] = useState({});
     const [comments, setComments] = useState([]);
     const [commentsIsHere, setCommentsIsHere] = useState(false);
-
     const[commentContent, setCommentContent] = useState("");
 
     //처음 조회
@@ -158,7 +156,7 @@ const GeneralBoardDetailPage = () => {
             </div>
         
             <div className={style.preButton}>
-                <Link to={`/GeneralBoard`}>
+                <Link to={`/generalBoard`}>
                 <button>목록으로 돌아가기</button>
                 </Link>
             </div>
