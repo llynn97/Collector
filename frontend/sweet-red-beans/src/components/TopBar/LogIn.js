@@ -65,11 +65,6 @@ const LogIn = () => {
                     alert('정지된 상태입니다. 관리자에게 문의해주세요.');
                     setModalOpen(false);
                 } else if (response.data.result) {
-                    // dispatch({
-                    //   type: LOGIN_USER,
-                    //   user: response.data,
-                    // })
-
                     const date = new Date();
                     date.setMinutes(date.getMinutes() + 30);
                     cookies.set('login', true, { expires: date });

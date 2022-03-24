@@ -1,21 +1,9 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Routes, Route } from 'react-router';
-import { Link } from 'react-router-dom';
-import EventDetailPage from './EventDetailPage';
-import { useNavigate } from 'react-router';
 import Events from './Events';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import events from '../../actions/event_action';
-import { EVENT_ISEND, EVENT_SORT, EVENTS } from '../../actions/types';
-import axios from 'axios';
 import style from '../../css/EventPage/EventPage.module.css';
 
 const EventPage = () => {
-    let navigation = useNavigate();
-    const dispatch = useDispatch();
-
     const [events, setEvents] = useState([]);
-    const [eventIsHere, setEventIsHere] = useState(false);
     //검색 단어, 처음에 없음
     const [search, setSearch] = useState('');
     //검색했던 단어들 저장
@@ -35,73 +23,37 @@ const EventPage = () => {
         setSearch(e.target.value);
     };
 
-    //검색 버튼 눌렀을 때 다시 서버 요청
+    //검색 버튼 눌렀을 때
     const searchClick = () => {
         setSearchWords([...searchWords, search]);
         setSelecteds([...selecteds, selected]);
     };
 
-    //진행 중 클릭했을 때 다시 서버 요청
+    //진행 중 클릭했을 때
     const ongoingClick = () => {
+        console.log('진행중');
         setIsEnd(false);
-        dispatch({
-            type: EVENT_ISEND,
-            payload: false,
-        });
     };
 
-    //진행 완료 클릭했을 때 다시 서버 요청
+    //진행 완료 클릭했을 때
     const doneClick = () => {
         setIsEnd(true);
-        dispatch({
-            type: EVENT_ISEND,
-            payload: true,
-        });
     };
 
-    //최신순 클릭했을 때 다시 서버 요청
+    //최신순 클릭했을 때
     const recentClick = () => {
         setSort('최신순');
-        dispatch({
-            type: EVENT_SORT,
-            payload: '최신순',
-        });
     };
 
-    //관심도순 클릭했을 때 다시 서버 요청
+    //관심도순 클릭했을 때
     const interestClick = () => {
         setSort('관심도순');
-        dispatch({
-            type: EVENT_SORT,
-            payload: '관심도순',
-        });
     };
 
     //영화관 필터 바뀌었을 때
     const selectChange = (e) => {
         setSelected(e.target.value);
     };
-
-    useEffect(() => {
-        // //처음에 기본으로 진행 중인 이벤트로 보여줌
-        // dispatch({
-        //     type:EVENT_ISEND,
-        //     payload:false,
-        // })
-        // //처음에 기본으로 최신순으로 보여줌
-        // dispatch({
-        //     type:EVENT_SORT,
-        //     payload:sort,
-        // })
-    }, []);
-
-    useEffect(() => {
-        // dispatch({
-        //     type:EVENTS,
-        //     events:events,
-        // });
-        setEventIsHere(true);
-    }, [events]);
 
     return (
         <>
@@ -112,16 +64,14 @@ const EventPage = () => {
                             onClick={ongoingClick}
                             className={
                                 isEnd ? style.notSelected : style.selected
-                            }
-                        >
+                            }>
                             진행 중
                         </button>
                         <button
                             onClick={doneClick}
                             className={
                                 !isEnd ? style.notSelected : style.selected
-                            }
-                        >
+                            }>
                             진행 완료
                         </button>
                     </div>
@@ -132,8 +82,7 @@ const EventPage = () => {
                                 sort === '최신순'
                                     ? style.selected
                                     : style.notSelected
-                            }
-                        >
+                            }>
                             최신순
                         </button>
                         <button
@@ -142,8 +91,7 @@ const EventPage = () => {
                                 sort === '관심도순'
                                     ? style.selected
                                     : style.notSelected
-                            }
-                        >
+                            }>
                             관심도순
                         </button>
                     </div>
@@ -163,24 +111,25 @@ const EventPage = () => {
                             type="text"
                             placeholder="검색"
                             onChange={searchChange}
-                            value={search}
-                        ></input>
+                            value={search}></input>
                         <div className={style.underline}></div>
                         <button
                             id="searchButton"
-                            onClick={searchClick}
-                        ></button>
+                            onClick={searchClick}></button>
                     </div>
                 </div>
 
-                {
-                    <Events
-                        sort={sort}
-                        isEnd={isEnd}
-                        search_word={searchWords}
-                        cinema_name={selecteds}
-                    />
-                }
+                {useMemo(
+                    () => (
+                        <Events
+                            sort={sort}
+                            isEnd={isEnd}
+                            search_word={searchWords}
+                            cinema_name={selecteds}
+                        />
+                    ),
+                    [sort, isEnd, searchWords, selecteds]
+                )}
             </div>
         </>
     );

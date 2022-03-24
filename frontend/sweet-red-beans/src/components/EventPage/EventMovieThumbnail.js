@@ -46,8 +46,7 @@ const EventMovieThumbnail = ({ event }) => {
                 <Link
                     to={`/event/${event.event_id}`}
                     style={{ textDecoration: 'none' }}
-                    className={style.thumbnailArea}
-                >
+                    className={style.thumbnailArea}>
                     <img src={event.thumbnail_url} />
                     <div>{event.title}</div>
                     <div>
@@ -58,13 +57,11 @@ const EventMovieThumbnail = ({ event }) => {
                 {status ? (
                     <button
                         onClick={likeClick}
-                        className={style.likeOnButton}
-                    ></button>
+                        className={style.likeOnButton}></button>
                 ) : (
                     <button
                         onClick={likeClick}
-                        className={style.likeOffButton}
-                    ></button>
+                        className={style.likeOffButton}></button>
                 )}
             </div>
         </>

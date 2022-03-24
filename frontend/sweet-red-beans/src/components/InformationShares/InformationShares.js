@@ -5,6 +5,7 @@ import style from '../../css/InformationSharePage/InformationShares.module.css';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { parseDate } from '../../parseDate/parseDate';
+import { useParams } from 'react-router';
 
 const InformationShares = ({
     searchWords,
@@ -17,6 +18,8 @@ const InformationShares = ({
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
+
+    const { pageNumber } = useParams();
 
     useEffect(() => {
         //처음에 최신순으로 요청
@@ -35,6 +38,7 @@ const InformationShares = ({
         return () => {
             setInfos([]);
         };
+        console.log(pageNumber);
     }, []);
 
     useEffect(() => {
@@ -126,8 +130,7 @@ const InformationShares = ({
                         <article key={index}>
                             <Link
                                 to={`/informationShare/${item.post_id}`}
-                                style={{ textDecoration: 'none' }}
-                            >
+                                style={{ textDecoration: 'none' }}>
                                 <div>{item.title}</div>
                             </Link>
                             <div>

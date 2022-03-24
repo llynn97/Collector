@@ -15,7 +15,6 @@ const TransactionPage = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
-    const [transactionIsHere, setTransactionIsHere] = useState(false);
     const [search, setSearch] = useState('');
     const [searchWords, setSearchWords] = useState([]);
     //처음엔 전체로 보여줌, true이면 진행 중만 보여줌
@@ -35,9 +34,19 @@ const TransactionPage = () => {
     const [nickname, setNickname] = useState('');
     const [profileImage, setProfileImage] = useState('');
 
-    const [fetching, setFetching] = useState(false);
+    //한 번만 실행
+    useEffect(() => {
+        //내 프로필 조회
+        if (cookies.get('user')) {
+            setNickname(cookies.get('user').nickname);
+            setProfileImage(cookies.get('user').porfileImage);
+        } else {
+            setNickname('익명');
+            setProfileImage(userImage);
+        }
+    }, []);
 
-    const serverReq = () => {
+    useEffect(() => {
         axios
             .get('http://localhost:8080/transactions/search', {
                 withCredentials: true,
@@ -57,7 +66,8 @@ const TransactionPage = () => {
                 setEnd(29);
             })
             .catch((error) => console.log(error));
-    };
+        console.log(isProceed);
+    }, [isProceed, searchWords]);
 
     const searchChange = (e) => {
         setSearch(e.target.value);
@@ -216,49 +226,6 @@ const TransactionPage = () => {
         };
     });
 
-    //한 번만 실행
-    useEffect(() => {
-        axios
-            .get('http://localhost:8080/transactions/search', {
-                withCredentials: true,
-                params: {
-                    is_proceed: isProceed,
-                    search_word: search,
-                    sort_criteria: '최신순',
-                    search_criteria: searchSort,
-                    start: start,
-                    end: end,
-                },
-            })
-            .then((response) => {
-                setTransactions(response.data);
-            })
-            .catch((error) => console.log(error));
-
-        //내 프로필 조회
-        if (cookies.get('user')) {
-            setNickname(cookies.get('user').nickname);
-            setProfileImage(cookies.get('user').porfileImage);
-        } else {
-            setNickname('익명');
-            setProfileImage(userImage);
-        }
-    }, []);
-
-    useEffect(() => {
-        setTransactionIsHere(true);
-    }, [transactions]);
-
-    useEffect(() => {
-        serverReq();
-        console.log(isProceed);
-    }, [isProceed]);
-
-    useEffect(() => {
-        serverReq();
-        console.log(searchWords, searchSort);
-    }, [searchWords]);
-
     return (
         <>
             <div className={style.wrap}>
@@ -322,7 +289,12 @@ const TransactionPage = () => {
                         </div>
                     </div>
 
-                    <Transactions transactions={transactions} />
+                    {useMemo(
+                        () => (
+                            <Transactions transactions={transactions} />
+                        ),
+                        [transactions]
+                    )}
 
                     <button
                         className={

@@ -8,6 +8,7 @@ import TopBar from '../TopBar/TopBar';
 import InformationSharePage from '../InformationShares/InformationSharePage';
 import InformationShareWritePage from '../InformationShares/InformationShareWritePage';
 import InformationShareDetailPage from '../InformationShares/InformationShareDetailPage';
+import InformationShares from '../InformationShares/InformationShares';
 import TransactionPage from '../TransactionPage/TransactionPage';
 import DMPage from '../DMPage/DMPage';
 import MyPageAdmin from '../MyPage/MyPageAdmin';
@@ -38,8 +39,8 @@ const MainContent = () => {
                     element={<InformationShareWritePage />}
                 />
                 <Route
-                    path="/informationShare/:postid"
-                    element={<InformationShareDetailPage />}
+                    path="/informationShare/:pageNumber"
+                    element={<InformationShares />}
                 />
                 <Route path="/transaction/*" element={<TransactionPage />} />
                 <Route path="/DM" element={<DMPage />} />

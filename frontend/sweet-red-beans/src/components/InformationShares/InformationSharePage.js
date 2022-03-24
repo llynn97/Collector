@@ -176,8 +176,7 @@ const InformationSharePage = () => {
                         <div className={style.filter}>
                             <select
                                 onChange={cinemaAreaChange}
-                                value={cinemaArea}
-                            >
+                                value={cinemaArea}>
                                 {cinemaAreas.map((item) => (
                                     <option value={item} key={item}>
                                         {item}
@@ -192,8 +191,7 @@ const InformationSharePage = () => {
                         <div className={style.filter}>
                             <select
                                 onChange={cinemaBranchChange}
-                                value={cinemaBranch}
-                            >
+                                value={cinemaBranch}>
                                 {cinemaBranches.map((item) => (
                                     <option value={item} key={item}>
                                         {item}
@@ -221,13 +219,11 @@ const InformationSharePage = () => {
                             placeholder="검색"
                             onChange={searchChange}
                             value={search}
-                            size="5"
-                        ></input>
+                            size="5"></input>
                         <div className={style.underline}></div>
                         <button
                             id="searchButton"
-                            onClick={searchClick}
-                        ></button>
+                            onClick={searchClick}></button>
                     </div>
                 </div>
                 <InformationShares

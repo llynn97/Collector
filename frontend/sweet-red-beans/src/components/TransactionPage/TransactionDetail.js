@@ -245,9 +245,6 @@ const TransactionDetail = ({ transaction }) => {
 
                 <div className={style.statusArea}>
                     {transaction.is_mine ? (
-                        // <div onClick={statusClick} className={status==='진행중'?style.proceedingButton : style.doneButton}>
-                        //     <div>{status==='진행중'? "진행중" : "마감"}</div>
-                        // </div>
                         <label className={style.statusButton}>
                             <Switch
                                 onChange={statusClick}
