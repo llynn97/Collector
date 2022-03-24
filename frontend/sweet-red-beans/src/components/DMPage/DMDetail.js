@@ -4,16 +4,22 @@ import SockJS from "sockjs-client";
 import SockJsClient from 'react-stomp';
 import Stomp from "stompjs";
 import axios from "axios";
-import Modal from "../../components/Modals/ReportModal";
+import Modal from "../../components/Modals/TransactionModal";
 import style from "../../css/DMPage/DMDetail.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { SELECTED_DM } from "../../actions/types";
+import { parseDate } from "../../parseDate/parseDate";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router";
+import user from "../../img/user.png";
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({selectedRoom}) => {
+    const navigation = useNavigate();
+
     const [modalOpen, setModalOpen] = useState(false);
 
     const [reportContent, setReportContent] = useState("");
@@ -60,6 +66,11 @@ const DMDetail = ({selectedRoom}) => {
 
     //전송 버튼 눌렀을 때
     const sendClick = () => {
+
+        // if(!cookies.get("login")) {
+        //     alert("로그인을 먼저 해주세요");
+        //     navigation('/')
+        // }
         sendMessage(message);
         //서버에서 받아올 때처럼 비슷한 형식으로 넣어주기 위해
         setMessage("");
@@ -101,22 +112,17 @@ const DMDetail = ({selectedRoom}) => {
         setContents(prev=>[...prev, message]);
     };
 
-    
     const onChange = useCallback(
         (e) => {
             setMessage(e.target.value);
         }, []
     )
 
-
-    const disconnect = () => {
-        if(stompClient != null) {
-            stompClient.disconnect();
-        }
-    }
-
     //이제까지 메시지 내역 조회
     useEffect(() => {
+        console.log(selectedRoom);
+        setContents([]);
+        setMessage("");
         if(selectedRoom !== undefined){
             axios.get("http://localhost:8080/direct-message/detail", {
                 withCredentials: true,
@@ -138,6 +144,13 @@ const DMDetail = ({selectedRoom}) => {
                 addMessage(newMessage);
             })
         });
+        setComplete(selectedRoom.is_complete)
+        
+        return () => {
+            if(stompClient != null) {
+                stompClient.disconnect();
+            }
+        }
     }, [selectedRoom])
 
     //신뢰도 +1 주는 버튼
@@ -254,48 +267,23 @@ const DMDetail = ({selectedRoom}) => {
 
     }, [imgFile])
 
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            `${year}-${month}-${date} ${hours}:${min}`
-        )
-    }
-
     return (
         <>
-        <Modal open={modalOpen} close={closeModal} header="로그인">
-        <form>
-            신고사유를 적어주세요
+        <Modal open={modalOpen} close={closeModal} header="신고하기">
+        <form className={style.modal}>
+            <div>신고사유를 적어주세요</div>
             <div>
-            <textarea value={reportContent} onChange={reportContentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
-            <button onClick={reportClick}>신고하기</button>
+                <textarea value={reportContent} onChange={reportContentChange}></textarea>
             </div>
+            <button onClick={reportClick}>신고하기</button>
         </form>
-
         </Modal>
         
         <div className={style.chatcontainer}>
             <div className={style.topBar}></div>
             <div className={style.notMyArea}>
-                <img src={selectedRoom.not_mine_profile_url}/>
-                <div>{selectedRoom.not_mine_nickname}</div>
+                <img src={selectedRoom.user_status === "정지" || selectedRoom.user_status === "탈퇴" ? user : selectedRoom.not_mine_profile_url}/>
+                <div>{selectedRoom.user_status === "정지" || selectedRoom.user_status === "탈퇴" ? "(알수없음)" : selectedRoom.not_mine_nickname}</div>
                 <div>{selectedRoom.not_mine_reliability}</div>
                 <div>
                     <button onClick={reliabilityPlusClick}>신뢰도 주기</button>
@@ -332,7 +320,7 @@ const DMDetail = ({selectedRoom}) => {
                 {imgBase64 !== null ?
                 <div>
                     <img src={imgBase64}/>
-                    <button onClick={previewCancelClick}>{' '}&times;{' '}</button>
+                    <button onClick={previewCancelClick}></button>
                 </div>
                 : null}
                 </div>
@@ -341,8 +329,8 @@ const DMDetail = ({selectedRoom}) => {
             , [contents, imgBase64, myNickname])}
 
 
-            
             {complete ? <div className={style.complete}>거래가 완료되었습니다.</div> : null}
+            
             <div className={style.writeArea}>
                 <label htmlFor="upload_file"></label>
                 <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>

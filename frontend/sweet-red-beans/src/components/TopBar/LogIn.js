@@ -9,18 +9,16 @@ import style from "../../css/TopBar/LogIn.module.css";
 import { getCookie, setCookie } from "../../Cookie";
 import { Cookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import { KAKAO_AUTH_URL, GOOGLE_AUTH_URL } from "../../url/url";
 
 const LogIn = () =>{
-  let navigation = useNavigate();
+  const navigation = useNavigate();
   const dispatch = useDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-
-  const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/authorize?client_id=e64599af67aac20483ad02a14a8c5058&redirect_uri=http://localhost:3000/signin/oauth2/code/kakao&response_type=code"
-  const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope=email profile&response_type=code&client_id=435089655733-6v1fo661d0dda2ue3ql61420dtquril1.apps.googleusercontent.com&redirect_uri=http://localhost:3000/signin/auth/google/callback"
 
   const cookies = new Cookies();
 
@@ -31,7 +29,7 @@ const LogIn = () =>{
     setModalOpen(false);
   };
 
-  const SigninClick = () => {
+  const SignupClick = () => {
     navigation('/signup');
     setModalOpen(false);
   }
@@ -62,7 +60,7 @@ const LogIn = () =>{
     axios.post('http://localhost:8080/signin', body, { withCredentials: true })
     .then(response => {
       if(!response.data.status) {
-        alert("정지된 상태입니다.");
+        alert("정지된 상태입니다. 관리자에게 문의해주세요.");
         setModalOpen(false);
       }
       else if(response.data.result){
@@ -72,14 +70,20 @@ const LogIn = () =>{
         // })
 
         const date = new Date();
-        date.setMinutes(date.getMinutes() + 30);
+        date.setMinutes(date.getMinutes() + 1);
         cookies.set("login", true, {expires: date});
+        cookies.set("user", {
+          authority:response.data.authority,
+          porfileImage:response.data.image_url,
+          nickname:response.data.nickname,
+        }, {expires:date});
 
         setModalOpen(false);
-        navigation(0);
+        navigation(0)
+
         
       } else {
-        alert("로그인에 실패했습니다.");
+        alert("이메일과 비밀번호를 확인해주세요.");
       }
     })
     .catch(error => console.log(error));
@@ -95,6 +99,7 @@ const LogIn = () =>{
     .then(response => {
       if(response.data.result){
         cookies.remove("login")
+        cookies.remove("user")
         navigation(0)
       } else {
         alert("로그아웃에 실패했습니다.");
@@ -130,7 +135,7 @@ const LogIn = () =>{
           {loginError && <div className={style.errormessage}>*이메일과 비밀번호를 입력해주세요</div>}
         </form>
 
-        <div id="signup" onClick={SigninClick} className={style.signupButton}>회원가입</div>
+        <button id="signup" onClick={SignupClick} className={style.signupButton}>회원가입</button>
         <div>
         <button onClick={KakaoLoginClick} className={style.kakaologinButton}>카카오로 로그인</button>
         </div>

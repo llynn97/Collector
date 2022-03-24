@@ -4,17 +4,16 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { MYPAGE_USER, MYPAGE_TRANSACTIONS, MYPAGE_COMMENTS, MYPAGE_EVENTS, MYPAGE_POSTS, MYPAGE_LIKE_TRANSACTIONS } from "../../actions/types";
 import style from "../../css/MyPage/MyPageNormal.module.css";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
+import {Route, Routes} from "react-router-dom";
+import MyEvents from "./MyPageDetail/MyEvents";
+import {Link} from "react-router-dom";
 
 const MyPageNomal = () => {
     //서버에서 받아온 정보들 저장하기
     const [profileImage, setProfileImage] = useState("");
     const [nickname, setNickname] = useState("");
     const [reliability, setReliability] = useState("");
-
-    //하위 메뉴들
-    const [myMenu, setMyMenu] = useState(0); 
-    const myList = ["내가 관심있는 이벤트", "내가 쓴 거래", "내가 좋아요 한 거래", "내가 쓴 글", "내가 쓴 댓글"];
 
     //프로필 수정
     const [hide, setHide] = useState(true);
@@ -82,7 +81,7 @@ const MyPageNomal = () => {
 
     //메뉴 선택
     const myListClick = (index, e) => {
-        setMyMenu(index)
+        navigation('/mypage/'+index)
     }
 
     //프로필 변경 버튼 눌렀을 때
@@ -215,6 +214,55 @@ const MyPageNomal = () => {
         }
     }
 
+    const useConfirm = (message = null, onConfirm, onCancel) => {
+        if (!onConfirm || typeof onConfirm !== "function") {
+            return;
+        }
+        if (onCancel && typeof onCancel !== "function") {
+            return;
+        }
+        
+        const confirmAction = () => {
+            if (window.confirm(message)) {
+            onConfirm();
+            } else {
+            onCancel();
+            }
+        };
+        
+        return confirmAction;
+    };
+
+    //삭제버튼 눌렀을 때
+    const deleteConfirm = () => {
+        axios.delete('http://localhost:8080/mypage/withdrawal',{
+        withCredentials: true,
+        data: {
+                    
+            }
+        })
+        .then(response => {
+            if(response.data.result){
+                alert("탈퇴 되었습니다.")
+                //이전 페이지로 이동
+                navigation('/')
+            }
+            else {
+                alert("탈퇴에 실패했습니다.")
+            }
+        })
+        .catch(error => console.log(error));
+        
+    }
+
+    const cancelConfirm = () => console.log("탈퇴 취소")
+
+    const quitClick = useConfirm(
+        "정말 탈퇴하시겠습니까?",
+        deleteConfirm,
+        cancelConfirm
+    );
+
     return (
         <>
         {!renderError ? 
@@ -244,7 +292,7 @@ const MyPageNomal = () => {
                     <input type="file" onChange={handleChangeFile} id="upload_file" style={{display:"none"}}/>
 
                     <div className={style.nicknameChangeArea} id="nicknameChangeArea">
-                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify}/>
+                        <input type="text" placeholder="닉네임" onChange={nicknameModifyChange} value={nicknameModify} maxLength="15"/>
                         <div></div>
                     </div>
 
@@ -261,24 +309,24 @@ const MyPageNomal = () => {
         <div className={style.detailMenuArea}>
             <nav>
                 <ul>
-                    <li>
-                        <button onClick={(e) => myListClick(0, e)}></button>
+                    <li onClick={(e) => myListClick('myevents', e)}>
+                        <button></button>
                         <div>관심있는 이벤트</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick(1, e)}></button>
+                    <li onClick={(e) => myListClick('mytransactions', e)}>
+                        <button></button>
                         <div>내가 쓴 거래</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick(2, e)}></button>
+                    <li onClick={(e) => myListClick('myliketransactions', e)}>
+                        <button></button>
                         <div>내가 좋아요 한 거래</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick(3, e)}></button>
+                    <li onClick={(e) => myListClick('myposts', e)}>
+                        <button></button>
                         <div>내가 쓴 글</div>
                     </li>
-                    <li>
-                        <button onClick={(e) => myListClick(4, e)}></button>
+                    <li onClick={(e) => myListClick('mycomments', e)}>
+                        <button></button>
                         <div>내가 쓴 댓글</div>
                     </li>
                 </ul>
@@ -286,10 +334,10 @@ const MyPageNomal = () => {
 
         </div>
         <div className={style.detail}>
-                <MyPageDetail myList={myList} myMenu={myMenu}/>
+            <Outlet/>
         </div>
         <div className={style.quitArea}>
-            <button>탈퇴하기</button>
+            <button onClick={quitClick}>탈퇴하기</button>
         </div>
 
         </> : null}

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import style from "../../css/EventPage/EventMovieThumbnail.module.css";
@@ -9,11 +9,11 @@ const EventMovieThumbnail = ({event}) => {
 
     const likeClick = () => {
         const body = {
-            user_id: "1",
             event_id: event.event_id,
         }
         axios.post('http://localhost:8080/events/like', body, { withCredentials: true })
         .then(response => {
+            console.log(response.data);
             if(response.data.result){
                 if(status){
                     setStatus(false);
@@ -23,11 +23,21 @@ const EventMovieThumbnail = ({event}) => {
                 }
             }
             else {
-                alert("삭제에 실패했습니다.")
+                alert("좋아요에 실패했습니다.");
             }
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            if(error.response.status === 401){
+                alert("로그인을 먼저 해주세요");
+            }
+        });
     }
+
+    useEffect(() => {
+        if(status === undefined) {
+            setStatus(true);
+        }
+    }, [status])
 
     return(
         <>
@@ -37,9 +47,8 @@ const EventMovieThumbnail = ({event}) => {
                 <div>{event.title}</div>
                 <div>{event.start_date} ~ {event.end_date}</div>
             </Link>
-            
-            {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
 
+            {status? <button onClick={likeClick} className={style.likeOnButton}></button> : <button onClick={likeClick} className={style.likeOffButton}></button>}
         </div>
         
         </>

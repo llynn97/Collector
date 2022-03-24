@@ -5,12 +5,17 @@
     margin-top: 0px;
 } */
 
+
 .loginButton {
     cursor: pointer;
     border: none;
     font-size: 12px;
     background-color: transparent;
     font-family: 'ROKAFSansBold';
+}
+
+.loginButton:hover {
+    text-decoration: underline;
 }
 
 .inputText{
@@ -27,8 +32,9 @@
     color: #F23333;
     margin-bottom: 15px;
     text-align: left;
-    margin-left: 65px;
+    margin-left: 85px;
     margin-top: -5px;
+    font-family: 'Pretendard-Regular';
 }
 
 .innerloginButton {
@@ -40,7 +46,6 @@
     font-size: 14px;
     background-color: #F23333;
     border-radius: 5px;
-    font-family: 'ROKAFSansBold';
     margin-bottom: 10px;
 }
 
@@ -48,10 +53,12 @@
     cursor: pointer;
     border: none;
     background-color: transparent;
+    width: 80px;
+    text-align: left;
     font-size: 12px;
-    font-family: 'ROKAFSansBold';
     margin-bottom: 15px;
-    margin-left:-240px;
+    font-family: 'ROKAFSansBold';
+    margin-left: -220px;
 }
 
 .kakaologinButton, .googleloginButton {
@@ -61,7 +68,6 @@
     height: 50px;
     font-size: 14px;
     border-radius: 5px;
-    font-family: 'ROKAFSansBold';
     margin-bottom: 10px;
 }
 
@@ -72,10 +78,4 @@
 .googleloginButton {
     background-color: black;
     color: white;
-}
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }

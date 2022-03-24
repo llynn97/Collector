@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import style from "../../css/InformationSharePage/InformationShareDetailPage.module.css";
+import { parseDate } from "../../parseDate/parseDate";
 
 const InformationShareDetailPage = () => {
     
@@ -30,21 +31,7 @@ const InformationShareDetailPage = () => {
                 }
         })
         .then(response => {
-            console.log(response.data.content.replace('\r\n', <br/>));
-            const post = {
-                post_id: response.data.post_id,
-                title: response.data.title,
-                written_date: response.data.written_date,
-                content: response.data.content,
-                views: response.data.views,
-                nickname: response.data.nickname,
-                image_url: response.data.image_url,
-                cinema_name: response.data.cinema_name,
-                cinema_area: response.data.cinema_area,
-                cinema_branch: response.data.cinema_branch,
-                is_mine: response.data.is_mine,
-            }
-            setDetailInfo(post); 
+            setDetailInfo(response.data); 
             setComments(response.data.comment)
         })
         .catch(error => console.log(error));
@@ -137,31 +124,6 @@ const InformationShareDetailPage = () => {
         }
     }
 
-    //날짜 형식 바꾸기
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            `${year}-${month}-${date} ${hours} : ${min}`
-        )
-    }
-
     return(
         <>
         <div className={style.whiteBox}>
@@ -172,9 +134,8 @@ const InformationShareDetailPage = () => {
                 </div>
 
                 <div className={style.topBar}>
-                    <div>{detailInfo.nickname}</div>
+                    <div>{detailInfo.user_status === "정지" || detailInfo.user_status === "탈퇴" ? "(알수없음)" : detailInfo.nickname}</div>
                     <div>{parseDate(detailInfo.written_date)}</div>
-                    <div></div>
                     <div>{detailInfo.views}</div>
                 </div>
 

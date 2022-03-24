@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import store from "../../../store";
 import TransactionDetail from "../../TransactionPage/TransactionDetail";
-import Pagination from "./Pagination";
+import Pagination from "../../Pagination/Pagination";
 import { useSelector } from "react-redux";
 import style from "../../../css/MyPage/MyPageDetail/MyLikeTransactions.module.css";
 
@@ -22,11 +22,14 @@ const MyLikeTransactions = () => {
 
     return (
         <>
+        <div className={style.container}>
         {myLikeTransactions !== undefined ? myLikeTransactions.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
             <TransactionDetail transaction={item}/>
             </article>
         )) : null}
+        </div>
+        
 
         <footer className={style.footer}>
             {myLikeTransactions !== undefined ? 

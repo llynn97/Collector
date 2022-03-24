@@ -219,27 +219,41 @@ const InformationShareWritePage = () => {
         <>
         <div className={style.whiteBox}>
             <div className={style.titleArea}>
-                <input type="text" value={title} onChange={titleChange} placeholder="제목"/>
+                <input type="text" value={title} onChange={titleChange} placeholder="제목" maxLength="50"/>
                 <div className={style.filterArea}>
-                    <select onChange={cinemaNameChange}>
-                    {cinemaNames.map((item) => (
-                        <option value={item} key={item}>{item}</option>
-                    ))}
-                    </select>
+                    <div className={style.filter}>
+                        <select onChange={cinemaNameChange} value={cinemaName}>
+                            {cinemaNames.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                        </select>
+                        <span className={style.filterArrow}></span>
+                    </div>
+
                     {
-                        cinemaNameSelected ? <select onChange={cinemaAreaChange}>
-                        {cinemaAreas.map((item) => (
-                            <option value={item} key={item}>{item}</option>
-                        ))}
-                    </select> : null
+                        cinemaNameSelected ? 
+                        <div className={style.filter}>
+                            <select onChange={cinemaAreaChange} value={cinemaArea}>
+                            {cinemaAreas.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                            </select> 
+                            <span className={style.filterArrow}></span>
+                        </div>
+                    : null
                     }
 
                     {
-                        cinemaAreaSelected ? <select onChange={cinemaBranchChange}>
-                        {cinemaBranches.map((item) => (
-                            <option value={item} key={item}>{item}</option>
-                        ))}
-                    </select> : null
+                        cinemaAreaSelected ? 
+                        <div className={style.filter}>
+                            <select onChange={cinemaBranchChange} value={cinemaBranch}>
+                            {cinemaBranches.map((item) => (
+                                <option value={item} key={item}>{item}</option>
+                            ))}
+                            </select>
+                            <span className={style.filterArrow}></span>
+                        </div>
+                    : null
                     }
                 </div>
             </div>
@@ -254,7 +268,7 @@ const InformationShareWritePage = () => {
                 {imgBase64 !== null ?
                 <div>
                     <img src={imgBase64}/>
-                    <button onClick={previewCancelClick}>&times;</button>
+                    <button onClick={previewCancelClick}></button>
                 </div>
                 : null}
                 <button onClick={writeClick}>글쓰기</button>

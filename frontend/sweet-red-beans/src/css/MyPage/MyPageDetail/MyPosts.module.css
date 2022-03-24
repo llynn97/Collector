@@ -1,9 +1,8 @@
 .layout{
-    position: absolute;
     width: 800px;
     margin: 0 auto;
-    left:50%;
-    transform: translate(-50%, 0);
+    min-height: 800px;
+    margin-top: 15px;
 }  
 
 .topBar {
@@ -79,8 +78,4 @@
 }
 
 .footer {
-    position: absolute;
-    bottom: 10px;
-    left:50%;
-    transform: translate(-50%, 0%);
 }

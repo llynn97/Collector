@@ -23,7 +23,6 @@
     cursor: pointer;
     border-style: none;
     background-color:rgba(205, 92, 92, 0);
-    font-family: 'ROKAFSansBold';
     font-size: 30px;
 }
 
@@ -34,11 +33,4 @@
     bottom: 0px;
     text-align: center;
     vertical-align: middle;
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }

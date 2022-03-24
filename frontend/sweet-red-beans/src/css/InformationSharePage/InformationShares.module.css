@@ -6,6 +6,7 @@
 .infoBox {
   width: 100%;
   border-top: #F23333 3px solid;
+  font-size: 14px;
 }
 
 .topBar {
@@ -19,7 +20,7 @@
   display: inline-block;
   top:50%;
   transform: translate(0%, -50%);
-  font-size: 0.88rem;
+  font-family: 'Pretendard-Regular';
 }
 
 .topBar div:nth-child(1) {
@@ -49,7 +50,6 @@
   position: relative;
   height: 45px;
   border-bottom: #c4c4c4 1px solid;
-  
 }
 
 .infoBox main article div {
@@ -58,10 +58,10 @@
   top:50%;
   transform: translate(0%, -50%);
   color: black;
-  font-size: 0.88rem;
   overflow:hidden;
   text-overflow: ellipsis; 
   white-space:nowrap;
+  font-family: 'Pretendard-Regular';
 }
 
 .infoBox main article div:nth-child(1) {
@@ -108,13 +108,5 @@
   background-color: #F23333;
   color: white;
   border-radius: 10px;
-  font-size: 1rem;
-  font-family: 'ROKAFSansBold';
-}
-
-@font-face {
-  font-family: 'ROKAFSansBold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-size: 16px;
 }

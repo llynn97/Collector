@@ -1,3 +1,41 @@
+.modal {
+    text-align: center;
+}
+
+.modal > div:nth-child(1) {
+    text-align: left;
+    padding: 10px 0px 10px 30px;
+    font-size: 16px;
+}
+
+.modal > div > textarea{
+    width: 520px;
+    height: 200px;
+    resize: none;
+    outline: none;
+    padding:20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: #C4C4C4 1px solid;
+    font-size: 14px;
+}
+
+.modal > div > textarea:focus{
+    border: #5a5a5a 2px solid;
+}
+
+.modal > button {
+    margin-top: 30px;
+    cursor: pointer;
+    border: none;
+    background-color: #F23333;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 50px;
+    width: 110px;
+}
+
 .chatcontainer {
     position: relative;
     display: inline-block;
@@ -52,10 +90,18 @@
     object-fit: cover;
 }
 
+.nonePorfile {
+    text-align: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #5a5a5a;
+}
+
 /* 상대방 닉네임 */
 .notMyArea > div:nth-child(2) {
     left: 90px;
-    font-size: 1.25rem;
+    font-size: 18px;
 }
 
 .notMyArea > div:nth-child(3)::before {
@@ -64,13 +110,13 @@
     content: "";
     width: 40px;
     height: 40px;
-    border: #C4C4C4 1px solid;
     border-radius: 50px;
     margin-right: 10px;
     background: url('../../img/reliability.png');
-    background-size: 60%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-position: 50% 40%;
+    box-shadow: 0px 0px 7px rgba(90, 90, 90, 0.25);
     background-color: white;
 }
 
@@ -144,12 +190,18 @@
 .preview div > button {
     cursor: pointer;
     position: absolute;
+    width: 30px;
+    height: 30px;
     right: 0px;
     border: none;
     font-size: 21px;
     font-weight: 700;
     text-align: center;
     color: #C4C4C4;
+    background: url("../../img/x.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 50%;
     background-color: transparent;
 }
 
@@ -177,6 +229,7 @@
     transform: translate(-50%, -50%);
     background-color: #FBC2C2;
     font-size: 14px;
+    font-family: 'Pretendard-Regular';
 }
 
 .writeArea > input:focus {
@@ -191,7 +244,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50px;
-    background: url("../../img/gallery.png");
+    background: url("../../img/gallery-gray.png");
     background-repeat: no-repeat;
     background-size: 60%;
     background-position: 50% 50%;
@@ -237,6 +290,7 @@
     max-width: 350px;
     border: #5A5A5A 1px solid;
     font-size: 14px;
+    font-family: 'Pretendard-Regular';
 }
 
 .myMessage > div:nth-child(2) {
@@ -255,6 +309,8 @@
     margin: 10px;
     font-size: 12px;
     vertical-align: bottom;
+    color: #C4C4C4;
+    font-family: 'Pretendard-Regular';
 }
 
 .myMessage > div:nth-child(2) img, .notMyMessage > div:nth-child(2) img{

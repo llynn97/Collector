@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import store from "../../../store";
-import Pagination from "./Pagination";
+import Pagination from "../../Pagination/Pagination";
 import { useSelector } from "react-redux";
 import style from "../../../css/MyPage/MyPageDetail/MyComments.module.css";
 import { useNavigate } from "react-router";
+import { parseDate } from "../../../parseDate/parseDate";
 
 const MyComments = () => {
     const navigation = useNavigate();
@@ -27,31 +28,6 @@ const MyComments = () => {
         navigation('/informationShare/'+postid);
     }
 
-    //날짜 형식 바꾸기
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            <div>{year}-{month}-{date} {hours} : {min}</div>
-        )
-    }
-
     return (
         <>
         <div className={style.layout}>
@@ -62,9 +38,7 @@ const MyComments = () => {
             {myComments !== undefined ? myComments.slice(offset, offset + limit).map((item, index) => (
                 <article key={index} onClick={e => postClick(item.post_id, e)}>
                     <div>{item.comment_content}</div>
-                    {
-                        parseDate(item.written_date)
-                    }
+                    <div>{parseDate(item.written_date)}</div>
                 </article>
             )) : null}
         </div>

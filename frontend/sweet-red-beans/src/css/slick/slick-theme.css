@@ -89,7 +89,13 @@
 }
 .slick-prev:before
 {
-    content: '←';
+    display: block;
+    content: '';
+    height: 50px;
+    background: url("../../img/left-arrow.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 40%;
 }
 [dir='rtl'] .slick-prev:before
 {
@@ -107,7 +113,13 @@
 }
 .slick-next:before
 {
-    content: '→';
+    display: block;
+    content: '';
+    height: 50px;
+    background: url("../../img/right-arrow.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 40%;
 }
 [dir='rtl'] .slick-next:before
 {

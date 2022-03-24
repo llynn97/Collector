@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import style from "../../css/DMPage/DMList.module.css";
 
 const DMList = ({DMlist, DMListClick}) => {
+    console.log(DMlist);
     return (
         <>
         <div className={style.DMListContainer}>

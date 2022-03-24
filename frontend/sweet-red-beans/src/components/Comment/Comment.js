@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../css/Comments.module.css"
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import style from "../../css/Comment/Comment.module.css";
+import { parseDate } from "../../parseDate/parseDate";
 
 const Comment = ({comment}) => {
     console.log("댓글 렌더");
@@ -60,37 +60,12 @@ const Comment = ({comment}) => {
         cancelConfirm
     );
 
-    //날짜 형식 바꾸기
-    const parseDate = (written_date) => {
-        const d = new Date(written_date);
-        const year = d.getFullYear();
-        let month = d.getMonth();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let min = d.getMinutes();
-        if(month<10){
-            month = '0'+month;
-        }
-        if(date<10){
-            date = '0'+date;
-        }
-        if(hours<10){
-            hours = '0'+hours;
-        }
-        if(min<10){
-            min = '0'+min;
-        }
-        return (
-            `${year}-${month}-${date} ${hours} : ${min}`
-        )
-    }
-
-    console.log(comment.comment_nickname);
     return (
         <>
         <div className={style.comment}>
             <div className={style.topBar}>
-                <div>{comment.comment_nickname}</div>
+                
+                <div>{comment.user_status === "정지" || comment.user_status === "탈퇴" ? "(알수없음)" : comment.comment_nickname}</div>
                 <div>{parseDate(comment.comment_written_date)}</div>
             </div>
             

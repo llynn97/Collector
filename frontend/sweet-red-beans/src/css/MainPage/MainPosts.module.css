@@ -1,0 +1,94 @@
+.posts {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 15px;
+    font-family: 'ROKAFSansBold';
+}
+
+.posts li {
+    margin-bottom: 50px;
+}
+
+.posts li::before {
+    display: inline-block;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    background-color: black;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.title {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    color: black;
+}
+
+.title:hover {
+    text-decoration: underline;
+}
+
+.posts li > div:nth-child(2) {
+    cursor: default;
+    margin: 20px 0px 0px 50px;
+    color: #5a5a5a;
+    font-size: 16px;
+    width: 800px;
+    overflow:hidden;
+    text-overflow: ellipsis; 
+    white-space:nowrap;
+}
+
+.nullMessage {
+    text-align: center;
+    padding: 50px;
+    font-size: 20px;
+}
+
+.nullMessage > div:nth-child(1) {
+    display: inline-block;
+    margin-bottom: 50px;
+}
+
+.arrow{
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    margin-left: 20px;
+    bottom: -5px;
+    background-color: transparent;
+    border-bottom: 2px black solid;
+    transition: width 200ms ease;
+}
+
+.arrow::after{
+    cursor: pointer;
+    position: absolute;
+    content: "";
+    display: inline-block;
+    right: -3px;
+    bottom: 9px;
+    width: 30px;
+    height: 2px;
+    margin-left: 0px;
+    background-color: black;
+    transform: rotate(45deg);
+
+}
+
+.arrow:hover{
+    width: 130px;
+}
+
+.nullMessage > div:nth-child(3) {
+    color: #5a5a5a;
+    font-size: 16px;
+}

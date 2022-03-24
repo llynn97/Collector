@@ -45,6 +45,7 @@ nav {
     display: flex;
     justify-content: center;
     position: relative;
+    font-family: 'ROKAFSansBold';
 }
 
 ul, li {
@@ -60,14 +61,13 @@ ul, li {
 
 .mainMenu > li > div {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
     color: black;
     text-align: center;
     text-decoration: none;
     letter-spacing: 0.05em;
     display: inline-block;
     padding: 10px 20px;
-    font-family: 'ROKAFSansBold';
 }
 
 .mainMenu > li > div:hover {
@@ -107,7 +107,6 @@ ul, li {
     font-size: 14px;
     color: black;
     text-decoration: none;
-    font-family: 'ROKAFSansBold';
 }
 
 .mainMenu > li:hover .subMenu {
@@ -135,11 +134,4 @@ ul, li {
 .subMenu > li >  div:hover {
     cursor: pointer;
     color: #F23333;
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }

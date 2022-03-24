@@ -7,8 +7,8 @@
     margin : 0 auto;
     border-radius: 20px;
     box-sizing: border-box;
-    margin-bottom: 100px;
     margin-top: 50px;
+    font-family: 'ROKAFSansBold';
 }
 
 .dmpage > * {

@@ -2,15 +2,17 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import Transactions from "./Transactions";
 import style from "../../css/TransactionPage/TransactionPage.module.css";
 import axios from "axios";
-import TransactionWriteModal from "../Modals/TransactionWriteModal";
-import InfiniteScroll from "./InfiniteScroll";
+import TransactionWriteModal from "../Modals/TransactionModal";
 import { getCookie } from "../../Cookie";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import userImage from "../../img/user.png";
+import { Cookies } from "react-cookie";
 
 const TransactionPage = () => {
-    const navigation = useNavigate()
+    const cookies = new Cookies();
+    const navigation = useNavigate();
+
     const [modalOpen, setModalOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [transactionIsHere, setTransactionIsHere] = useState(false);
@@ -32,7 +34,6 @@ const TransactionPage = () => {
     //내 프로필
     const [nickname, setNickname] = useState("");
     const [profileImage, setProfileImage] = useState("");
-    const [reliability, setReliability] = useState(0);
 
     const [fetching, setFetching] = useState(false);
 
@@ -64,12 +65,7 @@ const TransactionPage = () => {
 
     //검색버튼 눌렀을 때
     const searchClick = () => {
-      if (search === "") {
-        alert("검색할 단어를 입력해주세요");
-      }
-      else {
         setSearchWords([...searchWords, search]);
-      }
     }
 
     //전체보기 눌렀을 때
@@ -236,21 +232,15 @@ const TransactionPage = () => {
         .catch(error => console.log(error));
       
         //내 프로필 조회
-        axios.get('http://localhost:8080/mypage',{
-          withCredentials: true ,
-        })
-        .then(response => {
-            setNickname(response.data.user.nickname);
-            setProfileImage(response.data.user.profile_url);
-            setReliability(response.data.user.reliability);
-        })
-        .catch(error => {
-            if(error.response.status === 401){
-              setNickname("익명");
-              setProfileImage(userImage);
-              setReliability(0);
-            }
-        });
+        if(cookies.get("user")){
+          setNickname(cookies.get("user").nickname);
+          setProfileImage(cookies.get("user").porfileImage);
+        }
+        else {
+          setNickname("익명");
+          setProfileImage(userImage);
+        }
+
     }, [])
 
     useEffect(()=>{
@@ -271,36 +261,34 @@ const TransactionPage = () => {
         <>
         <div className={style.wrap}>
         <div className={style.writeBox}>
-          
-          <div>
           <div className={style.profileArea}>
             <img src={profileImage} className={style.profileImage}/>
-            <div className={style.nickname}>
-            {nickname}
-            </div>
+            <div className={style.nickname}>{nickname}</div>
           </div>
+
           <div className={style.writeButtonArea}>
-            <button onClick={writeClick} className={style.writeButton}>작성하기</button>
+            <button onClick={writeClick}>작성하기</button>
           </div>
-          <textarea value={content} onChange={contentChange} className={style.writeTextArea}></textarea>
-          </div>
+          <textarea value={content} onChange={contentChange}></textarea>
         </div>
 
         <div className={style.transactionsBox}>
           <div className={style.topBox}>
-            <button onClick={allClick} className={isProceed ? style.notSelected : style.proceedSelected}>전체</button>
-            <button onClick={proceedClick} className={isProceed ? style.proceedSelected : style.notSelected}>진행중</button>
-            <div className={style.filterBox}>
-              <select onChange={searchSortChange} className={style.filter}>
-                  <option value="글내용">글내용</option>
+            <div className={style.proceedfilter}>
+                <button onClick={allClick} className={isProceed?style.notSelected:style.selected}>전체</button>
+                <button onClick={proceedClick} className={!isProceed?style.notSelected:style.selected}>진행중</button>
+            </div>
+            <div className={style.filter}>
+              <select onChange={searchSortChange} value={searchSort}>
+                  <option value="글내용">내용</option>
                   <option value="작성자">작성자</option>
               </select>
-              <span className={style.filterArrow}>▼</span>
+              <span className={style.filterArrow}></span>
             </div>
             <div className={style.search}>
-                <input type="text" placeholder="검색" value={search} onChange={searchChange} className={style.searchArea}/>
+                <input type="text" placeholder="검색" value={search} onChange={searchChange}/>
                 <div className={style.underline}></div>
-                <button onClick={searchClick} className={style.searchButton}></button>
+                <button onClick={searchClick}></button>
             </div>
           </div>
           
@@ -308,15 +296,20 @@ const TransactionPage = () => {
         
           <button className={BtnStatus ? [style.topBtn, style.active].join(" ") : style.topBtn} onClick={handleTop}>TOP</button>
 
-          <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}>글쓰기</button>
+          <button className={BtnStatus ? [style.writeBtn, style.active].join(" ") : style.writeBtn} onClick={openModal}></button>
         </div>
-
-
-
         
         <TransactionWriteModal open={modalOpen} close={closeModal} header="글 작성하기">
-          <textarea value={content} onChange={contentChange} style={{width:"400px", height:"200px", cols:"20"}}></textarea>
-          <button onClick={writeClick}>글 쓰기</button>
+          <form className={style.modal}>
+              <div>
+                <img src={profileImage} className={style.profileImage}/>
+                <div className={style.nickname}>{nickname}</div>
+              </div>
+              <div>
+                  <textarea value={content} onChange={contentChange}></textarea>
+              </div>
+              <button onClick={writeClick}>글 쓰기</button>
+          </form>
         </TransactionWriteModal>
 
         <div>

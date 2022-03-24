@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from "react";
 import { Routes, Route } from "react-router";
 import { Link } from "react-router-dom";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
+import EventDetailPage from "./EventDetailPage";
 import { useNavigate } from "react-router";
 import EventPage from "./EventPage";
 import EventMovieThumbnail from "./EventMovieThumbnail";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import style from "../../css/EventPage/Events.module.css";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination/Pagination";
 
 const Events = ({sort, isEnd, search_word, cinema_name}) => {
     const [limit, setLimit] = useState(12);

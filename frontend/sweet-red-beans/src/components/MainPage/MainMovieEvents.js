@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MovieThumbnail from "./MovieThumbnail";
 import axios from "axios";
 import mainEvents from "../../actions/main_action";
 import { useDispatch, useSelector } from "react-redux";
 import { MAIN_CINEMA_EVENTS } from "../../actions/types";
 import style from "../../css/MainPage/MainMovieEvents.module.css"
 import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 import "../../css/slick/slick.css"
 import "../../css/slick/slick-theme.css"
 import Test from "./Test";
+import EventMovieThumbnail from "../EventPage/EventMovieThumbnail";
 
 
 const MainMovieEvents = ({cinemaName}) => {
@@ -30,6 +28,7 @@ const MainMovieEvents = ({cinemaName}) => {
     , []);
 
     useEffect(()=>{
+        console.log(events);
         events.map((item, index) => {
             if(item.cinema_name === cinemaName){
                 filterMovieList.push(item)
@@ -50,8 +49,8 @@ const MainMovieEvents = ({cinemaName}) => {
         arrows:true,
         infinite: true,
         speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToShow: 3,
+        slidesToScroll: 3,
     };
     return (
         <>
@@ -66,7 +65,7 @@ const MainMovieEvents = ({cinemaName}) => {
             <Slider {...settings}> 
 
             {
-                thisEvents.map((item, index) => <div key={index}><MovieThumbnail thisEvent={item}/></div>)
+                thisEvents.map((item, index) => <div key={index}><EventMovieThumbnail event={item}/></div>)
             //thisEvents!==[] ? thisEvents.map((item, index) => <div key={index}><MovieThumbnail thisEvent={item}/></div>) : null
             //test.map((item, index) => <div>{item}</div>)
             }

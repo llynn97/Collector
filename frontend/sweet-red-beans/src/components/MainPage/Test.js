@@ -3,7 +3,6 @@ import { Link, Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { MAIN_CINEMA_EVENTS } from "../../actions/types";
 import { Route, Routes } from "react-router";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
 import MainPage from "./MainPage";
 import axios from "axios";
 import style from "../../css/MainPage/MovieThumbnail.module.css";

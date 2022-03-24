@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState, useMemo} from "react";
 import { Routes, Route } from "react-router";
 import { Link } from "react-router-dom";
-import EventDetailPage from "../EventDetailPage/EventDetailPage";
+import EventDetailPage from "./EventDetailPage";
 import { useNavigate } from "react-router";
 import Events from "./Events";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -111,25 +111,34 @@ const EventPage = () => {
     return(
         <>
         <div className={style.whiteBox}>
-            <div className={style.datefilter}>
-                <button onClick={ongoingClick}>진행 중 이벤트</button>
-                <button onClick={doneClick}>완료된 이벤트</button>
-            </div>
-            <div id="align" className={style.filter}>
-                <button onClick={recentClick}>최신순</button>
-                <button onClick={interestClick}>관심도순</button>
-            </div>
-            <select onChange={selectChange}>
-                {selectList.map((item) => (
-                    <option value={item} key={item}>{item}</option>
-                ))}
-            </select>
+            <div className={style.topBar}>
+                <div className={style.datefilter}>
+                    <button onClick={ongoingClick} className={isEnd?style.notSelected:style.selected}>진행 중</button>
+                    <button onClick={doneClick} className={!isEnd?style.notSelected:style.selected}>진행 완료</button>
+                </div>
+                <div id="align" className={style.filter}>
+                    <button onClick={recentClick} className={sort==="최신순"?style.selected:style.notSelected}>최신순</button>
+                    <button onClick={interestClick} className={sort==="관심도순"?style.selected:style.notSelected}>관심도순</button>
+                </div>
+                <div className={style.cinemafilter}>
+                    <select onChange={selectChange} value={selected}>
+                        {selectList.map((item) => (
+                            <option value={item} key={item}>{item}</option>
+                        ))}
+                    </select>
+                    <span className={style.filterArrow}></span>
+                </div>
+                
 
-            <div className={style.search}>
-                <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
-                <div className={style.underline}></div>
-                <button id="searchButton" onClick={searchClick}></button>
+                <div className={style.search}>
+                    <input type="text" placeholder="검색" onChange={searchChange} value={search}></input>
+                    <div className={style.underline}></div>
+                    <button id="searchButton" onClick={searchClick}></button>
+                </div>
             </div>
+            
+
+
             {
             <Events sort={sort} isEnd={isEnd} search_word={searchWords} cinema_name={selecteds}/>
             }
