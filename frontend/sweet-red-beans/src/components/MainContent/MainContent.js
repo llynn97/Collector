@@ -24,62 +24,50 @@ import MyPosts from '../MyPage/MyPageDetail/MyPosts';
 import MyComments from '../MyPage/MyPageDetail/MyComments';
 
 const MainContent = () => {
-    return (
-        <>
-            <TopBar />
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/event/*" element={<EventPage />} />
-                <Route path="/event/:id" element={<EventDetailPage />} />
-                <Route
-                    path="/community/informationShare/*"
-                    element={<InformationSharePage />}
-                />
-                <Route
-                    path="/community/informationShareWrite"
-                    element={<InformationShareWritePage />}
-                />
-                <Route
-                    path="/community/informationShare/:postid"
-                    element={<InformationShareDetailPage />}
-                />
-                <Route
-                    path="/community/general/*"
-                    element={<GeneralBoardPage />}
-                />
-                <Route
-                    path="/community/generalWrite"
-                    element={<GeneralBoardWritePage />}
-                />
-                <Route
-                    path="/community/general/:postid"
-                    element={<GeneralBoardDetailPage />}
-                />
-                <Route path="/transaction/*" element={<TransactionPage />} />
-                <Route path="/DM" element={<DMPage />} />
-                <Route path="/mypage" element={<MyPageNormal />}>
-                    <Route path="myevents" element={<MyEvents />} />
-                    <Route path="mytransactions" element={<MyTransactions />} />
-                    <Route
-                        path="myliketransactions"
-                        element={<sMyLikeTransactions />}
-                    />
-                    <Route path="myposts" element={<MyPosts />} />
-                    <Route path="mycomments" element={<MyComments />} />
-                </Route>
-                <Route path="/adminpage" element={<MyPageAdmin />} />
-                <Route
-                    path="/signin/oauth2/code/kakao"
-                    element={<KakaoLogin />}
-                />
-                <Route
-                    path="/signin/auth/google/callback"
-                    element={<GoogleLogin />}
-                />
-            </Routes>
-        </>
-    );
+  return (
+    <>
+      <TopBar />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/event/*" element={<EventPage />} />
+        <Route path="/event/:id" element={<EventDetailPage />} />
+        <Route
+          path="/community/informationShare/*"
+          element={<InformationSharePage />}
+        />
+        <Route
+          path="/community/informationShareWrite"
+          element={<InformationShareWritePage />}
+        />
+        <Route
+          path="/community/informationShare/:postid"
+          element={<InformationShareDetailPage />}
+        />
+        <Route path="/community/general/*" element={<GeneralBoardPage />} />
+        <Route
+          path="/community/generalWrite"
+          element={<GeneralBoardWritePage />}
+        />
+        <Route
+          path="/community/general/:postid"
+          element={<GeneralBoardDetailPage />}
+        />
+        <Route path="/transaction/*" element={<TransactionPage />} />
+        <Route path="/DM" element={<DMPage />} />
+        <Route path="/mypage" element={<MyPageNormal />}>
+          <Route path="myevents" element={<MyEvents />} />
+          <Route path="mytransactions" element={<MyTransactions />} />
+          <Route path="myliketransactions" element={<MyLikeTransactions />} />
+          <Route path="myposts" element={<MyPosts />} />
+          <Route path="mycomments" element={<MyComments />} />
+        </Route>
+        <Route path="/adminpage" element={<MyPageAdmin />} />
+        <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin />} />
+        <Route path="/signin/auth/google/callback" element={<GoogleLogin />} />
+      </Routes>
+    </>
+  );
 };
 
 export default MainContent;

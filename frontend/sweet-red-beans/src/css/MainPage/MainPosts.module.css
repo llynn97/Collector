@@ -1,89 +1,95 @@
 .posts {
-    width: 1000px;
-    margin: 0 auto;
-    text-align: left;
-    box-sizing: border-box;
-    padding: 15px;
-    font-family: 'ROKAFSansBold';
+  width: 1000px;
+  margin: 0 auto;
+  text-align: left;
+  box-sizing: border-box;
+  font-family: 'ROKAFSansBold';
+  display: flex;
+  justify-content: space-between;
+}
+
+.dailyInfoPosts,
+.dailyGeneralPosts {
+  border: #5a5a5a 1px solid;
+  border-radius: 20px;
+  width: 480px;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.communityName {
+  display: inline-block;
+  font-size: 20px;
 }
 
 .posts li {
-    position: relative;
-    width: 800px;
-    margin: 0 auto;
-    margin-bottom: 30px;
+  padding: 30px 15px 0px 15px;
+  box-sizing: border-box;
 }
 
-.posts li::after {
-    display: inline-block;
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translate(-50%, 0) scaleX(0);
-    content: '';
-    width: 800px;
-    height: 2px;
-    background-color: black;
-    margin-top: 10px;
-    transform-origin: left bottom;
-    transition: transform 200ms ease;
+.posts li div {
+  font-size: 16px;
+}
+
+.posts li div:hover {
+  text-decoration: underline;
 }
 
 .posts li:hover::after {
-    transform: translate(-50%, 0) scaleX(1);
+  transform: translate(-50%, 0) scaleX(1);
 }
 
 .title {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 18px;
-    color: black;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  color: black;
 }
 
 .nullMessage {
-    text-align: center;
-    padding: 50px;
-    font-size: 20px;
+  text-align: center;
+  padding: 50px;
+  font-size: 20px;
 }
 
 .nullMessage > div:nth-child(1) {
-    display: inline-block;
-    margin-bottom: 50px;
+  display: inline-block;
+  margin-bottom: 50px;
 }
 
 .arrow {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    width: 80px;
-    height: 30px;
-    margin-left: 20px;
-    bottom: -5px;
-    background-color: transparent;
-    border-bottom: 2px black solid;
-    transition: width 200ms ease;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 20px;
+  margin-left: 20px;
+  bottom: -5px;
+  background-color: transparent;
+  border-bottom: 2px black solid;
+  transition: width 200ms ease;
 }
 
 .arrow::after {
-    cursor: pointer;
-    position: absolute;
-    content: '';
-    display: inline-block;
-    right: -3px;
-    bottom: 9px;
-    width: 30px;
-    height: 2px;
-    margin-left: 0px;
-    background-color: black;
-    transform: rotate(45deg);
+  cursor: pointer;
+  position: absolute;
+  content: '';
+  display: inline-block;
+  right: -3px;
+  bottom: 9px;
+  width: 30px;
+  height: 2px;
+  margin-left: 0px;
+  background-color: black;
+  transform: rotate(45deg);
 }
 
 .arrow:hover {
-    width: 130px;
+  width: 130px;
 }
 
 .nullMessage > div:nth-child(3) {
-    color: #5a5a5a;
-    font-size: 16px;
+  color: #5a5a5a;
+  font-size: 16px;
 }

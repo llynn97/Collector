@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router';
 
 const MainPosts = () => {
   const navigation = useNavigate();
-  const [dailyPosts, setDailyPosts] = useState([]);
+  const [dailyInfoPosts, setDailyInfoPosts] = useState([]);
+  const [dailyGeneralPosts, setDailyGeneralPosts] = useState([]);
 
   useEffect(() => {
     axios
@@ -18,23 +19,76 @@ const MainPosts = () => {
       })
       .then((response) => {
         console.log(response.data);
-        setDailyPosts(response.data);
+        setDailyInfoPosts(response.data);
+      })
+      .catch((error) => console.log(error));
+
+    axios
+      .get('http://localhost:8080/main/daily-community', {
+        withCredentials: true,
+        params: {
+          community_category: '자유',
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setDailyGeneralPosts(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
 
   const writeClick = () => {
-    navigation('/informationShare');
+    navigation('/community/informationShare');
   };
 
   return (
     <>
       <div className={style.posts}>
-        {dailyPosts.length !== 0 ? (
+        {dailyInfoPosts.length !== 0 || dailyGeneralPosts.length !== 0 ? (
+          <>
+            <ul className={style.dailyInfoPosts}>
+              <div className={style.communityName}>정보공유</div>
+              <div className={style.arrow} onClick={writeClick}></div>
+              {dailyInfoPosts.map((item, index) => (
+                <Link
+                  to={`/community/informationShare/${item.post_id}`}
+                  style={{ textDecoration: 'none' }}
+                  key={index}>
+                  <li>
+                    <div className={style.title}>{item.title}</div>
+                  </li>
+                </Link>
+              ))}
+            </ul>
+
+            <ul className={style.dailyGeneralPosts}>
+              <div className={style.communityName}>자유게시판</div>
+              <div className={style.arrow} onClick={writeClick}></div>
+              {dailyGeneralPosts.map((item, index) => (
+                <Link
+                  to={`/community/general/${item.post_id}`}
+                  style={{ textDecoration: 'none' }}
+                  key={index}>
+                  <li>
+                    <div className={style.title}>{item.title}</div>
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <div className={style.nullMessage}>
+            <div>지금 당장 글 쓰러 가기</div>
+            <div className={style.arrow} onClick={writeClick}></div>
+            <div>내 통장처럼 비어버린 오늘의 글...</div>
+          </div>
+        )}
+
+        {/* {dailyGeneralPosts.length !== 0 ? (
           <ul>
-            {dailyPosts.map((item, index) => (
+            {dailyGeneralPosts.map((item, index) => (
               <Link
-                to={`/informationShare/${item.post_id}`}
+                to={`/community/general/${item.post_id}`}
                 style={{ textDecoration: 'none' }}
                 key={index}>
                 <li>
@@ -49,7 +103,7 @@ const MainPosts = () => {
             <div className={style.arrow} onClick={writeClick}></div>
             <div>내 통장처럼 비어버린 오늘의 글...</div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

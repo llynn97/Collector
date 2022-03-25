@@ -11,63 +11,67 @@ import style from '../../css/EventPage/Events.module.css';
 import Pagination from '../Pagination/Pagination';
 
 const Events = ({ sort, isEnd, search_word, cinema_name }) => {
-    const [limit, setLimit] = useState(12);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
+  const [limit, setLimit] = useState(12);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
-    const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
 
-    useEffect(() => {
-        let body = {};
-        if (cinema_name[cinema_name.length - 1] === '전체') {
-            body = {
-                withCredentials: true,
-                params: {
-                    sort_criteria: sort,
-                    is_end: isEnd,
-                    search_word: search_word[search_word.length - 1],
-                },
-            };
-        } else {
-            body = {
-                withCredentials: true,
-                params: {
-                    cinema_name: cinema_name[cinema_name.length - 1],
-                    sort_criteria: sort,
-                    is_end: isEnd,
-                    search_word: search_word[search_word.length - 1],
-                },
-            };
-        }
-        axios
-            .get('http://localhost:8080/events/search', body)
-            .then((response) => {
-                setEvents(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => console.log(error));
-    }, [sort, isEnd, search_word, cinema_name]);
+  useEffect(() => {
+    let body = {};
+    if (cinema_name[cinema_name.length - 1] === '전체') {
+      body = {
+        withCredentials: true,
+        params: {
+          sort_criteria: sort,
+          is_end: isEnd,
+          search_word: search_word[search_word.length - 1],
+        },
+      };
+    } else {
+      body = {
+        withCredentials: true,
+        params: {
+          cinema_name: cinema_name[cinema_name.length - 1],
+          sort_criteria: sort,
+          is_end: isEnd,
+          search_word: search_word[search_word.length - 1],
+        },
+      };
+    }
+    axios
+      .get('http://localhost:8080/events/search', body)
+      .then((response) => {
+        setEvents(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
 
-    return (
-        <>
-            <div className={style.events}>
-                {events.slice(offset, offset + limit).map((item) => (
-                    <div key={item.event_id}>
-                        <EventMovieThumbnail event={item} />
-                    </div>
-                ))}
-            </div>
+    return () => {
+      setEvents([]);
+    };
+  }, [sort, isEnd, search_word, cinema_name]);
 
-            <footer className={style.footer}>
-                <Pagination
-                    total={events.length}
-                    limit={limit}
-                    page={page}
-                    setPage={setPage}
-                />
-            </footer>
-        </>
-    );
+  return (
+    <>
+      <div className={style.events}>
+        {events.slice(offset, offset + limit).map((item) => (
+          <div key={item.event_id}>
+            <EventMovieThumbnail event={item} />
+          </div>
+        ))}
+      </div>
+
+      <footer className={style.footer}>
+        <Pagination
+          total={events.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      </footer>
+    </>
+  );
 };
 
 export default Events;
