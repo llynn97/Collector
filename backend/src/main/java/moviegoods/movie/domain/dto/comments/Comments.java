@@ -2,6 +2,7 @@ package moviegoods.movie.domain.dto.comments;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import moviegoods.movie.domain.entity.User.UserStatus;
 
 import java.time.LocalDateTime;
 
@@ -15,9 +16,9 @@ public class Comments {
     private String comment_content;
     private Boolean is_mine;
     private LocalDateTime comment_written_date;
-    private Byte user_status;
+    private UserStatus user_status;
 
-    public Comments(Long user_id, String comment_nickname, String comment_content, LocalDateTime comment_written_date, Long comment_id,Byte status){
+    public Comments(Long user_id, String comment_nickname, String comment_content, LocalDateTime comment_written_date, Long comment_id, UserStatus status){
         this.comment_id=comment_id;
         this.user_id=user_id;
         this.comment_nickname=comment_nickname;

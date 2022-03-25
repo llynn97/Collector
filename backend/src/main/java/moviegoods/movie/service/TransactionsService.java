@@ -13,6 +13,7 @@ import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import moviegoods.movie.domain.dto.transactions.*;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,6 @@ public class TransactionsService {
 
         Boolean is_proceed = requestDto.getIs_proceed(); // 모집중(1) , 전체(0)
         String search_word = requestDto.getSearch_word(); // 검색어
-        String sort_criteria = requestDto.getSort_criteria(); // 최신순
         String search_criteria = requestDto.getSearch_criteria(); // 작성자/글내용
         Long start = requestDto.getStart();
         Long end = requestDto.getEnd();
@@ -118,7 +118,7 @@ public class TransactionsService {
             Long reliability = transaction.getUser().getReliability();
             String content = transaction.getContent_detail().getContent();
             String status2 = String.valueOf(transaction.getStatus());
-            Byte user_status = transaction.getUser().getStatus();
+            UserStatus user_status = transaction.getUser().getUser_status();
             Long transaction_id = transaction.getTransaction_id();
             LocalDateTime written_date = transaction.getContent_detail().getWritten_date();
             String nickname = transaction.getUser().getNickname();

@@ -8,6 +8,7 @@ import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static moviegoods.movie.domain.entity.User.UserStatus.탈퇴;
 
 @Slf4j
 @Service
@@ -186,12 +189,12 @@ public class MyPageService {
             user_id = loginUser.getUser_id();
 
         }
-        Byte newStatus=0;
+        UserStatus newStatus=탈퇴;
         User user=userRepository.findById(user_id).get();
-        user.setStatus(newStatus);
+        user.setUser_status(newStatus);
         userRepository.save(user);
 
-        if(userRepository.findById(user_id).get().getStatus()==newStatus){
+        if(userRepository.findById(user_id).get().getUser_status()==newStatus){
             check=true;
         }
         return check;

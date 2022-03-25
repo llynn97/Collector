@@ -3,7 +3,6 @@ package moviegoods.movie.service;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import moviegoods.movie.domain.dto.directMessage.*;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
@@ -19,14 +18,10 @@ import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
 
 @Slf4j
