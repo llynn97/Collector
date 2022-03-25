@@ -61,7 +61,7 @@ const LogIn = () => {
                 withCredentials: true,
             })
             .then((response) => {
-                if (!response.data.status) {
+                if (response.data.user_status === '정지') {
                     alert('정지된 상태입니다. 관리자에게 문의해주세요.');
                     setModalOpen(false);
                 } else if (response.data.result) {

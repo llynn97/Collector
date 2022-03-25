@@ -33,24 +33,27 @@ const MainContent = () => {
                 <Route path="/event/*" element={<EventPage />} />
                 <Route path="/event/:id" element={<EventDetailPage />} />
                 <Route
-                    path="/informationShare/*"
+                    path="/community/informationShare/*"
                     element={<InformationSharePage />}
                 />
                 <Route
-                    path="/informationShareWrite"
+                    path="/community/informationShareWrite"
                     element={<InformationShareWritePage />}
                 />
                 <Route
-                    path="/informationShare/:postid"
+                    path="/community/informationShare/:postid"
                     element={<InformationShareDetailPage />}
                 />
-                <Route path="/generalBoard/*" element={<GeneralBoardPage />} />
                 <Route
-                    path="/generalBoardWrite"
+                    path="/community/general/*"
+                    element={<GeneralBoardPage />}
+                />
+                <Route
+                    path="/community/generalWrite"
                     element={<GeneralBoardWritePage />}
                 />
                 <Route
-                    path="/generalBoard/:postid"
+                    path="/community/general/:postid"
                     element={<GeneralBoardDetailPage />}
                 />
                 <Route path="/transaction/*" element={<TransactionPage />} />

@@ -62,7 +62,7 @@ const GeneralBoard = ({ searchWords, sort }) => {
                     {infos.slice(offset, offset + limit).map((item, index) => (
                         <article key={index}>
                             <Link
-                                to={`/generalBoard/${item.post_id}`}
+                                to={`/community/general/${item.post_id}`}
                                 style={{ textDecoration: 'none' }}>
                                 <div>{item.title}</div>
                             </Link>
@@ -80,7 +80,7 @@ const GeneralBoard = ({ searchWords, sort }) => {
             </div>
 
             <div className={style.writeButtonArea}>
-                <Link to={`/generalBoardWrite`}>
+                <Link to={`/community/generalWrite`}>
                     <button>글쓰기</button>
                 </Link>
             </div>

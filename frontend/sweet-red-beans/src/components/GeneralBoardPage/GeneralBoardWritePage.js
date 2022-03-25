@@ -43,7 +43,7 @@ const GeneralBoardWritePage = () => {
                     .then((response) => {
                         if (response.data.result) {
                             alert('게시글이 성공적으로 작성되었습니다.');
-                            navigation('/generalBoard');
+                            navigation('/community/general');
                         } else {
                             alert('게시글 작성을 실패했습니다.');
                         }
@@ -70,7 +70,7 @@ const GeneralBoardWritePage = () => {
                     .then((response) => {
                         if (response.data.result) {
                             alert('게시글이 성공적으로 작성되었습니다.');
-                            navigation('/generalBoard');
+                            navigation('/community/general');
                         } else {
                             alert('게시글 작성을 실패했습니다.');
                         }

@@ -18,6 +18,8 @@ const InformationShareDetailPage = () => {
 
     const [commentContent, setCommentContent] = useState('');
 
+    const [views, setViews] = useState(-1);
+
     //처음 조회
     useEffect(() => {
         document.documentElement.scrollTop = 0;
@@ -33,11 +35,13 @@ const InformationShareDetailPage = () => {
             .then((response) => {
                 setDetailInfo(response.data);
                 setComments(response.data.comment);
+                setViews(response.data.views);
             })
             .catch((error) => console.log(error));
     }, []);
 
     useEffect(() => {
+        console.log('댓글 추가');
         setCommentsIsHere(true);
     }, [comments]);
 
@@ -111,7 +115,7 @@ const InformationShareDetailPage = () => {
                 .then((response) => {
                     if (response.data.result) {
                         console.log('댓글 작성됨');
-                        navigation(0);
+                        // navigation(0);
                     } else {
                         alert('댓글 작성에 실패했습니다.');
                     }
@@ -122,6 +126,19 @@ const InformationShareDetailPage = () => {
                     }
                 });
         }
+        axios
+            .get('http://localhost:8080/information-share/detail', {
+                withCredentials: true,
+                params: {
+                    post_id: postid,
+                    user_id: '1',
+                },
+            })
+            .then((response) => {
+                setDetailInfo(response.data);
+                setComments(response.data.comment);
+            })
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -145,7 +162,8 @@ const InformationShareDetailPage = () => {
                                 : detailInfo.nickname}
                         </div>
                         <div>{parseDate(detailInfo.written_date)}</div>
-                        <div>{detailInfo.views}</div>
+
+                        <div>{views}</div>
                     </div>
 
                     <div className={style.contentArea}>
@@ -185,7 +203,7 @@ const InformationShareDetailPage = () => {
                 </div>
 
                 <div className={style.preButton}>
-                    <Link to={`/informationShare`}>
+                    <Link to={`/community/informationShare`}>
                         <button>목록으로 돌아가기</button>
                     </Link>
                 </div>

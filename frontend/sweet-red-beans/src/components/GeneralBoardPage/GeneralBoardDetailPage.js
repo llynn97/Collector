@@ -175,7 +175,7 @@ const GeneralBoardDetailPage = () => {
                 </div>
 
                 <div className={style.preButton}>
-                    <Link to={`/generalBoard`}>
+                    <Link to={`/general`}>
                         <button>목록으로 돌아가기</button>
                     </Link>
                 </div>

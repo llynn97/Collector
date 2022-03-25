@@ -36,8 +36,7 @@ const DMListThumbnail = ({ dm }) => {
             <div
                 className={
                     currentRoom ? style.currentThumbnail : style.thumbnail
-                }
-            >
+                }>
                 <img
                     src={
                         dm.user_status === '정지' || dm.user_status === '탈퇴'
@@ -55,7 +54,7 @@ const DMListThumbnail = ({ dm }) => {
                     <div>{dm.recent_message}</div>
                 </div>
                 <div>
-                    {dm.recent_message_date === null
+                    {dm.recent_message_date === '2020-01-01T00:00:00'
                         ? ''
                         : parseDate(dm.recent_message_date)}
                 </div>

@@ -28,11 +28,11 @@ const NavigationBar = () => {
     };
 
     const imformationShareClick = () => {
-        navigation('/informationShare');
+        navigation('/community/informationShare');
     };
 
     const generalBoardClick = () => {
-        navigation('/GeneralBoard');
+        navigation('/community/general');
     };
 
     const DMClick = () => {

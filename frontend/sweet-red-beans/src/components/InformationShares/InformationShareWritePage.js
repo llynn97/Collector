@@ -173,7 +173,7 @@ const InformationShareWritePage = () => {
                     .then((response) => {
                         if (response.data.result) {
                             alert('게시글이 성공적으로 작성되었습니다.');
-                            navigation('/informationShare');
+                            navigation('/community/informationShare');
                         } else {
                             alert('게시글 작성을 실패했습니다.');
                         }
@@ -204,7 +204,7 @@ const InformationShareWritePage = () => {
                     .then((response) => {
                         if (response.data.result) {
                             alert('게시글이 성공적으로 작성되었습니다.');
-                            navigation('/informationShare');
+                            navigation('/community/informationShare');
                         } else {
                             alert('게시글 작성을 실패했습니다.');
                         }
@@ -257,8 +257,7 @@ const InformationShareWritePage = () => {
                         <div className={style.filter}>
                             <select
                                 onChange={cinemaNameChange}
-                                value={cinemaName}
-                            >
+                                value={cinemaName}>
                                 {cinemaNames.map((item) => (
                                     <option value={item} key={item}>
                                         {item}
@@ -272,8 +271,7 @@ const InformationShareWritePage = () => {
                             <div className={style.filter}>
                                 <select
                                     onChange={cinemaAreaChange}
-                                    value={cinemaArea}
-                                >
+                                    value={cinemaArea}>
                                     {cinemaAreas.map((item) => (
                                         <option value={item} key={item}>
                                             {item}
@@ -288,8 +286,7 @@ const InformationShareWritePage = () => {
                             <div className={style.filter}>
                                 <select
                                     onChange={cinemaBranchChange}
-                                    value={cinemaBranch}
-                                >
+                                    value={cinemaBranch}>
                                     {cinemaBranches.map((item) => (
                                         <option value={item} key={item}>
                                             {item}

@@ -129,7 +129,7 @@ const InformationShares = ({
                     {infos.slice(offset, offset + limit).map((item, index) => (
                         <article key={index}>
                             <Link
-                                to={`/informationShare/${item.post_id}`}
+                                to={`/community/informationShare/${item.post_id}`}
                                 style={{ textDecoration: 'none' }}>
                                 <div>{item.title}</div>
                             </Link>
@@ -147,7 +147,7 @@ const InformationShares = ({
             </div>
 
             <div className={style.writeButtonArea}>
-                <Link to={`/informationShareWrite`}>
+                <Link to={`/community/informationShareWrite`}>
                     <button>글쓰기</button>
                 </Link>
             </div>
