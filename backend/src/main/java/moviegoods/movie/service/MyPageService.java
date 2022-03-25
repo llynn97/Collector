@@ -8,6 +8,7 @@ import moviegoods.movie.domain.dto.mypage.*;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static moviegoods.movie.domain.entity.User.UserStatus.탈퇴;
 
 @Slf4j
 @Service
@@ -58,8 +61,8 @@ public class MyPageService {
 
 
         }
-
-        List<Object[]> row1=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
+        //작성한  정보공유글
+        List<Object[]> row1=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id and p.category='정보공유' order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
 
 
         for (Object[] objects : row1) {
@@ -71,6 +74,23 @@ public class MyPageService {
 
             myPageResponseSearch.getContent().add(new MyPageContent(post_id,title,written_date,category,content));
         }
+
+        //작성한  자유게시판글
+        List<Object[]> row7=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id and p.category='자유' order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
+
+
+        for (Object[] objects : row7) {
+            Long post_id=(Long)objects[0];
+            String title=(String)objects[1];
+            LocalDateTime written_date=(LocalDateTime)objects[2];
+            String category=(String)objects[3];
+            String content=(String)objects[4];
+
+            myPageResponseSearch.getFreeContent().add(new MyPageFreeContent(post_id,title,written_date,category,content));
+        }
+
+
+
         List<Object[]> row2=  em.createQuery("select t.transaction_id , c.content , c.written_date , u.nickname ,u.reliability,u.user_id,t.status from transaction t join t.content_detail c left join t.user u where u.user_id =:user_id order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
 
 
@@ -167,9 +187,14 @@ public class MyPageService {
         if (loginUser != null) {
 
             user_id = loginUser.getUser_id();
+
         }
-        userRepository.deleteById(user_id);
-        if(!userRepository.existsById(user_id)){
+        UserStatus newStatus=탈퇴;
+        User user=userRepository.findById(user_id).get();
+        user.setUser_status(newStatus);
+        userRepository.save(user);
+
+        if(userRepository.findById(user_id).get().getUser_status()==newStatus){
             check=true;
         }
         return check;

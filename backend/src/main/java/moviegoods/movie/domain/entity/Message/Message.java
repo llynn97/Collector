@@ -1,8 +1,5 @@
 package moviegoods.movie.domain.entity.Message;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +7,8 @@ import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.User.User;
+
+import javax.persistence.*;
 
 @Entity(name = "message")
 @Data

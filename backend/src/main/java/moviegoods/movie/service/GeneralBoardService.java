@@ -8,10 +8,10 @@ import moviegoods.movie.domain.dto.comments.Comments;
 import moviegoods.movie.domain.dto.generalBoard.*;
 import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Comment.CommentRepository;
-import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
 import org.springframework.stereotype.Service;
@@ -80,12 +80,12 @@ public class GeneralBoardService {
             search_word = "";
         }
 
-        String searchJpql = "select p from post p join p.user u join p.content_detail c where p.category = '자유' and ";
+        String searchJpql = "select p from post p join p.user u join p.content_detail c where p.category = '자유' ";
 
         String criteriaJpql = "";
         String criteriaJpql2 = "";
         log.info("search_criteria={}", search_criteria);
-        if (search_criteria != null) {
+        if (search_criteria != "") {
             if (Objects.equals(search_criteria, "작성자")) {
                 criteriaJpql = "u.nickname";
             }
@@ -100,13 +100,14 @@ public class GeneralBoardService {
                 criteriaJpql2 = "p.title";
             }
             if (criteriaJpql2 != "") {
-                searchJpql += "("+criteriaJpql + " like '%" + search_word + "%' "+"OR "+criteriaJpql2 + " like '%" + search_word + "%') ";
+                searchJpql += "and ("+criteriaJpql + " like '%" + search_word + "%' "+"OR "+criteriaJpql2 + " like '%" + search_word + "%') ";
             }
             else {
-                searchJpql += criteriaJpql + " like '%" + search_word + "%' ";
+                searchJpql += "and "+criteriaJpql + " like '%" + search_word + "%' ";
             }
 
         }
+
 
         searchJpql += "order by c.written_date desc";
         log.info("searchJpql={}", searchJpql);
@@ -157,13 +158,14 @@ public class GeneralBoardService {
             String comment_nickname = comment.getUser().getNickname();
             String comment_content = comment.getContent_detail().getContent();
             LocalDateTime comment_written_date = comment.getContent_detail().getWritten_date();
+            UserStatus user_status = comment.getUser().getUser_status();
 
             Boolean comment_is_mine = Boolean.FALSE;
             if (search_user_id == user_id) {
                 comment_is_mine = Boolean.TRUE;
             }
 
-            searchCommentList.add(new Comments(comment_id,search_user_id,comment_nickname,comment_content,comment_is_mine,comment_written_date));
+            searchCommentList.add(new Comments(comment_id,search_user_id,comment_nickname,comment_content,comment_is_mine,comment_written_date,user_status));
         }
 
         GeneralBoardDetailResponseDto responseDto = new GeneralBoardDetailResponseDto(post_id,title,written_date,content,views+1,nickname,image_url,is_mine,searchCommentList);

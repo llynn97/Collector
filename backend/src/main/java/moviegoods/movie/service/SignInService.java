@@ -1,29 +1,25 @@
 package moviegoods.movie.service;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moviegoods.movie.configure.SessionConfig.SessionConst;
 import moviegoods.movie.domain.dto.signin.SignInRequestDto;
 import moviegoods.movie.domain.dto.signin.SignInResponseDto;
 import moviegoods.movie.domain.dto.signup.SignUpRequestDto;
-import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.User.Method;
 import moviegoods.movie.domain.entity.User.User;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import moviegoods.movie.configure.SessionConfig.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
-
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import static moviegoods.movie.domain.entity.User.UserStatus.*;
 
 
 @Slf4j
@@ -42,6 +40,7 @@ public class SignInService {
     private final PasswordEncoder passwordEncoder;
     private final SignUpService signUpService;
     private final EntityManager em;
+    //private final GoogleConfigUtils googleConfigUtils;
 
     public SignInResponseDto login(SignInRequestDto requestDto, HttpServletRequest request) {
         SignInResponseDto signInResponseDto;
@@ -55,7 +54,7 @@ public class SignInService {
             user = em.createQuery(searchJpql, User.class).getSingleResult();
 
         }catch (NoResultException e){
-            signInResponseDto = new SignInResponseDto(null,null,true, false, null);
+            signInResponseDto = new SignInResponseDto(null,null,정상, false, null);
             return signInResponseDto;
         }
 
@@ -63,20 +62,16 @@ public class SignInService {
 
         if(passwordEncoder.matches(password, existPassword)) {
             HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(30*60);
             session.setAttribute(SessionConst.LOGIN_MEMBER, user);
-            @NotNull Byte status = user.getStatus();
+            @NotNull UserStatus status = user.getUser_status();
             Enum authority = user.getAuthority();
 
-            Boolean user_status = true;
-            if (status == 0) {
-                user_status = false;
-            }
-
-            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(), user_status, true, authority.toString());
+            signInResponseDto = new SignInResponseDto(user.getNickname(), user.getProfile_url(),status, true, authority.toString());
 
         }
         else {
-            signInResponseDto = new SignInResponseDto(null,null,true,false, null);
+            signInResponseDto = new SignInResponseDto(null,null,정상,false, null);
         }
 
         return signInResponseDto;
@@ -164,7 +159,6 @@ public class SignInService {
 
             String originNickname = properties.getAsJsonObject().get("nickname").getAsString();
             String nickname = originNickname + nxtUserId.toString() + randomNumGen();
-            System.out.println("nickname : " + nickname);
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String password = email + "kakao";
 
@@ -255,15 +249,13 @@ public class SignInService {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-
-            System.out.println("element : " + element.toString());
-
             Long lastUserId = getUserId();
             Long nxtUserId = lastUserId + 1;
 
-            String originNicname = element.getAsJsonObject().get("name").getAsString();
-            String nickname = originNicname + nxtUserId.toString() + randomNumGen();
+            String originNickname = element.getAsJsonObject().get("name").getAsString();
+            String nickname = originNickname + nxtUserId.toString() + randomNumGen();
             System.out.println("nickname : " + nickname);
+
             String email = element.getAsJsonObject().get("email").getAsString();
             String password = email + "google";
 
@@ -287,7 +279,6 @@ public class SignInService {
         }
         return signInRequestDto;
     }
-
     public static String randomNumGen() {
         Random random = new Random();
         String numStr = "";

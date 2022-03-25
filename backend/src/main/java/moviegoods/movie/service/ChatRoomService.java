@@ -5,23 +5,21 @@ import lombok.extern.slf4j.Slf4j;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomRequestDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageCreateRoomResponseDto;
 import moviegoods.movie.domain.dto.directMessage.DirectMessageListResponseDto;
-import moviegoods.movie.domain.dto.manager.ManagerResponseDto;
-import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.ChatRoom.ChatRoomRepository;
+import moviegoods.movie.domain.entity.ChatRoom.Chat_Room;
 import moviegoods.movie.domain.entity.ChatRoomJoin.ChatRoomJoinRepository;
 import moviegoods.movie.domain.entity.ChatRoomJoin.Chat_Room_Join;
-import moviegoods.movie.domain.entity.Event.Event;
 import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Transaction.Status;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.Transaction.TransactionRepository;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -98,6 +96,7 @@ public class ChatRoomService {
 
             Chat_Room chat_room = new Chat_Room();
             chat_room.setTransaction(transaction);
+            chat_room.setCreate_date(LocalDateTime.now());
             Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
 
             Chat_Room_Join chat_room_join = new Chat_Room_Join();
@@ -139,16 +138,18 @@ public class ChatRoomService {
         for (Chat_Room_Join chat_room_join : chat_room_joins) {
             Chat_Room chat_room = chat_room_join.getChat_room();
             Long chat_room_id = chat_room.getChat_room_id();
+            LocalDateTime create_date = chat_room.getCreate_date(); //DM창 생성시간
 
             Long not_mine_id = null;
             String not_mine_nickname = null;
             String not_mine_profile_url = null;
             Long not_mine_reliability = null;
-            Byte not_mine_status = null;
+            @NotNull UserStatus not_mine_status = null;
             Long transaction_id = null;
             Boolean is_complete = false;
             String recent_message = null;
-            LocalDateTime recent_message_date = LocalDateTime.of(2019, 11, 12, 12, 32,22,3333);
+//            LocalDateTime recent_message_date = LocalDateTime.of(2019, 11, 12, 12, 32,22,3333);
+            LocalDateTime recent_message_date = null;
 
             String searchJpql = "select c from chat_room_join c where c.chat_room = '" + chat_room_id + "'";
             List<Chat_Room_Join> list = em.createQuery(searchJpql, Chat_Room_Join.class).getResultList();
@@ -159,7 +160,7 @@ public class ChatRoomService {
                     not_mine_nickname = user1.getNickname();
                     not_mine_profile_url = user1.getProfile_url();
                     not_mine_reliability = user1.getReliability();
-                    not_mine_status = user1.getStatus();
+                    not_mine_status = user1.getUser_status();
                 }
             }
 
@@ -176,6 +177,10 @@ public class ChatRoomService {
                 Message message = messages.get(0);
                 recent_message = message.getContent_detail().getContent();
                 recent_message_date = message.getContent_detail().getWritten_date();
+            }
+            else {
+                //메시지가 없으면 방 생성날짜로
+                recent_message_date = create_date;
             }
 
             roomsList.add(new DirectMessageListResponseDto(

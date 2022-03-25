@@ -54,8 +54,8 @@ public class User {
     private Long reliability;
 
     @NotNull
-    @Column(columnDefinition = "tinyint default 1")
-    private Byte status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus user_status;
 
     @NotNull
     @Enumerated(EnumType.STRING)
