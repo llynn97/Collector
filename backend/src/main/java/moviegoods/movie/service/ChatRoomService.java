@@ -38,11 +38,15 @@ public class ChatRoomService {
 
         if (loginUser == null) {
             DirectMessageCreateRoomResponseDto responseDto =
-                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null, null, null, null, null, null, null, null, null);
             return responseDto;
-
         }
+        //-------------------------
+        String recent_message = null;
+        LocalDateTime recent_message_date = null;
+        //-------------------------
         Long user_id = loginUser.getUser_id();
+        UserStatus user_status = loginUser.getUser_status();
 
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
@@ -50,7 +54,18 @@ public class ChatRoomService {
         if(relatedTransaction.isPresent()) {
             Transaction transaction = relatedTransaction.get();
             Long transaction_id = transaction.getTransaction_id();
-            Long writer_id = transaction.getUser().getUser_id();
+            Boolean is_complete = false;
+            Status transaction_status = transaction.getStatus();
+            if(transaction_status.equals(Status.마감)) {
+                is_complete = true;
+            }
+            User notMineUser = transaction.getUser();
+            Long not_mine_id = notMineUser.getUser_id();
+            String not_mine_nickname = notMineUser.getNickname();
+            String not_mine_profile_url = notMineUser.getProfile_url();
+            Long not_mine_reliability = notMineUser.getReliability();
+            UserStatus not_mine_user_status = notMineUser.getUser_status();
+
 
             //중복 확인
             boolean ifExistUserId = false;
@@ -68,7 +83,7 @@ public class ChatRoomService {
                         if(exist_user_id == user_id) {
                             ifExistUserId = true;
                         }
-                        if(exist_user_id == writer_id) {
+                        if(exist_user_id == not_mine_id) {
                             ifExixtWriterId = true;
                         }
                     }
@@ -84,15 +99,23 @@ public class ChatRoomService {
                 DirectMessageCreateRoomResponseDto responseDto =
                         new DirectMessageCreateRoomResponseDto(true,
                                 exist_chat_room_id,
-                                user_id,
-                                writer_id);
+                                not_mine_id,
+                                not_mine_nickname,
+                                not_mine_profile_url,
+                                not_mine_reliability,
+                                user_status,
+                                not_mine_user_status,
+                                transaction_id,
+                                is_complete,
+                                recent_message,
+                                recent_message_date);
 
                 return responseDto;
             }
 
             //중복이 아닐때
             User user = userRepository.getById(user_id);
-            User writerUser = userRepository.getById(writer_id);
+            User writerUser = userRepository.getById(not_mine_id);
 
             Chat_Room chat_room = new Chat_Room();
             chat_room.setTransaction(transaction);
@@ -116,15 +139,23 @@ public class ChatRoomService {
             DirectMessageCreateRoomResponseDto responseDto =
                     new DirectMessageCreateRoomResponseDto(true,
                             savedMessageRoom.getChat_room_id(),
-                            user.getUser_id(),
-                            writer_id);
+                            not_mine_id,
+                            not_mine_nickname,
+                            not_mine_profile_url,
+                            not_mine_reliability,
+                            user_status,
+                            not_mine_user_status,
+                            transaction_id,
+                            is_complete,
+                            recent_message,
+                            recent_message_date);
 
             return responseDto;
 
         }
         else {
             DirectMessageCreateRoomResponseDto responseDto =
-                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null, null, null, null, null, null, null, null, null);
 
             return responseDto;
         }
