@@ -10,9 +10,10 @@
 
 .dailyInfoPosts,
 .dailyGeneralPosts {
-  border: #5a5a5a 1px solid;
+  border: #c4c4c4 1px solid;
   border-radius: 20px;
   width: 480px;
+  min-height: 480px;
   padding: 40px;
   box-sizing: border-box;
 }
@@ -25,26 +26,65 @@
 .posts li {
   padding: 30px 15px 0px 15px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
 }
 
 .posts li div {
   font-size: 16px;
 }
 
-.posts li div:hover {
-  text-decoration: underline;
-}
-
-.posts li:hover::after {
-  transform: translate(-50%, 0) scaleX(1);
-}
-
 .title {
   cursor: pointer;
   display: inline-block;
-  vertical-align: middle;
   font-size: 18px;
-  color: black;
+  color: #5a5a5a;
+}
+
+.title:hover {
+  color: #f23333;
+  text-decoration: underline;
+}
+
+.countArea {
+  font-size: 14px;
+  color: #5a5a5a;
+  font-family: 'Pretendard-Regular';
+}
+
+.commentCount {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.commentCount::before {
+  display: inline-block;
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url('../../img/main-comment.png');
+  background-repeat: no-repeat;
+  background-size: 90%;
+  background-position: 50% 20%;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.views {
+  display: inline-block;
+}
+
+.views::before {
+  display: inline-block;
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url('../../img/view.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: 50% 20%;
+  vertical-align: top;
+  margin-right: 4px;
 }
 
 .nullMessage {

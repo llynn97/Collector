@@ -11,58 +11,53 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
 const MainPage = () => {
-    const [cinemaNames, setCinemaNames] = useState([
-        'CGV',
-        '롯데시네마',
-        '메가박스',
-        '씨네큐',
-    ]);
-    const dispatch = useDispatch();
-    const [mainVideo, setMainVideo] = useState('');
-    const navigation = useNavigate();
+  const [cinemaNames, setCinemaNames] = useState([
+    'CGV',
+    '롯데시네마',
+    '메가박스',
+    '씨네큐',
+  ]);
+  const dispatch = useDispatch();
+  const [mainVideo, setMainVideo] = useState('');
+  const navigation = useNavigate();
 
-    dispatch({
-        type: CINEMA_NAMES,
-        cinemaNames: cinemaNames,
-    });
-
-    useEffect(() => {
-        axios
-            .get('http://localhost:8080/main/video', {
-                withCredentials: true,
-            })
-            .then((response) => {
-                setMainVideo(response.data.src);
-            })
-            .catch((error) => console.log(error));
-        return () => {
-            setMainVideo('');
-        };
-    }, []);
-
-    const arrowClick = () => {
-        navigation('/event');
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/main/video', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setMainVideo(response.data.src);
+      })
+      .catch((error) => console.log(error));
+    return () => {
+      setMainVideo('');
     };
+  }, []);
 
-    return (
-        <>
-            <div className={style.videoArea}>
-                <video src={mainVideo} className={style.video} controls></video>
-            </div>
-            <div className={style.mainText}>
-                EVENTS
-                <div className={style.arrow} onClick={arrowClick}></div>
-            </div>
-            {cinemaNames.map((item, index) => (
-                <div key={index} className={style.movieThumbnail}>
-                    <MainMovieEvents cinemaName={item} />
-                </div>
-            ))}
+  const arrowClick = () => {
+    navigation('/event');
+  };
 
-            <div className={style.mainText}>TODAY'S POSTS</div>
-            <MainPosts />
-        </>
-    );
+  return (
+    <>
+      <div className={style.videoArea}>
+        <video src={mainVideo} className={style.video} controls></video>
+      </div>
+      <div className={style.mainText}>
+        EVENTS
+        <div className={style.arrow} onClick={arrowClick}></div>
+      </div>
+      {cinemaNames.map((item, index) => (
+        <div key={index} className={style.movieThumbnail}>
+          <MainMovieEvents cinemaName={item} />
+        </div>
+      ))}
+
+      <div className={style.mainText}>TODAY'S POSTS</div>
+      <MainPosts />
+    </>
+  );
 };
 
 export default MainPage;

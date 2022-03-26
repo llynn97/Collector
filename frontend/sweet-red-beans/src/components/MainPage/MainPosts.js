@@ -11,6 +11,7 @@ const MainPosts = () => {
 
   useEffect(() => {
     axios
+
       .get('http://localhost:8080/main/daily-community', {
         withCredentials: true,
         params: {
@@ -35,6 +36,11 @@ const MainPosts = () => {
         setDailyGeneralPosts(response.data);
       })
       .catch((error) => console.log(error));
+
+    // return () => {
+    //   setDailyInfoPosts(null);
+    //   setDailyGeneralPosts(null);
+    // };
   }, []);
 
   const writeClick = () => {
@@ -56,6 +62,10 @@ const MainPosts = () => {
                   key={index}>
                   <li>
                     <div className={style.title}>{item.title}</div>
+                    <div className={style.countArea}>
+                      <div className={style.commentCount}>16</div>
+                      <div className={style.views}>16</div>
+                    </div>
                   </li>
                 </Link>
               ))}
@@ -71,6 +81,10 @@ const MainPosts = () => {
                   key={index}>
                   <li>
                     <div className={style.title}>{item.title}</div>
+                    <div className={style.countArea}>
+                      <div className={style.commentCount}>16</div>
+                      <div className={style.views}>16</div>
+                    </div>
                   </li>
                 </Link>
               ))}
@@ -83,27 +97,6 @@ const MainPosts = () => {
             <div>내 통장처럼 비어버린 오늘의 글...</div>
           </div>
         )}
-
-        {/* {dailyGeneralPosts.length !== 0 ? (
-          <ul>
-            {dailyGeneralPosts.map((item, index) => (
-              <Link
-                to={`/community/general/${item.post_id}`}
-                style={{ textDecoration: 'none' }}
-                key={index}>
-                <li>
-                  <div className={style.title}>{item.title}</div>
-                </li>
-              </Link>
-            ))}
-          </ul>
-        ) : (
-          <div className={style.nullMessage}>
-            <div>지금 당장 글 쓰러 가기</div>
-            <div className={style.arrow} onClick={writeClick}></div>
-            <div>내 통장처럼 비어버린 오늘의 글...</div>
-          </div>
-        )} */}
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { DM_CREATE } from '../../actions/types';
+import { DM_CREATE, SELECTED_DM } from '../../actions/types';
 import style from '../../css/TransactionPage/TransactionDetail.module.css';
 import Modal from '../Modals/TransactionModal';
 import Switch from 'react-switch';
@@ -93,8 +93,14 @@ const TransactionDetail = ({ transaction }) => {
   );
 
   const DMClick = () => {
+    if (
+      transaction.user_status === '정지' ||
+      transaction.user_status === '탈퇴'
+    ) {
+      alert('정지되거나 탈퇴한 사용자입니다.');
+      return;
+    }
     const body = {
-      user_id: '1',
       transaction_id: transaction.transaction_id,
     };
     axios
@@ -103,7 +109,7 @@ const TransactionDetail = ({ transaction }) => {
       })
       .then((response) => {
         dispatch({
-          type: DM_CREATE,
+          type: SELECTED_DM,
           DMCreate: response.data,
         });
         navigation('/DM');
