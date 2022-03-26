@@ -67,7 +67,7 @@ public class MainService {
 
         String searchJpql = "select p from post p join p.content_detail c where p.category = '"+community_category+"' and c.written_date between '"+startDatetime+"' and '"+endDatetime+ "' order by p.views DESC";
 
-        List<Post> postList = em.createQuery(searchJpql, Post.class).getResultList();
+        List<Post> postList = em.createQuery(searchJpql, Post.class).setMaxResults(5).getResultList();
         for (Post post : postList) {
             Long post_id = post.getPost_id();
             String title = post.getTitle();

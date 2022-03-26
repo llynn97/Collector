@@ -10,10 +10,14 @@ import moviegoods.movie.domain.entity.Report.ReportRepository;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static moviegoods.movie.domain.entity.User.UserStatus.정상;
+import static moviegoods.movie.domain.entity.User.UserStatus.정지;
 
 @Slf4j
 @Service
@@ -41,7 +45,7 @@ public class ManagerService {
             String reported_content = transaction.getContent_detail().getContent(); //신고당한 내용
 
             Boolean is_complete = false;
-            if(reportedUser.getStatus() == 0) {
+            if(reportedUser.getUser_status() == 정지) {
                 is_complete = true;
             }
 
@@ -57,16 +61,16 @@ public class ManagerService {
     public ResultResponseDto approve(Long user_id) {
         Optional<User> user = userRepository.findById(user_id);
         ResultResponseDto result = new ResultResponseDto();
-        Byte statusActive = 1;
-        Byte statusDeActive = 0;
+        UserStatus statusActive = 정상;
+        UserStatus statusDeActive = 정지;
         if(user.isPresent()) {
             User findedUser = user.get();
-            if(findedUser.getStatus() == 1) {
-                findedUser.setStatus(statusDeActive);
+            if(findedUser.getUser_status() == 정상) {
+                findedUser.setUser_status(statusDeActive);
                 userRepository.save(findedUser);
             }
-            else if (findedUser.getStatus() == 0) {
-                findedUser.setStatus(statusActive);
+            else if (findedUser.getUser_status() == 정지) {
+                findedUser.setUser_status(statusActive);
                 userRepository.save(findedUser);
             }
             result.setResult(true);

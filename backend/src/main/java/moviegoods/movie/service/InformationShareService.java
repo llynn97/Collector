@@ -4,8 +4,8 @@ package moviegoods.movie.service;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import moviegoods.movie.domain.dto.booleanResult.ResultResponseDto;
+import moviegoods.movie.domain.dto.comments.Comments;
 import moviegoods.movie.domain.dto.informationShare.*;
 import moviegoods.movie.domain.entity.Cinema.Cinema;
 import moviegoods.movie.domain.entity.Cinema.CinemaRepository;
@@ -15,21 +15,16 @@ import moviegoods.movie.domain.entity.Content_Detail.ContentDetailRepository;
 import moviegoods.movie.domain.entity.Content_Detail.Content_Detail;
 import moviegoods.movie.domain.entity.Post.Post;
 import moviegoods.movie.domain.entity.Post.PostRepository;
-import moviegoods.movie.domain.entity.Transaction.Status;
-import moviegoods.movie.domain.entity.Transaction.Transaction;
+import moviegoods.movie.domain.entity.User.UserStatus;
 import moviegoods.movie.domain.entity.User.User;
 import moviegoods.movie.domain.entity.User.UserRepository;
-
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static moviegoods.movie.domain.entity.Transaction.Status.진행중;
 
 @Slf4j
 @Service
@@ -118,14 +113,14 @@ public class InformationShareService {
 
 
 
-    public InformationShareResponseSearch makeInformationShareResponseSearch(String nickname, String title, Long views, Long post_id, LocalDateTime written_date,Byte status){
+    public InformationShareResponseSearch makeInformationShareResponseSearch(String nickname, String title, Long views, Long post_id, LocalDateTime written_date, UserStatus status){
         InformationShareResponseSearch informationShareResponseSearch=new InformationShareResponseSearch();
         informationShareResponseSearch.setNickname(nickname);
         informationShareResponseSearch.setPost_id(post_id);
         informationShareResponseSearch.setTitle(title);
         informationShareResponseSearch.setView(views);
         informationShareResponseSearch.setWritten_date(written_date);
-        informationShareResponseSearch.setStatus(status);
+        informationShareResponseSearch.setUser_status(status);
         return informationShareResponseSearch;
     }
 
@@ -164,7 +159,7 @@ public class InformationShareService {
                         Content_Detail content_detail=contentDetailRepository.findById(content_detail_id).get();
 
                         String nickname=post.getUser().getNickname();
-                        Byte status=userRepository.findByNickname(nickname).get().getStatus();
+                        UserStatus status=userRepository.findByNickname(nickname).get().getUser_status();
                         String title=post.getTitle();
                         Long views=post.getViews();
                         Long post_id=post.getPost_id();
@@ -187,7 +182,7 @@ public class InformationShareService {
                 Long user_id=post.getUser().getUser_id();
                 User user=userRepository.findById(user_id).get();
                 String nickname=user.getNickname();
-                Byte status=userRepository.findByNickname(nickname).get().getStatus();
+                UserStatus status=userRepository.findByNickname(nickname).get().getUser_status();
                 String title=post.getTitle();
                 Long views=post.getViews();
                 Long post_id=post.getPost_id();
@@ -233,7 +228,7 @@ public class InformationShareService {
                 List<Post> postList=em.createQuery(filterJpql,Post.class).getResultList();
                 for (Post post : postList) {
                     String nickname=userRepository.findById(post.getUser().getUser_id()).get().getNickname();
-                    Byte status=userRepository.findByNickname(nickname).get().getStatus();
+                    UserStatus status=userRepository.findByNickname(nickname).get().getUser_status();
                     String title=post.getTitle();
                     Long views=post.getViews();
                     Long post_id=post.getPost_id();
@@ -291,7 +286,7 @@ public class InformationShareService {
                 Content_Detail content_detail=contentDetailRepository.findById(content_detail_id).get();
 
                 String nickname=post.getUser().getNickname();
-                Byte status=userRepository.findByNickname(nickname).get().getStatus();
+                UserStatus status=userRepository.findByNickname(nickname).get().getUser_status();
                 String title=post.getTitle();
                 Long views=post.getViews();
                 Long post_id=post.getPost_id();
@@ -324,14 +319,14 @@ public class InformationShareService {
 
         InformationShareResponseDetail informationShareResponseDetail=new InformationShareResponseDetail();
         String nickname=(String)result[1];
-        informationShareResponseDetail.setStatus(userRepository.findByNickname(nickname).get().getStatus());
+        informationShareResponseDetail.setUser_status(userRepository.findByNickname(nickname).get().getUser_status());
         List<Object[]> row2=em.createQuery("select  u.user_id, u.nickname, d.content, d.written_date ,c.comment_id from comment c join c.post p left join c.user u left join c.content_detail d where p.post_id=:post_id").setParameter("post_id",post_id).getResultList();
         List<Comments> result2=new ArrayList<>();
 
         for (Object[] objects : row2) {
             Boolean check=false;
             String nickname2=(String)objects[1];
-            Byte status2=userRepository.findByNickname(nickname2).get().getStatus();
+            UserStatus status2=userRepository.findByNickname(nickname2).get().getUser_status();
             Comments comment=new Comments((Long)objects[0],(String)objects[1],(String)objects[2],(LocalDateTime)objects[3],(Long)objects[4],status2);
             if(user_id==(Long)objects[0]){
                 check=true;

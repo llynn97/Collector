@@ -35,6 +35,4 @@ public class Comment {
     private Content_Detail content_detail;
 
 
-
-
 }

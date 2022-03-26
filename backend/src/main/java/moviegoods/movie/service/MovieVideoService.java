@@ -42,7 +42,7 @@ public class MovieVideoService {
 
         driver = new ChromeDriver(options);
         driver.get("https://www.lottecinema.co.kr/NLCHS#");
-        WebDriverWait wait = new WebDriverWait(driver, 300);
+        WebDriverWait wait = new WebDriverWait(driver, 100);
         String CSS_SELECTOR="div[class=\"owl-item cloned\"] > div.item img";
 
         List<WebElement >videos =  wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(CSS_SELECTOR)));

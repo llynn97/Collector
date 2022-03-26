@@ -1,11 +1,9 @@
 package moviegoods.movie.domain.entity.Content_Detail;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import moviegoods.movie.domain.entity.Comment.Comment;
 import moviegoods.movie.domain.entity.Message.Message;
 import moviegoods.movie.domain.entity.Post.Post;
@@ -13,9 +11,9 @@ import moviegoods.movie.domain.entity.Report.Report;
 import moviegoods.movie.domain.entity.Transaction.Transaction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity(name = "content_detail")
 @Data
