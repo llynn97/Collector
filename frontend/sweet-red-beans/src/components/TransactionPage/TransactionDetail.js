@@ -100,6 +100,10 @@ const TransactionDetail = ({ transaction }) => {
       alert('정지되거나 탈퇴한 사용자입니다.');
       return;
     }
+    if (status === '마감') {
+      alert('이미 마감되었습니다.');
+      return;
+    }
     const body = {
       transaction_id: transaction.transaction_id,
     };
@@ -109,9 +113,10 @@ const TransactionDetail = ({ transaction }) => {
       })
       .then((response) => {
         dispatch({
-          type: SELECTED_DM,
+          type: DM_CREATE,
           DMCreate: response.data,
         });
+        console.log(response.data);
         navigation('/DM');
         return;
       })
@@ -290,11 +295,7 @@ const TransactionDetail = ({ transaction }) => {
             ) : (
               <div className={style.notMineButtonArea}>
                 <button onClick={openModal}></button>
-                {status === '진행중' ? (
-                  <button onClick={DMClick}></button>
-                ) : (
-                  <button disabled={true}></button>
-                )}
+                <button onClick={DMClick}></button>
                 {likeStatus ? (
                   <button
                     onClick={likeClick}

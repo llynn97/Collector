@@ -25,6 +25,7 @@ let stompClient = null;
 //transaction_id 값 바꾸기
 const DMDetail = ({ selectedRoom }) => {
   const navigation = useNavigate();
+  const cookies = new Cookies();
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -36,7 +37,8 @@ const DMDetail = ({ selectedRoom }) => {
   const [imgFile, setImgFile] = useState(null);
   const [imgBase64, setImgBase64] = useState(null);
 
-  const [myNickname, setMyNickname] = useState('');
+  const [myNickname, setMyNickname] = useState(cookies.get('user').nickname);
+  const [userStatus, setUserStatus] = useState(null);
 
   const openModal = () => {
     setModalOpen(true);
@@ -84,6 +86,7 @@ const DMDetail = ({ selectedRoom }) => {
       );
     });
     setComplete(selectedRoom.is_complete);
+    setUserStatus(selectedRoom.not_mine_user_status);
 
     return () => {
       if (stompClient != null) {
@@ -271,15 +274,13 @@ const DMDetail = ({ selectedRoom }) => {
         <div className={style.notMyArea}>
           <img
             src={
-              selectedRoom.user_status === '정지' ||
-              selectedRoom.user_status === '탈퇴'
+              userStatus === '정지' || userStatus === '탈퇴'
                 ? user
                 : selectedRoom.not_mine_profile_url
             }
           />
           <div>
-            {selectedRoom.user_status === '정지' ||
-            selectedRoom.user_status === '탈퇴'
+            {userStatus === '정지' || userStatus === '탈퇴'
               ? '(알수없음)'
               : selectedRoom.not_mine_nickname}
           </div>

@@ -14,13 +14,33 @@ const DMListThumbnail = ({ dm }) => {
     if (s === undefined) {
       return null;
     } else {
-      return s.selectedRoom;
+      if (s.selectedRoom !== undefined) {
+        return s.selectedRoom;
+      } else if (s.DMCreate !== undefined) {
+        return s.DMCreate;
+      } else {
+        return null;
+      }
     }
   });
 
+  console.log(selectedRoomId);
   useEffect(() => {
     if (selectedRoomId !== null) {
       if (dm.chat_room_id === selectedRoomId.chat_room_id) {
+        console.log(dm);
+        console.log('현재 : ', selectedRoomId);
+        setCurrentRoom(true);
+      } else {
+        setCurrentRoom(false);
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (selectedRoomId !== null) {
+      if (dm.chat_room_id === selectedRoomId.chat_room_id) {
+        console.log(dm);
+        console.log('현재 : ', selectedRoomId);
         setCurrentRoom(true);
       } else {
         setCurrentRoom(false);
@@ -33,7 +53,8 @@ const DMListThumbnail = ({ dm }) => {
       <div className={currentRoom ? style.currentThumbnail : style.thumbnail}>
         <img
           src={
-            dm.user_status === '정지' || dm.user_status === '탈퇴'
+            dm.not_mine_user_status === '정지' ||
+            dm.not_mine_user_status === '탈퇴'
               ? user
               : dm.not_mine_profile_url
           }
@@ -41,16 +62,15 @@ const DMListThumbnail = ({ dm }) => {
 
         <div className={style.contentArea}>
           <div>
-            {dm.user_status === '정지' || dm.user_status === '탈퇴'
+            {dm.not_mine_user_status === '정지' ||
+            dm.not_mine_user_status === '탈퇴'
               ? '(알수없음)'
               : dm.not_mine_nickname}
           </div>
           <div>{dm.recent_message}</div>
         </div>
         <div>
-          {dm.recent_message_date === '2020-01-01T00:00:00'
-            ? ''
-            : parseDate(dm.recent_message_date)}
+          {dm.recent_message === null ? '' : parseDate(dm.recent_message_date)}
         </div>
       </div>
     </>

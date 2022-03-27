@@ -7,24 +7,8 @@ import { SELECTED_DM } from '../../actions/types';
 import { useNavigate } from 'react-router';
 import style from '../../css/DMPage/DMList.module.css';
 
-const DMList = () => {
+const DMList = ({ DMlist }) => {
   const dispatch = useDispatch();
-  const [DMlist, setDMList] = useState([]);
-  useEffect(() => {
-    //DM 목록 조회
-    axios
-      .get('http://localhost:8080/direct-message', {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setDMList(response.data.room_id);
-      })
-      .catch((error) => {});
-
-    return () => {
-      setDMList(null);
-    };
-  }, []);
 
   const DMListClick = (selectedRoom, e) => {
     dispatch({
