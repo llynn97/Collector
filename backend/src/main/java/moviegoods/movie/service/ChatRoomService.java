@@ -95,7 +95,7 @@ public class ChatRoomService {
             }
 
             //중복일때
-            if(ifExistUserId && ifExixtWriterId) {
+            if(ifExistUserId && ifExixtWriterId && (exist_chat_room_id != null)) {
                 DirectMessageCreateRoomResponseDto responseDto =
                         new DirectMessageCreateRoomResponseDto(true,
                                 exist_chat_room_id,
