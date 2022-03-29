@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import style from '../../css/GeneralBoardPage/GeneralBoardWritePage.module.css';
+import { GENERAL_WRITE } from '../../Url/API';
+import { GENERAL } from '../../Url/Route';
 
 const GeneralBoardWritePage = () => {
   let navigation = useNavigate();
@@ -34,7 +36,7 @@ const GeneralBoardWritePage = () => {
         fd.append('content', content);
 
         axios
-          .post('http://localhost:8080/general-board/write', fd, {
+          .post(GENERAL_WRITE, fd, {
             withCredentials: true,
             headers: {
               'Content-Type': `multipart/form-data; `,
@@ -43,7 +45,7 @@ const GeneralBoardWritePage = () => {
           .then((response) => {
             if (response.data.result) {
               alert('게시글이 성공적으로 작성되었습니다.');
-              navigation('/community/general');
+              navigation(GENERAL);
             } else {
               alert('게시글 작성을 실패했습니다.');
             }
@@ -61,7 +63,7 @@ const GeneralBoardWritePage = () => {
         fd.append('content', content);
 
         axios
-          .post('http://localhost:8080/general-board/write', fd, {
+          .post(GENERAL_WRITE, fd, {
             withCredentials: true,
             headers: {
               'Content-Type': `multipart/form-data; `,
@@ -70,7 +72,7 @@ const GeneralBoardWritePage = () => {
           .then((response) => {
             if (response.data.result) {
               alert('게시글이 성공적으로 작성되었습니다.');
-              navigation('/community/general');
+              navigation(GENERAL);
               return;
             } else {
               alert('게시글 작성을 실패했습니다.');

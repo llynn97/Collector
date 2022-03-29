@@ -14,22 +14,13 @@ const DMListThumbnail = ({ dm }) => {
     if (s === undefined) {
       return null;
     } else {
-      if (s.selectedRoom !== undefined) {
-        return s.selectedRoom;
-      } else if (s.DMCreate !== undefined) {
-        return s.DMCreate;
-      } else {
-        return null;
-      }
+      return s.selectedRoom;
     }
   });
 
-  console.log(selectedRoomId);
   useEffect(() => {
     if (selectedRoomId !== null) {
       if (dm.chat_room_id === selectedRoomId.chat_room_id) {
-        console.log(dm);
-        console.log('현재 : ', selectedRoomId);
         setCurrentRoom(true);
       } else {
         setCurrentRoom(false);

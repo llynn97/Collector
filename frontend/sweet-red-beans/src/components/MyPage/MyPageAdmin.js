@@ -5,6 +5,7 @@ import Pagination from '../Pagination/Pagination';
 import style from '../../css/MyPage/MyPageAdmin.module.css';
 import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
+import { MANAGER_REPORT } from '../../Url/API';
 
 const MyPageAdmin = () => {
   const cookies = new Cookies();
@@ -24,7 +25,7 @@ const MyPageAdmin = () => {
         return;
       } else {
         axios
-          .get('http://localhost:8080/manager/report', {
+          .get(MANAGER_REPORT, {
             withCredentials: true,
           })
           .then((response) => {

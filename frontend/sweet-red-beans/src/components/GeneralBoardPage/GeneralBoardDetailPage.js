@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import style from '../../css/GeneralBoardPage/GeneralBoardDetailPage.module.css';
 import { parseDate } from '../../parseDate/parseDate';
+import { GENERAL_DETAIL, GENERAL_COMMENT } from '../../Url/API';
+import { GENERAL } from '../../Url/Route';
 
 const GeneralBoardDetailPage = () => {
   let navigation = useNavigate();
@@ -21,7 +23,7 @@ const GeneralBoardDetailPage = () => {
     document.documentElement.scrollTop = 0;
 
     axios
-      .get('http://localhost:8080/general-board/detail', {
+      .get(GENERAL_DETAIL, {
         withCredentials: true,
         params: {
           post_id: postid,
@@ -60,7 +62,7 @@ const GeneralBoardDetailPage = () => {
   //삭제버튼 눌렀을 때
   const deleteConfirm = () => {
     axios
-      .delete('http://localhost:8080/general-board/detail', {
+      .delete(GENERAL_DETAIL, {
         withCredentials: true,
         data: {
           post_id: postid,
@@ -100,7 +102,7 @@ const GeneralBoardDetailPage = () => {
       };
 
       axios
-        .post('http://localhost:8080/general-board/comment', body, {
+        .post(GENERAL_COMMENT, body, {
           withCredentials: true,
         })
         .then((response) => {
@@ -176,7 +178,7 @@ const GeneralBoardDetailPage = () => {
         {useMemo(
           () => (
             <div className={style.preButton}>
-              <Link to={`/community/general`}>
+              <Link to={GENERAL}>
                 <button>목록으로 돌아가기</button>
               </Link>
             </div>

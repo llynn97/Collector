@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import style from '../../css/EventPage/EventMovieThumbnail.module.css';
+import { EVENTS_LIKE } from '../../Url/API';
+import { EVENT } from '../../Url/Route';
 
 const EventMovieThumbnail = ({ event }) => {
   //좋아요 상태 변경용
@@ -12,7 +14,7 @@ const EventMovieThumbnail = ({ event }) => {
       event_id: event.event_id,
     };
     axios
-      .post('http://localhost:8080/events/like', body, {
+      .post(EVENTS_LIKE, body, {
         withCredentials: true,
       })
       .then((response) => {
@@ -44,7 +46,7 @@ const EventMovieThumbnail = ({ event }) => {
     <>
       <div className={style.container}>
         <Link
-          to={`/event/${event.event_id}`}
+          to={EVENT + `/${event.event_id}`}
           style={{ textDecoration: 'none' }}
           className={style.thumbnailArea}>
           <img src={event.thumbnail_url} />

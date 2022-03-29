@@ -22,6 +22,28 @@ import MyTransactions from '../MyPage/MyPageDetail/MyTransactions';
 import MyLikeTransactions from '../MyPage/MyPageDetail/MyLikeTransactions';
 import MyPosts from '../MyPage/MyPageDetail/MyPosts';
 import MyComments from '../MyPage/MyPageDetail/MyComments';
+import {
+  SIGN_UP,
+  EVENT_,
+  EVENT_DETAIL,
+  INFO_SHARE_,
+  INFO_SHARE_WRITE,
+  INFO_SHARE_DETAIL,
+  GENERAL_,
+  GENERAL_WRITE,
+  GENERAL_DETAIL,
+  TRANSACTION_,
+  DM,
+  MY_PAGE,
+  MY_EVENTS,
+  MY_TRANSACTIONS,
+  MY_LIKE_TRANSACTIONS,
+  MY_POSTS,
+  MY_COMMENTS,
+  ADMINPAGE,
+  SIGN_IN_KAKAO,
+  SIGN_IN_GOOGLE,
+} from '../../Url/Route';
 
 const MainContent = () => {
   return (
@@ -29,42 +51,33 @@ const MainContent = () => {
       <TopBar />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/event/*" element={<EventPage />} />
-        <Route path="/event/:id" element={<EventDetailPage />} />
+        <Route path={SIGN_UP} element={<SignUp />} />
+        <Route path={EVENT_} element={<EventPage />} />
+        <Route path={EVENT_DETAIL} element={<EventDetailPage />} />
+        <Route path={INFO_SHARE_} element={<InformationSharePage />} />
         <Route
-          path="/community/informationShare/*"
-          element={<InformationSharePage />}
-        />
-        <Route
-          path="/community/informationShareWrite"
+          path={INFO_SHARE_WRITE}
           element={<InformationShareWritePage />}
         />
         <Route
-          path="/community/informationShare/:postid"
+          path={INFO_SHARE_DETAIL}
           element={<InformationShareDetailPage />}
         />
-        <Route path="/community/general/*" element={<GeneralBoardPage />} />
-        <Route
-          path="/community/generalWrite"
-          element={<GeneralBoardWritePage />}
-        />
-        <Route
-          path="/community/general/:postid"
-          element={<GeneralBoardDetailPage />}
-        />
-        <Route path="/transaction/*" element={<TransactionPage />} />
-        <Route path="/DM" element={<DMPage />} />
-        <Route path="/mypage" element={<MyPageNormal />}>
-          <Route path="myevents" element={<MyEvents />} />
-          <Route path="mytransactions" element={<MyTransactions />} />
-          <Route path="myliketransactions" element={<MyLikeTransactions />} />
-          <Route path="myposts" element={<MyPosts />} />
-          <Route path="mycomments" element={<MyComments />} />
+        <Route path={GENERAL_} element={<GeneralBoardPage />} />
+        <Route path={GENERAL_WRITE} element={<GeneralBoardWritePage />} />
+        <Route path={GENERAL_DETAIL} element={<GeneralBoardDetailPage />} />
+        <Route path={TRANSACTION_} element={<TransactionPage />} />
+        <Route path={DM} element={<DMPage />} />
+        <Route path={MY_PAGE} element={<MyPageNormal />}>
+          <Route path={MY_EVENTS} element={<MyEvents />} />
+          <Route path={MY_TRANSACTIONS} element={<MyTransactions />} />
+          <Route path={MY_LIKE_TRANSACTIONS} element={<MyLikeTransactions />} />
+          <Route path={MY_POSTS} element={<MyPosts />} />
+          <Route path={MY_COMMENTS} element={<MyComments />} />
         </Route>
-        <Route path="/adminpage" element={<MyPageAdmin />} />
-        <Route path="/signin/oauth2/code/kakao" element={<KakaoLogin />} />
-        <Route path="/signin/auth/google/callback" element={<GoogleLogin />} />
+        <Route path={ADMINPAGE} element={<MyPageAdmin />} />
+        <Route path={SIGN_IN_KAKAO} element={<KakaoLogin />} />
+        <Route path={SIGN_IN_GOOGLE} element={<GoogleLogin />} />
       </Routes>
     </>
   );

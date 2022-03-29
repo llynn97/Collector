@@ -9,6 +9,8 @@ import style from '../../css/MainPage/MainPage.module.css';
 import MainPosts from './MainPosts';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import { MAIN_VEDIO } from '../../Url/API';
+import { EVENT } from '../../Url/Route';
 
 const MainPage = () => {
   const [cinemaNames, setCinemaNames] = useState([
@@ -23,7 +25,7 @@ const MainPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/main/video', {
+      .get(MAIN_VEDIO, {
         withCredentials: true,
       })
       .then((response) => {
@@ -36,7 +38,7 @@ const MainPage = () => {
   }, []);
 
   const arrowClick = () => {
-    navigation('/event');
+    navigation(EVENT);
   };
 
   return (

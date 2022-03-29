@@ -4,6 +4,8 @@ import Pagination from '../Pagination/Pagination';
 import style from '../../css/GeneralBoardPage/GeneralBoard.module.css';
 import axios from 'axios';
 import { parseDate } from '../../parseDate/parseDate';
+import { GENERAL_SEARCH } from '../../Url/API';
+import { GENERAL, GENERAL_WRITE } from '../../Url/Route';
 
 const GeneralBoard = ({ searchWords, sort }) => {
   const [infos, setInfos] = useState([]);
@@ -19,7 +21,7 @@ const GeneralBoard = ({ searchWords, sort }) => {
     }
 
     axios
-      .get('http://localhost:8080/general-board/search', {
+      .get(GENERAL_SEARCH, {
         withCredentials: true,
         params: {
           search_word: searchWord,
@@ -47,7 +49,7 @@ const GeneralBoard = ({ searchWords, sort }) => {
           {infos.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
               <Link
-                to={`/community/general/${item.post_id}`}
+                to={GENERAL + `/${item.post_id}`}
                 style={{ textDecoration: 'none' }}>
                 <div>{item.title}</div>
               </Link>
@@ -64,7 +66,7 @@ const GeneralBoard = ({ searchWords, sort }) => {
       </div>
 
       <div className={style.writeButtonArea}>
-        <Link to={`/community/generalWrite`}>
+        <Link to={GENERAL_WRITE}>
           <button>글쓰기</button>
         </Link>
       </div>

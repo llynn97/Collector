@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import events from '../../actions/event_action';
 import axios from 'axios';
 import style from '../../css/EventPage/EventDetailPage.module.css';
+import { EVENTS_DETAIL, EVENTS_LIKE } from '../../Url/API';
 
 const EventDetailPage = () => {
   const { id } = useParams();
 
   const [thisEvent, setThisEvent] = useState(null);
-  const [thisEventIsHere, setThisEventIsHere] = useState(false);
 
   const [title, setTitle] = useState('');
   const [cinemaName, setCinemaName] = useState('');
@@ -24,7 +24,7 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/events/detail', {
+      .get(EVENTS_DETAIL, {
         withCredentials: true,
         params: {
           event_id: id,
@@ -62,7 +62,7 @@ const EventDetailPage = () => {
       event_id: thisEvent.event_id,
     };
     axios
-      .post('http://localhost:8080/events/like', body, {
+      .post(EVENTS_LIKE, body, {
         withCredentials: true,
       })
       .then((response) => {

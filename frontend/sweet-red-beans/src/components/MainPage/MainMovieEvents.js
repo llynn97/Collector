@@ -7,8 +7,8 @@ import style from '../../css/MainPage/MainMovieEvents.module.css';
 import Slider from 'react-slick';
 import '../../css/slick/slick.css';
 import '../../css/slick/slick-theme.css';
-import Test from './Test';
 import EventMovieThumbnail from '../EventPage/EventMovieThumbnail';
+import { MAIN_EVENT_LIMIT } from '../../Url/API';
 
 const MainMovieEvents = ({ cinemaName }) => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const MainMovieEvents = ({ cinemaName }) => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/main/event-limit', {
+      .get(MAIN_EVENT_LIMIT, {
         withCredentials: true,
       })
       .then((response) => {

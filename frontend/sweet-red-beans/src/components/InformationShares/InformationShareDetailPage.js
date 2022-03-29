@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import style from '../../css/InformationSharePage/InformationShareDetailPage.module.css';
 import { parseDate } from '../../parseDate/parseDate';
+import { INFO_SAHRE_DETAIL, INFO_SAHRE_COMMENT } from '../../Url/API';
+import { INFO_SHARE } from '../../Url/Route';
 
 const InformationShareDetailPage = () => {
   let navigation = useNavigate();
@@ -25,11 +27,10 @@ const InformationShareDetailPage = () => {
     document.documentElement.scrollTop = 0;
 
     axios
-      .get('http://localhost:8080/information-share/detail', {
+      .get(INFO_SAHRE_DETAIL, {
         withCredentials: true,
         params: {
           post_id: postid,
-          user_id: '1',
         },
       })
       .then((response) => {
@@ -67,11 +68,10 @@ const InformationShareDetailPage = () => {
   //삭제버튼 눌렀을 때
   const deleteConfirm = () => {
     axios
-      .delete('http://localhost:8080/information-share/detail', {
+      .delete(INFO_SAHRE_DETAIL, {
         withCredentials: true,
         data: {
           post_id: postid,
-          user_id: '1',
         },
       })
       .then((response) => {
@@ -103,13 +103,12 @@ const InformationShareDetailPage = () => {
     if (commentContent !== '') {
       setCommentContent('');
       const body = {
-        user_id: '1',
         content: commentContent,
         post_id: postid,
       };
 
       axios
-        .post('http://localhost:8080/information-share/comment', body, {
+        .post(INFO_SAHRE_COMMENT, body, {
           withCredentials: true,
         })
         .then((response) => {
@@ -127,11 +126,10 @@ const InformationShareDetailPage = () => {
         });
     }
     axios
-      .get('http://localhost:8080/information-share/detail', {
+      .get(INFO_SAHRE_DETAIL, {
         withCredentials: true,
         params: {
           post_id: postid,
-          user_id: '1',
         },
       })
       .then((response) => {
@@ -204,7 +202,7 @@ const InformationShareDetailPage = () => {
         {useMemo(
           () => (
             <div className={style.preButton}>
-              <Link to={`/community/informationShare`}>
+              <Link to={INFO_SHARE}>
                 <button>목록으로 돌아가기</button>
               </Link>
             </div>

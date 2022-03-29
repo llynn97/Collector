@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import userImage from '../../img/user.png';
 import { Cookies } from 'react-cookie';
+import { TRANSACTIONS_SEARCH, TRANSACTIONS_WRITE } from '../../Url/API';
 
 const TransactionPage = () => {
   const cookies = new Cookies();
@@ -53,10 +54,9 @@ const TransactionPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/transactions/search', {
+      .get(TRANSACTIONS_SEARCH, {
         withCredentials: true,
         params: {
-          user_id: '1',
           is_proceed: isProceed,
           search_word: search,
           sort_criteria: '최신순',
@@ -119,13 +119,13 @@ const TransactionPage = () => {
       };
 
       axios
-        .post('http://localhost:8080/transactions/write', body, {
+        .post(TRANSACTIONS_WRITE, body, {
           withCredentials: true,
         })
         .then((response) => {
           if (response.data) {
             axios
-              .get('http://localhost:8080/transactions/search', {
+              .get(TRANSACTIONS_SEARCH, {
                 withCredentials: true,
                 params: {
                   is_proceed: isProceed,
@@ -186,10 +186,9 @@ const TransactionPage = () => {
   const fetchMoreTransactions = () => {
     if (transactions.length !== 0) {
       axios
-        .get('http://localhost:8080/transactions/search', {
+        .get(TRANSACTIONS_SEARCH, {
           withCredentials: true,
           params: {
-            user_id: '1',
             is_proceed: isProceed,
             search_word: search,
             sort_criteria: '최신순',

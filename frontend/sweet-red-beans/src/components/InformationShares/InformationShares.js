@@ -6,7 +6,8 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { parseDate } from '../../parseDate/parseDate';
 import { useParams } from 'react-router';
-
+import { INFO_SHARE_SEARCH } from '../../Url/API';
+import { INFO_SHARE, INFO_SHARE_WRITE } from '../../Url/Route';
 const InformationShares = ({
   searchWords,
   sort,
@@ -19,8 +20,6 @@ const InformationShares = ({
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  const { pageNumber } = useParams();
-
   useEffect(() => {
     console.log(searchWords, sort, cinemaName, cinemaArea, cinemaBranch);
     let searchWord = '';
@@ -30,7 +29,7 @@ const InformationShares = ({
     }
     if (cinemaName === '전체') {
       axios
-        .get('http://localhost:8080/information-share/search', {
+        .get(INFO_SHARE_SEARCH, {
           withCredentials: true,
           params: {
             search_word: searchWord,
@@ -41,7 +40,7 @@ const InformationShares = ({
         .catch((error) => console.log(error));
     } else if (cinemaArea === '지역') {
       axios
-        .get('http://localhost:8080/information-share/search', {
+        .get(INFO_SHARE_SEARCH, {
           withCredentials: true,
           params: {
             search_word: searchWord,
@@ -53,7 +52,7 @@ const InformationShares = ({
         .catch((error) => console.log(error));
     } else if (cinemaBranch === '지점') {
       axios
-        .get('http://localhost:8080/information-share/search', {
+        .get(INFO_SHARE_SEARCH, {
           withCredentials: true,
           params: {
             search_word: searchWord,
@@ -66,7 +65,7 @@ const InformationShares = ({
         .catch((error) => console.log(error));
     } else {
       axios
-        .get('http://localhost:8080/information-share/search', {
+        .get(INFO_SHARE_SEARCH, {
           withCredentials: true,
           params: {
             search_word: searchWord,
@@ -113,7 +112,7 @@ const InformationShares = ({
           {infos.slice(offset, offset + limit).map((item, index) => (
             <article key={index}>
               <Link
-                to={`/community/informationShare/${item.post_id}`}
+                to={INFO_SHARE + `/${item.post_id}`}
                 style={{ textDecoration: 'none' }}>
                 <div>{item.title}</div>
               </Link>
@@ -130,7 +129,7 @@ const InformationShares = ({
       </div>
 
       <div className={style.writeButtonArea}>
-        <Link to={`/community/informationShareWrite`}>
+        <Link to={INFO_SHARE_WRITE}>
           <button>글쓰기</button>
         </Link>
       </div>

@@ -8,13 +8,20 @@ import Modal from '../Modals/TransactionModal';
 import Switch from 'react-switch';
 import { parseDate } from '../../parseDate/parseDate';
 import user from '../../img/user.png';
+import {
+  TRANSACTIONS_CHANGE_STATUS,
+  TRANSACTIONS,
+  DM_API,
+  TRANSACTIONS_REPORT,
+  TRANSACTIONS_LIKE,
+} from '../../Url/API';
+import { DM } from '../../Url/Route';
 
 const TransactionDetail = ({ transaction }) => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const [status, setStatus] = useState('');
   const [likeStatus, setLikeStatus] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [reportContent, setReportContent] = useState('');
   const [profileImage, setProfileImage] = useState(null);
@@ -26,7 +33,7 @@ const TransactionDetail = ({ transaction }) => {
       status: status,
     };
     axios
-      .post('http://localhost:8080/transactions/change-status', body, {
+      .post(TRANSACTIONS_CHANGE_STATUS, body, {
         withCredentials: true,
       })
       .then((response) => {
@@ -64,7 +71,7 @@ const TransactionDetail = ({ transaction }) => {
   //삭제버튼 삭제 눌렀을 때
   const deleteConfirm = () => {
     axios
-      .delete('http://localhost:8080/transactions', {
+      .delete(TRANSACTIONS, {
         data: {
           user_id: '1',
           transaction_id: transaction.transaction_id,
@@ -108,16 +115,18 @@ const TransactionDetail = ({ transaction }) => {
       transaction_id: transaction.transaction_id,
     };
     axios
-      .post('http://localhost:8080/direct-message', body, {
+      .post(DM_API, body, {
         withCredentials: true,
       })
       .then((response) => {
         dispatch({
-          type: DM_CREATE,
-          DMCreate: response.data,
+          type: SELECTED_DM,
+          payload: response.data,
         });
         console.log(response.data);
-        navigation('/DM');
+      })
+      .then(() => {
+        navigation(DM);
         return;
       })
       .catch((error) => {
@@ -133,7 +142,7 @@ const TransactionDetail = ({ transaction }) => {
       transaction_id: transaction.transaction_id,
     };
     axios
-      .post('http://localhost:8080/transactions/like', body, {
+      .post(TRANSACTIONS_LIKE, body, {
         withCredentials: true,
       })
       .then((response) => {
@@ -191,12 +200,11 @@ const TransactionDetail = ({ transaction }) => {
   //신고 확인 버튼 눌렀을 때
   const reportConfirm = () => {
     const body = {
-      user_id: '1',
       transaction_id: transaction.transaction_id,
       report_content: reportContent,
     };
     axios
-      .post('http://localhost:8080/transactions/report', body)
+      .post(TRANSACTIONS_REPORT, body)
       .then((response) => {
         if (response.data.result) {
           alert('신고되었습니다.');

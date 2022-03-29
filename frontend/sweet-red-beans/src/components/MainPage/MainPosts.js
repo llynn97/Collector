@@ -3,6 +3,8 @@ import axios from 'axios';
 import style from '../../css/MainPage/MainPosts.module.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import { MAIN_DAILY_COMMUNITY } from '../../Url/API';
+import { INFO_SHARE, GENERAL } from '../../Url/Route';
 
 const MainPosts = () => {
   const navigation = useNavigate();
@@ -12,7 +14,7 @@ const MainPosts = () => {
   useEffect(() => {
     axios
 
-      .get('http://localhost:8080/main/daily-community', {
+      .get(MAIN_DAILY_COMMUNITY, {
         withCredentials: true,
         params: {
           community_category: '정보공유',
@@ -25,14 +27,13 @@ const MainPosts = () => {
       .catch((error) => console.log(error));
 
     axios
-      .get('http://localhost:8080/main/daily-community', {
+      .get(MAIN_DAILY_COMMUNITY, {
         withCredentials: true,
         params: {
           community_category: '자유',
         },
       })
       .then((response) => {
-        console.log(response.data);
         setDailyGeneralPosts(response.data);
       })
       .catch((error) => console.log(error));
@@ -44,7 +45,7 @@ const MainPosts = () => {
   }, []);
 
   const writeClick = () => {
-    navigation('/community/informationShare');
+    navigation(INFO_SHARE);
   };
 
   return (
@@ -57,7 +58,7 @@ const MainPosts = () => {
               <div className={style.arrow} onClick={writeClick}></div>
               {dailyInfoPosts.map((item, index) => (
                 <Link
-                  to={`/community/informationShare/${item.post_id}`}
+                  to={INFO_SHARE + `/${item.post_id}`}
                   style={{ textDecoration: 'none' }}
                   key={index}>
                   <li>
@@ -76,7 +77,7 @@ const MainPosts = () => {
               <div className={style.arrow} onClick={writeClick}></div>
               {dailyGeneralPosts.map((item, index) => (
                 <Link
-                  to={`/community/general/${item.post_id}`}
+                  to={GENERAL + `/${item.post_id}`}
                   style={{ textDecoration: 'none' }}
                   key={index}>
                   <li>

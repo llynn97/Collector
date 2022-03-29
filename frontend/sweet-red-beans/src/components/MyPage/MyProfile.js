@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import style from '../../css/MyPage/MyProfile.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import {
+  MYPAGE_PROFILE,
+  MYPAGE_NICKNAME,
+  MYPAGE_DUP_CHECK,
+} from '../../Url/API';
 
 const MyProfile = ({
   profileImage,
@@ -50,7 +55,7 @@ const MyProfile = ({
       fd.append('file', imgFile[0]);
       fd.append('user_id', '1');
       axios
-        .patch('http://localhost:8080/mypage/profile', fd, {
+        .patch(MYPAGE_PROFILE, fd, {
           withCredentials: true,
           headers: {
             'Content-Type': `multipart/form-data; `,
@@ -76,7 +81,7 @@ const MyProfile = ({
       } else {
         axios
           .patch(
-            'http://localhost:8080/mypage/nickname',
+            MYPAGE_NICKNAME,
             {
               nickname: nicknameModify,
             },
@@ -129,7 +134,7 @@ const MyProfile = ({
     if (nickname !== nicknameModify) {
       const userNickname = { nickname: nicknameModify };
       axios
-        .post('http://localhost:8080/mypage/duplicate-check', userNickname, {
+        .post(MYPAGE_DUP_CHECK, userNickname, {
           withCredentials: true,
         })
         .then((response) => {

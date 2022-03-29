@@ -38,6 +38,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import style from '../../css/InformationSharePage/InformationShareWritePage.module.css';
+import { INFO_SHARE_WRITE } from '../../Url/API';
+import { INFO_SHARE } from '../../Url/Route';
 
 const InformationShareWritePage = () => {
   let navigation = useNavigate();
@@ -164,7 +166,7 @@ const InformationShareWritePage = () => {
         fd.append('content', content);
 
         axios
-          .post('http://localhost:8080/information-share/write', fd, {
+          .post(INFO_SHARE_WRITE, fd, {
             withCredentials: true,
             headers: {
               'Content-Type': `multipart/form-data; `,
@@ -173,7 +175,7 @@ const InformationShareWritePage = () => {
           .then((response) => {
             if (response.data.result) {
               alert('게시글이 성공적으로 작성되었습니다.');
-              navigation('/community/informationShare');
+              navigation(INFO_SHARE);
               return;
             } else {
               alert('게시글 작성을 실패했습니다.');
@@ -196,7 +198,7 @@ const InformationShareWritePage = () => {
         fd.append('content', content);
 
         axios
-          .post('http://localhost:8080/information-share/write', fd, {
+          .post(INFO_SHARE_WRITE, fd, {
             withCredentials: true,
             headers: {
               'Content-Type': `multipart/form-data; `,
@@ -205,7 +207,7 @@ const InformationShareWritePage = () => {
           .then((response) => {
             if (response.data.result) {
               alert('게시글이 성공적으로 작성되었습니다.');
-              navigation('/community/informationShare');
+              navigation(INFO_SHARE);
             } else {
               alert('게시글 작성을 실패했습니다.');
             }

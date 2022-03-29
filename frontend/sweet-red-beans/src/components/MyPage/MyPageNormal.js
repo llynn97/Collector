@@ -15,6 +15,15 @@ import { Route, Routes } from 'react-router-dom';
 import MyEvents from './MyPageDetail/MyEvents';
 import { Link } from 'react-router-dom';
 import MyProfile from './MyProfile';
+import { MYPAGE, MYPAGE_WITHDRAWAL } from '../../Url/API';
+import {
+  MY_PAGE,
+  MY_EVENTS,
+  MY_TRANSACTIONS,
+  MY_LIKE_TRANSACTIONS,
+  MY_POSTS,
+  MY_COMMENTS,
+} from '../../Url/Route';
 
 const MyPageNomal = () => {
   //서버에서 받아온 정보들 저장하기
@@ -30,7 +39,7 @@ const MyPageNomal = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8080/mypage', {
+      .get(MYPAGE, {
         withCredentials: true,
       })
       .then((response) => {
@@ -81,7 +90,7 @@ const MyPageNomal = () => {
 
   //메뉴 선택
   const myListClick = (index, e) => {
-    navigation('/mypage/' + index);
+    navigation(MY_PAGE + '/' + index);
   };
 
   const useConfirm = (message = null, onConfirm, onCancel) => {
@@ -106,7 +115,7 @@ const MyPageNomal = () => {
   //삭제버튼 눌렀을 때
   const deleteConfirm = () => {
     axios
-      .delete('http://localhost:8080/mypage/withdrawal', {
+      .delete(MYPAGE_WITHDRAWAL, {
         withCredentials: true,
         data: {},
       })
@@ -144,23 +153,23 @@ const MyPageNomal = () => {
       <div className={style.detailMenuArea}>
         <nav>
           <ul>
-            <li onClick={(e) => myListClick('myevents', e)}>
+            <li onClick={(e) => myListClick(MY_EVENTS, e)}>
               <button></button>
               <div>관심있는 이벤트</div>
             </li>
-            <li onClick={(e) => myListClick('mytransactions', e)}>
+            <li onClick={(e) => myListClick(MY_TRANSACTIONS, e)}>
               <button></button>
               <div>내가 쓴 거래</div>
             </li>
-            <li onClick={(e) => myListClick('myliketransactions', e)}>
+            <li onClick={(e) => myListClick(MY_LIKE_TRANSACTIONS, e)}>
               <button></button>
               <div>내가 좋아요 한 거래</div>
             </li>
-            <li onClick={(e) => myListClick('myposts', e)}>
+            <li onClick={(e) => myListClick(MY_POSTS, e)}>
               <button></button>
               <div>내가 쓴 글</div>
             </li>
-            <li onClick={(e) => myListClick('mycomments', e)}>
+            <li onClick={(e) => myListClick(MY_COMMENTS, e)}>
               <button></button>
               <div>내가 쓴 댓글</div>
             </li>

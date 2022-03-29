@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import style from '../../css/DMPage/DMPage.module.css';
 import { SELECTED_DM } from '../../actions/types';
+import { DM_API } from '../../Url/API';
 
 const DMPage = () => {
   const [DMlist, setDMList] = useState([]);
@@ -13,20 +14,15 @@ const DMPage = () => {
     if (s === undefined) {
       return null;
     } else {
-      if (s.selectedRoom !== undefined) {
-        return s.selectedRoom;
-      } else if (s.DMCreate !== undefined) {
-        return s.DMCreate;
-      } else {
-        return null;
-      }
+      return s.selectedRoom;
     }
   });
 
   useEffect(() => {
+    document.documentElement.scrollTop = 0;
     //DM 목록 조회
     axios
-      .get('http://localhost:8080/direct-message', {
+      .get(DM_API, {
         withCredentials: true,
       })
       .then((response) => {
@@ -38,12 +34,6 @@ const DMPage = () => {
       setDMList(null);
     };
   }, []);
-
-  console.log(selectedRoomId);
-
-  useEffect(() => {
-    console.log(selectedRoomId);
-  }, [selectedRoomId]);
 
   return (
     <>

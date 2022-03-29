@@ -16,15 +16,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SELECTED_DM } from '../../actions/types';
 import { parseDate } from '../../parseDate/parseDate';
 import { Cookies } from 'react-cookie';
-import { useNavigate } from 'react-router';
 import user from '../../img/user.png';
+import {
+  DM_DETAIL,
+  STOMP,
+  DM_RELIABILITY,
+  DM_REPORT,
+  DM_TRANSACTION_COMPLETE,
+} from '../../Url/API';
 
 let stompClient = null;
 
 //props를 selectedRoom으로 바꾸고 roomId는 selectedRoom.chat_room_id으로 바꾸기
 //transaction_id 값 바꾸기
 const DMDetail = ({ selectedRoom }) => {
-  const navigation = useNavigate();
   const cookies = new Cookies();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,7 +58,7 @@ const DMDetail = ({ selectedRoom }) => {
   //내가 보낸 메시지 내용
   const [message, setMessage] = useState('');
 
-  let socket = new SockJS('http://localhost:8080/ws-stomp');
+  let socket = new SockJS(STOMP);
   let stompClient = Stomp.over(socket);
 
   //이제까지 메시지 내역 조회
@@ -63,7 +68,7 @@ const DMDetail = ({ selectedRoom }) => {
     setMessage('');
     if (selectedRoom !== undefined) {
       axios
-        .get('http://localhost:8080/direct-message/detail', {
+        .get(DM_DETAIL, {
           withCredentials: true,
           params: {
             room_id: selectedRoom.chat_room_id,
@@ -150,7 +155,7 @@ const DMDetail = ({ selectedRoom }) => {
         user_id: selectedRoom.not_mine_id,
       };
       axios
-        .post('http://localhost:8080/direct-message/reliability', body, {
+        .post(DM_RELIABILITY, body, {
           withCredentials: true,
         })
         .then((response) => {
@@ -177,7 +182,7 @@ const DMDetail = ({ selectedRoom }) => {
       report_content: reportContent,
     };
     axios
-      .post('http://localhost:8080/direct-message/report', body, {
+      .post(DM_REPORT, body, {
         withCredentials: true,
       })
       .then((response) => {
@@ -217,7 +222,7 @@ const DMDetail = ({ selectedRoom }) => {
       transaction_id: selectedRoom.transaction_id,
     };
     axios
-      .post('http://localhost:8080/direct-message/transaction-complete', body, {
+      .post(DM_TRANSACTION_COMPLETE, body, {
         withCredentials: true,
       })
       .then((response) => {

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import style from '../../css/EventPage/Events.module.css';
 import Pagination from '../Pagination/Pagination';
+import { EVENTS_SEARCH } from '../../Url/API';
 
 const Events = ({ sort, isEnd, search_word, cinema_name }) => {
   const [limit, setLimit] = useState(12);
@@ -40,10 +41,9 @@ const Events = ({ sort, isEnd, search_word, cinema_name }) => {
       };
     }
     axios
-      .get('http://localhost:8080/events/search', body)
+      .get(EVENTS_SEARCH, body)
       .then((response) => {
         setEvents(response.data);
-        console.log(response.data);
       })
       .catch((error) => console.log(error));
 
