@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import style from '../../../css/MyPage/MyPageDetail/MyPosts.module.css';
 import { parseDate } from '../../../parseDate/parseDate';
+import { INFO_SHARE, GENERAL } from '../../../Url/Route';
 
 const MyPosts = () => {
   const navigation = useNavigate();
@@ -21,9 +22,9 @@ const MyPosts = () => {
 
   const postClick = (postid, category, e) => {
     if (category === '정보공유') {
-      navigation('/community/informationShare/' + postid);
+      navigation(INFO_SHARE + '/' + postid);
     } else if (category === '자유') {
-      navigation('/community/general/' + postid);
+      navigation(GENERAL + '/' + postid);
     }
   };
 
