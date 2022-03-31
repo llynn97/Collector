@@ -191,6 +191,10 @@ public class GeneralBoardService {
         Comment saveEntity = Comment.builder().post(post).user(loginUser).content_detail(content_detail).build();
 
         commentRepository.save(saveEntity);
+        if(post.getViews()>0){
+            post.setViews(post.getViews()-1);
+            postRepository.save(post);
+        }
         resultResponseDto.setResult(true);
 
         return resultResponseDto;
