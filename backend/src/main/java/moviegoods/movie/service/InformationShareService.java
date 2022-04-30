@@ -379,6 +379,11 @@ public class InformationShareService {
 
 
         commentRepository.save(saveEntity);
+        if(post.getViews()>0){
+            post.setViews(post.getViews()-1);
+            postRepository.save(post);
+        }
+
         resultResponseDto.setResult(true);
 
         return resultResponseDto;
@@ -405,6 +410,7 @@ public class InformationShareService {
             user_id = loginUser.getUser_id();
         }
         Long comment_id=isrdc.getComment_id();
+
 
         commentRepository.deleteById(comment_id);
         Boolean result=commentRepository.existsById(comment_id);

@@ -61,8 +61,8 @@ public class MyPageService {
 
 
         }
-        //작성한  정보공유글
-        List<Object[]> row1=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id and p.category='정보공유' order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
+        //작성한  글
+        List<Object[]> row1=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id  order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
 
 
         for (Object[] objects : row1) {
@@ -75,23 +75,9 @@ public class MyPageService {
             myPageResponseSearch.getContent().add(new MyPageContent(post_id,title,written_date,category,content));
         }
 
-        //작성한  자유게시판글
-        List<Object[]> row7=  em.createQuery("select p.post_id, p.title, c.written_date , p.category, c.content from post p join p.content_detail c left join p.user u where u.user_id =:user_id and p.category='자유' order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
 
-
-        for (Object[] objects : row7) {
-            Long post_id=(Long)objects[0];
-            String title=(String)objects[1];
-            LocalDateTime written_date=(LocalDateTime)objects[2];
-            String category=(String)objects[3];
-            String content=(String)objects[4];
-
-            myPageResponseSearch.getFreeContent().add(new MyPageFreeContent(post_id,title,written_date,category,content));
-        }
-
-
-
-        List<Object[]> row2=  em.createQuery("select t.transaction_id , c.content , c.written_date , u.nickname ,u.reliability,u.user_id,t.status from transaction t join t.content_detail c left join t.user u where u.user_id =:user_id order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
+        //작성한 대리구매글
+        List<Object[]> row2=  em.createQuery("select t.transaction_id , c.content , c.written_date , u.nickname ,u.reliability,u.user_id,t.status, u.profile_url,u.user_status from transaction t join t.content_detail c left join t.user u where u.user_id =:user_id order by c.written_date DESC").setParameter("user_id",user_id).getResultList();
 
 
         for (Object[] objects : row2) {
@@ -107,32 +93,39 @@ public class MyPageService {
             }
 
             Status status=(Status)objects[6];
+            String profile_url=(String)objects[7];
+            UserStatus user_status=(UserStatus)objects[8];
 
-            myPageResponseSearch.getWriteTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status));
+            myPageResponseSearch.getWriteTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status,profile_url,user_status));
         }
 
-        List<Object[]> row3=  em.createQuery("select t.transaction_id ,u.nickname,u.reliability,u.user_id from like_basket b join b.user u left join b.transaction t where u.user_id =:user_id ").setParameter("user_id",user_id).getResultList();
+        //좋아요한 대리구매글
+        List<Object[]> row3=  em.createQuery("select t.transaction_id ,u.nickname,u.reliability,u.user_id, u.profile_url, u.user_status from like_basket b join b.user u left join b.transaction t where u.user_id =:user_id order by t.transaction_id DESC").setParameter("user_id",user_id).getResultList();
         for (Object[] objects : row3) {
             Boolean is_mine=false;
             Long transaction_id=(Long)objects[0];
             String nickname=(String)objects[1];
             Long reliability=(Long)objects[2];
             Long user_id2=(Long)objects[3];
+            String profile_url=(String)objects[4];
+            UserStatus user_status=(UserStatus)objects[5];
             if(user_id==user_id2){
                 is_mine=true;
             }
-            List<Object[]> row4=  em.createQuery("select c.content, c.written_date ,t.status from transaction t join t.content_detail c where t.transaction_id =:transaction_id").setParameter("transaction_id",transaction_id).getResultList();
+            List<Object[]> row4=  em.createQuery("select c.content, c.written_date ,t.status from transaction t join t.content_detail c where t.transaction_id =:transaction_id ").setParameter("transaction_id",transaction_id).getResultList();
             if(row4.size()!=0){
                 Object[] result4=row4.get(0);
                 String content=(String)result4[0];
 
                 LocalDateTime written_date=(LocalDateTime)result4[1];
                 Status status=(Status)result4[2];
-                myPageResponseSearch.getLikeTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status));
+                myPageResponseSearch.getLikeTransaction().add(new MyPageTransaction(transaction_id,content,written_date,nickname,reliability,is_mine,status,profile_url,user_status));
             }
         }
 
-        List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url, e.start_date, e.end_date from like_basket b join b.event e left join b.user u where u.user_id=:user_id").setParameter("user_id",user_id).getResultList();
+        //좋아요한 이벤트
+
+        List<Object[]> row5= em.createQuery("select e.event_id, e.title, e.thumbnail_url, e.start_date, e.end_date from like_basket b join b.event e left join b.user u where u.user_id=:user_id order by b.like_basket_id DESC").setParameter("user_id",user_id).getResultList();
         for (Object[] objects : row5) {
             Long event_id=(Long)objects[0];
             String event_title=(String)objects[1];
@@ -189,12 +182,20 @@ public class MyPageService {
             user_id = loginUser.getUser_id();
 
         }
-        UserStatus newStatus=탈퇴;
+        String basicUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlx2rvqRVwn6S5uXPkHl856CcYvV2z8bUMyw&usqp=CAU";
         User user=userRepository.findById(user_id).get();
-        user.setUser_status(newStatus);
+        user.setUser_status(탈퇴);
+        user.setEmail("0");
+        user.setNickname("0");
+        user.setPassword("0");
+        user.setProfile_url(basicUrl);
+
+
         userRepository.save(user);
 
-        if(userRepository.findById(user_id).get().getUser_status()==newStatus){
+
+
+        if(userRepository.findById(user_id).get().getUser_status()== 탈퇴){
             check=true;
         }
         return check;
@@ -218,6 +219,7 @@ public class MyPageService {
 
         return result;
     }
+
 
 
 }

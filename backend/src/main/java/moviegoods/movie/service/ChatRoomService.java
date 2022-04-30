@@ -38,11 +38,15 @@ public class ChatRoomService {
 
         if (loginUser == null) {
             DirectMessageCreateRoomResponseDto responseDto =
-                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null, null, null, null, null, null, null, null, null);
             return responseDto;
-
         }
+        //-------------------------
+        String recent_message = null;
+        LocalDateTime recent_message_date = null;
+        //-------------------------
         Long user_id = loginUser.getUser_id();
+        UserStatus user_status = loginUser.getUser_status();
 
         log.info("transaction_id={}", requestDto.getTransaction_id());
 
@@ -50,7 +54,18 @@ public class ChatRoomService {
         if(relatedTransaction.isPresent()) {
             Transaction transaction = relatedTransaction.get();
             Long transaction_id = transaction.getTransaction_id();
-            Long writer_id = transaction.getUser().getUser_id();
+            Boolean is_complete = false;
+            Status transaction_status = transaction.getStatus();
+            if(transaction_status.equals(Status.마감)) {
+                is_complete = true;
+            }
+            User notMineUser = transaction.getUser();
+            Long not_mine_id = notMineUser.getUser_id();
+            String not_mine_nickname = notMineUser.getNickname();
+            String not_mine_profile_url = notMineUser.getProfile_url();
+            Long not_mine_reliability = notMineUser.getReliability();
+            UserStatus not_mine_user_status = notMineUser.getUser_status();
+
 
             //중복 확인
             boolean ifExistUserId = false;
@@ -68,7 +83,7 @@ public class ChatRoomService {
                         if(exist_user_id == user_id) {
                             ifExistUserId = true;
                         }
-                        if(exist_user_id == writer_id) {
+                        if(exist_user_id == not_mine_id) {
                             ifExixtWriterId = true;
                         }
                     }
@@ -80,22 +95,31 @@ public class ChatRoomService {
             }
 
             //중복일때
-            if(ifExistUserId && ifExixtWriterId) {
+            if(ifExistUserId && ifExixtWriterId && (exist_chat_room_id != null)) {
                 DirectMessageCreateRoomResponseDto responseDto =
                         new DirectMessageCreateRoomResponseDto(true,
                                 exist_chat_room_id,
-                                user_id,
-                                writer_id);
+                                not_mine_id,
+                                not_mine_nickname,
+                                not_mine_profile_url,
+                                not_mine_reliability,
+                                user_status,
+                                not_mine_user_status,
+                                transaction_id,
+                                is_complete,
+                                recent_message,
+                                recent_message_date);
 
                 return responseDto;
             }
 
             //중복이 아닐때
             User user = userRepository.getById(user_id);
-            User writerUser = userRepository.getById(writer_id);
+            User writerUser = userRepository.getById(not_mine_id);
 
             Chat_Room chat_room = new Chat_Room();
             chat_room.setTransaction(transaction);
+            chat_room.setCreate_date(LocalDateTime.now());
             Chat_Room savedMessageRoom = chatRoomRepository.save(chat_room);
 
             Chat_Room_Join chat_room_join = new Chat_Room_Join();
@@ -115,15 +139,23 @@ public class ChatRoomService {
             DirectMessageCreateRoomResponseDto responseDto =
                     new DirectMessageCreateRoomResponseDto(true,
                             savedMessageRoom.getChat_room_id(),
-                            user.getUser_id(),
-                            writer_id);
+                            not_mine_id,
+                            not_mine_nickname,
+                            not_mine_profile_url,
+                            not_mine_reliability,
+                            user_status,
+                            not_mine_user_status,
+                            transaction_id,
+                            is_complete,
+                            recent_message,
+                            recent_message_date);
 
             return responseDto;
 
         }
         else {
             DirectMessageCreateRoomResponseDto responseDto =
-                    new DirectMessageCreateRoomResponseDto(false, null, null, null);
+                    new DirectMessageCreateRoomResponseDto(false, null, null, null, null, null, null, null, null, null, null, null);
 
             return responseDto;
         }
@@ -137,6 +169,7 @@ public class ChatRoomService {
         for (Chat_Room_Join chat_room_join : chat_room_joins) {
             Chat_Room chat_room = chat_room_join.getChat_room();
             Long chat_room_id = chat_room.getChat_room_id();
+            LocalDateTime create_date = chat_room.getCreate_date(); //DM창 생성시간
 
             Long not_mine_id = null;
             String not_mine_nickname = null;
@@ -146,7 +179,8 @@ public class ChatRoomService {
             Long transaction_id = null;
             Boolean is_complete = false;
             String recent_message = null;
-            LocalDateTime recent_message_date = LocalDateTime.of(2019, 11, 12, 12, 32,22,3333);
+//            LocalDateTime recent_message_date = LocalDateTime.of(2019, 11, 12, 12, 32,22,3333);
+            LocalDateTime recent_message_date = null;
 
             String searchJpql = "select c from chat_room_join c where c.chat_room = '" + chat_room_id + "'";
             List<Chat_Room_Join> list = em.createQuery(searchJpql, Chat_Room_Join.class).getResultList();
@@ -174,6 +208,10 @@ public class ChatRoomService {
                 Message message = messages.get(0);
                 recent_message = message.getContent_detail().getContent();
                 recent_message_date = message.getContent_detail().getWritten_date();
+            }
+            else {
+                //메시지가 없으면 방 생성날짜로
+                recent_message_date = create_date;
             }
 
             roomsList.add(new DirectMessageListResponseDto(

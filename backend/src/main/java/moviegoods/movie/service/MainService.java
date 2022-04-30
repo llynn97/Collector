@@ -21,6 +21,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MainService {
     private final EntityManager em;
     private final LikeBasketsService likeBasketsService;
@@ -71,8 +72,12 @@ public class MainService {
         for (Post post : postList) {
             Long post_id = post.getPost_id();
             String title = post.getTitle();
+            String content = post.getContent_detail().getContent();
+            Long views = post.getViews();
+            Long comments_num = Long.valueOf(post.getComments().size());
+            LocalDateTime written_date = post.getContent_detail().getWritten_date();
 
-            searchList.add(new MainDailyCommunityResponseDto(post_id, title));
+            searchList.add(new MainDailyCommunityResponseDto(post_id, title,content,views,comments_num,written_date));
         }
         return searchList;
     }
