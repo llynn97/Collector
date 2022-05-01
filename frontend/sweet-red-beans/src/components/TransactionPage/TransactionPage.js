@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import userImage from '../../img/user.png';
 import { Cookies } from 'react-cookie';
-import { TRANSACTIONS_SEARCH, TRANSACTIONS_WRITE } from '../../Url/API';
+import { TRANSACTIONS_SEARCH, TRANSACTIONS_WRITE, MYPAGE } from '../../Url/API';
 
 const TransactionPage = () => {
   const cookies = new Cookies();
@@ -38,9 +38,19 @@ const TransactionPage = () => {
   //한 번만 실행
   useEffect(() => {
     //내 프로필 조회
+
     if (cookies.get('user')) {
-      setNickname(cookies.get('user').nickname);
-      setProfileImage(cookies.get('user').porfileImage);
+      axios
+        .get(MYPAGE, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setNickname(response.data.user.nickname);
+          setProfileImage(response.data.user.profile_url);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       setNickname('익명');
       setProfileImage(userImage);

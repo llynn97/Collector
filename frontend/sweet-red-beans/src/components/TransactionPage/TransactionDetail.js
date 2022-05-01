@@ -148,7 +148,7 @@ const TransactionDetail = ({ transaction }) => {
       .then((response) => {
         console.log(response.data);
         if (response.data.result) {
-          if (status) {
+          if (likeStatus) {
             setLikeStatus(false);
           } else {
             setLikeStatus(true);
