@@ -37,6 +37,7 @@
 .title {
   cursor: pointer;
   display: inline-block;
+  width: 280px;
   font-size: 18px;
   color: #5a5a5a;
 }

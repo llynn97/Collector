@@ -7,27 +7,27 @@ import { getCookie } from '../../Cookie';
 import { useSelector } from 'react-redux';
 
 const TopBar = () => {
-    let navigation = useNavigate();
+  let navigation = useNavigate();
 
-    const titleClick = () => {
-        navigation('/');
-    };
+  const titleClick = () => {
+    navigation('/');
+  };
 
-    return (
-        <>
-            <div className={style.container}>
-                <div className={style.title}>
-                    <button onClick={titleClick}>타이틀</button>
-                </div>
-                <div className={style.navigationBar}>
-                    <NavigationBar />
-                </div>
-                <div className={style.loginArea}>
-                    <LogIn />
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className={style.container}>
+        <div className={style.title}>
+          <button onClick={titleClick}>콜렉터</button>
+        </div>
+        <div className={style.navigationBar}>
+          <NavigationBar />
+        </div>
+        <div className={style.loginArea}>
+          <LogIn />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default TopBar;

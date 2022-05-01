@@ -64,8 +64,10 @@ const MainPosts = () => {
                   <li>
                     <div className={style.title}>{item.title}</div>
                     <div className={style.countArea}>
-                      <div className={style.commentCount}>16</div>
-                      <div className={style.views}>16</div>
+                      <div className={style.commentCount}>
+                        {item.comments_num}
+                      </div>
+                      <div className={style.views}>{item.views}</div>
                     </div>
                   </li>
                 </Link>
@@ -83,8 +85,10 @@ const MainPosts = () => {
                   <li>
                     <div className={style.title}>{item.title}</div>
                     <div className={style.countArea}>
-                      <div className={style.commentCount}>16</div>
-                      <div className={style.views}>16</div>
+                      <div className={style.commentCount}>
+                        {item.comments_num}
+                      </div>
+                      <div className={style.views}>{item.views}</div>
                     </div>
                   </li>
                 </Link>
